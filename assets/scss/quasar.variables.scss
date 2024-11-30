@@ -1,0 +1,54 @@
+// Quasar SCSS (& Sass) Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+
+// Check documentation for full list of Quasar variables
+
+// Your own variables (that are declared here) and Quasar's own
+// ones will be available out of the box in your .vue/.scss/.sass files
+
+// It's highly recommended to change the default colors
+// to match your app's branding.
+// Tip: Use the "Theme Builder" on Quasar's documentation website.
+
+$primary: #2e86de;
+$secondary: #1dd1a1;
+$accent: #00d1b2;
+$positive: #23d160;
+$negative: #ff3860;
+$info: #00a0dc;
+$warning: #ff9f43;
+// used by dark mode
+
+$dark: #272a32 !default;
+$dark-page: $dark !default;
+// $dark-page: #1d1e22 !default;
+
+
+// $separator-color: #dcdcdc !default;
+// $separator-color: #f0f0f0 !default;
+// $separator-dark-color: #282829 !default;
+$separator-color: #e9e9ec !default;
+$separator-dark-color: #45464b !default; //#394552
+
+// $shadow-color: #000 !default;
+$shadow-color: #1d1e22 !default;
+$elevation-umbra: rgba($shadow-color, 0.12) !default;
+$elevation-penumbra: rgba($shadow-color, 0.14) !default;
+$elevation-ambient: rgba($shadow-color, 0.12) !default;
+
+// $dark-shadow-color         : #fff !default;
+$dark-shadow-color : #bac4d0 !default;
+$elevation-dark-umbra : rgba($dark-shadow-color, 0.12) !default;
+$elevation-dark-penumbra : rgba($dark-shadow-color, 0.14) !default;
+$elevation-dark-ambient : rgba($dark-shadow-color, 0.12) !default;
+
+$generic-border-radius: 10px !default;
+$button-font-weight: 400 !default;
+$button-border-radius : 8px !default;
+
+.q-item__label--caption,
+.q-item__label--header {
+  color: var(--app-text-muted) !important;
+}

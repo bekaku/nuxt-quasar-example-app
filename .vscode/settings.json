@@ -1,0 +1,10 @@
+{
+    "eslint.useFlatConfig": true,
+    "editor.formatOnSave": false,
+    // Auto fix
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "never"
+    },
+    "typescript.tsdk": "node_modules/typescript/lib"
+  }
