@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { biChevronExpand, biEye, biEyeSlash, biGlobe, biLock, biPerson } from '@quasar/extras/bootstrap-icons';
+import { biChevronExpand, biEye, biEyeSlash, biGlobe, biLock, biMoon, biPerson, biSun } from '@quasar/extras/bootstrap-icons';
 useSeoMeta({
     title: 'Login'
 })
 definePageMeta({
     layout: 'empty',
-    middleware: ["auth"]
+    // middleware: ["auth"]
 })
-const { singin } = useAuth();
+const { signin } = useAuth();
 const { t, currentLangugeName } = useLang();
 const { dark } = useTheme();
 const { getDeviceId } = useDevice();
@@ -24,7 +24,7 @@ const deviceId = ref();
 const onSubmit = async () => {
     loading.value = true;
     deviceId.value = await getDeviceId();
-    await singin({
+    await signin({
         emailOrUsername: email.value,
         password: password.value,
         loginFrom: 'WEB',
@@ -143,9 +143,13 @@ const onReset = () => {
                             <div :class="dark.isActive ? 'text-grey-5' : 'text-grey-7'">
                                 {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
                             </div>
-                            <q-btn size="13px" flat no-caps no-wrap :icon="biGlobe" :label="currentLangugeName">
+                            <q-btn size="13px" flat dense no-caps no-wrap :icon="biGlobe" :label="currentLangugeName">
                                 <q-icon class="q-ml-sm" :name="biChevronExpand" size="14px" />
-                                <BaseThemeSwitcher anchor="top left" self="bottom left" close-on-click />
+                                <BaseLangugeSwitcher anchor="top left" self="bottom left" close-on-click />
+                            </q-btn>
+                            <q-btn size="13px" dense flat no-caps no-wrap :icon="dark.isActive ? biMoon : biSun">
+                                <q-icon class="q-ml-sm" :name="biChevronExpand" size="14px" />
+                                <BaseThemeSwitcher anchor="top left" self="bottom left" close-on-click/>
                             </q-btn>
                         </div>
                     </q-card-section>

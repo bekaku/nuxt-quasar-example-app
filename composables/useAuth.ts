@@ -6,7 +6,7 @@ export const useAuth = () => {
     const { appLoading, appConfirm, appNavigateTo } = useBase();
     const { t } = useLang();
 
-    const singin = async (req: LoginRequest) => {
+    const signin = async (req: LoginRequest) => {
 
         const response = await signinToServer({
             emailOrUsername: req.emailOrUsername,
@@ -20,7 +20,7 @@ export const useAuth = () => {
         }
         return new Promise((resolve) => resolve(true));
     }
-    const logout = async () => {
+    const signout = async () => {
         const conf = await appConfirm(t('app.monogram'), t('helper.logoutConfirm'));
         if (conf) {
             appLoading();
@@ -36,7 +36,7 @@ export const useAuth = () => {
         return new Promise((resolve) => resolve(true));
     };
     return {
-        singin,
-        logout,
+        signin,
+        signout,
     }
 }

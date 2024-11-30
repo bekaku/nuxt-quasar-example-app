@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { biBrightnessHigh, biLaptop, biMoon } from '@quasar/extras/bootstrap-icons';
 
-definePageMeta({
-    middleware: ["auth"]
-    // or middleware: 'auth'
-})
+// definePageMeta({
+//     middleware: ["auth"]
+//     // or middleware: 'auth'
+// })
+const appStore= useAppStore();
 const authenStore = useAuthenStore();
-const {logout}=useAuth();
 const {dark, onSetTheme}=useTheme();
 const { appNavigateTo } = useBase();
 const testStore = useTestStore();
@@ -20,6 +20,12 @@ const onGotoPage = (link: string) => {
     <q-page padding>
         <q-card>
             <q-card-section class="q-gutter-md">
+                <p>
+                    drswers {{appStore.drawers}}
+                </p>
+                <p>
+                    permissionStore {{appStore.permissions}}
+                </p>
               <p>
                 authenStore {{ authenStore.auth }}
               </p>  
@@ -28,7 +34,6 @@ const onGotoPage = (link: string) => {
                 </ClientOnly>
                 <QBtn @click="onSetTheme('light')" label="Light" :icon="biBrightnessHigh"/>
                 <QBtn @click="onSetTheme('dark')" label="Dark" :icon="biMoon"/>
-                <QBtn @click="logout()" label="Logout"/>
             </q-card-section>
             <q-card-section>
                 <div class="text-danger">Test Title</div>

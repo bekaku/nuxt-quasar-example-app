@@ -1,26 +1,25 @@
 <script setup lang="ts">
-const { onPageBack } = useBase()
+import { biArrowLeft } from '@quasar/extras/bootstrap-icons';
 definePageMeta({
     layout: 'empty'
+})
+
+const { onPageBack } = useBase()
+const { t } = useLang();
+useHead({
+    title:'404 Page notfound'
 })
 </script>
 
 <template>
     <q-page padding class="content-limit">
-        <q-card flat bordered>
-            <q-card-section class="text-center">
-                <div text-4xl>
-                    <div i-ep-warning inline-block />
-                </div>
-                <div>Not found</div>
-                <div>
-                    <q-btn outline @click="onPageBack()">
-                        Back
-                    </q-btn>
-                </div>
-            </q-card-section>
-
-        </q-card>
+        <div class="fullscreen text-center q-pa-md flex flex-center">
+            <base-result status="404" :description="t('error.pageNotFound')">
+                <template #extra>
+                    <q-btn flat :icon="biArrowLeft" :label="t('base.back')" @click="onPageBack" />
+                </template>
+            </base-result>
+        </div>
 
     </q-page>
 </template>

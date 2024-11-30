@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import type { RefreshTokenResponse } from '~/types/common';
-import type { UserDto } from '~/types/models';
+import {defineStore} from 'pinia';
+import {ref} from 'vue';
+import type {IMenu, RefreshTokenResponse} from '~/types/common';
+import type {UserDto} from '~/types/models';
+
 export const useAuthenStore = defineStore('authenStore', () => {
     const config = useRuntimeConfig()
-    const cookiesExpireDays = 30;
     const jwtToken = useCookie<string | null>(config.public.jwtKeyName, {
         expires: addDateByDays(config.public.jwtAges),
         path: '/',
@@ -19,6 +19,7 @@ export const useAuthenStore = defineStore('authenStore', () => {
     },)
 
     const auth = ref<UserDto | undefined>(undefined);
+    const drawers = ref<IMenu[]>([]);
     const loginedCover = computed(() => auth.value?.cover?.image);
     const loginedAvatar = computed(() => auth.value?.avatar?.image);
     const loginedDisplay = computed(() => auth.value?.username
@@ -41,7 +42,7 @@ export const useAuthenStore = defineStore('authenStore', () => {
     const onLogout = () => {
         auth.value = undefined;
         jwtToken.value = null;
-        refreshToken.value = null; 
+        refreshToken.value = null;
         return new Promise((resolve) => resolve(true));
     };
     return {
@@ -53,7 +54,8 @@ export const useAuthenStore = defineStore('authenStore', () => {
         onLogout,
         setAuthenCookie,
         jwtToken,
-        refreshToken
+        refreshToken,
+        drawers
     };
 
 });

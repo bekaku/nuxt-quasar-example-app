@@ -26,3 +26,14 @@ export interface UserDto extends Id {
     defaultLocale?: ILanguge;
     ownerProfile?: boolean;
 }
+export interface FileManagerDto extends Id {
+    fileMime: string;
+    fileName: string;
+    filePath: string;
+    fileThumbnailPath: string;
+    fileSize: string;
+    functionId?: number;
+    isImage?: boolean;
+    image?: boolean;
+    file?: any;
+  }

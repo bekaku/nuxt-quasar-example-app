@@ -1,7 +1,9 @@
 import { biCheckCircle, biExclamationCircle, biExclamationTriangle, biInfoCircle, biX } from "@quasar/extras/bootstrap-icons";
 import type { RouteLocationRaw } from "vue-router";
-import type {  NavigateToOptions, NotifyOptions } from "~/types/common";
+import type { NavigateToOptions, NotifyOptions } from "~/types/common";
+import { useQuasar } from "quasar";
 export const useBase = () => {
+    const { $domPurify } = useNuxtApp()
     const route = useRoute();
     const router = useRouter();
     const { loading, notify, dialog } = useQuasar();
@@ -155,6 +157,20 @@ export const useBase = () => {
                 });
         });
     };
+
+    const inputSanitizeHtml = (str: string,
+        allowTags: string[] = ['b', 'i', 'em', 'strong', 'a'],
+        allowAttrs: string[] = ['href', 'class']) => {
+        if (!str) {
+            return '';
+        }
+        return $domPurify.sanitize(str,
+            {
+                ALLOWED_TAGS: allowTags,
+                ALLOWED_ATTR: allowAttrs
+            }
+        );
+    };
     return {
         getCurrentPath,
         getPreviousPath,
@@ -168,7 +184,7 @@ export const useBase = () => {
         appLoading,
         appConfirm,
         appToast,
-        appNavigateTo
-
+        appNavigateTo,
+        inputSanitizeHtml
     }
 };

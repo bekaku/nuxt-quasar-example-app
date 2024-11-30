@@ -281,6 +281,9 @@ export default {
         'markdownSheatsheet': 'ลิ้งค์ตัวอย่างการใช้ Markdown',
         'markdownMermaidSheatsheet': 'ลิ้งค์ตัวอย่างการใช้ Mermaid',
         'markdownTitle': 'Syntax เบื้องต้นของ Markdown',
+        'minimize': 'ย่อ',
+        'maximize': 'เต็มจอ',
+        'notifications': 'แจ้งเตือน',
     },
     'theme': {
         'light': 'กลางวัน',

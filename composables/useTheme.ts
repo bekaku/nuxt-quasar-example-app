@@ -1,6 +1,13 @@
-import type { ITheme } from "~/types/common";
+import { biMoon, biSun } from "@quasar/extras/bootstrap-icons";
+import type { ITheme, IThemeItem } from "~/types/common";
 
 export const useTheme = () => {
+    const availableThemes: IThemeItem[] = [
+        { key: 'light', text: 'theme.light', icon: biSun },
+        { key: 'dark', text: 'theme.dark', icon: biMoon },
+        // { key: 'system', text: 'theme.systemTheme', icon: biLaptop },
+        // { key: 'realtime', text: 'theme.realtimeTheme', icon: biClock },
+    ];
     const { dark } = useQuasar();
     const themeCookie = useCookie<ITheme>('color-mode', {
         default: () => ('light'),
@@ -9,16 +16,19 @@ export const useTheme = () => {
         sameSite: 'lax'
     },)
 
+    const currentTheme = computed(() => themeCookie.value)
     const onSetTheme = (theme: ITheme) => {
-        themeCookie.value= theme;
+        themeCookie.value = theme;
         initialQuasarDark();
     }
     const initialQuasarDark = () => {
-       dark.set(themeCookie.value =='dark');
+        dark.set(themeCookie.value == 'dark');
     }
     return {
         onSetTheme,
         initialQuasarDark,
-        dark
+        dark,
+        availableThemes,
+        currentTheme
     };
 };

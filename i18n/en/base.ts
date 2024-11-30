@@ -280,6 +280,9 @@ export default {
         'markdownSheatsheet': 'Markdown Cheatsheet',
         'markdownMermaidSheatsheet': 'Example link for using Mermaid',
         'markdownTitle': 'Basic syntax of Markdown',
+        'notifications': 'Notifications',
+        'minimize': 'Minimize',
+        'maximize': 'Maximize',
     },
     'theme': {
         'light': 'Light',

@@ -3,6 +3,7 @@ import { th, enUS } from 'date-fns/locale';
 import { FORMAT_DATE16 } from '~/utils/dateUtil';
 export const useDateFns = () => {
     const { $datefns } = useNuxtApp()
+    // const { t, locale } = useLang();
     /**
      *
      * @param dateLeft the later date
@@ -177,9 +178,9 @@ export const useDateFns = () => {
         const d2 = convertStringToDate(dateRight, FORMAT_DATE14);
         return $datefns.isBefore(d1, d2);
     };
-
     return {
+        getCurrentDateByFormat,
         getDateDiffMinutes,
-        formatDistanceFromNow
+        formatDistanceFromNow,
     };
 };
