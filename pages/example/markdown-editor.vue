@@ -41,7 +41,7 @@ import { biPencil, biEye, biQuestion } from '@quasar/extras/bootstrap-icons';
 // import md from 'src/assets/data.md';
 const { t } = useLang();
 useHead({
-    title: `Markdown | ${t('app.name')}`
+    title: 'Markdown'
 })
 const contentId = useId();
 const contentPreviewId = useId();

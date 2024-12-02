@@ -68,7 +68,7 @@ import { getImgUrlFromFile } from '~/utils/fileUtil';
 import { biPencilFill, biTrash } from '@quasar/extras/bootstrap-icons'
 const { t } = useLang();
 useHead({
-    title: `Image Cropper | ${t('app.name')}`
+    title: 'Image Cropper'
 })
 const showImageCroper = ref(false);
 const cropedUrl = ref<string>();

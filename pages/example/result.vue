@@ -47,7 +47,7 @@
 import { biImage } from '@quasar/extras/bootstrap-icons';
 const { t } = useLang();
 useHead({
-    title: `Page result | ${t('app.name')}`
+    title: 'Page result'
 })
 </script>
 

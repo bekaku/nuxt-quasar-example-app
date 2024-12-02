@@ -52,7 +52,7 @@ import {
 } from '@quasar/extras/bootstrap-icons';
 const { t } = useLang();
 useHead({
-    title: `Select | ${t('app.name')}`
+    title: 'Select'
 })
 const singleModel = ref<number>();
 const multipleModel = ref<number[]>([]);

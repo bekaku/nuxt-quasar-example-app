@@ -71,7 +71,7 @@ import { extractHashtagsFromString } from '@/utils/appUtil';
 const { required } = useValidation();
 const { t } = useLang();
 useHead({
-    title: `Content Text | ${t('app.name')}`
+    title: 'Content Text'
 })
 const contentUniqeId = useId();
 const contentUniqeId2 = useId();

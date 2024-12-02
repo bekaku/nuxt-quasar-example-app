@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 /*
-<base-virtual-scroller
+<BaseVirtualScrollerDynamic
             ref="scrollerTestRef"
             class="q-pa-sm"
             key-field="id"
@@ -21,7 +21,7 @@
             </template>
             <template #slotAfter>
             </template>
-          </base-virtual-scroller>
+          </BaseVirtualScrollerDynamic>
 
 const onScrollTo = (index: number) => {
     if (scrollerTestRef.value) {
@@ -36,18 +36,20 @@ const scrollToBottom = () => {
 */
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
-import { ref } from 'vue';
 
-const { minItemSize = 54, emitUpdate = true, scrollAreaHeight = '65vh', items, keyField = 'id' } = defineProps<{
+const { minItemSize = 54, emitUpdate = true, scrollAreaHeight = '65vh', items, keyField = 'id', buffer = 800,  pageMode = false, } = defineProps<{
   minItemSize?: number;
-  emitUpdate?: boolean;
-  scrollAreaHeight?: string;
-  keyField?: string;
-  items: T[]
+    emitUpdate?: boolean;
+    scrollAreaHeight?: string;
+    minHeight?: string;
+    keyField?: string;
+    pageMode?: boolean;
+    buffer?: number;
+    items: T[]
 }>();
 
 
-const appScrollerRef = ref<any>();
+const appDynamicScrollerRef = useTemplateRef<any>('appDynamicScrollerRef');
 // const emit = defineEmits<{
 //   onUpdate: [val: VirtualScrollerUpdate];
 // }>();
@@ -57,13 +59,13 @@ const onScrollToItem = (index: number | undefined) => {
   if (index == undefined) {
     return;
   }
-  if (appScrollerRef.value) {
-    appScrollerRef.value.scrollToItem(index);
+  if (appDynamicScrollerRef.value) {
+    appDynamicScrollerRef.value.scrollToItem(index);
   }
 };
 const onScrollToBottom = () => {
-  if (appScrollerRef.value) {
-    appScrollerRef.value.scrollToBottom();
+  if (appDynamicScrollerRef.value) {
+    appDynamicScrollerRef.value.scrollToBottom();
   }
 };
 const onUpdate = (viewStartIndex: number, viewEndIndex: number, visibleStartIndex: number, visibleEndIndex: number) => {
@@ -88,8 +90,8 @@ defineExpose({
 </script>
 
 <template>
-  <DynamicScroller v-bind="$attrs" ref="appScrollerRef" :items="items" :emit-update="emitUpdate" :key-field="keyField"
-    :min-item-size="minItemSize" :style="{ height: 'auto', maxHeight: scrollAreaHeight }" @resize="onResize"
+  <DynamicScroller v-bind="$attrs" ref="appDynamicScrollerRef" :items="items" :emit-update="emitUpdate" :key-field="keyField"
+  :min-item-size="minItemSize" :buffer="buffer"  :page-mode="pageMode" :style="{ height: 'auto', maxHeight: scrollAreaHeight }" @resize="onResize"
     @update="onUpdate">
     <template #before>
       <slot name="slotBefore"></slot>

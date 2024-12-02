@@ -94,7 +94,7 @@ import { QuasarFilePicker } from '#components';
 const authenStore = useAuthenStore();
 const { t } = useLang();
 useHead({
-    title: `File picker | ${t('app.name')}`
+    title: 'File picker'
 })
 const files = ref<File[]>([]);
 const filesPreview = ref<FileManagerDto[]>([]);

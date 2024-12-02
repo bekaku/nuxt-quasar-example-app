@@ -2,12 +2,9 @@
 
 import { FORMAT_DATE14 } from '~/utils/dateUtil';
 import { ref } from 'vue';
-definePageMeta({
-    middleware: ["auth"]
-})
 const { t } = useLang();
 useHead({
-    title: `Date time Picker | ${t('app.name')}`
+    title:'Date time Picker'
 })
 const { getCurrentDateByFormat } = useDateFns();
 const d = ref(getCurrentDateByFormat(FORMAT_DATE14));

@@ -24,15 +24,21 @@ export const FileTypeAcceptList = [
   'text/plain',
   'text/csv'
 ];
-export const AuthNoInitialPath: string[] = [
-    '/auth/login',
-    '/error',
-  ];
-export const AuthNoFilterPath: string[] = [
-    '/error',
-    '/all',
-  ];
+// export const AuthNoInitialPath: string[] = [
+//   '/auth/login',
+//   '/error',
+// ];
+// export const AuthNoFilterPath: string[] = [
+//   '/error',
+//   '/all',
+// ];
+export const AuthNoInitialPage: string[] = [
+  'auth-login',
+  'error',
+  'all',
+];
 export const AuthNoFilterPage: string[] = [
-    'error',
-    'all',
-  ];
+  'error',
+  'all',
+  'test',
+];

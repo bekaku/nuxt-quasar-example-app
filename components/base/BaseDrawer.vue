@@ -1,23 +1,35 @@
 <script setup lang="ts">
 import {
+    biApp,
+    biArrowDownUp,
+    biArrowLeftRight,
+    biBack,
+    biBarChart,
+    biBrush,
+    biBug,
+    biCalendar,
+    biChatDots,
+    biChevronExpand,
+    biChevronRight,
+    biCommand,
+    biCrop,
+    biCursorText,
+    biDatabase,
+    biEmojiSmile,
+    biFile,
+    biFileEarmark,
+    biFileImage,
+    biFunnel,
     biGear,
+    biList,
+    biMarkdown,
     biNewspaper,
+    biPersonCircle,
+    biPieChart,
     biQuestionCircle,
     biSearch,
-    biCommand,
-    biChatDots,
-    biCursorText,
-    biBack,
-    biList,
-    biDatabase,
-    biChevronRight,
-    biFileEarmark,
-    biBrush,
-    biPersonCircle,
-    biApp,
-    biCalendar,
-    biUpload,
-    biChevronExpand
+    biToggleOff,
+    biUpload
 } from '@quasar/extras/bootstrap-icons';
 import type { IMenu } from '~/types/common';
 const { overlay = false, bordered = false, miniToOverlay = true, width = 250, showUserSetting = true } = defineProps<{
@@ -115,7 +127,7 @@ const additionalMenu: IMenu[] = [
                         to: '/example/ui/select'
                     },
                     {
-                        icon: 'bi-toggle-off',
+                        icon: biToggleOff,
                         permission: '',
                         title: 'Toggle',
                         translate: false,
@@ -124,12 +136,12 @@ const additionalMenu: IMenu[] = [
                 ],
             },
             {
-                icon: 'bi-pie-chart',
+                icon: biPieChart,
                 title: 'Charts',
                 translate: false,
                 items: [
                     {
-                        icon: 'bi-bar-chart',
+                        icon: biBarChart,
                         permission: '',
                         title: 'Bar',
                         translate: false,
@@ -153,35 +165,35 @@ const additionalMenu: IMenu[] = [
                 to: '/example/content-text'
             },
             {
-                icon: 'bi-emoji-smile',
+                icon: biEmojiSmile,
                 permission: '',
                 title: 'Emoji picker',
                 translate: false,
                 to: '/example/emoji-picker'
             },
             {
-                icon: 'bi-crop',
+                icon: biCrop,
                 permission: '',
                 title: 'Image cropper',
                 translate: false,
                 to: '/example/image-cropper'
             },
             {
-                icon: 'bi-file-image',
+                icon: biFileImage,
                 permission: '',
                 title: 'Image/Pdf View',
                 translate: false,
                 to: '/example/image-view'
             },
             {
-                icon: 'bi-markdown',
+                icon: biMarkdown,
                 permission: '',
                 title: 'Markdown editor',
                 translate: false,
                 to: '/example/markdown-editor'
             },
             {
-                icon: 'bi-file',
+                icon: biFile,
                 permission: '',
                 title: 'Result',
                 caption: 'Error, Success, 404',
@@ -189,14 +201,14 @@ const additionalMenu: IMenu[] = [
                 to: '/example/result'
             },
             {
-                icon: 'bi-arrow-left-right',
+                icon: biArrowLeftRight,
                 permission: '',
                 title: 'Swiper',
                 translate: false,
                 to: '/example/swiper'
             },
             {
-                icon: 'bi-funnel',
+                icon: biFunnel,
                 permission: '',
                 title: 'Sort items',
                 translate: false,
@@ -210,11 +222,18 @@ const additionalMenu: IMenu[] = [
                 to: '/feed'
             },
             {
-                icon: 'bi-arrow-down-up',
+                icon: biArrowDownUp,
                 permission: '',
                 title: 'Virtual scroller',
                 translate: false,
                 to: '/example/virtual-scroller'
+            },
+            {
+                icon: biBug,
+                permission: '',
+                title: 'Test page',
+                translate: false,
+                to: '/test'
             },
         ]
     }

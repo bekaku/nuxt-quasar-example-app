@@ -28,7 +28,7 @@
 <script setup lang="ts">
 const { t } = useLang();
 useHead({
-    title: `Togle | ${t('app.name')}`
+    title:'Togle'
 })
 const toggle = ref<boolean>(false);
 </script>

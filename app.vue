@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLang } from '~/composables/useLang';
-const { initialLocale } = useLang();
+const { initialLocale, t } = useLang();
 const { initialQuasarDark } = useTheme();
 const { isServer } = useDevice();
 useSeoMeta({
@@ -11,6 +11,11 @@ useSeoMeta({
   ogImage: 'https://example.com/image.png',
   twitterCard: 'summary_large_image',
   ogUrl:'https://app.yourdomain.com',
+})
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - ${t('app.name')}` : t('app.name');
+  }
 })
 initialLocale();
 initialQuasarDark();

@@ -13,7 +13,7 @@ import { ref } from 'vue';
 const { t } = useLang();
 const progress = ref(false);
 useHead({
-    title: `Button | ${t('app.name')}`
+    title: 'Button'
 })
 </script>
 <template>

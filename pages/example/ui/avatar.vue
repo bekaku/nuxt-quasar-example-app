@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { t } = useLang();
 useHead({
-    title: `Avatar | ${t('app.name')}`
+    title: 'Avatar'
 });
 const authenStore = useAuthenStore();
 const items = ref<string[]>([

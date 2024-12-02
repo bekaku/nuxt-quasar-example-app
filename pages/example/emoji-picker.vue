@@ -52,7 +52,7 @@ import { useQuasar } from 'quasar';
 const authenStore = useAuthenStore();
 const { t } = useLang();
 useHead({
-    title: `Emoji picker | ${t('app.name')}`
+    title: 'Emoji picker'
 })
 const {dark} = useQuasar();
 const contentID = useId();

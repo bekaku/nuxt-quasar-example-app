@@ -137,7 +137,7 @@ import { biCopy, biPencil, biThreeDots, biTrash } from '@quasar/extras/bootstrap
 const { t } = useLang();
 
 useHead({
-    title: `Dialog | ${t('app.name')}`
+    title: 'Dialog'
 })
 const dialog = ref<boolean>(false);
 const dialog2 = ref<boolean>(false);
