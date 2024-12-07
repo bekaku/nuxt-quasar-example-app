@@ -47,7 +47,6 @@ export const useMenu = () => {
                 }
             }
         }
-        console.log('after aclFinal', aclFinal);
         if(aclFinal && aclFinal.length>0){
             appStore.setDrawers(aclFinal);
         }

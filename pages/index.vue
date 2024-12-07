@@ -21,9 +21,6 @@ const onGotoPage = (link: string) => {
         <q-card>
             <q-card-section class="q-gutter-md">
                 <p>
-                    drswers {{appStore.drawers}}
-                </p>
-                <p>
                     permissionStore {{appStore.permissions}}
                 </p>
               <p>

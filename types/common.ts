@@ -400,6 +400,7 @@ export interface SlidePaginationy {
     hideOnClick?: boolean;
     enabled?: boolean;
     dynamicBullets?: boolean;
+    type?: 'bullets' | 'fraction' | 'progressbar' | 'custom';
 }
 
 export type SlidePaginationType = 'progressbar' | 'bullets' | 'fraction' | 'custom';
@@ -422,10 +423,11 @@ export interface SlideOptions {
     navigationType?: boolean;
     navigationCustom?: boolean;
     pagination?: boolean | SlidePaginationy;
+    paginationClickable?: boolean;
     paginationType?: SlidePaginationType;
     paginationDynamic?: boolean;
     scrollbar?: boolean;
-    style?: object;
+    style?: any |object;
     speed?: number;
     slidesPerView?: number | 'auto';
     spaceBetween?: number;
@@ -433,6 +435,8 @@ export interface SlideOptions {
     thumbs?: boolean;
     updateOnWindowResize?: boolean;
     zoom?: boolean | SlideZoom;
+    gridRows?: number;
+    grabCursor?: boolean;
 }
 export type SlideModule =
     | 'Autoplay'

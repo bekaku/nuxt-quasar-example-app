@@ -30,7 +30,7 @@ onMounted(() => {
     generateItems();
 })
 const onVirtualScrollUpdate = (item: VirtualScrollerUpdate) => {
-    console.log('onVirtualScrollUpdate', item);
+    // console.log('onVirtualScrollUpdate', item);
     updateItem.value = item;
 };
 const onScrollTo = (index: number) => {
@@ -90,7 +90,7 @@ const onInfinite = (index: number, done: any) => {
             </q-card-section>
             <q-card-section class="q-gutter-y-lg">
                 <div class="text-h5">
-                    Dynamiv Scroller
+                    Dynamic Scroller
                 </div>
                 <div>
                     <p v-if="updateItem">({{

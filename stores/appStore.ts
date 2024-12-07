@@ -8,8 +8,6 @@ export const useAppStore = defineStore('appStore', () => {
     const drawers = ref<IMenu[]>([]);
     const leftDrawerOpen = ref<boolean>(true);
 
-
-
     const setPermissions = (items: string[]) => {
         permissions.value = items;
     }

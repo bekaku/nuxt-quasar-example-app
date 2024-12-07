@@ -47,6 +47,13 @@ export default defineNuxtConfig({
       },
     },
   },
+  vue: {
+    compilerOptions: {
+      // isCustomElement: (tag) => tag.startsWith('swiper-'),
+      isCustomElement: (tag) =>
+        ['swiper-container', 'swiper-slide'].includes(tag)
+    }
+  },
   app: {
     head: {
       title: 'Quasar + Nuxt 3',
