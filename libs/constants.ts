@@ -36,9 +36,11 @@ export const AuthNoInitialPage: string[] = [
   'auth-login',
   'error',
   'all',
+  'example-drag-drop'
 ];
 export const AuthNoFilterPage: string[] = [
   'error',
   'all',
   'test',
+  'example-drag-drop'
 ];

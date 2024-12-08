@@ -271,7 +271,7 @@ export const additionalMenu: IMenu[] = [
             {
                 icon: biArrowsMove,
                 permission: '',
-                title: 'Darn and Drop',
+                title: 'Darg and Drop',
                 translate: false,
                 to: '/example/drag-drop'
             },
