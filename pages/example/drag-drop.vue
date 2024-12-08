@@ -131,7 +131,7 @@ const dragOptions = computed(() => {
         ghostClass: "ghost"
     };
 })
-const log = (ctx) => {
+const log = (ctx :any) => {
     console.log('log', ctx);
 }
 </script>
