@@ -117,13 +117,6 @@ export const additionalMenu: IMenu[] = [
                 translate: false,
                 items: [
                     {
-                        icon: biDatabase,
-                        permission: '',
-                        title: 'useAxios',
-                        translate: false,
-                        to: '/example/composables/use-axios'
-                    },
-                    {
                         icon: biChevronRight,
                         permission: '',
                         title: 'useBase',
@@ -226,11 +219,25 @@ export const additionalMenu: IMenu[] = [
                 to: '/example/content-text'
             },
             {
+                icon: biArrowsMove,
+                permission: '',
+                title: 'Darg and Drop',
+                translate: false,
+                to: '/example/drag-drop'
+            },
+            {
                 icon: biEmojiSmile,
                 permission: '',
                 title: 'Emoji picker',
                 translate: false,
                 to: '/example/emoji-picker'
+            },
+            {
+                icon: biDatabase,
+                permission: '',
+                title: 'Fetch data',
+                translate: false,
+                to: '/example/fetch-data'
             },
             {
                 icon: biCrop,
@@ -267,13 +274,6 @@ export const additionalMenu: IMenu[] = [
                 title: 'Swiper',
                 translate: false,
                 to: '/example/swiper'
-            },
-            {
-                icon: biArrowsMove,
-                permission: '',
-                title: 'Darg and Drop',
-                translate: false,
-                to: '/example/drag-drop'
             },
             {
                 icon: biNewspaper,

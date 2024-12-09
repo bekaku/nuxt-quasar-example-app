@@ -1,13 +1,31 @@
 import type { ILanguge } from "./common";
-
+export type IPermissionOperationType = 1 | 2 | 3; // 1=crud, 2=report, 3=other
 export interface Id {
     id: number | null;
+}
+export interface FileManagerDto extends Id {
+    fileMime: string;
+    fileName: string;
+    filePath: string;
+    fileThumbnailPath: string;
+    fileSize: string;
+    functionId?: number;
+    isImage?: boolean;
+    image?: boolean;
+    file?: any;
 }
 export interface ImageDto {
     index?: number;
     id?: number;
     image: string;
     thumbnail: string;
+}
+export interface Permission extends Id {
+    code: string;
+    remark?: string | null;
+    description?: string | null;
+    operationType: IPermissionOperationType;
+    frontEnd?: boolean;
 }
 export interface UserDto extends Id {
     email: string;
@@ -26,14 +44,12 @@ export interface UserDto extends Id {
     defaultLocale?: ILanguge;
     ownerProfile?: boolean;
 }
-export interface FileManagerDto extends Id {
-    fileMime: string;
-    fileName: string;
-    filePath: string;
-    fileThumbnailPath: string;
-    fileSize: string;
-    functionId?: number;
-    isImage?: boolean;
-    image?: boolean;
-    file?: any;
-  }
+export interface UserProfileDto extends Id {
+    id: number;
+    username: string;
+    fullName: string;
+    avatar: ImageDto | null;
+    cover: ImageDto | null;
+}
+
+

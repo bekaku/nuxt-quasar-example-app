@@ -427,7 +427,7 @@ export interface SlideOptions {
     paginationType?: SlidePaginationType;
     paginationDynamic?: boolean;
     scrollbar?: boolean;
-    style?: any |object;
+    style?: any | object;
     speed?: number;
     slidesPerView?: number | 'auto';
     spaceBetween?: number;
@@ -471,6 +471,18 @@ export interface VirtualScrollerUpdate {
     visibleStartIndex: number;
     visibleEndIndex: number;
     isScrollingToTop: boolean;
+}
+export interface OgMeta {
+    domain: string;
+    url: string;
+    title?: string;
+    desc?: string;
+    image?: string;
+    imageAlt?: string;
+}
+export interface SwiperSlideChange {
+    activeIndex: number
+    realIndex: number
 }
 export type CountryCode =
     | 'AC'

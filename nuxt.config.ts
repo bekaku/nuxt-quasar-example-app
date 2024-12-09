@@ -107,7 +107,7 @@ export default defineNuxtConfig({
     components: {
       defaults: {
         QBtn: {
-          unelevated: true,
+          unelevated: false,
         },
         QLinearProgress: {
           color: 'primary',
@@ -126,7 +126,7 @@ export default defineNuxtConfig({
           outlined: true,
         },
         QToggle: {
-          color: 'red',
+          color: 'primary',
         },
       },
     },

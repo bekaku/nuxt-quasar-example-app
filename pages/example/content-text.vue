@@ -44,7 +44,7 @@
                             <base-content-item wrap-text :content="content" :content-id="contentUniqeId"
                                 :is-escape-html="false" hashtagUrlify show-more>
                             </base-content-item>
-                            <!-- <open-graph-item-alt :content="content" short imageSize="150px" /> -->
+                            <base-open-graph-item-alt :content="content" short imageSize="150px" />
                         </template>
                         <q-separator class="q-my-md" />
 
@@ -55,7 +55,7 @@
                             <base-content-item wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
                                 :limit="10" hashtagUrlify show-more>
                             </base-content-item>
-                            <!-- <open-graph-item-alt :content="content" /> -->
+                            <base-open-graph-item-alt :content="content" />
                         </template>
 
                     </div>

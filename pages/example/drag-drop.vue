@@ -23,9 +23,10 @@
                                 <q-card flat>
                                     <q-card-section>
 
-                                        <div class="text-h6">Draggable 1</div>
+                                        <div class="text-h6">Draggable 1 {{ draging ? 'under drag...' : '' }}</div>
                                         <p>{{ list1 }}</p>
-                                        <draggable class="drag-area" v-model="list1" group="people" @change="log"
+                                        <draggable class="drag-area" v-model="list1" @change="log" @start="onStartDrag"
+                                            @end="onEndDrag"
                                             itemKey="name" v-bind="dragOptions"
                                             :component-data="{ name: 'flip-list', type: 'transition' }">
                                             <template #item="{ element, index }">
@@ -51,8 +52,8 @@
                                     <q-card-section>
                                         <div class="text-h6">Draggable 2</div>
                                         <p>{{ list2 }}</p>
-                                        <draggable class="drag-area" v-model="list2" group="people" @change="log"
-                                            itemKey="name" v-bind="dragOptions"
+                                        <draggable class="drag-area" v-model="list2" @change="log" itemKey="name"
+                                            v-bind="dragOptions"
                                             :component-data="{ name: 'flip-list', type: 'transition' }">
                                             <template #item="{ element, index }">
                                                 <q-item clickable>
@@ -72,10 +73,10 @@
                             </div>
                             <div class="col-6 q-pa-sm">
                                 <div class="text-h6">Draggable 3</div>
-                                <draggable class="drag-area-2"  v-model="list3" group="people" @change="log" itemKey="name"
+                                <draggable class="drag-area-2" v-model="list3" @change="log" itemKey="name"
                                     v-bind="dragOptions" :component-data="{ name: 'flip-list', type: 'transition' }">
                                     <template #item="{ element, index }">
-                                        <div class="q-ma-md" >
+                                        <div class="q-ma-md">
                                             <q-card>
                                                 <q-img style="max-height: 100px;"
                                                     src="https://cdn.quasar.dev/img/avatar1.jpg" />
@@ -101,11 +102,11 @@
 import draggable from "vuedraggable";
 import { biImage } from '@quasar/extras/bootstrap-icons';
 const { t } = useLang();
-//https://github.com/SortableJS/Vue.Draggable
-//https://sortablejs.github.io/Vue.Draggable/#/two-lists
+//https://github.com/SortableJS/vue.draggable.next
 useHead({
     title: 'Darg drop'
 })
+const drgaGroup = 'people';
 const list1 = ref([
     { name: "John", id: 1 },
     { name: "Joao", id: 2 },
@@ -123,6 +124,7 @@ const list3 = ref([
     { name: "Virgil", id: 9 },
     { name: "Alison", id: 10 }
 ])
+const draging = ref(false);
 const dragOptions = computed(() => {
     return {
         animation: 0,
@@ -131,8 +133,14 @@ const dragOptions = computed(() => {
         ghostClass: "ghost"
     };
 })
-const log = (ctx :any) => {
+const log = (ctx: any) => {
     console.log('log', ctx);
+}
+const onStartDrag = () => {
+    draging.value = true;
+}
+const onEndDrag = () => {
+    draging.value = false;
 }
 </script>
 
@@ -142,6 +150,7 @@ const log = (ctx :any) => {
     overflow: auto;
     border: 1px dashed #ccc;
 }
+
 .drag-area-2 {
     height: 425px;
     overflow: auto;

@@ -2,7 +2,7 @@ import { AuthNoFilterPage } from '~/libs/constants';
 export default defineNuxtRouteMiddleware((to) => {
     if (to.name == undefined) return
     if (typeof to.name == 'string' && AuthNoFilterPage.includes(to.name)) return
-    console.log('middleware > auth > Pagename: ', to.name, ', path: ', to.path, ',meta: ', to.meta?.layout);
+    // console.log('middleware > auth > Pagename: ', to.name, ', path: ', to.path, ',meta: ', to.meta?.layout);
 
 
     const { $config } = useNuxtApp()
