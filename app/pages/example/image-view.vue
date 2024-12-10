@@ -2,9 +2,9 @@
 import type { FileManagerDto } from '~/types/models';
 const { t } = useLang();
 useHead({
-    title: 'Image View'
+    title: 'Image/Pdf View'
 })
-
+const { dark } = useQuasar();
 const imageSelectIndex = ref<number>(0);
 const showImageView = ref(false);
 const imageItems = ref<FileManagerDto[]>([
@@ -146,7 +146,7 @@ const onImgPreviewClose = () => {
     imageSelectIndex.value = 0;
     showImageView.value = false;
 };
-const onDeleteImage=(index: number)=>{
+const onDeleteImage = (index: number) => {
     console.log('onDeleteImage', index);
 }
 const onPdfPreviewClick = async (index: number) => {
@@ -200,7 +200,7 @@ const setImagesFileView = (file: FileManagerDto) => {
         <q-card flat bordered class="content-limit">
             <q-card-section>
                 <q-toolbar>
-                    <q-toolbar-title> Image View </q-toolbar-title>
+                    <q-toolbar-title> Image/Pdf View </q-toolbar-title>
                     <q-space />
                 </q-toolbar>
                 <q-separator />
@@ -209,7 +209,7 @@ const setImagesFileView = (file: FileManagerDto) => {
                 <q-card>
                     <q-card-section>
                         <div class="text-h6 q-mb-md">
-                            Image Only
+                            Image Dialog
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6">
@@ -235,12 +235,24 @@ const setImagesFileView = (file: FileManagerDto) => {
                             </div>
                         </div>
                     </q-card-section>
+                    <q-card-section>
+                        <div class="text-h6 q-mb-md">
+                            Image Slide
+                        </div>
+                        <q-card flat bordered>
+                            <client-only>
+                                <base-image-view :files="imageItems" :selected-index="imageSelectIndex"
+                                    :dark="dark.isActive" :show-delete-image="false" show-arrow height="350px"
+                                    :closeable="false" />
+                            </client-only>
+                        </q-card>
+                    </q-card-section>
                 </q-card>
 
                 <q-card class="q-my-md">
                     <q-card-section>
                         <div class="text-h6 q-mb-md">
-                            Pdf View
+                            Pdf dialog View
                         </div>
                         <div class="row">
                             <div class='col-4 col-md-2 q-pa-xs' v-for="(pdf, pdfIndex) in pdfItems"
@@ -250,6 +262,14 @@ const setImagesFileView = (file: FileManagerDto) => {
                                 </base-files-preview-item>
                             </div>
                         </div>
+
+                        <div class="text-h6 q-my-md">
+                            Pdf inline display
+                        </div>
+                        <q-card flat bordered>
+                            <base-pdf-view src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+                                :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
+                        </q-card>
                     </q-card-section>
                 </q-card>
 
@@ -271,9 +291,12 @@ const setImagesFileView = (file: FileManagerDto) => {
                 </q-card>
             </q-card-section>
         </q-card>
-        <lazy-base-image-view v-if="showImageView" v-model="showImageView" :files="imageItems"
-            :selected-index="imageSelectIndex" :show-delete-image="true" :maximized="false" show-arrow @on-delete="onDeleteImage" @on-close="onImgPreviewClose"
-        </lazy-base-image-view>
+        <lazy-base-image-view-dialog v-if="showImageView" v-model="showImageView" :files="imageItems"
+            :selected-index="imageSelectIndex" :show-delete-image="true" :maximized="false" show-arrow
+            @on-delete="onDeleteImage" @on-close="onImgPreviewClose" </lazy-base-image-view-dialog>
+
+            <lazy-base-pdf-view-dialog v-if="showPdfView && pdfSrc" :src="pdfSrc" v-model="showPdfView"
+                :title="pdfName" @on-close="() => onClosePefView" />
     </q-page>
 </template>
 <style lang="scss" scoped></style>

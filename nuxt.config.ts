@@ -3,6 +3,11 @@
 import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+  // Nuxt 4 directory structure and features
+  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
+  future: {
+    compatibilityVersion: 4,
+  },
   devtools: { enabled: true },
   devServer: {
     port: 3003

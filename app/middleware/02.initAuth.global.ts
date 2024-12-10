@@ -1,14 +1,14 @@
-import { useAuthenStore } from '~/stores/authenStore'
-import { useAppStore } from '~/stores/appStore'
-import { useAxios } from '~/composables/useAxios'
-import { useMenu } from '~/composables/useMenu'
-import type { UserDto } from '~/types/models';
-import type { AxiosResponse, AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
+import { useAxios } from '~/composables/useAxios';
+import { useMenu } from '~/composables/useMenu';
 import { AuthNoInitialPage } from '~/libs/constants';
+import { useAppStore } from '~/stores/appStore';
+import { useAuthenStore } from '~/stores/authenStore';
 import type { IAcl } from "~/types/common";
+import type { UserDto } from '~/types/models';
 
 export default defineNuxtRouteMiddleware(async (to) => {
-    // console.log('middleware > 01.initAuth.global > Pagename: ', to.name, ', path: ',to.path);
+    // console.log('middleware > initAuth.global > Pagename: ', to.name, ', path: ',to.path);
     // skip middleware on client side entirely
     // if (import.meta.client) return
 

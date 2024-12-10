@@ -13,6 +13,7 @@
     "@capacitor/device": "^6.0.2",
     "@emoji-mart/data": "^1.2.1",
     "@quasar/extras": "^1.16.15",
+    "@tato30/vue-pdf": "^1.11.3",
     "axios": "^1.7.9",
     "cropperjs": "^1.6.2",
     "date-fns": "^4.1.0",

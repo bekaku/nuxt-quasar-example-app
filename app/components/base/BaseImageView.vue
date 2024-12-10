@@ -4,7 +4,7 @@ import type { FileManagerDto, ImageDto, UserProfileDto } from '~/types/models';
 import { downloadURI, generateimageFileName } from '~/utils/fileUtil';
 import {
     biX,
-    biThreeDotsVertical,
+    biThreeDots,
     biDownload,
     biTrash,
     biPlus,
@@ -14,15 +14,19 @@ import {
 } from '@quasar/extras/bootstrap-icons';
 import type { SlideOptions, SwiperSlideChange } from '~/types/common';
 import type { BaseSwiperSlides } from '#components';
-const { showDeleteImage = false, maximized = true, fetch = false, showArrow = true, files = [], images = [], selectedIndex = 0 } = defineProps<{
+const { showDeleteImage = false, dark = true, fetch = false, showArrow = true, files = [], images = [], selectedIndex = 0, allowKeyboard = true, height = '90vh', width = '100%', closeable = true } = defineProps<{
     showDeleteImage?: boolean
-    maximized?: boolean
     fetch?: boolean
     showArrow?: boolean
     user?: UserProfileDto
     files?: FileManagerDto[]
     images?: ImageDto[]
     selectedIndex?: number
+    allowKeyboard?: boolean
+    height?: string
+    width?: string
+    dark?: boolean
+    closeable?: boolean
 }>();
 const emit = defineEmits<{
     onClose: [void]
@@ -34,7 +38,6 @@ const { screen } = useQuasar();
 const { t } = useLang();
 const { appConfirm } = useBase();
 const authenStore = useAuthenStore();
-const modelValue = defineModel<boolean>({ default: false });
 const { fethCdnData } = FileManagerService();
 const slide = ref(0);
 const items = ref<any[]>([]);
@@ -55,7 +58,9 @@ onMounted(async () => {
     slide.value = selectedIndex;
     await setList();
     loading.value = false;
-    document.addEventListener('keydown', handleKeyDown);
+    if (allowKeyboard) {
+        document.addEventListener('keydown', handleKeyDown);
+    }
 });
 const fileZise = computed(() => items.value ? items.value.length : 0);
 const handleKeyDown = (event: any) => {
@@ -137,7 +142,6 @@ const deletePhoto = async () => {
     }
 };
 const onSlideChange = (item: SwiperSlideChange) => {
-    console.log('onSlideChange', item);
     if (!loading.value && item) {
         slide.value = item.realIndex;
     }
@@ -155,7 +159,6 @@ const onPrev = () => {
 }
 
 const zoomIn = () => {
-    
     if (baseImgViewSwiperRef.value) {
         baseImgViewSwiperRef.value.onZoomIn()
     }
@@ -166,14 +169,15 @@ const zoomOut = () => {
     }
 };
 const onClose = () => {
-    modelValue.value = false;
     emit('onClose');
 };
 </script>
 <template>
-    <q-dialog :model-value="modelValue" @hide="onClose" @before-hide="$emit('onBeforeHide')" :maximized="maximized"
-        full-width full-height>
-        <q-card class="text-white" dark>
+    <!-- <q-dialog :model-value="modelValue" @hide="onClose" @before-hide="$emit('onBeforeHide')" :maximized="maximized" full-width full-height> -->
+    <q-card :class="{ 'text-white': dark }" flat :dark>
+        <slot name="toolbar">
+
+
             <q-toolbar>
                 <template v-if="user && user.avatar?.thumbnail">
                     <base-avatar :src="user.avatar.thumbnail" size="32px" />
@@ -193,7 +197,7 @@ const onClose = () => {
                     <q-btn dense flat round :icon="biArrowRight" :disable="slide == fileZise - 1" @click="onNext()" />
                 </template>
                 <q-space />
-                <q-btn flat round :icon="biThreeDotsVertical">
+                <q-btn flat round dense :icon="biThreeDots">
                     <q-menu>
                         <q-list style="min-width: 100px">
                             <q-item clickable v-close-popup @click="download">
@@ -217,24 +221,24 @@ const onClose = () => {
                         </q-list>
                     </q-menu>
                 </q-btn>
-                <q-btn flat round :icon="biX" @click="onClose" />
+                <q-btn v-if="closeable" dense flat round :icon="biX" @click="onClose" />
             </q-toolbar>
-
-            <div class="row items-center">
-                <q-inner-loading v-if="loading" :showing="loading" label-class="text-white" />
-                <base-swiper-slides ref="baseImgViewSwiperRef" :params="slideOpts" style="height: 90vh; width: 100%;"
-                    class="bg-black" @on-slide-change="onSlideChange">
-                    <swiper-slide v-for="(img, i) in items" :key="`base-img-view-${i}-${img}`">
-                        <div class="swiper-zoom-container">
-                            <q-img style="max-width: 100%;max-height: 90vh;" ratio="1" fit="scale-down"
-                                class="swiper-zoom-target" :src="img" :alt="`img-${i}`">
-                            </q-img>
-                        </div>
-                    </swiper-slide>
-                </base-swiper-slides>
-            </div>
-        </q-card>
-    </q-dialog>
+        </slot>
+        <div class="row items-center">
+            <q-inner-loading v-if="loading" :showing="loading" label-class="text-white" />
+            <base-swiper-slides ref="baseImgViewSwiperRef" :params="slideOpts" :style="{ height: height, width: width }"
+                :class="{ 'bg-black': dark, 'bg-grey-2': !dark }" @on-slide-change="onSlideChange">
+                <swiper-slide v-for="(img, i) in items" :key="`base-img-view-${i}-${img}`">
+                    <div class="swiper-zoom-container">
+                        <q-img :style="{ maxWidth: width, maxHeight: height }" ratio="1" fit="scale-down"
+                            class="swiper-zoom-target" :src="img" :alt="`img-${i}`">
+                        </q-img>
+                    </div>
+                </swiper-slide>
+            </base-swiper-slides>
+        </div>
+    </q-card>
+    <!-- </q-dialog> -->
 </template>
 <style lang="scss" scoped>
 .slide-img {
