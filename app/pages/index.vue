@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import { biBrightnessHigh, biLaptop, biMoon } from '@quasar/extras/bootstrap-icons';
+import { biBrightnessHigh, biMoon } from '@quasar/extras/bootstrap-icons';
 
-// definePageMeta({
-//     middleware: ["auth"]
-//     // or middleware: 'auth'
-// })
-const appStore= useAppStore();
+definePageMeta({
+    // middleware: ["auth"]
+    // or middleware: 'auth'
+    pageName: 'model_role',//custom meta
+    requiresPermission: ['role_manage'],//custom meta
+})
+const appStore = useAppStore();
 const authenStore = useAuthenStore();
-const {dark, onSetTheme}=useTheme();
-const { appNavigateTo } = useBase();
+const { dark, onSetTheme } = useTheme();
+const { appNavigateTo, getPageMeta, getPageMetaByKey } = useBase();
 const testStore = useTestStore();
 const count = ref(1);
 
+if(!import.meta.server){
+    console.log('getPageMeta',getPageMeta());
+    console.log('getPageMetaByKey','pageName: ' ,getPageMetaByKey('pageName'), ', requiresPermission: ', getPageMetaByKey('requiresPermission'));
+}
 const onGotoPage = (link: string) => {
     appNavigateTo(link);
 }
@@ -21,16 +27,16 @@ const onGotoPage = (link: string) => {
         <q-card>
             <q-card-section class="q-gutter-md">
                 <p>
-                    permissionStore {{appStore.permissions}}
+                    permissionStore {{ appStore.permissions }}
                 </p>
-              <p>
-                authenStore {{ authenStore.auth }}
-              </p>  
+                <p>
+                    authenStore {{ authenStore.auth }}
+                </p>
                 <ClientOnly>
-                    {{dark}}
+                    {{ dark }}
                 </ClientOnly>
-                <QBtn @click="onSetTheme('light')" label="Light" :icon="biBrightnessHigh"/>
-                <QBtn @click="onSetTheme('dark')" label="Dark" :icon="biMoon"/>
+                <QBtn @click="onSetTheme('light')" label="Light" :icon="biBrightnessHigh" />
+                <QBtn @click="onSetTheme('dark')" label="Dark" :icon="biMoon" />
             </q-card-section>
             <q-card-section>
                 <div class="text-danger">Test Title</div>

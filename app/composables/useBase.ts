@@ -14,6 +14,12 @@ export const useBase = () => {
     const getPreviousPath = () => {
         return router.options.history.state.back;
     };
+    const getPageMeta=()=>{
+        return route.meta;
+    }
+    const getPageMetaByKey=(key:string)=>{
+        return route.meta[key];
+    }
     const getParam = (field: string): string | undefined => {
         if (!field) {
             return undefined;
@@ -172,6 +178,8 @@ export const useBase = () => {
         );
     };
     return {
+        getPageMeta,
+        getPageMetaByKey,
         getCurrentPath,
         getPreviousPath,
         getParam,
