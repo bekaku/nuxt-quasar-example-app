@@ -15,7 +15,8 @@
                         <div class="text-h5 q-my-sm">
                             Single Select
                         </div>
-                        <quasar-select required can-filter clearable :items="simpleItems" v-model="singleModel" dense
+                        <quasar-select
+v-model="singleModel" required can-filter clearable :items="simpleItems" dense
                             :multiple="false" label="Select Single" />
                         <p>simpleModel : {{ singleModel }}</p>
                     </div>
@@ -23,7 +24,8 @@
                         <div class="text-h5 q-my-sm">
                             Multiple Select
                         </div>
-                        <quasar-select can-filter clearable :items="simpleItems2" v-model="multipleModel" dense
+                        <quasar-select
+v-model="multipleModel" can-filter clearable :items="simpleItems2" dense
                             use-chips multiple label="Select Multiple" />
                         <p>multipleModel : {{ multipleModel }}</p>
                     </div>
@@ -31,7 +33,8 @@
                         <div class="text-h5 q-my-sm">
                             Select Alt
                         </div>
-                        <quasar-select-alt :items="simpleItems3" v-model="multipleAnyModel" multiple dense
+                        <quasar-select-alt
+v-model="multipleAnyModel" :items="simpleItems3" multiple dense
                             label="Select Any" option-label="name" option-value="id" />
                         <p>multipleAnyModel : {{ multipleAnyModel }}</p>
                     </div>

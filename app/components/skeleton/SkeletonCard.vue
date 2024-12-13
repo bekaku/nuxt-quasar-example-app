@@ -1,5 +1,5 @@
 <template>
-    <div class="row" :class="rowCss" v-if="!vertical">
+    <div v-if="!vertical" class="row" :class="rowCss">
       <div v-for="i in no" :key="i" :class="col">
         <q-card :flat="flat">
           <q-skeleton :height />
@@ -14,7 +14,7 @@
       </div>
     </div>
     <template v-else>
-      <div class="row" :class="rowCss" v-for="i in no" :key="i">
+      <div v-for="i in no" :key="i" class="row" :class="rowCss">
         <div :class="col">
           <q-card :flat="flat">
             <q-skeleton :height />

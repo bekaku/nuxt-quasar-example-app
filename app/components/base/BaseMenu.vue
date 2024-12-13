@@ -1,8 +1,9 @@
 <template>
     <q-menu v-bind="$attrs" :cover anchor="top middle">
       <q-list :style="{ minWidth: width }">
-        <base-menu-item v-for="(item, index) in items" :key="`app-menu-${item.value}-${index}`" :item="item"
-          @click="onClick(item.value)" v-close-popup />
+        <base-menu-item
+v-for="(item, index) in items" :key="`app-menu-${item.value}-${index}`" v-close-popup
+          :item="item" @click="onClick(item.value)" />
       </q-list>
     </q-menu>
   </template>

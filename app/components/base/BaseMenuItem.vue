@@ -1,5 +1,6 @@
 <template>
-    <q-item  v-bind="$attrs" :to="item.to" v-ripple clickable :dense
+    <q-item
+v-ripple v-bind="$attrs" :to="item.to" clickable :dense
       :active-class="item.noActiveLink ? 'q-item-no-link-highlighting' : 'active-menu-link'"
       :class="item.to == getCurrentPath(false) ? 'text-primary' : dark.isActive ? darkText : lightText">
       <q-item-section side>

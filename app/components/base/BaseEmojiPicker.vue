@@ -1,7 +1,7 @@
 <template>
     <q-card flat>
       <ClientOnly>
-        <div :id="pickerId"></div>
+        <div :id="pickerId"/>
       </ClientOnly>
     </q-card>
   </template>

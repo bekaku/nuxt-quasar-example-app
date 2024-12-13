@@ -36,13 +36,13 @@ const onLoaded = () => {
           :pdf="pdf"
           :scale="scale"
           :page="page"
-          @loaded="onLoaded"
           :fit-parent="fitParent"
           :width="width"
           :height="height"
           :text-layer="textLayer"
           :watermark-text="watermarkText"
           :hide-forms="hideForms"
+          @loaded="onLoaded"
         />
     </div>
 </ClientOnly>

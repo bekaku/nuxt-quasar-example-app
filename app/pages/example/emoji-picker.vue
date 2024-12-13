@@ -12,8 +12,8 @@
 
 
 
-                <q-input outlined v-model="message" type="textarea" autogrow label="Type message">
-                    <template #prepend v-if="authenStore?.auth?.avatar?.thumbnail">
+                <q-input v-model="message" outlined type="textarea" autogrow label="Type message">
+                    <template v-if="authenStore?.auth?.avatar?.thumbnail" #prepend>
                         <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
                     </template>
                     <template #before>
@@ -21,9 +21,9 @@
                         <ClientOnly>
                             <q-btn round flat :icon="biEmojiSmile" color="grey-7">
                                 <q-menu>
-                                    <base-emoji-picker :picker-id="`emo-${contentID}`"
-                                        :theme="dark.isActive ? 'dark' : 'light'" @on:emojiClick="onEmojiClick">
-                                    </base-emoji-picker>
+                                    <base-emoji-picker
+:picker-id="`emo-${contentID}`"
+                                        :theme="dark.isActive ? 'dark' : 'light'" @on:emoji-click="onEmojiClick"/>
                                 </q-menu>
                             </q-btn>
                         </ClientOnly>

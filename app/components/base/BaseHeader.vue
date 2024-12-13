@@ -37,23 +37,26 @@ const onScroll = (info: any) => {
 </script>
 
 <template>
-    <q-header :reveal="reveal" height-hint="58" :bordered="bordered" :elevated="showGotTopBtn" :class="{
+    <q-header
+:reveal="reveal" height-hint="58" :bordered="bordered" :elevated="showGotTopBtn" :class="{
         'app-second-bg-color-theme-dark text-white': dark.isActive,
         'bg-white text-black': !dark.isActive,
     }">
         <q-scroll-observer @scroll="onScroll" />
         <q-toolbar class="q-py-xs">
-            <q-btn v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
+            <q-btn
+v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
                 @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)" />
             <q-btn v-if="showLogo" flat no-caps no-wrap class="q-mr-xs" :ripple="false" to="/">
                 <q-avatar style="height: auto; width: 42px" square>
-                    <img :src="!dark.isActive
+                    <img
+:src="!dark.isActive
                         ? '/logo/logo-black.png'
                         : '/logo/logo-white.png'
-                        " />
+                        " >
                 </q-avatar>
             </q-btn>
-            <q-btn v-if="screen.gt.xs" flat @click="onOpenSearch" class="text-capitalize">
+            <q-btn v-if="screen.gt.xs" flat class="text-capitalize" @click="onOpenSearch">
                 <span class="q-mr-sm text-muted">{{
                     t('base.search') + ' Vue Quasar'
                     }}</span>
@@ -62,13 +65,13 @@ const onScroll = (info: any) => {
             <q-space />
 
             <div class="q-gutter-md row items-center no-wrap">
-                <q-btn round dense flat :icon="biCameraVideo" v-if="screen.gt.sm">
+                <q-btn v-if="screen.gt.sm" round dense flat :icon="biCameraVideo">
                     <q-tooltip>Create a video or post</q-tooltip>
                 </q-btn>
-                <q-btn round dense flat :icon="biAppIndicator" v-if="screen.gt.sm">
+                <q-btn v-if="screen.gt.sm" round dense flat :icon="biAppIndicator">
                     <q-tooltip>Apps</q-tooltip>
                 </q-btn>
-                <q-btn round dense flat :icon="biChatDots" v-if="screen.gt.sm" to="/chats">
+                <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
                     <q-tooltip>Messages</q-tooltip>
                 </q-btn>
                 <q-btn v-if="!screen.gt.xs" round dense flat @click="onOpenSearch">

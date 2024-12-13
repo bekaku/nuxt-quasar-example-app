@@ -38,8 +38,9 @@
   }>();
 </script>
   <template>
-    <q-btn v-bind="$attrs" :outline :label :color :text-color="textColor" :no-caps="noCaps" :unelevated :glossy :flat
+    <q-btn
+v-bind="$attrs" :outline :label :color :text-color="textColor" :no-caps="noCaps" :unelevated :glossy :flat
       :icon :icon-right="iconRight" :stack :round :square :push :rounded :align :size :loading :to :disable :dense>
-      <slot></slot>
+      <slot/>
     </q-btn>
   </template>

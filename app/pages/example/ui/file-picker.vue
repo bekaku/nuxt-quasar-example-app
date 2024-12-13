@@ -14,9 +14,10 @@
                         <div class="text-h5">
                             Simple Picker
                         </div>
-                        <QuasarFilePicker multiple v-model="files" v-model:fileItems="filesPreview" :icon="biFileArrowUp"
-                            show-preview :accept="FileExtensionAccept" @on-file-add="onFileAdd"
-                            :label="t('base.chooseFile')" />
+                        <QuasarFilePicker
+v-model="files" v-model:file-items="filesPreview" multiple :icon="biFileArrowUp"
+                            show-preview :accept="FileExtensionAccept" :label="t('base.chooseFile')"
+                            @on-file-add="onFileAdd" />
                         <quasar-button class="q-my-md" @click="onSubmit">
                             Submit
                         </quasar-button>
@@ -26,13 +27,16 @@
                         <div class="text-h5">
                             Custom Ui
                         </div>
-                        <QuasarFilePicker ref="filePickerCustomUiRef" multiple v-model:fileItems="customFiles"
+                        <QuasarFilePicker
+ref="filePickerCustomUiRef" v-model:file-items="customFiles" multiple
                             :accept="FileExtensionAccept" @on-file-add="onCustomFileAdd">
-                            <quasar-button class="q-my-md" @click="openPicker" outline :icon="biUpload"
-                                label="Open Picker" />
+                            <quasar-button
+class="q-my-md" outline :icon="biUpload" label="Open Picker"
+                                @click="openPicker" />
                         </QuasarFilePicker>
-                        <BaseFilesPreview :items="customFiles" @on-remove="onCustomRemove" format-size
-                            col="col-4 col-md-2 q-pa-md" />
+                        <BaseFilesPreview
+:items="customFiles" format-size col="col-4 col-md-2 q-pa-md"
+                            @on-remove="onCustomRemove" />
                         <q-separator />
                     </div>
                     <div class="col-12 q-pa-md">
@@ -41,15 +45,15 @@
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6 q-pa-md">
-                                <QuasarFilePicker style="display: none;" ref="filePickerCustomUi2Ref" multiple
-                                    v-model:fileItems="custom2Files" :accept="FileExtensionAccept" :max-files="5"
-                                    @on-file-add="onCustomFileAdd2">
-                                </QuasarFilePicker>
+                                <QuasarFilePicker
+ref="filePickerCustomUi2Ref" v-model:file-items="custom2Files" style="display: none;"
+                                    multiple :accept="FileExtensionAccept" :max-files="5"
+                                    @on-file-add="onCustomFileAdd2"/>
 
 
 
-                                <q-input outlined v-model="message" type="textarea" autogrow label="Type message">
-                                    <template #prepend v-if="authenStore?.auth?.avatar?.thumbnail">
+                                <q-input v-model="message" outlined type="textarea" autogrow label="Type message">
+                                    <template v-if="authenStore?.auth?.avatar?.thumbnail" #prepend>
                                         <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
                                     </template>
                                     <template #before>
@@ -68,11 +72,11 @@
                             <div class="col-12 col-md-6 q-pa-md">
                                 <q-list v-if="custom2Files != undefined && custom2Files.length > 0">
                                     <base-scroll-area height="250px">
-                                        <base-files-preview-item-alt v-for="(f, fileIndex) in custom2Files"
+                                        <base-files-preview-item-alt
+v-for="(f, fileIndex) in custom2Files"
                                             :key="`f-${f.id}-${fileIndex}`" :item="f" :index="fileIndex"
-                                            @on-remove="onCustomRemove2" dense format-size image-size="100px"
-                                            show-delete>
-                                        </base-files-preview-item-alt>
+                                            dense format-size image-size="100px" show-delete
+                                            @on-remove="onCustomRemove2"/>
                                     </base-scroll-area>
                                 </q-list>
                             </div>

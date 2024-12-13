@@ -182,22 +182,24 @@ const onShowMoreText = async () => {
 };
 </script>
 <template>
-  <div v-if="content" style="overflow: hidden" :class="{
+  <div
+v-if="content" style="overflow: hidden" :class="{
     'text-holder-fitcontent': !isEmpty(content) && fitContent,
   }">
-    <slot name="top">
-    </slot>
-    <div v-ripple :id="contentId" :class="{
+    <slot name="top"/>
+    <div
+:id="contentId" v-ripple :class="{
       'word-limit': showMoreBtn && !showMoreText,
       'cursor-pointer': to,
     }" class="app-auto-newline dont-break-out text-holder">
-      <BaseContentHtml :content="urlify(content, 'text-primary')" :high-light-text="highLightText"
-        @on-press="onOpenPage($event)"></BaseContentHtml>
+      <BaseContentHtml
+:content="urlify(content, 'text-primary')" :high-light-text="highLightText"
+        @on-press="onOpenPage($event)"/>
     </div>
-    <base-link v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="text-primary"
-      @click="onShowMoreText"></base-link>
-    <slot name="bottom">
-    </slot>
+    <base-link
+v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="text-primary"
+      @click="onShowMoreText"/>
+    <slot name="bottom"/>
   </div>
 </template>
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 <template>
-    <div class="row" v-if="show">
+    <div v-if="show" class="row">
       <div class="col-12">
         <q-item-label v-if="showHeader" header>
           <q-skeleton type="text" />

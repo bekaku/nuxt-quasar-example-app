@@ -200,18 +200,19 @@ const onClose = () => {
                 <q-btn flat round dense :icon="biThreeDots">
                     <q-menu>
                         <q-list style="min-width: 100px">
-                            <q-item clickable v-close-popup @click="download">
+                            <q-item v-close-popup clickable @click="download">
                                 <q-item-section avatar>
                                     <q-icon :name="biDownload" />
                                 </q-item-section>
                                 <q-item-section> {{ t('base.download') }}</q-item-section>
                             </q-item>
-                            <template v-if="
+                            <template
+v-if="
                                 showDeleteImage &&
                                 authenStore &&
                                 authenStore.auth
                             ">
-                                <q-item clickable v-close-popup @click="deletePhoto">
+                                <q-item v-close-popup clickable @click="deletePhoto">
                                     <q-item-section avatar>
                                         <q-icon :name="biTrash" />
                                     </q-item-section>
@@ -226,13 +227,14 @@ const onClose = () => {
         </slot>
         <div class="row items-center">
             <q-inner-loading v-if="loading" :showing="loading" label-class="text-white" />
-            <base-swiper-slides ref="baseImgViewSwiperRef" :params="slideOpts" :style="{ height: height, width: width }"
+            <base-swiper-slides
+ref="baseImgViewSwiperRef" :params="slideOpts" :style="{ height: height, width: width }"
                 :class="{ 'bg-black': dark, 'bg-grey-2': !dark }" @on-slide-change="onSlideChange">
                 <swiper-slide v-for="(img, i) in items" :key="`base-img-view-${i}-${img}`">
                     <div class="swiper-zoom-container">
-                        <q-img :style="{ maxWidth: width, maxHeight: height }" ratio="1" fit="scale-down"
-                            class="swiper-zoom-target" :src="img" :alt="`img-${i}`">
-                        </q-img>
+                        <q-img
+:style="{ maxWidth: width, maxHeight: height }" ratio="1" fit="scale-down"
+                            class="swiper-zoom-target" :src="img" :alt="`img-${i}`"/>
                     </div>
                 </swiper-slide>
             </base-swiper-slides>

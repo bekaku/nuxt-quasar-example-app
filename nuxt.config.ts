@@ -8,11 +8,12 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  ssr:true,
   devtools: { enabled: true },
   devServer: {
     port: 3003
   },
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt', '@nuxt/eslint'],
   runtimeConfig: {
     // The private keys which are only available within server-side
     apiSecret: '123',// can be overridden by NUXT_API_SECRET environment variable

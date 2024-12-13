@@ -10,16 +10,18 @@
               src="/icons/warning.png"
               :style="`width: ${iconSize} ; height: auto`"
             /> -->
-            <q-avatar square v-if="status == '404'" style="width: 100%; height: auto">
-              <img src="/icons/404.png" />
+            <q-avatar v-if="status == '404'" square style="width: 100%; height: auto">
+              <img src="/icons/404.png" >
             </q-avatar>
-            <q-avatar v-else-if="showIcon" :size="iconSize" :color="!hideBg ? getBgColor() : undefined"
+            <q-avatar
+v-else-if="showIcon" :size="iconSize" :color="!hideBg ? getBgColor() : undefined"
               :icon="icon ? icon : getIcon()" :class="getIconColor()" />
           </div>
           <div class="col q-mt-md text-center">
             <slot name="text">
-              <div v-if="title" class="text-h5 text-weight-bold q-mb-sm" :class="status == 'empty' ? 'text-grey-6' : ''"
-                v-html="title"></div>
+              <div
+v-if="title" class="text-h5 text-weight-bold q-mb-sm" :class="status == 'empty' ? 'text-grey-6' : ''"
+                v-html="title"/>
               <div v-if="description" class="text-muted text-subtitle1">
                 {{ description }}
               </div>
@@ -27,7 +29,7 @@
             </slot>
           </div>
           <div class="col q-mt-sm">
-            <slot name="extra"> </slot>
+            <slot name="extra"/>
           </div>
         </div>
       </div>

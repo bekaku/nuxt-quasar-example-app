@@ -13,7 +13,7 @@ const { t } = useLang();
 <template>
     <q-menu :anchor="anchor" :self="self" v-bind="$attrs">
         <q-list :style="{minWidth: width}">
-            <q-item clickable v-for="theme in availableThemes" :key="theme.key" @click="onSetTheme(theme.key)" :v-close-popup="closeOnClick">
+            <q-item v-for="theme in availableThemes" :key="theme.key" clickable :v-close-popup="closeOnClick" @click="onSetTheme(theme.key)">
                 <q-item-section avatar>
                     <q-icon :name="theme.icon" />
                 </q-item-section>

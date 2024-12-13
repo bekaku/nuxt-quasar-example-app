@@ -74,18 +74,19 @@ defineExpose({
 </script>
 
 <template>
-    <RecycleScroller v-bind="$attrs" ref="appRecycleScrollerRef" class='scroller' :key-field="keyField" :items='items'
+    <RecycleScroller
+v-bind="$attrs" ref="appRecycleScrollerRef" class='scroller' :key-field="keyField" :items='items'
         :min-item-size='minItemSize' :emit-update="emitUpdate" :page-mode="pageMode" :buffer="buffer" @resize="onResize"
         @update="onUpdate">
         <template #before>
-            <slot name="slotBefore"></slot>
+            <slot name="slotBefore"/>
         </template>
-        <template v-slot='{ item, index }'> 
-           <slot v-bind="{ item, index }"></slot> 
+        <template #default='{ item, index }'> 
+           <slot v-bind="{ item, index }"/> 
         </template>
 
         <template #after>
-            <slot name="slotAfter"></slot>
+            <slot name="slotAfter"/>
         </template>
     </RecycleScroller>
 

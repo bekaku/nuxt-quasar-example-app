@@ -12,13 +12,14 @@
                 <q-card class="q-my-lg q-pa-md">
                     <div class="text-h5 q-mb-md">
                         <q-icon :name="biPencil" /> Editor
-                        <q-btn flat :icon="biQuestion" class="text-capitalize text-muted" dense
+                        <q-btn
+flat :icon="biQuestion" class="text-capitalize text-muted" dense
                             :label="`(${t('base.canUseMarkdown')})`">
                             <q-tooltip>
                                 {{ t('base.canUseMarkdownHelp') }}
                             </q-tooltip>
                             <q-menu style="width: 450px">
-                                <base-markdown-help></base-markdown-help>
+                                <base-markdown-help/>
                             </q-menu>
                         </q-btn>
                     </div>
@@ -29,7 +30,7 @@
                     <div class="text-h5 q-mb-md">
                         <q-icon :name="biEye" /> Preview
                     </div>
-                    <base-markdown-preview :content="content" :editor-id="contentPreviewId"></base-markdown-preview>
+                    <base-markdown-preview :content="content" :editor-id="contentPreviewId"/>
                 </q-card>
             </q-card-section>
         </q-card>

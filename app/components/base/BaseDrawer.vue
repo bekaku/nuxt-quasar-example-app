@@ -13,6 +13,7 @@ const { overlay = false, bordered = false, miniToOverlay = true, width = 250, sh
     width?: number;
     showUserSetting?: boolean;
 }>();
+const { version: quasarVersion } = useQuasar();
 const { t } = useLang();
 const appStore = useAppStore();
 const drawerModel = ref(true);
@@ -20,9 +21,10 @@ const miniState = ref(false);
 const searchText = ref<string>('');
 </script>
 <template>
-    <q-drawer v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
+    <q-drawer
+v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
         :mini-to-overlay="miniToOverlay && !appStore.leftDrawerOpen" :mini="miniState && !appStore.leftDrawerOpen"
-        @mouseover="miniState = false" @mouseout="miniState = true" class="drawer-bg">
+        class="drawer-bg" @mouseover="miniState = false" @mouseout="miniState = true">
         <q-scroll-area class="fit">
             <div v-show="!miniState || appStore.leftDrawerOpen">
                 <BaseHeaderMenu class="q-pt-md" />
@@ -35,7 +37,7 @@ const searchText = ref<string>('');
                     </template>
                 </q-input>
             </div>
-            <BaseMenuItems :menu-items="appStore.drawers"></BaseMenuItems>
+            <BaseMenuItems :menu-items="appStore.drawers"/>
             <BaseMenuItems :menu-items="additionalMenu">
                 <template #after>
                     <q-separator />
@@ -53,9 +55,12 @@ const searchText = ref<string>('');
                     </q-item>
                     <q-separator />
                     <q-item>
-                        <q-item-section>
+                        <q-item-section class="text-center">
                             <q-item-label caption>
                                 {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
+                            </q-item-label>
+                            <q-item-label caption>
+                                {{ `Quasar ${quasarVersion}` }}
                             </q-item-label>
                         </q-item-section>
                     </q-item>

@@ -93,19 +93,17 @@ const onClose = () => {
             </q-btn>
             <q-separator vertical class="q-mx-xs" />
 
-            <q-btn @click="page = page > 1 ? page - 1 : page" flat dense round :icon="biArrowLeft">
-            </q-btn>
+            <q-btn flat dense round :icon="biArrowLeft" @click="page = page > 1 ? page - 1 : page"/>
             <span>{{ page }} / {{ pages }}</span>
-            <q-btn @click="page = page < pages ? page + 1 : page" dense flat round :icon="biArrowRight">
-            </q-btn>
+            <q-btn dense flat round :icon="biArrowRight" @click="page = page < pages ? page + 1 : page"/>
 
             <q-space />
-            <q-btn v-if="showDownload && !loading" @click="downloadPdf" dense flat round :icon="biDownload">
+            <q-btn v-if="showDownload && !loading" dense flat round :icon="biDownload" @click="downloadPdf">
                 <q-tooltip>
                     {{ t('base.download') }}
                 </q-tooltip>
             </q-btn>
-            <q-btn v-if="closeable" round @click="onClose" flat dense :icon="biX">
+            <q-btn v-if="closeable" round flat dense :icon="biX" @click="onClose">
                 <q-tooltip>
                     {{ t('base.close') }}
                 </q-tooltip>
@@ -116,12 +114,11 @@ const onClose = () => {
             <div :style="{ minHeight: minHeight, minWidth: minWidth }">
                 <q-linear-progress v-if="downloadLoading" query color="primary" class="q-my-sm" style="height: 5px;" />
                 <template v-if="loading">
-                    <skeleton-item v-if="loading" :height="100" :text-number="3" flat show></skeleton-item>
+                    <skeleton-item v-if="loading" :height="100" :text-number="3" flat show/>
                 </template>
                 <template v-else-if="pdfSrc">
                     <q-scroll-area :style="{ height: scrollHeight }">
-                        <BasePdfViewCore :src="pdfSrc" v-model:scale="scale" v-model:page="page" v-model:pagess="pages">
-                        </BasePdfViewCore>
+                        <BasePdfViewCore v-model:scale="scale" v-model:page="page" v-model:pagess="pages" :src="pdfSrc"/>
                     </q-scroll-area>
                 </template>
                 <template v-else> Error</template>

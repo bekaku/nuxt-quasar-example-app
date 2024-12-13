@@ -1,7 +1,8 @@
 <template>
-    <q-select v-bind="$attrs" :label="label" :dense :outlined v-model="modelValue" :options="items" :option-value="optionValue"
+    <q-select
+v-bind="$attrs" v-model="modelValue" :label="label" :dense :outlined :options="items" :option-value="optionValue"
         :option-label="optionLabel" emit-value map-options :dropdown-icon="biChevronExpand" :multiple>
-        <template v-slot:no-option>
+        <template #no-option>
             <q-item>
                 <q-item-section class="text-italic text-grey">
                     {{ t('error.dataNotfound') }}

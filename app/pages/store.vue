@@ -3,6 +3,7 @@ const testStore = useTestStore();
 useSeoMeta({
     title: 'Pinia store'
 })
+const test = ref('');
 </script>
 <template>
     <q-page padding>

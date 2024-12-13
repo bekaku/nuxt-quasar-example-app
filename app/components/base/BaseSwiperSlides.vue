@@ -1,7 +1,8 @@
 <template>
     <ClientOnly>
         <slot name="start" />
-        <swiper-container ref="swiperElRef" v-if="params" v-bind="$attrs" :keyboard="params?.keyboard || false"
+        <swiper-container
+v-if="params" ref="swiperElRef" v-bind="$attrs" :keyboard="params?.keyboard || false"
             :pagination="getPagination" :navigation="params?.navigation || false"
             :scrollbar="params?.scrollbar || false" :zoom="params?.zoom || false"
             :initial-slide="params?.initialSlide || 0" :lazy="params?.lazy || true" :style="params?.style || {
@@ -17,7 +18,7 @@
             :pagination-type="params?.paginationType || 'bullets'" :direction="params?.direction || 'horizontal'"
             :loop="params?.loop || false" :effect="params?.effect || 'slide'"
             :allow-touch-move="params?.allowTouchMove != undefined ? params.allowTouchMove : true"
-            :updateOnWindowResize="params?.updateOnWindowResize || false" :slidesPerGroup="params?.slidesPerGroup || 1"
+            :update-on-window-resize="params?.updateOnWindowResize || false" :slides-per-group="params?.slidesPerGroup || 1"
             :pagination-clickable="params?.paginationClickable || true" :grid-rows="params?.gridRows || 1"
             :grab-cursor="params?.grabCursor || false" @swiperslidechange="onSlideChange">
             <slot />

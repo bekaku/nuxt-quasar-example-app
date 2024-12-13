@@ -22,7 +22,8 @@ const {dark}=useQuasar();
 <template>
     <q-item v-bind="$attrs" clickable>
         <q-item-section avatar top>
-            <base-avatar v-if="authenStore.loginedAvatar" class="shadow-5" :src="authenStore.loginedAvatar"
+            <base-avatar
+v-if="authenStore.loginedAvatar" class="shadow-5" :src="authenStore.loginedAvatar"
                 size="36px" />
         </q-item-section>
         <q-item-section v-if="$q.screen.gt.xs">
@@ -40,9 +41,10 @@ const {dark}=useQuasar();
         </q-item-section>
         <q-menu>
             <q-list style="min-width: 260px">
-                <q-item clickable v-close-popup :to="`/user/${authenStore.auth?.id}`">
+                <q-item v-close-popup clickable :to="`/user/${authenStore.auth?.id}`">
                     <q-item-section avatar>
-                        <base-avatar v-if="authenStore.loginedAvatar" :src="authenStore.loginedAvatar" size="36px"
+                        <base-avatar
+v-if="authenStore.loginedAvatar" :src="authenStore.loginedAvatar" size="36px"
                             rounded />
                         <q-icon v-else :name="biPersonSquare" />
                     </q-item-section>
@@ -80,19 +82,19 @@ const {dark}=useQuasar();
                 </q-item>
 
                 <q-separator />
-                <q-item clickable v-close-popup>
+                <q-item v-close-popup clickable>
                     <q-item-section avatar>
                         <q-icon :name="biQuestionCircle" />
                     </q-item-section>
                     <q-item-section>{{ t('base.help') }}</q-item-section>
                 </q-item>
-                <q-item clickable v-close-popup to="/settings">
+                <q-item v-close-popup clickable to="/settings">
                     <q-item-section avatar>
                         <q-icon :name="biGear" />
                     </q-item-section>
                     <q-item-section>{{ t('base.setting') }}</q-item-section>
                 </q-item>
-                <q-item clickable v-close-popup @click="signout">
+                <q-item v-close-popup clickable @click="signout">
                     <q-item-section avatar>
                         <q-icon :name="biBoxArrowRight" />
                     </q-item-section>

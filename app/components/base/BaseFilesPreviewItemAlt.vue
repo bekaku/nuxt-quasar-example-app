@@ -8,7 +8,7 @@
             </template>
             <template v-else>
                 <div :style="{ width: imageSize }" class="cursor-pointer text-center" @click="onClick($event, index)">
-                    <q-icon :class="textColor" :name="getFileTypeIcon(item.fileMime)" :size="iconSize"></q-icon>
+                    <q-icon :class="textColor" :name="getFileTypeIcon(item.fileMime)" :size="iconSize"/>
                 </div>
             </template>
         </q-item-section>
@@ -26,8 +26,9 @@
         </q-item-section>
         <q-item-section side>
             <slot name="end">
-                <q-btn v-if="showDelete" @click="onRemove($event, index)" unelevated round size="sm" :icon="biTrashFill"
-                    color="negative">
+                <q-btn
+v-if="showDelete" unelevated round size="sm" :icon="biTrashFill" color="negative"
+                    @click="onRemove($event, index)">
                     <q-tooltip class="bg-negative">
                         {{ t('base.delete') }}
                     </q-tooltip>

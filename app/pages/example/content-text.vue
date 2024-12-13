@@ -11,9 +11,10 @@
             <q-card-section>
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <q-input outlined v-model="content" bottom-slots label="Content" type="textarea"
+                        <q-input
+v-model="content" outlined bottom-slots label="Content" type="textarea"
                             :rules="[required]" autogrow class="limited-autogrow">
-                            <template v-slot:hint>
+                            <template #hint>
                                 <span class="text-negative">*</span>
                             </template>
                         </q-input>
@@ -21,7 +22,7 @@
                         <quasar-button @click="onPreview">
                             Reload Preview
                         </quasar-button>
-                        <quasar-button @click="testExtractHashTag" class="q-ml-md" color="negative">
+                        <quasar-button class="q-ml-md" color="negative" @click="testExtractHashTag">
                             Extract HashTag from content
                         </quasar-button>
 
@@ -41,10 +42,10 @@
                             Preview with sanitize html
                         </div>
                         <template v-if="showContent">
-                            <base-content-item wrap-text :content="content" :content-id="contentUniqeId"
-                                :is-escape-html="false" hashtagUrlify show-more>
-                            </base-content-item>
-                            <base-open-graph-item-alt :content="content" short imageSize="150px" />
+                            <base-content-item
+wrap-text :content="content" :content-id="contentUniqeId"
+                                :is-escape-html="false" hashtag-urlify show-more/>
+                            <base-open-graph-item-alt :content="content" short image-size="150px" />
                         </template>
                         <q-separator class="q-my-md" />
 
@@ -52,9 +53,9 @@
                             Preview with escape html
                         </div>
                         <template v-if="showContent">
-                            <base-content-item wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
-                                :limit="10" hashtagUrlify show-more>
-                            </base-content-item>
+                            <base-content-item
+wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
+                                :limit="10" hashtag-urlify show-more/>
                             <base-open-graph-item-alt :content="content" />
                         </template>
 

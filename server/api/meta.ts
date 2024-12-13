@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import { defineEventHandler, getQuery, createError } from 'h3';
-import { OgMeta } from '~/types/common';
+import type { OgMeta } from '~/types/common';
 
 type MetaData = Record<string, string>;
 

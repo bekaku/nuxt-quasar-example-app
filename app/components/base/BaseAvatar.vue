@@ -2,17 +2,18 @@
     <q-avatar :size="size" :square="square" :rounded="rounded" v-bind="$attrs" :color="color">
         <slot>
             <template v-if="!fetch">
-                <q-img :src="src"
+                <q-img
+:src="src"
                     :class="{ 'bordered': bordered, 'avatar-rounded': !square && rounded, 'avatar-round': !square && !rounded }"
                     :spinner-color="spinnerColor" no-native-menu />
             </template>
             <template v-else>
-                <base-image v-if="src" :src="src"
+                <base-image
+v-if="src" :src="src"
                     :class="{ 'bordered': bordered, 'avatar-rounded': !square && rounded, 'avatar-round': !square && !rounded }"
-                    :ratio="1" :fetch="fetch">
-                </base-image>
+                    :ratio="1" :fetch="fetch"/>
             </template>
-            <slot name="extra"></slot>
+            <slot name="extra"/>
         </slot>
     </q-avatar>
 </template>

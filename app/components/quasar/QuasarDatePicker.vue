@@ -3,18 +3,19 @@
     :rules="required ? [required] : undefined"
     -->
     <q-field outlined bottom-slots :label="title" stack-label>
-      <template v-slot:control>
+      <template #control>
         <div class="self-center full-width no-outline" tabindex="0">
           {{ convertDateFormatToThai(modelValue) }}
         </div>
       </template>
-      <template v-slot:append>
+      <template #append>
         <q-btn flat round :icon="biCalendarWeek" :disable="disable" color="primary" dense>
           <q-tooltip>{{ t('base.chooseDate') }}</q-tooltip>
           <q-popup-proxy ref="dateProxy" transition-show="scale" transition-hide="scale">
             <!--          @update:model-value="(value: any) => (dateProxy.hide())"-->
-            <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
-              @update:model-value="onClosePicker" :options="dateList.length > 0 ? limitDates : options">
+            <q-date
+v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
+              :options="dateList.length > 0 ? limitDates : options" @update:model-value="onClosePicker">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup :label="t('base.close')" color="primary" flat />
               </div>
@@ -22,10 +23,10 @@
           </q-popup-proxy>
         </q-btn>
       </template>
-      <template v-slot:after>
+      <template #after>
         <q-btn v-if="modelValue" flat round :icon="biX" size="xs" @click="clear" />
       </template>
-      <template v-slot:hint v-if="required && !modelValue">
+      <template v-if="required && !modelValue" #hint>
         <span class="text-negative">
           {{ t('error.validateRequireChoose') }}
         </span>

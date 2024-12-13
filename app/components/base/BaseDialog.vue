@@ -1,5 +1,6 @@
 <template>
-    <q-dialog :model-value="modelValue" :persistent="persistent" :maximized="maximizeModel"
+    <q-dialog
+:model-value="modelValue" :persistent="persistent" :maximized="maximizeModel"
       :transition-show="transitionShow" :transition-hide="transitionHide" :full-width="fullWidth" backdrop-filter="blur(4px)"
       :full-height="fullHeight" @hide="onClose" @before-hide="$emit('on-before-hide')">
       <!-- <div v-bind="$attrs" :style="dialogStyle">
@@ -19,7 +20,8 @@
             </div>
             <q-space />
             <slot name="toolbarAction">
-              <q-btn v-if="canMaximized" round flat :icon="!maximizeModel ? biArrowsAngleExpand : biArrowsAngleContract"
+              <q-btn
+v-if="canMaximized" round flat :icon="!maximizeModel ? biArrowsAngleExpand : biArrowsAngleContract"
                 @click="maximizeModel = !maximizeModel">
                 <q-tooltip>{{ !maximizeModel ? t('base.maximize') : t('base.minimize') }}</q-tooltip>
               </q-btn>
@@ -29,7 +31,7 @@
             </slot>
           </q-bar>
         </slot>
-        <slot></slot>
+        <slot/>
       </q-card>
     </q-dialog>
   </template>

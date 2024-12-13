@@ -7,11 +7,11 @@
         :ratio="ratio"
         :style="{ maxHeight: imageHeight || imageSize, maxWidth: imageSize }"
         class="cursor-pointer" @click="onClick($event, index)">
-        <q-btn v-if="showDelete" @click="onRemove($event, index)" class="absolute all-pointer-events" name="info"
-               style="top: 8px; left: 8px" round size="sm" :icon="biTrashFill" color="negative">
-        </q-btn>
+        <q-btn
+v-if="showDelete" class="absolute all-pointer-events" name="info" style="top: 8px; left: 8px"
+               round size="sm" :icon="biTrashFill" color="negative" @click="onRemove($event, index)"/>
       </base-image>
-      <q-item :dense="dense" v-bind="$attrs" v-if="showName || showSize" class="q-pa-none">
+      <q-item v-if="showName || showSize" :dense="dense" v-bind="$attrs" class="q-pa-none">
         <q-item-section>
           <q-item-label v-if="showName" :lines="linesName" :class="textColor">
             <slot name="fileName">
@@ -35,16 +35,17 @@
     </template>
     <template v-else>
       <div class="text-center">
-        <q-icon v-bind="$attrs" class="cursor-pointer" @click="onClick($event, index)" :size="iconSize"
-                :name="getFileTypeIcon(item.fileMime)">
-          <q-btn v-if="showDelete" @click="onRemove($event, index)" class="absolute all-pointer-events" name="info"
-                 style="top: 8px; left: 8px" round size="sm" :icon="biTrashFill" color="negative">
-          </q-btn>
+        <q-icon
+v-bind="$attrs" class="cursor-pointer" :size="iconSize" :name="getFileTypeIcon(item.fileMime)"
+                @click="onClick($event, index)">
+          <q-btn
+v-if="showDelete" class="absolute all-pointer-events" name="info" style="top: 8px; left: 8px"
+                 round size="sm" :icon="biTrashFill" color="negative" @click="onRemove($event, index)"/>
           <q-tooltip v-if="showTooltip && item.fileName">
             {{ item.fileName }}
           </q-tooltip>
         </q-icon>
-        <q-item :dense="dense" v-if="showName || showSize" class="q-pa-none">
+        <q-item v-if="showName || showSize" :dense="dense" class="q-pa-none">
           <q-item-section>
             <q-item-label v-if="showName" :lines="linesName" :class="textColor">
               <slot name="fileName">

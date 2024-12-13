@@ -1,5 +1,6 @@
 <template>
-    <div class="wee-notification" :class="type" v-show="show" :style="{
+    <div
+v-show="show" class="wee-notification" :class="type" :style="{
         padding: dense ? '5px' : '1rem 2.25rem 1rem 1.25rem',
         borderRadius: radius ? '5px' : '',
     }">
@@ -9,10 +10,10 @@
             <span v-if="title" class="q-mx-sm text-weight-bold">{{ title }}</span>
             {{ message ? message : '' }}
             <div>
-                <slot name="extra"></slot>
+                <slot name="extra"/>
             </div>
         </div>
-        <q-btn v-if="closeable" round flat @click="show = !show" icon="mdi-close" />
+        <q-btn v-if="closeable" round flat icon="mdi-close" @click="show = !show" />
     </div>
 </template>
 

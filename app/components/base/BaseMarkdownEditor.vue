@@ -10,7 +10,7 @@
         {{ t('base.canUseMarkdownHelp') }}
       </q-tooltip>
       <q-menu style="width: 450px">
-        <base-markdown-help></base-markdown-help>
+        <base-markdown-help/>
       </q-menu>
     </q-btn>
   
@@ -24,14 +24,14 @@
         :editor-id="editorId"
         :sanitize="sanitizer"
         :preview="preview"
-        :htmlPreview="htmlPreview"
-        :noUploadImg="noUploadImg"
+        :html-preview="htmlPreview"
+        :no-upload-img="noUploadImg"
         :read-only="readOnly"
         :disabled="disabled"
         :toolbars-exclude="excludToolBars"
         show-code-row-number
-        @onSave="onSave"
-        @onUploadImg="onUploadImg"
+        @on-save="onSave"
+        @on-upload-img="onUploadImg"
       />
     </ClientOnly>
   </template>

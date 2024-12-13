@@ -7,15 +7,15 @@ const { cursorPointer = true, borderRadius='5px' } = defineProps<{
 
 <template>
   <div
-    v-bind="$attrs"
     v-ripple
+    v-bind="$attrs"
     class="relative-position  q-hoverable"
     :class="{'cursor-pointer' : cursorPointer}"
     :style="{borderRadius:borderRadius}"
   >
-    <span class="q-focus-helper"></span>
+    <span class="q-focus-helper"/>
     <div>
-      <slot></slot>
+      <slot/>
     </div>
   </div>
 </template>

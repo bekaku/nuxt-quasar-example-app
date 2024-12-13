@@ -1,22 +1,23 @@
 <template>
-    <q-img v-if="loading" :spinner-color="spinnerColor" :placeholder-src="placHolder" :ratio="ratio" v-bind="$attrs"
+    <q-img
+v-if="loading" :spinner-color="spinnerColor" :placeholder-src="placHolder" :ratio="ratio" v-bind="$attrs"
         loading="lazy">
         <div class="absolute-full flex flex-center">
             <q-inner-loading showing color="white" size="xs" />
         </div>
     </q-img>
-    <q-img v-else-if="srcUrl" :src="srcUrl" :fit="fit" :placeholder-src="placHolder" :spinner-color="spinnerColor"
+    <q-img
+v-else-if="srcUrl" :src="srcUrl" :fit="fit" :placeholder-src="placHolder" :spinner-color="spinnerColor"
         :ratio="ratio" v-bind="$attrs" loading="lazy" :class="{ 'img-bg': imageBg }" :alt>
-        <template v-slot:error>
+        <template #error>
             <div class="absolute-full flex flex-center bg-primary text-white">
                 <q-icon :name="biCardImage" class="q-mr-sm" size="md" />
                 Cannot load image
             </div>
         </template>
-        <slot></slot>
+        <slot/>
     </q-img>
-    <q-img v-else :ratio="ratio" v-bind="$attrs" loading="lazy" src="/images/no_picture_thumb.jpg">
-    </q-img>
+    <q-img v-else :ratio="ratio" v-bind="$attrs" loading="lazy" src="/images/no_picture_thumb.jpg"/>
 </template>
 
 <script setup lang="ts">

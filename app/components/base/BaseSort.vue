@@ -5,35 +5,35 @@
           <q-item-label header>{{ t('sort.sort') }}</q-item-label>
           <q-separator />
           <q-item
-            clickable
-            v-close-popup
             v-for="(f, fi) in fields"
             :key="'sort-fields-' + fi"
+            v-close-popup
+            clickable
             @click="onSortColumn(f.value)"
           >
             <q-item-section
               ><span
                 >{{ f.label
                 }}<q-icon
-                  class="q-ml-sm"
                   v-if="sort && sort.column === f.value"
+                  class="q-ml-sm"
                   :name="biCheck" /></span
             ></q-item-section>
           </q-item>
           <q-separator />
           <q-item
-            clickable
-            v-close-popup
             v-for="(m, mi) in sortMode"
             :key="'sort-mode-' + mi"
+            v-close-popup
+            clickable
             @click="onSortMode(m.value)"
           >
             <q-item-section>
               <span>
                 {{ m.label }}
                 <q-icon
-                  class="q-ml-sm"
                   v-if="sort && sort.mode === m.value"
+                  class="q-ml-sm"
                   :name="biCheck" /></span
             ></q-item-section>
           </q-item>

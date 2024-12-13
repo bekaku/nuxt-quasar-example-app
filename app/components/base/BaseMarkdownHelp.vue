@@ -74,8 +74,8 @@
                     </tr>
                     <tr>
                       <td class="text-left">
-                        * item 1<br />
-                        * item 2<br />
+                        * item 1<br >
+                        * item 2<br >
                       </td>
                       <td class="text-right text-bold">
                         <ul>
@@ -98,9 +98,9 @@
                     </tr>
                     <tr>
                       <td class="text-left">
-                        ```<br />
-                        code block<br />
-                        ```<br />
+                        ```<br >
+                        code block<br >
+                        ```<br >
                       </td>
                       <td class="text-right text-bold">
                         <code> code block </code>

@@ -42,15 +42,17 @@ const onReset = () => {
     <q-page class="window-height row justify-center items-center">
         <div class="row context">
             <div class="col-12 col-md-6 bg-primary">
-                <q-card square flat class="q-pb-lg bg-primary" v-if="!screen.sm && !screen.xs"
+                <q-card
+v-if="!screen.sm && !screen.xs" square flat class="q-pb-lg bg-primary"
                     :style="`max-width: 480px; height: ${cardHeight}`">
                     <q-card-section>
-                        <q-carousel autoplay infinite v-model="slide" transition-prev="scale" transition-next="scale"
+                        <q-carousel
+v-model="slide" autoplay infinite transition-prev="scale" transition-next="scale"
                             swipeable animated control-color="white" navigation height="500px"
                             class="bg-primary text-white rounded-borders">
                             <q-carousel-slide name="style" class="column no-wrap flex-center">
                                 <div class="q-mt-md text-center">
-                                    <img src="/logo/logo-white.png" style="height: 175px; width: auto" />
+                                    <img src="/logo/logo-white.png" style="height: 175px; width: auto" >
                                     <div class="text-h3 text-weight-bolder">Nuxt 3 Quasar</div>
                                     <div class="text-subtitle1 q-mt-lg">
                                         Lorem Ipsum is simply dummy text of the printing and
@@ -59,21 +61,21 @@ const onReset = () => {
                                 </div>
                             </q-carousel-slide>
                             <q-carousel-slide name="tv" class="column no-wrap flex-center">
-                                <img src="/logo/logo-white.png" style="height: 175px; width: auto" />
+                                <img src="/logo/logo-white.png" style="height: 175px; width: auto" >
                                 <div class="text-subtitle1 q-mt-md text-center">
                                     Lorem Ipsum is simply dummy text of the printing and
                                     typesetting industry.
                                 </div>
                             </q-carousel-slide>
                             <q-carousel-slide name="layers" class="column no-wrap flex-center">
-                                <img src="/logo/logo-white.png" style="height: 205px; width: auto" />
+                                <img src="/logo/logo-white.png" style="height: 205px; width: auto" >
                                 <div class="text-subtitle1 q-mt-md text-center">
                                     Lorem Ipsum is simply dummy text of the printing and
                                     typesetting industry.
                                 </div>
                             </q-carousel-slide>
                             <q-carousel-slide name="map" class="column no-wrap flex-center">
-                                <img src="/logo/logo-white.png" style="height: 175px; width: auto" />
+                                <img src="/logo/logo-white.png" style="height: 175px; width: auto" >
                                 <div class="text-subtitle1 q-mt-md text-center">
                                     Lorem Ipsum is simply dummy text of the printing and
                                     typesetting industry.
@@ -84,7 +86,8 @@ const onReset = () => {
                 </q-card>
             </div>
             <div class="col-12 col-md-6">
-                <q-card square flat bordered class="q-pa-lg"
+                <q-card
+square flat bordered class="q-pa-lg"
                     :style="`max-width: 480px; height: ${cardHeight};min-width:350px`">
                     <!-- <q-toolbar class="q-py-xs" style="background: none" :class="dark.isActive
                         ? 'app-second-bg-color-theme-dark text-white'
@@ -97,7 +100,8 @@ const onReset = () => {
                         </q-btn>
                     </q-toolbar> -->
                     <q-card-section class="text-center">
-                        <q-img :src="dark.isActive
+                        <q-img
+:src="dark.isActive
                             ? '/logo/logo-white.png'
                             : '/logo/logo-black.png'
                             " spinner-color="white" style="height: auto; max-width: 120px" />
@@ -108,28 +112,32 @@ const onReset = () => {
                             {{ t('base.loginTitle2') }}
                         </div>
                     </q-card-section>
-                    <q-form @submit="onSubmit" @reset="onReset()" ref="loginForm" class="q-px-sm">
+                    <q-form ref="loginForm" class="q-px-sm" @submit="onSubmit" @reset="onReset()">
                         <q-card-section>
-                            <q-input :readonly="loading" outlined v-model="email" :label="t('base.emailOrUsername')"
+                            <q-input
+v-model="email" :readonly="loading" outlined :label="t('base.emailOrUsername')"
                                 :rules="[required]">
-                                <template v-slot:prepend>
+                                <template #prepend>
                                     <q-icon :name="biPerson" color="grey-9" />
                                 </template>
                             </q-input>
-                            <q-input class="q-pt-lg" :readonly="loading" outlined v-model="password"
+                            <q-input
+v-model="password" class="q-pt-lg" :readonly="loading" outlined
                                 :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
                                 :rules="[required]">
-                                <template v-slot:prepend>
+                                <template #prepend>
                                     <q-icon :name="biLock" color="grey-9" />
                                 </template>
-                                <template v-slot:append>
-                                    <q-icon :name="showPassword ? biEye : biEyeSlash"
-                                        @click="showPassword = !showPassword" class="cursor-pointer" color="grey-9" />
+                                <template #append>
+                                    <q-icon
+:name="showPassword ? biEye : biEyeSlash"
+                                        class="cursor-pointer" color="grey-9" @click="showPassword = !showPassword" />
                                 </template>
                             </q-input>
                         </q-card-section>
                         <q-card-actions>
-                            <q-btn unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
+                            <q-btn
+unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
                                 :label="t('authen.login')" type="submit" />
                         </q-card-actions>
                     </q-form>

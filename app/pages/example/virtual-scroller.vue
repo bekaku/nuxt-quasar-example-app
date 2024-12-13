@@ -102,13 +102,14 @@ const onInfinite = (index: number, done: any) => {
                     <q-btn :icon="biArrowDown" no-caps label="Scroll to bottom" @click="scrollToBottom" />
                     <q-btn :icon="biArrowUp" no-caps label="Scroll to top" @click="onScrollTo(0)" />
                 </q-card-actions>
-                <BaseVirtualScrollerDynamic ref="scrollerDynamicRef" class="q-pa-sm"
+                <BaseVirtualScrollerDynamic
+ref="scrollerDynamicRef" class="q-pa-sm"
                     key-field="id" :items="dataList" :min-item-size="24" scroll-area-height="200px"
                     @on-update="onVirtualScrollUpdate">
                     <template #slotBefore>
                         Before Slot
                     </template>
-                    <template v-slot="{ item, index, /*active */ }">
+                    <template #default="{ item, index, /*active */ }">
                         <q-item :key="index" dense clickable>
                             <q-item-section>
                                 <q-item-label>
@@ -135,12 +136,13 @@ const onInfinite = (index: number, done: any) => {
                         </template>
                     </q-input>
                 </div>
-                <BaseVirtualScrollerRecycle id="scroll-chat-target-id" ref="scrollerRecycleRef"
+                <BaseVirtualScrollerRecycle
+id="scroll-chat-target-id" ref="scrollerRecycleRef"
                     style="padding-bottom:65px" :items="items" scroll-area-height="200px" :min-item-size="42">
                     <template #slotBefore>
                         Slot before
                     </template>
-                    <template v-slot="{ item, index, }">
+                    <template #default="{ item, index, }">
                         <q-item clickable>
                             <q-item-section avatar>
                                 <q-avatar>
@@ -162,9 +164,10 @@ const onInfinite = (index: number, done: any) => {
                         Slot after
                     </template>
                 </BaseVirtualScrollerRecycle>
-                <q-infinite-scroll ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
+                <q-infinite-scroll
+ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
                     @load="onInfinite">
-                    <template v-slot:loading>
+                    <template #loading>
                         <div class="row justify-center q-my-md">
                             <q-spinner color="primary" name="dots" size="40px" />
                         </div>

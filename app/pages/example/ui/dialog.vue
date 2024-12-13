@@ -22,18 +22,18 @@
                 <div class="text-h6">Pop confirm</div>
                 <q-separator />
                 <QuasarButton label="Delete item" color="negative" :icon="biTrash">
-                    <base-pop-confirm :title="t('base.deleteConfirm')" confirm-color="negative"
-                        @onChange="onPopConfirmChange">
-                    </base-pop-confirm>
+                    <base-pop-confirm
+:title="t('base.deleteConfirm')" confirm-color="negative"
+                        @on-change="onPopConfirmChange"/>
                 </QuasarButton>
 
                 <QuasarButton label="Custom label">
-                    <base-pop-confirm title="Custom label" confirm-color="teal" label-confirm="Custom confirm"
-                        cancelColor="grey" label-cancel="Blaa" @onChange="onPopConfirmChange">
-                    </base-pop-confirm>
+                    <base-pop-confirm
+title="Custom label" confirm-color="teal" label-confirm="Custom confirm"
+                        cancel-color="grey" label-cancel="Blaa" @on-change="onPopConfirmChange"/>
                 </QuasarButton>
                 <QuasarButton label="More custom">
-                    <base-pop-confirm title="Addon label" @onChange="onPopConfirmChange" width="350px">
+                    <base-pop-confirm title="Addon label" width="350px" @on-change="onPopConfirmChange">
                         <q-input v-model="text" outlined label="This input overide title prop" />
                         <template #bottom>
                             bottom slot
@@ -46,17 +46,18 @@
                 <div class="text-h6">Menu</div>
                 <q-separator />
                 <q-btn dense :icon="biThreeDots" flat label="Show menu">
-                    <BaseSimpleMenu :items="menus" @on-click="onMenuClick"></BaseSimpleMenu>
+                    <BaseSimpleMenu :items="menus" @on-click="onMenuClick"/>
                 </q-btn>
                 <q-item clickable>
                     <q-item-section>
                         Q-item Menu v-model
                     </q-item-section>
                     <q-item-section side>
-                        <q-btn dense :icon="biThreeDots" round flat @click="openMenu($event)"></q-btn>
+                        <q-btn dense :icon="biThreeDots" round flat @click="openMenu($event)"/>
                         <q-menu v-model="showMenu" cover anchor="top middle">
-                            <BaseSimpleMenuItem v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
-                                :item="item" @click="onMenuClick(item.value)" v-close-popup /> 
+                            <BaseSimpleMenuItem
+v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
+                                v-close-popup :item="item" @click="onMenuClick(item.value)" /> 
                             </q-menu>
                     </q-item-section>
                 </q-item>
@@ -79,8 +80,8 @@
                 minima, porro labore.
             </q-card-section>
             <q-card-actions align="right">
-                <q-btn noCaps flat label="Cancel" color="primary" v-close-popup />
-                <q-btn noCaps flat label="Turn on Wifi" color="negative" v-close-popup />
+                <q-btn v-close-popup no-caps flat label="Cancel" color="primary" />
+                <q-btn v-close-popup no-caps flat label="Turn on Wifi" color="negative" />
             </q-card-actions>
         </base-dialog>
 
@@ -91,7 +92,8 @@
                 minima, porro labore.
             </q-card-section>
         </base-dialog>
-        <base-dialog v-if="dialogMedium" v-model="dialogMedium" title="Dialog Medium"
+        <base-dialog
+v-if="dialogMedium" v-model="dialogMedium" title="Dialog Medium"
             dialog-style="width: 700px; max-width: 80vw;">
             <q-card-section class="q-pt-none">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
@@ -99,22 +101,23 @@
                 minima, porro labore.
             </q-card-section>
         </base-dialog>
-        <base-dialog v-if="dialogFullWidth" v-model="dialogFullWidth" title="Dialog fullWidth" fullWidth>
+        <base-dialog v-if="dialogFullWidth" v-model="dialogFullWidth" title="Dialog fullWidth" full-width>
             <q-card-section class="q-pt-none">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
                 eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
                 minima, porro labore.
             </q-card-section>
         </base-dialog>
-        <base-dialog v-if="dialogFullHeight" v-model="dialogFullHeight" title="Dialog fullHeight" fullHeight>
+        <base-dialog v-if="dialogFullHeight" v-model="dialogFullHeight" title="Dialog fullHeight" full-height>
             <q-card-section class="q-pt-none">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
                 eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
                 minima, porro labore.
             </q-card-section>
         </base-dialog>
-        <base-dialog v-if="dialogFullWidthHeight" v-model="dialogFullWidthHeight" title="Dialog Full Width Height"
-            fullHeight fullWidth>
+        <base-dialog
+v-if="dialogFullWidthHeight" v-model="dialogFullWidthHeight" title="Dialog Full Width Height"
+            full-height full-width>
             <q-card-section class="q-pt-none">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
                 eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus

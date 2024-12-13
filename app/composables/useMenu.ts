@@ -19,7 +19,7 @@ export const useMenu = () => {
                     menu.translate = menuLevel1.translate;
                 }
                 //child pages
-                let filterPages: IMenuPage[] = [];
+                const filterPages: IMenuPage[] = [];
                 if (menuLevel1?.pages && menuLevel1.pages.length > 0) {
                     for (const p of menuLevel1.pages) {
                         if (p) {
@@ -27,7 +27,7 @@ export const useMenu = () => {
                             if (p?.items && p.items.length > 0) {
                                 const childs = await getFilterItems(p.items);
                                 if (childs.length > 0) {
-                                    let menuHaveChild = await setMenuPage(p);
+                                    const menuHaveChild = await setMenuPage(p);
 
                                     menuHaveChild.items = childs;
                                     filterPages.push(menuHaveChild);
@@ -68,7 +68,7 @@ export const useMenu = () => {
         });
     }
     const setMenuPage = (p: IMenuPage): Promise<IMenuPage> => {
-        let menuHaveChild: IMenuPage = {};
+        const menuHaveChild: IMenuPage = {};
 
         if (p?.title) {
             menuHaveChild.title = p.title;

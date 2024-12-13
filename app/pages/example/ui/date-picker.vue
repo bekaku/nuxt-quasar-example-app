@@ -32,7 +32,8 @@ const onUpdateTime = (v: string) => {
                         <QuasarDatePicker v-model="d" title="Select Date" required @update:model-value="onUpdate" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <quasar-time-picker v-model="pickTime" title="Select Date" required
+                        <quasar-time-picker
+v-model="pickTime" title="Select Date" required
                             @update:model-value="onUpdateTime" />
                     </div>
 

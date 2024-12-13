@@ -1,5 +1,6 @@
 <template>
-    <q-btn type="a" align="left" :class="!dark.isActive ? color : colorDark"
+    <q-btn
+type="a" align="left" :class="!dark.isActive ? color : colorDark"
         class="text-capitalize app-text-link btn--no-hover" dense flat :to="to" :href="href ? href : undefined"
         :target="external ? '_blank' : undefined" :label="label">
         <slot />

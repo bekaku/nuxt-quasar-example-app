@@ -90,19 +90,20 @@ defineExpose({
 </script>
 
 <template>
-  <DynamicScroller v-bind="$attrs" ref="appDynamicScrollerRef" :items="items" :emit-update="emitUpdate" :key-field="keyField"
+  <DynamicScroller
+v-bind="$attrs" ref="appDynamicScrollerRef" :items="items" :emit-update="emitUpdate" :key-field="keyField"
   :min-item-size="minItemSize" :buffer="buffer"  :page-mode="pageMode" :style="{ height: 'auto', maxHeight: scrollAreaHeight }" @resize="onResize"
     @update="onUpdate">
     <template #before>
-      <slot name="slotBefore"></slot>
+      <slot name="slotBefore"/>
     </template>
-    <template v-slot="{ item, index, active }">
+    <template #default="{ item, index, active }">
       <DynamicScrollerItem :item="item" :active="active" :data-index="index">
-        <slot v-bind="{ item, index, active }"></slot>
+        <slot v-bind="{ item, index, active }"/>
       </DynamicScrollerItem>
     </template>
     <template #after>
-      <slot name="slotAfter"></slot>
+      <slot name="slotAfter"/>
     </template>
   </DynamicScroller>
 </template>

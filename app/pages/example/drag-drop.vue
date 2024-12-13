@@ -25,10 +25,11 @@
 
                                         <div class="text-h6">Draggable 1 {{ draging ? 'under drag...' : '' }}</div>
                                         <p>{{ list1 }}</p>
-                                        <draggable class="drag-area" v-model="list1" @change="log" @start="onStartDrag"
-                                            @end="onEndDrag"
-                                            itemKey="name" v-bind="dragOptions"
-                                            :component-data="{ name: 'flip-list', type: 'transition' }">
+                                        <draggable
+v-model="list1" class="drag-area" item-key="name" v-bind="dragOptions"
+                                            :component-data="{ name: 'flip-list', type: 'transition' }"
+                                            @change="log" @start="onStartDrag"
+                                            @end="onEndDrag">
                                             <template #item="{ element, index }">
                                                 <q-item clickable>
                                                     <q-item-section avatar>
@@ -52,9 +53,10 @@
                                     <q-card-section>
                                         <div class="text-h6">Draggable 2</div>
                                         <p>{{ list2 }}</p>
-                                        <draggable class="drag-area" v-model="list2" @change="log" itemKey="name"
-                                            v-bind="dragOptions"
-                                            :component-data="{ name: 'flip-list', type: 'transition' }">
+                                        <draggable
+v-model="list2" class="drag-area" item-key="name" v-bind="dragOptions"
+                                            :component-data="{ name: 'flip-list', type: 'transition' }"
+                                            @change="log">
                                             <template #item="{ element, index }">
                                                 <q-item clickable>
                                                     <q-item-section avatar>
@@ -73,12 +75,14 @@
                             </div>
                             <div class="col-6 q-pa-sm">
                                 <div class="text-h6">Draggable 3</div>
-                                <draggable class="drag-area-2" v-model="list3" @change="log" itemKey="name"
-                                    v-bind="dragOptions" :component-data="{ name: 'flip-list', type: 'transition' }">
+                                <draggable
+v-model="list3" class="drag-area-2" item-key="name" v-bind="dragOptions"
+                                    :component-data="{ name: 'flip-list', type: 'transition' }" @change="log">
                                     <template #item="{ element, index }">
                                         <div class="q-ma-md">
                                             <q-card>
-                                                <q-img style="max-height: 100px;"
+                                                <q-img
+style="max-height: 100px;"
                                                     src="https://cdn.quasar.dev/img/avatar1.jpg" />
                                                 <q-card-section>
                                                     {{ element.name }} {{ index }}

@@ -35,8 +35,8 @@ const onGotoPage = (link: string) => {
                 <ClientOnly>
                     {{ dark }}
                 </ClientOnly>
-                <QBtn @click="onSetTheme('light')" label="Light" :icon="biBrightnessHigh" />
-                <QBtn @click="onSetTheme('dark')" label="Dark" :icon="biMoon" />
+                <QBtn label="Light" :icon="biBrightnessHigh" @click="onSetTheme('light')" />
+                <QBtn label="Dark" :icon="biMoon" @click="onSetTheme('dark')" />
             </q-card-section>
             <q-card-section>
                 <div class="text-danger">Test Title</div>
@@ -44,20 +44,20 @@ const onGotoPage = (link: string) => {
                     <p>count : {{ count }}</p>
                     <q-btn @click="count++">Click++</q-btn>
                 </div>
-                <br />
+                <br >
                 <NuxtLink to="/store">Store {{ testStore.counter }}</NuxtLink>
-                <br />
+                <br >
                 <q-btn no-caps @click="onGotoPage('/store')">Store page</q-btn>
-                <br />
+                <br >
                 <NuxtLink to="/param/users-admins/123?action=view">Param page</NuxtLink>
-                <br />
+                <br >
                 <NuxtLink to="/fetch">Fetch</NuxtLink>
-                <br />
+                <br >
                 <NuxtLink to="/config">config</NuxtLink>
-                <br />
+                <br >
                 <NuxtLink to="/i18n">i18n</NuxtLink>
 
-                <br />
+                <br >
                 <NuxtLink to="/404">404</NuxtLink>
             </q-card-section>
         </q-card>

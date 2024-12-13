@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent, onMounted, ref } from 'vue';
-import { type OgMeta } from '~/types/common';
+import type { OgMeta } from '~/types/common';
 import { catchUrlFromText } from '~/utils/appUtil';
 
 const props = withDefaults(
@@ -40,8 +40,8 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <LazyBaseOpenGraphItem v-bind="$attrs" v-if="opengraphItem && showOg" :item="opengraphItem" :short="short"
-        :textLines="textLines" :descriptionLines="textLines" :showBg="showBg" :imageSize="imageSize"
-        :imageMaxHeight="imageMaxHeight">
-    </LazyBaseOpenGraphItem>
+    <LazyBaseOpenGraphItem
+v-if="opengraphItem && showOg" v-bind="$attrs" :item="opengraphItem" :short="short"
+        :text-lines="textLines" :description-lines="textLines" :show-bg="showBg" :image-size="imageSize"
+        :image-max-height="imageMaxHeight"/>
 </template>

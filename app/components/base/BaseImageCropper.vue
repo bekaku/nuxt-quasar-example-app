@@ -31,9 +31,9 @@
           <div class="col-12 col-md-5">
             <q-card-section>
               <q-file
+                v-model="originalimagFile"
                 filled
                 bottom-slots
-                v-model="originalimagFile"
                 :label="t('base.chooseFile')"
                 counter
                 max-files="1"
@@ -42,10 +42,10 @@
                 @rejected="onRejected"
                 @update:model-value="onFileAdded"
               >
-                <template v-slot:prepend>
+                <template #prepend>
                   <q-icon :name="biFileImage" />
                 </template>
-                <template v-slot:hint>
+                <template #hint>
                   {{
                     t('error.filesValidationSizeAndType', {
                       size: 10,
@@ -61,7 +61,7 @@
                   <div
                     class="cropper-img-preview"
                     style="overflow: hidden; width: 275px; height: 275px"
-                  ></div>
+                  />
                 </q-avatar>
               </q-card-section>
               <q-card-section class="q-gutter-sm text-center">
@@ -69,19 +69,19 @@
                   <div
                     class="cropper-img-preview"
                     style="overflow: hidden; width: 128px; height: 128px"
-                  ></div>
+                  />
                 </q-avatar>
                 <q-avatar size="64px" class="shadow-5">
                   <div
                     class="cropper-img-preview"
                     style="overflow: hidden; width: 64px; height: 64px"
-                  ></div>
+                  />
                 </q-avatar>
                 <q-avatar size="32px" class="shadow-5">
                   <div
                     class="cropper-img-preview"
                     style="overflow: hidden; width: 32px; height: 32px"
-                  ></div>
+                  />
                 </q-avatar>
               </q-card-section>
   
@@ -105,7 +105,7 @@
                   ref="canvasImg"
                   style="display: block; max-width: 100%; height: 550px"
                   alt=""
-                />
+                >
               </div>
             </q-card-section>
             <q-card-section v-if="originalimagFile" class="q-gutter-sm">

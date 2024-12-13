@@ -1,5 +1,5 @@
 <template>
-  <div class="row" v-bind="$attrs" v-if="show">
+  <div v-if="show" class="row" v-bind="$attrs">
     <div class="col-12">
       <q-card v-for="index in no" :key="index" :flat="flat" :bordered="bordered" class="q-mb-md">
         <q-item>
@@ -24,7 +24,7 @@
           <q-skeleton type="text" width="50%" class="text-subtitle2" animation="fade" />
         </q-card-section>
         <q-card-actions align="around">
-          <q-skeleton type="text" style="width: 125px; height: 45px" v-for="t in 4" :key="t" />
+          <q-skeleton v-for="t in 4" :key="t" type="text" style="width: 125px; height: 45px" />
         </q-card-actions>
       </q-card>
     </div>

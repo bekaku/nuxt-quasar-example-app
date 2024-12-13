@@ -1,6 +1,7 @@
 <template>
     <q-no-ssr>
-        <MdPreview v-bind="$attrs" v-model="contentVal" :theme="dark.isActive ? 'dark' : 'light'" language="en-US"
+        <MdPreview
+v-bind="$attrs" v-model="contentVal" :theme="dark.isActive ? 'dark' : 'light'" language="en-US"
             :editor-id="editorId" :code-theme="codeTheme" :preview-theme="previewTheme" style="text-align: left;" />
     </q-no-ssr>
 </template>
@@ -30,7 +31,7 @@ onMounted(() => {
     registerLinks();
 });
 const registerLinks = () => {
-    let links = document.links;
+    const links = document.links;
     for (let i = 0, linksLength = links.length; i < linksLength; i++) {
         if (links[i].hostname != window.location.hostname) {
             links[i].target = '_blank';

@@ -20,7 +20,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 
     // for multiple requests
-    let isRefreshing = false;
+    const isRefreshing = false;
     let failedQueue: any[] = [];
     const processQueue = (error: any, token = null) => {
         failedQueue.forEach(prom => {

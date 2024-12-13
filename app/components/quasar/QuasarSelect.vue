@@ -1,9 +1,10 @@
 <template>
     <skeleton-item v-if="loading" show :items="1" :show-header="false" />
-    <q-select v-else :label="label" :dense="dense" :outlined="outlined" :filled="filled" v-model="modelValue"
+    <q-select
+v-else v-model="modelValue" :label="label" :dense="dense" :outlined="outlined" :filled="filled"
         option-value="value" option-label="label" bottom-slots emit-value map-options :use-chips="useChips"
-        :multiple="multiple" :readonly="readonly" :use-input="canFilter" :options="options" @filter="filterFn"
-        input-debounce="0" :rules="[required ? requiredSelect : ({} as any)]" :dropdown-icon="biChevronExpand">
+        :multiple="multiple" :readonly="readonly" :use-input="canFilter" :options="options" input-debounce="0"
+        :rules="[required ? requiredSelect : ({} as any)]" :dropdown-icon="biChevronExpand" @filter="filterFn">
         <template #prepend>
             <slot name="prepend">
                 <q-icon v-if="icon" :name="icon" />
@@ -17,11 +18,11 @@
 
         <!--    <template v-slot:option="scope">-->
         <!--    <template v-slot:option="{ itemProps, opt, selected, toggleOption }">-->
-        <template v-slot:option="{ itemProps, opt, selected }">
+        <template #option="{ itemProps, opt, selected }">
             <q-item v-bind="itemProps">
                 <q-item-section v-if="opt.avatar || opt.icon" avatar>
                     <base-avatar v-if="opt.avatar" :fetch-image="fetchImage" :src="opt.avatar" />
-                    <q-icon v-else-if="opt.icon" :name="opt.icon"></q-icon>
+                    <q-icon v-else-if="opt.icon" :name="opt.icon"/>
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>{{ opt.label }}</q-item-label>
@@ -33,18 +34,18 @@
             </q-item>
             <q-separator v-if="opt?.border" />
         </template>
-        <template v-slot:no-option>
+        <template #no-option>
             <q-item>
                 <q-item-section class="text-italic text-grey">
                     {{ t('error.dataNotfound') }}
                 </q-item-section>
             </q-item>
         </template>
-        <template v-if="clearable" v-slot:append>
+        <template v-if="clearable" #append>
             <q-icon v-if="modelValue" class="cursor-pointer" :name="biX" @click.stop.prevent="!multiple? modelValue = null :modelValue=[]" />
         </template>
         <template #after>
-            <slot name="after"> </slot>
+            <slot name="after"/>
         </template>
     </q-select>
 </template>

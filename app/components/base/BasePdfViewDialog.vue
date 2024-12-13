@@ -24,9 +24,10 @@ const onClose = () => {
 };
 </script>
 <template>
-    <q-dialog :model-value="modelValue" @hide="onClose" @before-hide="$emit('onBeforeHide')" :maximized="maximized"
-        full-width full-height>
-        <base-pdf-view :src :closeable :title :fetchToServer :showDownload :isBlob :scrollHeight :minHeight :minWidth @on-close="onClose" />
+    <q-dialog
+:model-value="modelValue" :maximized="maximized" full-width full-height
+        @hide="onClose" @before-hide="$emit('onBeforeHide')">
+        <base-pdf-view :src :closeable :title :fetch-to-server :show-download :is-blob :scroll-height :min-height :min-width @on-close="onClose" />
     </q-dialog>
 </template>
 <style lang="scss" scoped>

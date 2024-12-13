@@ -1,11 +1,11 @@
 <template>
     <q-field outlined bottom-slots :label="title" stack-label>
-      <template v-slot:control>
+      <template #control>
         <div class="self-center full-width no-outline" tabindex="0">
           {{ modelValue }}
         </div>
       </template>
-      <template v-slot:append>
+      <template #append>
         <q-icon v-if="!disable" :name="biClock" color="primary" class="cursor-pointer">
           <q-tooltip>{{ t('base.chooseDate') }}</q-tooltip>
           <q-popup-proxy ref="q-date-search" transition-show="scale" transition-hide="scale">
@@ -17,10 +17,10 @@
           </q-popup-proxy>
         </q-icon>
       </template>
-      <template v-slot:after>
+      <template #after>
         <q-btn v-if="modelValue" flat round :icon="biX" size="xs" @click="clear" />
       </template>
-      <template v-slot:hint v-if="required && !modelValue">
+      <template v-if="required && !modelValue" #hint>
         <span class="text-negative">
           {{ t('error.validateRequireChoose') }}
         </span>

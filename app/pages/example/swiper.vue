@@ -203,8 +203,7 @@ const items = [
                             <swiper-slide v-for="(item, i) in items" :key="i">
                                 <q-card flat class="text-center" style="height: 150px;">
                                     <base-ripple-item>
-                                        <base-avatar rounded :src="item.image" size="56px">
-                                        </base-avatar>
+                                        <base-avatar rounded :src="item.image" size="56px"/>
                                         <q-item>
                                             <q-item-section>
                                                 <q-item-label lines="1">
@@ -246,8 +245,7 @@ const items = [
                             <swiper-slide v-for="(item, i) in items" :key="`virtical-${i}`">
                                 <q-card flat class="text-center" style="height: 150px;">
                                     <base-ripple-item>
-                                        <base-avatar rounded :src="item.image" size="56px">
-                                        </base-avatar>
+                                        <base-avatar rounded :src="item.image" size="56px"/>
                                         <q-item>
                                             <q-item-section>
                                                 <q-item-label lines="1">
@@ -271,7 +269,8 @@ const items = [
                         Card
                     </div>
                     <q-card-section>
-                        <base-swiper-slides :params="{
+                        <base-swiper-slides
+:params="{
                             slidesPerView: 1,
                             spaceBetween: 5,
                             navigation: true,
@@ -309,7 +308,8 @@ const items = [
                     </div>
                     <q-card-section>
                         <ClientOnly>
-                            <base-swiper-slides :params="{
+                            <base-swiper-slides
+:params="{
                                 initialSlide: 0,
                                 slidesPerView: 5,
                                 spaceBetween: 30,
@@ -319,8 +319,7 @@ const items = [
                                 <swiper-slide v-for="(item, i) in items" :key="`gird-row-${i}`">
                                     <q-card bordered flat class="text-center q-my-sm" style="height: 150px;">
                                         <base-ripple-item>
-                                            <base-avatar rounded :src="item.image" size="56px">
-                                            </base-avatar>
+                                            <base-avatar rounded :src="item.image" size="56px"/>
                                             <q-item>
                                                 <q-item-section>
                                                     <q-item-label lines="1">

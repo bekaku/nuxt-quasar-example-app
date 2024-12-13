@@ -26,8 +26,8 @@
   </script>
   <template>
     <q-card
-      v-bind="$attrs"
       v-if="item && (item.image || item.domain || item.title || item.desc)"
+      v-bind="$attrs"
       flat
     >
       <a v-if="!short" :href="item.url" target="_blank">
@@ -47,7 +47,8 @@
         :dense="short"
       >
         <q-item-section v-if="short && item.image" side>
-          <q-img :src="item.image" :style="{width: `${imageSize}`}"
+          <q-img
+:src="item.image" :style="{width: `${imageSize}`}"
                  :ratio="4/3" />
         </q-item-section>
         <q-item-section>

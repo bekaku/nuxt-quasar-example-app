@@ -1,10 +1,10 @@
 <template>
     <div class="avatar-group" v-bind="$attrs">
       <slot>
-        <base-image v-for="(item, index) in items.slice(0, limit)" :key="`${index}-${item}`" :square="square"
+        <base-image
+v-for="(item, index) in items.slice(0, limit)" :key="`${index}-${item}`" :square="square"
           :rounded="rounded" class="avatar" :src="item" :fetch="fetch" :ratio="1" :style="{zIndex:limit-index}">
-          <slot name="extra" v-bind="{ index }">
-          </slot>
+          <slot name="extra" v-bind="{ index }"/>
           </base-image>
         <slot name="moreNumber">
           <div v-if="items.length > 5" class="avatar extra">

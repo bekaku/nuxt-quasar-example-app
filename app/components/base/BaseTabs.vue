@@ -1,8 +1,9 @@
 <template>
-    <div class="q-pa-md q-gutter-sm" v-if="items.length > 0" :class="{ 'limit-tabs': !screen.gt.xs }">
+    <div v-if="items.length > 0" class="q-pa-md q-gutter-sm" :class="{ 'limit-tabs': !screen.gt.xs }">
         <q-tabs :dense="dense" inline-label outside-arrows mobile-arrows active-color="primary">
             <template v-for="(item, index) in items" :key="index">
-                <q-route-tab v-if="canShow(item)" :icon="item.icon"
+                <q-route-tab
+v-if="canShow(item)" :icon="item.icon"
                     :label="item.translateLabel ? t(item.label) : item.label" :to="getLink(item)" />
             </template>
         </q-tabs>

@@ -15,15 +15,15 @@ const onChange = (event: any) => {
 </script>
 <template>
     <ClientOnly>
-        <draggable v-bind="$attrs" v-model="modelValue" :group="group" @change="onChange" :item-key="itemKey">
+        <draggable v-bind="$attrs" v-model="modelValue" :group="group" :item-key="itemKey" @change="onChange">
             <template #header>
-                <slot name="slotHeader"></slot>
+                <slot name="slotHeader"/>
             </template>
             <template #item="{ element, index }">
-                <slot v-bind="{ element, index }"></slot>
+                <slot v-bind="{ element, index }"/>
             </template>
             <template #footer>
-                <slot name="slotFooter"></slot>
+                <slot name="slotFooter"/>
             </template>
         </draggable>
     </ClientOnly>

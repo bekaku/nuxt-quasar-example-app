@@ -24,11 +24,12 @@ const onClose = () => {
 };
 </script>
 <template>
-    <q-dialog :model-value="modelValue" @hide="onClose" @before-hide="$emit('onBeforeHide')" :maximized="maximized"
-        full-width full-height>
-        <base-image-view :files :selected-index :show-delete-image :show-arrow
-            @on-delete="index => $emit('onDelete', index)" @on-close="onClose">
-        </base-image-view>
+    <q-dialog
+:model-value="modelValue" :maximized="maximized" full-width full-height
+        @hide="onClose" @before-hide="$emit('onBeforeHide')">
+        <base-image-view
+:files :selected-index :show-delete-image :show-arrow
+            @on-delete="index => $emit('onDelete', index)" @on-close="onClose"/>
     </q-dialog>
 </template>
 <style lang="scss" scoped>

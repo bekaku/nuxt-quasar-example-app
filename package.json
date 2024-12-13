@@ -7,7 +7,9 @@
     "dev": "nuxt dev --dotenv .env.dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@capacitor/device": "^6.0.2",
@@ -31,12 +33,14 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@nuxt/eslint": "^0.7.3",
     "@nuxtjs/i18n": "^9.1.1",
     "@pinia/nuxt": "^0.9.0",
     "@types/dompurify": "^3.2.0",
     "@types/emoji-mart": "^3.0.14",
     "@vueuse/core": "^12.0.0",
     "@vueuse/nuxt": "^12.0.0",
+    "eslint": "^9.16.0",
     "nuxt": "^3.14.1592",
     "nuxt-quasar-ui": "^2.1.7",
     "sass-embedded": "^1.82.0",

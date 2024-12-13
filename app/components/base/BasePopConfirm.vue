@@ -7,12 +7,14 @@
           </slot>
         </div>
         <div class="q-mb-md text-center">
-          <q-btn v-if="showConfirm" no-caps :color="confirmColor" :disable="disableConfirm"
-            :label="labelConfirm ? labelConfirm : t('base.okay')" @click="onChange(true)" push v-close-popup />
-          <q-btn v-if="showCancel" no-caps @click="onChange(false)" class="q-ml-sm" flat :color="cancelColor"
-            :label="labelCancel ? labelCancel : t('base.cancel')" v-close-popup />
+          <q-btn
+v-if="showConfirm" v-close-popup no-caps :color="confirmColor"
+            :disable="disableConfirm" :label="labelConfirm ? labelConfirm : t('base.okay')" push @click="onChange(true)" />
+          <q-btn
+v-if="showCancel" v-close-popup no-caps class="q-ml-sm" flat :color="cancelColor"
+            :label="labelCancel ? labelCancel : t('base.cancel')" @click="onChange(false)" />
         </div>
-        <slot name="bottom"></slot>
+        <slot name="bottom"/>
       </div>
     </q-menu>
   </template>

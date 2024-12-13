@@ -20,16 +20,18 @@ const canShow = (item: Breadcrumb) => {
 
 <template>
   <template v-for="(item, index) in items" :key="`menu-${index}-${item.to}`">
-    <q-item v-if="canShow(item)" :to="item.to" active-class="q-item-no-link-highlighting"
+    <q-item
+v-if="canShow(item)" :to="item.to" active-class="q-item-no-link-highlighting"
             :class="item.to == getCurrentPath(false) ? 'text-primary' : dark.isActive ? 'text-white' : 'text-black'">
       <q-item-section side>
-        <q-icon :class="item.to == getCurrentPath(false) ? 'text-primary' : dark.isActive ? 'text-white' : 'text-black'"
+        <q-icon
+:class="item.to == getCurrentPath(false) ? 'text-primary' : dark.isActive ? 'text-white' : 'text-black'"
                 :name="item.icon" />
       </q-item-section>
       <q-item-section>
         <q-item-label :lines="lines">{{ item.translateLabel ? t(item.label) : item.label }}</q-item-label>
       </q-item-section>
-      <slot name="side" v-bind="{ item }"></slot>
+      <slot name="side" v-bind="{ item }"/>
     </q-item>
   </template>
 </template>

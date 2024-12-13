@@ -11,13 +11,13 @@
             <q-card-section>
                 <div class="row">
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle label="Toggle" v-model="toggle" :use-checkbox="true" color="primary" :useLabelTitle="false" size="md" true-label="True label" false-label="False label" />
+                        <QuasarToggle v-model="toggle" label="Toggle" :use-checkbox="true" color="primary" :use-label-title="false" size="md" true-label="True label" false-label="False label" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle label="Toggle" v-model="toggle" :use-checkbox="false" color="negative" size="md"/>
+                        <QuasarToggle v-model="toggle" label="Toggle" :use-checkbox="false" color="negative" size="md"/>
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle label="Toggle" v-model="toggle" :use-checkbox="toggle" color="negative" size="md" />
+                        <QuasarToggle v-model="toggle" label="Toggle" :use-checkbox="toggle" color="negative" size="md" />
                     </div>
                 </div>
             </q-card-section>

@@ -16,12 +16,14 @@
                                 <q-avatar size="75px" rounded>
                                     <q-img v-if="cropedUrl" spinner-color="white" :src="cropedUrl" />
                                     <q-img v-else spinner-color="white" src="/images/no_picture_thumb.jpg" />
-                                    <q-btn color="primary" @click="showImageCroper = true" round size="sm" unelevated
-                                        style="left: 50px;" class="absolute-top" :icon="biPencilFill">
+                                    <q-btn
+color="primary" round size="sm" unelevated style="left: 50px;"
+                                        class="absolute-top" :icon="biPencilFill" @click="showImageCroper = true">
                                         <q-tooltip>{{ t('base.changeAvatar') }}</q-tooltip>
                                     </q-btn>
-                                    <q-btn v-if="cropedFile != undefined" color="negative" @click="onDeleteFile" round
-                                        size="sm" unelevated style="left: 100px;" class="absolute-top" :icon="biTrash">
+                                    <q-btn
+v-if="cropedFile != undefined" color="negative" round size="sm"
+                                        unelevated style="left: 100px;" class="absolute-top" :icon="biTrash" @click="onDeleteFile">
                                         <q-tooltip>{{ t('base.delete') }}</q-tooltip>
                                     </q-btn>
                                 </q-avatar>
@@ -34,13 +36,16 @@
 
                             <q-img v-if="cropedUrl == undefined" spinner-color="white" src="/images/no_picture.jpg" />
                             <template v-if="cropedUrl">
-                                <base-image :src="cropedUrl" :ratio="1" alt="1"
+                                <base-image
+:src="cropedUrl" :ratio="1" alt="1"
                                     style="height: 250px; max-width: 250px" />
 
-                                <base-image :src="cropedUrl" :ratio="3 / 4" alt="3/4"
+                                <base-image
+:src="cropedUrl" :ratio="3 / 4" alt="3/4"
                                     style="height: 250px; max-width: 250px" />
 
-                                <base-image :src="cropedUrl" :ratio="16 / 9" alt="16/9"
+                                <base-image
+:src="cropedUrl" :ratio="16 / 9" alt="16/9"
                                     style="height: 250px; max-width: 250px" />
 
                                 <p>cover</p>
@@ -58,7 +63,8 @@
             </q-card-section>
         </q-card>
 
-        <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper"
+        <base-image-cropper
+:title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper"
             @on-okay="onCropImage" />
     </q-page>
 </template>

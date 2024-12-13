@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { type ApiResponse, type IApiListResponse, type OgMeta } from '~/types/common'
+import type { ApiResponse, IApiListResponse, OgMeta } from '~/types/common'
 import type { Permission } from '~/types/models';
 
 const { $axios } = useNuxtApp();
@@ -157,7 +157,8 @@ const getOpengraph = async () => {
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response API" @click="fetchResponseApi" />
                                 <SkeletonItem v-if="reaponseApiLoading" show-header :items="5" />
-                                <div v-else style="max-height: 250px; overflow: auto"
+                                <div
+v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>{{ reponseApiItem }}</pre>
                                 </div>
@@ -169,7 +170,8 @@ const getOpengraph = async () => {
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response LIST" @click="fetchResponseList" />
                                 <SkeletonItem v-if="reponseListLoading" show-header :items="5" />
-                                <div v-else style="max-height: 250px; overflow: auto"
+                                <div
+v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>
                                 {{ reponseListItems }}
@@ -183,7 +185,8 @@ const getOpengraph = async () => {
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response Object" @click="fetchResponseObject" />
                                 <SkeletonItem v-if="reponseObjectLoading" show-header :items="5" />
-                                <div v-else style="max-height: 250px; overflow: auto"
+                                <div
+v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>
                                 {{ reponseObject }}
@@ -216,8 +219,8 @@ const getOpengraph = async () => {
                 <div class="text-h5">
                     Retrieve og: and other meta attributes from a resource
                 </div>
-                <QuasarButton @click="getOpengraph" outline :loading="ogLoading" label="Fetch Opengraph detail" />
-                <LazyBaseOpenGraphItem style="width: 750px;" v-if="ogItem" :item="ogItem"></LazyBaseOpenGraphItem>
+                <QuasarButton outline :loading="ogLoading" label="Fetch Opengraph detail" @click="getOpengraph" />
+                <LazyBaseOpenGraphItem v-if="ogItem" style="width: 750px;" :item="ogItem"/>
             </q-card-section>
         </q-card>
     </q-page>

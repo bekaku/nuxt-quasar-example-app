@@ -1,7 +1,7 @@
 <template>
-    <div class="row" v-if="items.length > 0">
-      <div :class="col" v-for="(f, index) in items" :key="`f-${index}-${f.fileName}`" class="div-style q-pa-md">
-        <base-files-preview-item :item="f" :index="index" @on-remove="onRemove" :show-delete="showDelete" :format-size="formatSize" />
+    <div v-if="items.length > 0" class="row">
+      <div v-for="(f, index) in items" :key="`f-${index}-${f.fileName}`" :class="col" class="div-style q-pa-md">
+        <base-files-preview-item :item="f" :index="index" :show-delete="showDelete" :format-size="formatSize" @on-remove="onRemove" />
       </div>
     </div>
   </template>
