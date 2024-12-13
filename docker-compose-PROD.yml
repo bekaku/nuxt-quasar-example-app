@@ -10,7 +10,7 @@ services:
       - 'host.docker.internal:host-gateway'
     ports:
       - "127.0.0.1:3000:3000"
-      - "172.17.0.1:8082:8080"
+      - "172.17.0.1:3000:3000"
     networks:
       - gd5_docker_network
 networks:
