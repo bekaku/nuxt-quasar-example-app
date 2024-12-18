@@ -171,6 +171,9 @@ export const getFileExtension = (t: string): string | undefined => {
     }
 
     let mimeType = t.split(';')[0];
+    if(!mimeType){
+        return undefined;
+    }
     mimeType = mimeType.toLowerCase();
     let extension;
     switch (mimeType) {

@@ -1,25 +1,3 @@
-<template>
-    <q-img
-v-if="loading" :spinner-color="spinnerColor" :placeholder-src="placHolder" :ratio="ratio" v-bind="$attrs"
-        loading="lazy">
-        <div class="absolute-full flex flex-center">
-            <q-inner-loading showing color="white" size="xs" />
-        </div>
-    </q-img>
-    <q-img
-v-else-if="srcUrl" :src="srcUrl" :fit="fit" :placeholder-src="placHolder" :spinner-color="spinnerColor"
-        :ratio="ratio" v-bind="$attrs" loading="lazy" :class="{ 'img-bg': imageBg }" :alt>
-        <template #error>
-            <div class="absolute-full flex flex-center bg-primary text-white">
-                <q-icon :name="biCardImage" class="q-mr-sm" size="md" />
-                Cannot load image
-            </div>
-        </template>
-        <slot/>
-    </q-img>
-    <q-img v-else :ratio="ratio" v-bind="$attrs" loading="lazy" src="/images/no_picture_thumb.jpg"/>
-</template>
-
 <script setup lang="ts">
 /*
  <BaseImage
@@ -33,7 +11,7 @@ import { watchEffect, onBeforeUnmount, onMounted, ref } from 'vue';
 import { biCardImage } from '@quasar/extras/bootstrap-icons';
 import FileManagerService from '~/api/FileManagerService';
 
-const {src, spinnerColor = 'white',  ratio = 4 / 3, fetch = false, imageBg = false, fit = 'cover', alt='img' } = defineProps<{
+const { src, spinnerColor = 'white', ratio = 4 / 3, fetch = false, imageBg = false, fit = 'cover', alt = 'img' } = defineProps<{
     src: string;
     fetch?: boolean;
     imageBg?: boolean;
@@ -68,7 +46,7 @@ const onFetchImage = async () => {
                     srcUrl.value = res;
                 }
             })
-            .catch((error) => {
+            .catch(() => {
                 clearLoading();
             });
 
@@ -88,6 +66,25 @@ onBeforeUnmount(() => {
     srcUrl.value = undefined;
 });
 </script>
+<template>
+    <q-img v-if="loading" :spinner-color="spinnerColor" :placeholder-src="placHolder" :ratio="ratio" v-bind="$attrs"
+        loading="lazy">
+        <div class="absolute-full flex flex-center">
+            <q-inner-loading showing color="white" size="xs" />
+        </div>
+    </q-img>
+    <q-img v-else-if="srcUrl" :src="srcUrl" :fit="fit" :placeholder-src="placHolder" :spinner-color="spinnerColor"
+        :ratio="ratio" v-bind="$attrs" loading="lazy" :class="{ 'img-bg': imageBg }" :alt>
+        <template #error>
+            <div class="absolute-full flex flex-center bg-primary text-white">
+                <q-icon :name="biCardImage" class="q-mr-sm" size="md" />
+                Cannot load image
+            </div>
+        </template>
+        <slot />
+    </q-img>
+    <q-img v-else :ratio="ratio" v-bind="$attrs" loading="lazy" src="/images/no_picture_thumb.jpg" />
+</template>
 <style lang="scss" scoped>
 .img-bg {
     background: #000000;

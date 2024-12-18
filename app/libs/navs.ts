@@ -20,6 +20,7 @@ import {
     biFileImage,
     biFolder,
     biGear, biHouseDoor,
+    biInputCursorText,
     biList,
     biMarkdown,
     biNewspaper,
@@ -174,6 +175,13 @@ export const additionalMenu: IMenu[] = [
                         to: '/example/ui/file-picker'
                     },
                     {
+                        icon: biInputCursorText,
+                        permission: '',
+                        title: 'Input Text',
+                        translate: false,
+                        to: '/example/ui/input-text'
+                    },
+                    {
                         icon: biChevronExpand,
                         permission: '',
                         title: 'Select',
@@ -228,7 +236,8 @@ export const additionalMenu: IMenu[] = [
             {
                 icon: biEmojiSmile,
                 permission: '',
-                title: 'Emoji picker',
+                title: 'Icon/Emoji picker',
+                caption:'Emoji and Icon',
                 translate: false,
                 to: '/example/emoji-picker'
             },

@@ -2,7 +2,6 @@
 
 import { FORMAT_DATE14 } from '~/utils/dateUtil';
 import { ref } from 'vue';
-const { t } = useLang();
 useHead({
     title:'Date time Picker'
 })

@@ -5,6 +5,7 @@ export const DefultItemsPerPage = 10;
 export const MaxSelectFiles = 10;
 export const LimitFileSizeMB = 50;
 export const LimitFileSize = LimitFileSizeMB * 1024 * 1024;
+export const DefaultItemsPerPage = 10;
 export const FileExtensionAccept =
   '.jpg,.png,.gif,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar';
 

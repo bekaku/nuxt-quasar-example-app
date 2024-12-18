@@ -11,6 +11,10 @@ export default withNuxt(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       'no-useless-escape': 'off',
+      'vue/require-default-prop': 'off',
+      'vue/first-attribute-linebreak': 'off',
+      'vue/multi-word-component-names': 'off',
+      "vue/custom-event-name-casing": ["warn","kebab-case"]
     }
   },
   // {

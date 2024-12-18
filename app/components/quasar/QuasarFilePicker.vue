@@ -1,38 +1,3 @@
-<template>
-    <div v-bind="$attrs">
-        <slot>
-            <div class="row">
-                <div class="col-12 q-pa-md" :class="{ 'col-md-4': showPreview }">
-                    <q-list bordered class="app-border-radius">
-                        <q-item clickable @click="openFilePicker">
-                            <q-item-section avatar>
-                                <q-icon :name="icon"/>
-                            </q-item-section>
-                            <q-item-section>
-                                <q-item-label>
-                                    {{ label ? label : t('base.chooseFile') }}
-                                </q-item-label>
-                            </q-item-section>
-                            <q-item-section side>
-                                <q-btn round flat :icon="biX" @click="onClear" />
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                </div>
-                <div v-if="showPreview" class="col-12 col-md-8 q-pa-md">
-                    <template v-if="fileItems.length > 0 && modelValue && modelValue.length > 0">
-                        <BaseFilesPreview :items="fileItems" format-size @on-remove="onRemoveNewImage"/>
-                    </template>
-                </div>
-            </div>
-        </slot>
-
-        <q-file
-ref="appFileInputRef" v-model="modelImageFiles" style="display: none" filled :max-files="maxFiles"
-            bottom-slots :label="label ? label : t('base.chooseFile')" counter :multiple="multiple"
-            :accept="!wildcard ? accept : undefined" @rejected="onRejected" @update:model-value="onFileAdded"/>
-    </div>
-</template>
 <script setup lang="ts">
 import { useLang } from '@/composables/useLang';
 import { useBase } from '@/composables/useBase';
@@ -71,7 +36,6 @@ const modelImageFiles = ref<any[]>([]);
 const emit = defineEmits(['onFileAdd']);
 const appFileInputRef = ref();
 //file upload
-
 const openFilePicker = () => {
 
     if (props.maxFiles > 0 && modelValue.value && modelValue.value.length == props.maxFiles) {
@@ -185,3 +149,37 @@ defineExpose({
     openFilePicker
 });
 </script>
+<template>
+    <div v-bind="$attrs">
+        <slot>
+            <div class="row">
+                <div class="col-12 q-pa-md" :class="{ 'col-md-4': showPreview }">
+                    <q-list bordered class="app-border-radius">
+                        <q-item clickable @click="openFilePicker">
+                            <q-item-section avatar>
+                                <q-icon :name="icon" />
+                            </q-item-section>
+                            <q-item-section>
+                                <q-item-label>
+                                    {{ label ? label : t('base.chooseFile') }}
+                                </q-item-label>
+                            </q-item-section>
+                            <q-item-section side>
+                                <q-btn round flat :icon="biX" @click="onClear" />
+                            </q-item-section>
+                        </q-item>
+                    </q-list>
+                </div>
+                <div v-if="showPreview" class="col-12 col-md-8 q-pa-md">
+                    <template v-if="fileItems.length > 0 && modelValue && modelValue.length > 0">
+                        <BaseFilesPreview :items="fileItems" format-size @on-remove="onRemoveNewImage" />
+                    </template>
+                </div>
+            </div>
+        </slot>
+
+        <q-file ref="appFileInputRef" v-model="modelImageFiles" style="display: none" filled :max-files="maxFiles"
+            bottom-slots :label="label ? label : t('base.chooseFile')" counter :multiple="multiple"
+            :accept="!wildcard ? accept : undefined" @rejected="onRejected" @update:model-value="onFileAdded" />
+    </div>
+</template>

@@ -30,6 +30,6 @@ const getSanitizeHtml = computed(() => {
 
 <template>
     <ClientOnly>
-        <div v-bind="$attrs" @click="onPress($event)" v-html="getSanitizeHtml"/>
+        <div v-bind="$attrs" @click="onPress($event)" v-html="getSanitizeHtml" />
     </ClientOnly>
 </template>

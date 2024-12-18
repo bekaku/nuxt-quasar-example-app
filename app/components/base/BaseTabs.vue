@@ -1,15 +1,3 @@
-<template>
-    <div v-if="items.length > 0" class="q-pa-md q-gutter-sm" :class="{ 'limit-tabs': !screen.gt.xs }">
-        <q-tabs :dense="dense" inline-label outside-arrows mobile-arrows active-color="primary">
-            <template v-for="(item, index) in items" :key="index">
-                <q-route-tab
-v-if="canShow(item)" :icon="item.icon"
-                    :label="item.translateLabel ? t(item.label) : item.label" :to="getLink(item)" />
-            </template>
-        </q-tabs>
-    </div>
-</template>
-
 <script setup lang="ts">
 import type { Breadcrumb } from '~/types/common';
 import { useQuasar } from 'quasar';
@@ -41,6 +29,16 @@ const canShow = (item: Breadcrumb) => {
     return appStore.isHavePermission(item.permissions);
 };
 </script>
+<template>
+    <div v-if="items.length > 0" class="q-pa-md q-gutter-sm" :class="{ 'limit-tabs': !screen.gt.xs }">
+        <q-tabs :dense="dense" inline-label outside-arrows mobile-arrows active-color="primary">
+            <template v-for="(item, index) in items" :key="index">
+                <q-route-tab v-if="canShow(item)" :icon="item.icon"
+                    :label="item.translateLabel ? t(item.label) : item.label" :to="getLink(item)" />
+            </template>
+        </q-tabs>
+    </div>
+</template>
 <style scoped lang="scss">
 .limit-tabs {
     max-width: 100vw;

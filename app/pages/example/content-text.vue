@@ -1,76 +1,6 @@
-<template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Content Text </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
-            <q-card-section>
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <q-input
-v-model="content" outlined bottom-slots label="Content" type="textarea"
-                            :rules="[required]" autogrow class="limited-autogrow">
-                            <template #hint>
-                                <span class="text-negative">*</span>
-                            </template>
-                        </q-input>
-
-                        <quasar-button @click="onPreview">
-                            Reload Preview
-                        </quasar-button>
-                        <quasar-button class="q-ml-md" color="negative" @click="testExtractHashTag">
-                            Extract HashTag from content
-                        </quasar-button>
-
-                    </div>
-                    <div class="col-12 col-md-6 q-pa-md">
-                        <div class="text-h5 q-pb-sm">
-                            Ellipsis
-                        </div>
-
-                        <base-ellipsis class="q-mb-lg" :lines="4" clickable>
-                            {{ content }}
-                        </base-ellipsis>
-
-
-
-                        <div class="text-h5 q-pb-sm">
-                            Preview with sanitize html
-                        </div>
-                        <template v-if="showContent">
-                            <base-content-item
-wrap-text :content="content" :content-id="contentUniqeId"
-                                :is-escape-html="false" hashtag-urlify show-more/>
-                            <base-open-graph-item-alt :content="content" short image-size="150px" />
-                        </template>
-                        <q-separator class="q-my-md" />
-
-                        <div class="text-h5 q-pb-sm">
-                            Preview with escape html
-                        </div>
-                        <template v-if="showContent">
-                            <base-content-item
-wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
-                                :limit="10" hashtag-urlify show-more/>
-                            <base-open-graph-item-alt :content="content" />
-                        </template>
-
-                    </div>
-                </div>
-            </q-card-section>
-        </q-card>
-    </q-page>
-</template>
-
 <script setup lang="ts">
-import { useValidation } from '@/composables/useValidation';
-import { extractHashtagsFromString } from '@/utils/appUtil';
+import { extractHashtagsFromString } from '~/utils/appUtil';
 const { required } = useValidation();
-const { t } = useLang();
 useHead({
     title: 'Content Text'
 })
@@ -117,6 +47,68 @@ const testExtractHashTag = () => {
     // console.log('contentHashTags', finalText)
 }
 </script>
+<template>
+    <q-page padding>
+        <q-card flat bordered class="content-limit">
+            <q-card-section>
+                <q-toolbar>
+                    <q-toolbar-title> Content Text </q-toolbar-title>
+                    <q-space />
+                </q-toolbar>
+                <q-separator />
+            </q-card-section>
+            <q-card-section>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <q-input v-model="content" outlined bottom-slots label="Content" type="textarea"
+                            :rules="[required]" autogrow class="limited-autogrow">
+                            <template #hint>
+                                <span class="text-negative">*</span>
+                            </template>
+                        </q-input>
 
-<style lang="scss" scoped>
-</style>
+                        <quasar-button @click="onPreview">
+                            Reload Preview
+                        </quasar-button>
+                        <quasar-button class="q-ml-md" color="negative" @click="testExtractHashTag">
+                            Extract HashTag from content
+                        </quasar-button>
+
+                    </div>
+                    <div class="col-12 col-md-6 q-pa-md">
+                        <div class="text-h5 q-pb-sm">
+                            Ellipsis
+                        </div>
+
+                        <base-ellipsis class="q-mb-lg" :lines="4" clickable>
+                            {{ content }}
+                        </base-ellipsis>
+
+
+
+                        <div class="text-h5 q-pb-sm">
+                            Preview with sanitize html
+                        </div>
+                        <template v-if="showContent">
+                            <base-content-item wrap-text :content="content" :content-id="contentUniqeId"
+                                :is-escape-html="false" hashtag-urlify show-more />
+                            <base-open-graph-item-alt :content="content" short image-size="150px" />
+                        </template>
+                        <q-separator class="q-my-md" />
+
+                        <div class="text-h5 q-pb-sm">
+                            Preview with escape html
+                        </div>
+                        <template v-if="showContent">
+                            <base-content-item wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
+                                :limit="10" hashtag-urlify show-more />
+                            <base-open-graph-item-alt :content="content" />
+                        </template>
+
+                    </div>
+                </div>
+            </q-card-section>
+        </q-card>
+    </q-page>
+</template>
+<style lang="scss" scoped></style>

@@ -1,4 +1,31 @@
-<template>
+  <script setup lang="ts">
+  import { biClock, biX } from '@quasar/extras/bootstrap-icons';
+  defineProps({
+    title: {
+      type: String,
+      default: '',
+    },
+    dense: {
+      type: Boolean,
+      default: false,
+    },
+    disable: {
+      type: Boolean,
+      default: false,
+    },
+    required: {
+      type: Boolean,
+      default: false,
+    },
+  });
+  const emit = defineEmits(['update:modelValue']);
+  const modelValue = defineModel<string>();
+  const { t } = useLang();
+  const clear = () => {
+    modelValue.value = ''
+  };
+  </script>
+  <template>
     <q-field outlined bottom-slots :label="title" stack-label>
       <template #control>
         <div class="self-center full-width no-outline" tabindex="0">
@@ -27,32 +54,3 @@
       </template>
     </q-field>
   </template>
-  
-  <script setup lang="ts">
-  import { biClock, biX } from '@quasar/extras/bootstrap-icons';
-  defineProps({
-    title: {
-      type: String,
-      default: '',
-    },
-    dense: {
-      type: Boolean,
-      default: false,
-    },
-    disable: {
-      type: Boolean,
-      default: false,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-  });
-  const emit = defineEmits(['update:modelValue']);
-  const modelValue = defineModel<string>();
-  const { t } = useLang();
-  const clear = () => {
-    modelValue.value = ''
-  };
-  </script>
-  

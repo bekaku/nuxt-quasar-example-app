@@ -1,166 +1,3 @@
-<template>
-    <q-dialog
-      v-model="show"
-      persistent
-      :maximized="maximizedToggle"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card style="min-width: 80%" flat bordered>
-        <q-bar>
-          <q-icon :name="biCrop" />
-          <div>{{ title || '' }}</div>
-  
-          <q-space />
-          <q-btn
-            dense
-            flat
-            :icon="!maximizedToggle ? biFullscreen : biFullscreenExit"
-            @click="maximizedToggle = !maximizedToggle"
-          >
-            <q-tooltip>{{
-              !maximizedToggle ? t('maximize') : t('minimize')
-            }}</q-tooltip>
-          </q-btn>
-  
-          <q-btn dense flat :icon="biXSquare" @click="onClose">
-            <q-tooltip>{{ t('base.close') }}</q-tooltip>
-          </q-btn>
-        </q-bar>
-        <div class="row">
-          <div class="col-12 col-md-5">
-            <q-card-section>
-              <q-file
-                v-model="originalimagFile"
-                filled
-                bottom-slots
-                :label="t('base.chooseFile')"
-                counter
-                max-files="1"
-                accept=".jpg, .png, image/*"
-                :max-file-size="1048576 * 10"
-                @rejected="onRejected"
-                @update:model-value="onFileAdded"
-              >
-                <template #prepend>
-                  <q-icon :name="biFileImage" />
-                </template>
-                <template #hint>
-                  {{
-                    t('error.filesValidationSizeAndType', {
-                      size: 10,
-                      extension: '.jpg, .png',
-                    })
-                  }}
-                </template>
-              </q-file>
-            </q-card-section>
-            <template v-if="originalimagFile">
-              <q-card-section class="text-center">
-                <q-avatar rounded size="275px" class="shadow-5">
-                  <div
-                    class="cropper-img-preview"
-                    style="overflow: hidden; width: 275px; height: 275px"
-                  />
-                </q-avatar>
-              </q-card-section>
-              <q-card-section class="q-gutter-sm text-center">
-                <q-avatar size="128px" class="shadow-5">
-                  <div
-                    class="cropper-img-preview"
-                    style="overflow: hidden; width: 128px; height: 128px"
-                  />
-                </q-avatar>
-                <q-avatar size="64px" class="shadow-5">
-                  <div
-                    class="cropper-img-preview"
-                    style="overflow: hidden; width: 64px; height: 64px"
-                  />
-                </q-avatar>
-                <q-avatar size="32px" class="shadow-5">
-                  <div
-                    class="cropper-img-preview"
-                    style="overflow: hidden; width: 32px; height: 32px"
-                  />
-                </q-avatar>
-              </q-card-section>
-  
-              <div class="q-pa-md">
-                <q-btn
-                  :icon="biCheck"
-                  :label="t('base.okay')"
-                  class="full-width"
-                  color="positive"
-                  unelevated
-                  :loading="loading"
-                  @click="onOkay"
-                />
-              </div>
-            </template>
-          </div>
-          <div class="col-12 col-md-7">
-            <q-card-section>
-              <div :class="!$q.dark.isActive ? 'bg-grey-1' : 'bg-grey-10'">
-                <img
-                  ref="canvasImg"
-                  style="display: block; max-width: 100%; height: 550px"
-                  alt=""
-                >
-              </div>
-            </q-card-section>
-            <q-card-section v-if="originalimagFile" class="q-gutter-sm">
-              <!--                                <q-btn dense label="Drag" flat @click="cropper.setDragMode('move')"/>-->
-              <q-btn
-                :icon="biZoomIn"
-                dense
-                :label="t('zoomIn')"
-                flat
-                @click="cropper.zoom(0.1)"
-              />
-              <q-btn
-                :icon="biZoomOut"
-                dense
-                :label="t('zoomOut')"
-                flat
-                @click="cropper.zoom(-0.1)"
-              />
-  
-              <q-btn
-                :label="t('rotateLeft')"
-                dense
-                :icon="biArrowCounterclockwise"
-                flat
-                @click="cropper.rotate(-45)"
-              />
-              <q-btn
-                :label="t('rotateRight')"
-                dense
-                :icon="biArrowClockwise"
-                flat
-                @click="cropper.rotate(45)"
-              />
-  
-              <q-btn
-                :label="t('flipHorizontal')"
-                dense
-                :icon="biArrowLeftRight"
-                flat
-                @click="flipHorizontal"
-              />
-              <q-btn
-                :label="t('flipVorizontal')"
-                dense
-                :icon="biArrowsCollapse"
-                flat
-                @click="flipVertical"
-              />
-            </q-card-section>
-          </div>
-        </div>
-      </q-card>
-    </q-dialog>
-  </template>
-  
   <script setup>
   import { ref, watch } from 'vue';
   import 'cropperjs/dist/cropper.css';
@@ -193,6 +30,7 @@
   const emit = defineEmits(['on-close', 'on-okay']);
   const { t } = useLang();
   const { appToast } = useBase();
+  const { isDark } = useTheme();
   const canvasImg = ref(null); // ref to <canvas ref="canvasImg" width="120" height="100"></canvas>
   const cropper = ref(null);
   const originalimagFile = ref(null);
@@ -307,4 +145,165 @@
     },
   );
   </script>
+  <template>
+    <q-dialog
+      v-model="show"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card style="min-width: 80%" flat bordered>
+        <q-bar>
+          <q-icon :name="biCrop" />
+          <div>{{ title || '' }}</div>
   
+          <q-space />
+          <q-btn
+            dense
+            flat
+            :icon="!maximizedToggle ? biFullscreen : biFullscreenExit"
+            @click="maximizedToggle = !maximizedToggle"
+          >
+            <q-tooltip>{{
+              !maximizedToggle ? t('maximize') : t('minimize')
+            }}</q-tooltip>
+          </q-btn>
+  
+          <q-btn dense flat :icon="biXSquare" @click="onClose">
+            <q-tooltip>{{ t('base.close') }}</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <div class="row">
+          <div class="col-12 col-md-5">
+            <q-card-section>
+              <q-file
+                v-model="originalimagFile"
+                filled
+                bottom-slots
+                :label="t('base.chooseFile')"
+                counter
+                max-files="1"
+                accept=".jpg, .png, image/*"
+                :max-file-size="1048576 * 10"
+                @rejected="onRejected"
+                @update:model-value="onFileAdded"
+              >
+                <template #prepend>
+                  <q-icon :name="biFileImage" />
+                </template>
+                <template #hint>
+                  {{
+                    t('error.filesValidationSizeAndType', {
+                      size: 10,
+                      extension: '.jpg, .png',
+                    })
+                  }}
+                </template>
+              </q-file>
+            </q-card-section>
+            <template v-if="originalimagFile">
+              <q-card-section class="text-center">
+                <q-avatar rounded size="275px" class="shadow-5">
+                  <div
+                    class="cropper-img-preview"
+                    style="overflow: hidden; width: 275px; height: 275px"
+                  />
+                </q-avatar>
+              </q-card-section>
+              <q-card-section class="q-gutter-sm text-center">
+                <q-avatar size="128px" class="shadow-5">
+                  <div
+                    class="cropper-img-preview"
+                    style="overflow: hidden; width: 128px; height: 128px"
+                  />
+                </q-avatar>
+                <q-avatar size="64px" class="shadow-5">
+                  <div
+                    class="cropper-img-preview"
+                    style="overflow: hidden; width: 64px; height: 64px"
+                  />
+                </q-avatar>
+                <q-avatar size="32px" class="shadow-5">
+                  <div
+                    class="cropper-img-preview"
+                    style="overflow: hidden; width: 32px; height: 32px"
+                  />
+                </q-avatar>
+              </q-card-section>
+  
+              <div class="q-pa-md">
+                <q-btn
+                  :icon="biCheck"
+                  :label="t('base.okay')"
+                  class="full-width"
+                  color="positive"
+                  unelevated
+                  :loading="loading"
+                  @click="onOkay"
+                />
+              </div>
+            </template>
+          </div>
+          <div class="col-12 col-md-7">
+            <q-card-section>
+              <div :class="!isDark ? 'bg-grey-1' : 'bg-grey-10'">
+                <img
+                  ref="canvasImg"
+                  style="display: block; max-width: 100%; height: 550px"
+                  alt=""
+                >
+              </div>
+            </q-card-section>
+            <q-card-section v-if="originalimagFile" class="q-gutter-sm">
+              <!--                                <q-btn dense label="Drag" flat @click="cropper.setDragMode('move')"/>-->
+              <q-btn
+                :icon="biZoomIn"
+                dense
+                :label="t('zoomIn')"
+                flat
+                @click="cropper.zoom(0.1)"
+              />
+              <q-btn
+                :icon="biZoomOut"
+                dense
+                :label="t('zoomOut')"
+                flat
+                @click="cropper.zoom(-0.1)"
+              />
+  
+              <q-btn
+                :label="t('rotateLeft')"
+                dense
+                :icon="biArrowCounterclockwise"
+                flat
+                @click="cropper.rotate(-45)"
+              />
+              <q-btn
+                :label="t('rotateRight')"
+                dense
+                :icon="biArrowClockwise"
+                flat
+                @click="cropper.rotate(45)"
+              />
+  
+              <q-btn
+                :label="t('flipHorizontal')"
+                dense
+                :icon="biArrowLeftRight"
+                flat
+                @click="flipHorizontal"
+              />
+              <q-btn
+                :label="t('flipVorizontal')"
+                dense
+                :icon="biArrowsCollapse"
+                flat
+                @click="flipVertical"
+              />
+            </q-card-section>
+          </div>
+        </div>
+      </q-card>
+    </q-dialog>
+  </template>

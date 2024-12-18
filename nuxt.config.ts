@@ -2,18 +2,21 @@
 // https://nuxt.com/modules/quasar
 import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
   // Nuxt 4 directory structure and features
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
   future: {
     compatibilityVersion: 4,
   },
+
   ssr:true,
   devtools: { enabled: true },
+
   devServer: {
     port: 3003
   },
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt', '@nuxt/eslint'],
+
+  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt', '@nuxt/eslint', '@nuxt/icon'],
+
   runtimeConfig: {
     // The private keys which are only available within server-side
     apiSecret: '123',// can be overridden by NUXT_API_SECRET environment variable
@@ -32,15 +35,18 @@ export default defineNuxtConfig({
       jwtAges: 30,//days
     }
   },
+
   // css
   css: [
     '~/assets/scss/color.scss',
     '~/assets/scss/app.scss',
     '~/assets/scss/typography.scss',
   ],
+
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default
   },
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -53,6 +59,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   vue: {
     compilerOptions: {
       // isCustomElement: (tag) => tag.startsWith('swiper-'),
@@ -60,6 +67,7 @@ export default defineNuxtConfig({
         ['swiper-container', 'swiper-slide'].includes(tag)
     }
   },
+
   app: {
     head: {
       title: 'Quasar + Nuxt 3',
@@ -75,6 +83,7 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     }
   },
+
   quasar: {
     // Configurable Component Defaults
     appConfigKey: 'nuxtQuasarCustom',
@@ -136,6 +145,7 @@ export default defineNuxtConfig({
         },
       },
     },
-  }
+  },
 
+  compatibilityDate: '2024-12-14'
 })

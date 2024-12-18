@@ -2,9 +2,7 @@
 import {
     biArrowLeft,
     biArrowRight,
-    biFilePdf,
     biDownload,
-    biFloppy,
     biX,
     biZoomIn,
     biZoomOut
@@ -22,7 +20,7 @@ const { src, title, showDownload = true, fetchToServer = false, isBlob = false, 
     minWidth?: string
     closeable?: boolean
 }>();
-const { dark } = useQuasar();
+const { isDark } = useTheme();
 const { fethCdnData, downloadCdnData } = FileManagerService();
 const emit = defineEmits(['on-close']);
 const { t } = useLang();
@@ -82,7 +80,7 @@ const onClose = () => {
     <q-card flat>
         <q-toolbar>
             <q-toolbar-title v-if="title">
-                {{title}}
+                {{ title }}
             </q-toolbar-title>
             <q-btn flat round dense :icon="biZoomOut" @click="scale = scale > 0.25 ? scale - 0.25 : scale">
                 <q-tooltip> Zoom-</q-tooltip>
@@ -93,9 +91,9 @@ const onClose = () => {
             </q-btn>
             <q-separator vertical class="q-mx-xs" />
 
-            <q-btn flat dense round :icon="biArrowLeft" @click="page = page > 1 ? page - 1 : page"/>
+            <q-btn flat dense round :icon="biArrowLeft" @click="page = page > 1 ? page - 1 : page" />
             <span>{{ page }} / {{ pages }}</span>
-            <q-btn dense flat round :icon="biArrowRight" @click="page = page < pages ? page + 1 : page"/>
+            <q-btn dense flat round :icon="biArrowRight" @click="page = page < pages ? page + 1 : page" />
 
             <q-space />
             <q-btn v-if="showDownload && !loading" dense flat round :icon="biDownload" @click="downloadPdf">
@@ -110,15 +108,16 @@ const onClose = () => {
             </q-btn>
         </q-toolbar>
         <q-separator />
-        <div :class="{ 'bg-black': dark.isActive, 'bg-grey-2': !dark.isActive }">
+        <div :class="{ 'bg-black': isDark, 'bg-grey-2': !isDark }">
             <div :style="{ minHeight: minHeight, minWidth: minWidth }">
                 <q-linear-progress v-if="downloadLoading" query color="primary" class="q-my-sm" style="height: 5px;" />
                 <template v-if="loading">
-                    <skeleton-item v-if="loading" :height="100" :text-number="3" flat show/>
+                    <skeleton-item v-if="loading" :height="100" :text-number="3" flat show />
                 </template>
                 <template v-else-if="pdfSrc">
                     <q-scroll-area :style="{ height: scrollHeight }">
-                        <BasePdfViewCore v-model:scale="scale" v-model:page="page" v-model:pagess="pages" :src="pdfSrc"/>
+                        <BasePdfViewCore v-model:scale="scale" v-model:page="page" v-model:pagess="pages"
+                            :src="pdfSrc" />
                     </q-scroll-area>
                 </template>
                 <template v-else> Error</template>

@@ -1,20 +1,3 @@
-<template>
-    <div class="avatar-group" v-bind="$attrs">
-      <slot>
-        <base-image
-v-for="(item, index) in items.slice(0, limit)" :key="`${index}-${item}`" :square="square"
-          :rounded="rounded" class="avatar" :src="item" :fetch="fetch" :ratio="1" :style="{zIndex:limit-index}">
-          <slot name="extra" v-bind="{ index }"/>
-          </base-image>
-        <slot name="moreNumber">
-          <div v-if="items.length > 5" class="avatar extra">
-            +{{ items.length - 5 }}
-          </div>
-        </slot>
-      </slot>
-    </div>
-  </template>
-  
   <script setup lang="ts">
   /*
       <base-avatar-group
@@ -24,8 +7,8 @@ v-for="(item, index) in items.slice(0, limit)" :key="`${index}-${item}`" :square
       >
       </base-avatar-group>
    */
-  
-   withDefaults(defineProps<{
+
+  withDefaults(defineProps<{
     items: string[];
     spinnerColor?: string;
     color?: string;
@@ -56,40 +39,54 @@ v-for="(item, index) in items.slice(0, limit)" :key="`${index}-${item}`" :square
       overrapSize: '-10px',
     }
   );
-  </script>
-  <style lang="scss" scoped>
-  .avatar-group {
-    display: flex;
-    align-items: center;
-  }
-  
-  .avatar {
-    width: v-bind(size);
-    height: v-bind(size);
-    border-radius: 50%;
-    border: 2px solid v-bind(boderColor);
-    margin-left: v-bind(overrapSize);
-    object-fit: cover;
-  }
-  
+</script>
+  <template>
+    <div class="avatar-group" v-bind="$attrs">
+      <slot>
+        <base-image v-for="(item, index) in items.slice(0, limit)" :key="`${index}-${item}`" :square="square"
+          :rounded="rounded" class="avatar" :src="item" :fetch="fetch" :ratio="1" :style="{ zIndex: limit - index }">
+          <slot name="extra" v-bind="{ index }" />
+        </base-image>
+        <slot name="moreNumber">
+          <div v-if="items.length > 5" class="avatar extra">
+            +{{ items.length - 5 }}
+          </div>
+        </slot>
+      </slot>
+    </div>
+  </template>
+<style lang="scss" scoped>
+.avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: v-bind(size);
+  height: v-bind(size);
+  border-radius: 50%;
+  border: 2px solid v-bind(boderColor);
+  margin-left: v-bind(overrapSize);
+  object-fit: cover;
+}
+
+.avatar.extra {
+  width: v-bind(size);
+  height: v-bind(size);
+  border-radius: 50%;
+  background-color: var(--gray-200);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  margin-left: v-bind(overrapSize);
+}
+
+body.body--dark {
   .avatar.extra {
-    width: v-bind(size);
-    height: v-bind(size);
-    border-radius: 50%;
-    background-color: var(--gray-200);
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    margin-left: v-bind(overrapSize);
+    background-color: var(--color-dark-500);
+    color: white;
   }
-  
-  body.body--dark {
-    .avatar.extra {
-      background-color: var(--color-dark-500);
-      color: white;
-    }
-  }
-  </style>
-  
+}
+</style>

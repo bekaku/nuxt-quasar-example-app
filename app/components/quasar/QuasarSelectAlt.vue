@@ -1,17 +1,3 @@
-<template>
-    <q-select
-v-bind="$attrs" v-model="modelValue" :label="label" :dense :outlined :options="items" :option-value="optionValue"
-        :option-label="optionLabel" emit-value map-options :dropdown-icon="biChevronExpand" :multiple>
-        <template #no-option>
-            <q-item>
-                <q-item-section class="text-italic text-grey">
-                    {{ t('error.dataNotfound') }}
-                </q-item-section>
-            </q-item>
-        </template>
-    </q-select>
-</template>
-
 <script setup lang="ts" generic="T">
 import { biChevronExpand } from '@quasar/extras/bootstrap-icons';
 
@@ -35,5 +21,17 @@ withDefaults(defineProps<{
 const { t } = useLang();
 const modelValue = defineModel<T>();
 </script>
-
+<template>
+    <q-select v-bind="$attrs" v-model="modelValue" :label="label" :dense :outlined :options="items"
+        :option-value="optionValue" :option-label="optionLabel" emit-value map-options :dropdown-icon="biChevronExpand"
+        :multiple>
+        <template #no-option>
+            <q-item>
+                <q-item-section class="text-italic text-grey">
+                    {{ t('error.dataNotfound') }}
+                </q-item-section>
+            </q-item>
+        </template>
+    </q-select>
+</template>
 <style scoped></style>

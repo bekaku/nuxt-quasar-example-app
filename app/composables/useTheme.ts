@@ -9,6 +9,7 @@ export const useTheme = () => {
         // { key: 'realtime', text: 'theme.realtimeTheme', icon: biClock },
     ];
     const { dark } = useQuasar();
+    const isDark = computed<boolean>(() => dark.isActive);
     const themeCookie = useCookie<ITheme>('color-mode', {
         default: () => ('light'),
         expires: addDateByDays(365),
@@ -28,6 +29,7 @@ export const useTheme = () => {
         onSetTheme,
         initialQuasarDark,
         dark,
+        isDark,
         availableThemes,
         currentTheme
     };

@@ -1,51 +1,14 @@
-<template>
-    <q-btn
-      v-if="showBtnHelp"
-      flat
-      :icon="biQuestion"
-      class="text-capitalize q-pa-md"
-      :label="t('base.canUseMarkdown')"
-    >
-      <q-tooltip>
-        {{ t('base.canUseMarkdownHelp') }}
-      </q-tooltip>
-      <q-menu style="width: 450px">
-        <base-markdown-help/>
-      </q-menu>
-    </q-btn>
-  
-    <ClientOnly>
-      <MdEditor
-        v-model="modelValue"
-        :theme="dark.isActive ? 'dark' : 'light'"
-        language="en-US"
-        :preview-theme="previewTheme"
-        :code-theme="codeTheme"
-        :editor-id="editorId"
-        :sanitize="sanitizer"
-        :preview="preview"
-        :html-preview="htmlPreview"
-        :no-upload-img="noUploadImg"
-        :read-only="readOnly"
-        :disabled="disabled"
-        :toolbars-exclude="excludToolBars"
-        show-code-row-number
-        @on-save="onSave"
-        @on-upload-img="onUploadImg"
-      />
-    </ClientOnly>
-  </template>
   <script setup lang="ts">
   import FileManagerService from '@/api/FileManagerService';
-  import { useBase } from '@/composables/useBase';
-  import { useLang } from '@/composables/useLang';
-  import type{ MDCodeTheme, MDPreviewTheme } from '~/types/common';
-  import type  { FileManagerDto } from '@/types/models';
-  import { biQuestion } from '@quasar/extras/bootstrap-icons';
-  import { MdEditor, type ToolbarNames } from 'md-editor-v3';
-  import 'md-editor-v3/lib/style.css';
-  import { ref } from 'vue';
-  
+import { useBase } from '@/composables/useBase';
+import { useLang } from '@/composables/useLang';
+import type { FileManagerDto } from '@/types/models';
+import { biQuestion } from '@quasar/extras/bootstrap-icons';
+import { MdEditor, type ToolbarNames } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+import { ref } from 'vue';
+import type { MDCodeTheme, MDPreviewTheme } from '~/types/common';
+
   const props = withDefaults(
     defineProps<{
       editorId?: string;
@@ -72,12 +35,12 @@
       codeTheme: 'github',
     },
   );
-  const {dark}=useQuasar();
+  const { isDark } = useTheme();
   const { t } = useLang();
   const { uploadApi } = FileManagerService();
   // const text = ref('# Hello Editor ### 🤖 Base');
   const modelValue = defineModel<string>();
-  const {  inputSanitizeHtml, appLoading } = useBase();
+  const { inputSanitizeHtml, appLoading } = useBase();
   const excludToolBars = ref<ToolbarNames[]>(['save', 'github', 'htmlPreview']);
   const sanitizer = (html: string) => {
     if (props.sanitize) {
@@ -94,9 +57,10 @@
   const onUploadImg = async (files: any, callback: any) => {
     appLoading();
     const res = await Promise.all(
-      files.map((file: any) => {
-        return new Promise(async (rev, rej) => {
-          const resPonse = await uploadApi(file);
+      files.map(async (file: any) => {
+        const resPonse = await uploadApi(file);
+        return new Promise((rev, /*rej*/) => {
+
           rev(resPonse);
           // const form = new FormData();
           // form.append('file', file);
@@ -112,10 +76,10 @@
         });
       }),
     );
-  
+
     // Approach 1
     // callback(res.map((item) => item.data.url));
-  
+
     // Approach 2
     callback(
       res.map((item: FileManagerDto) => ({
@@ -126,10 +90,27 @@
     );
     appLoading(false);
   };
-  </script>
-  <style scoped lang="scss">
-  .md-editor-dark {
-    --md-bk-color: var(--wee-second-bg-color-theme-dark) !important;
-  }
-  </style>
-  
+</script>
+  <template>
+    <q-btn v-if="showBtnHelp" flat :icon="biQuestion" class="text-capitalize q-pa-md" :label="t('base.canUseMarkdown')">
+      <q-tooltip>
+        {{ t('base.canUseMarkdownHelp') }}
+      </q-tooltip>
+      <q-menu style="width: 450px">
+        <base-markdown-help />
+      </q-menu>
+    </q-btn>
+
+    <ClientOnly>
+      <MdEditor v-model="modelValue" :theme="isDark ? 'dark' : 'light'" language="en-US"
+        :preview-theme="previewTheme" :code-theme="codeTheme" :editor-id="editorId" :sanitize="sanitizer"
+        :preview="preview" :html-preview="htmlPreview" :no-upload-img="noUploadImg" :read-only="readOnly"
+        :disabled="disabled" :toolbars-exclude="excludToolBars" show-code-row-number @on-save="onSave"
+        @on-upload-img="onUploadImg" />
+    </ClientOnly>
+  </template>
+<style scoped lang="scss">
+.md-editor-dark {
+  --md-bk-color: var(--wee-second-bg-color-theme-dark) !important;
+}
+</style>

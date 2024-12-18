@@ -1,4 +1,15 @@
-<template>
+  <script setup lang="ts">
+  withDefaults(defineProps<{
+    show?: boolean
+    showHeader?: boolean
+    no?: number
+  }>(), {
+    show: true,
+    showHeader: false,
+    no: 3
+  })
+  </script>
+  <template>
     <div v-if="show" class="row">
       <div class="col-12">
         <q-item-label v-if="showHeader" header>
@@ -21,15 +32,3 @@
       </div>
     </div>
   </template>
-  <script setup lang="ts">
-  withDefaults(defineProps<{
-    show?: boolean
-    showHeader?: boolean
-    no?: number
-  }>(), {
-    show: true,
-    showHeader: false,
-    no: 3
-  })
-  </script>
-  

@@ -57,6 +57,7 @@ export const useAxios = () => {
         });
     };
     const callAxios = async <T>(req: RequestType): Promise<T | null> => {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             callAxiosProcess<T>(req)
                 .then(async (response) => {
@@ -72,7 +73,7 @@ export const useAxios = () => {
         });
     };
     const callAxiosFile = async <T>(req: RequestType): Promise<any> => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             callAxiosProcess<T>(req, false)
                 .then((response) => {
                     resolve(response);
@@ -121,7 +122,7 @@ export const useAxios = () => {
                 type: 'negative',
                 timeout: 15 * 1000,
                 progress: true,
-                position: 'bottom',
+                position: 'bottom-left',
                 multiLine: true,
                 actions: [{icon: biX, color: 'white'}]
             },
@@ -141,7 +142,7 @@ export const useAxios = () => {
                 type: response.status == 'OK' || response.status == 'CREATED' ? 'positive' : 'negative',
                 timeout: response.status == 'OK' || response.status == 'CREATED' ? 3 * 1000 : 10 * 1000,
                 progress: true,
-                position: 'bottom',
+                position: 'bottom-left',
                 multiLine: true,
                 actions: [{icon: biX, color: 'white'}]
             },

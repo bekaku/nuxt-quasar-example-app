@@ -7,7 +7,6 @@ const { closeOnClick = false, anchor = 'bottom left', self = 'top start', width=
     width?: string
 }>();
 const { onSetTheme, availableThemes, currentTheme } = useTheme();
-const { screen } = useQuasar();
 const { t } = useLang();
 </script>
 <template>

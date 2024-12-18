@@ -283,6 +283,7 @@ export default {
         'notifications': 'Notifications',
         'minimize': 'Minimize',
         'maximize': 'Maximize',
+        'typeForsearch': 'Type to search',
     },
     'theme': {
         'light': 'Light',

@@ -1,7 +1,6 @@
 <script setup lang="ts" generic="T">
 import { RecycleScroller } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
-import { ref, useTemplateRef } from 'vue';
 const {
     minItemSize = 35,
     itemSize = 35,
@@ -74,19 +73,18 @@ defineExpose({
 </script>
 
 <template>
-    <RecycleScroller
-v-bind="$attrs" ref="appRecycleScrollerRef" class='scroller' :key-field="keyField" :items='items'
+    <RecycleScroller v-bind="$attrs" ref="appRecycleScrollerRef" class='scroller' :key-field="keyField" :items='items'
         :min-item-size='minItemSize' :emit-update="emitUpdate" :page-mode="pageMode" :buffer="buffer" @resize="onResize"
         @update="onUpdate">
         <template #before>
-            <slot name="slotBefore"/>
+            <slot name="slotBefore" />
         </template>
-        <template #default='{ item, index }'> 
-           <slot v-bind="{ item, index }"/> 
+        <template #default='{ item, index }'>
+            <slot v-bind="{ item, index }" />
         </template>
 
         <template #after>
-            <slot name="slotAfter"/>
+            <slot name="slotAfter" />
         </template>
     </RecycleScroller>
 

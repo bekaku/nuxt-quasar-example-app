@@ -1,17 +1,7 @@
-<template>
-    <q-menu v-bind="$attrs" :cover anchor="top middle">
-      <q-list :style="{ minWidth: width }">
-        <BaseSimpleMenuItem
-v-for="(item, index) in items" :key="`app-menu-${item.value}-${index}`" v-close-popup
-          :item="item" @click="onClick(item.value)" />
-      </q-list>
-    </q-menu>
-  </template>
-  
   <script setup lang="ts" generic="T">
   import type { LabelValue } from '~/types/common';
   import { biThreeDotsVertical } from '@quasar/extras/bootstrap-icons';
-  
+
   withDefaults(defineProps<{
     items: LabelValue<T>[];
     icon?: string;
@@ -27,7 +17,13 @@ v-for="(item, index) in items" :key="`app-menu-${item.value}-${index}`" v-close-
   const onClick = (value: T) => {
     emit('on-click', value);
   };
-  </script>
-  
-  <style scoped></style>
-  
+</script>
+  <template>
+    <q-menu v-bind="$attrs" :cover anchor="top middle">
+      <q-list :style="{ minWidth: width }">
+        <BaseSimpleMenuItem v-for="(item, index) in items" :key="`app-menu-${item.value}-${index}`" v-close-popup
+          :item="item" @click="onClick(item.value)" />
+      </q-list>
+    </q-menu>
+  </template>
+<style scoped></style>

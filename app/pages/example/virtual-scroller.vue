@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useLang } from '@/composables/useLang';
 import { biArrowDown, biArrowUp } from '@quasar/extras/bootstrap-icons';
 import { onMounted, ref, useTemplateRef } from 'vue';
 import type { VirtualScrollerUpdate } from '~/types/common';
-const { t } = useLang();
 
 useHead({
     title: 'Virtual scroller'
@@ -19,7 +17,14 @@ const scrollerRecycleRef = useTemplateRef<any>('scrollerRecycleRef')
 const chatInfinityScrollRef = useTemplateRef<any>('chatInfinityScrollRef');
 const items = ref<any[]>([]);
 const loading = ref(false);
+
+
+
 const scrollPosition = ref<number>(10);
+
+
+const virtualListRef = useTemplateRef<any>('virtualListRef');
+const virtualListIndex = ref(0);
 onMounted(() => {
     for (let i = 0; i < maxSize; i++) {
         dataList.value.push({
@@ -77,6 +82,28 @@ const onInfinite = (index: number, done: any) => {
         done();
     }, 500);
 };
+
+const executeScroll = () => {
+    virtualListRef.value.scrollTo(virtualListIndex.value, 'start-force')
+}
+const onVirtualScroll = ({ index }: any) => {
+    virtualListIndex.value = index
+}
+const onVirtualScrollToBottom = () => {
+    virtualListRef.value.scrollTo(dataList.value.length - 1, 'start-force')
+}
+const onInfiniteVirtual = (index: number, done: any) => {
+    console.log('onInfiniteVirtual', index);
+    setTimeout(() => {
+        for (let i = 0; i < 30; i++) {
+            dataList.value.push({
+                id: (dataList.value.length + 1),
+                label: 'Option ' + (dataList.value.length + 1)
+            })
+        }
+        done()
+    }, 2000)
+}
 </script>
 <template>
     <q-page padding>
@@ -102,10 +129,8 @@ const onInfinite = (index: number, done: any) => {
                     <q-btn :icon="biArrowDown" no-caps label="Scroll to bottom" @click="scrollToBottom" />
                     <q-btn :icon="biArrowUp" no-caps label="Scroll to top" @click="onScrollTo(0)" />
                 </q-card-actions>
-                <BaseVirtualScrollerDynamic
-ref="scrollerDynamicRef" class="q-pa-sm"
-                    key-field="id" :items="dataList" :min-item-size="24" scroll-area-height="200px"
-                    @on-update="onVirtualScrollUpdate">
+                <BaseVirtualScrollerDynamic ref="scrollerDynamicRef" class="q-pa-sm" key-field="id" :items="dataList"
+                    :min-item-size="24" scroll-area-height="200px" @on-update="onVirtualScrollUpdate">
                     <template #slotBefore>
                         Before Slot
                     </template>
@@ -136,8 +161,7 @@ ref="scrollerDynamicRef" class="q-pa-sm"
                         </template>
                     </q-input>
                 </div>
-                <BaseVirtualScrollerRecycle
-id="scroll-chat-target-id" ref="scrollerRecycleRef"
+                <BaseVirtualScrollerRecycle id="scroll-chat-target-id" ref="scrollerRecycleRef"
                     style="padding-bottom:65px" :items="items" scroll-area-height="200px" :min-item-size="42">
                     <template #slotBefore>
                         Slot before
@@ -154,7 +178,7 @@ id="scroll-chat-target-id" ref="scrollerRecycleRef"
                             </q-item-section>
                             <q-item-section side>
                                 <q-chip>
-                                    #{{ index  }}
+                                    #{{ index }}
                                 </q-chip>
                             </q-item-section>
                         </q-item>
@@ -164,8 +188,7 @@ id="scroll-chat-target-id" ref="scrollerRecycleRef"
                         Slot after
                     </template>
                 </BaseVirtualScrollerRecycle>
-                <q-infinite-scroll
-ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
+                <q-infinite-scroll ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
                     @load="onInfinite">
                     <template #loading>
                         <div class="row justify-center q-my-md">
@@ -174,6 +197,58 @@ ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
                     </template>
                 </q-infinite-scroll>
             </q-card-section>
+
+            <q-card-section class="q-gutter-y-lg">
+                <div class="text-h5">
+                    Quasar virtual Scroller
+                </div>
+                <div class="q-pa-md row justify-center">
+                    <q-input v-model.number="virtualListIndex" style="min-width: 10em" type="number" :min="0"
+                        :max="9999" label="Scroll to index" input-class="text-right" outlined />
+                    <q-btn class="q-ml-sm" label="Go" no-caps color="primary" @click="executeScroll" />
+                    <q-btn class="q-ml-sm" label="To Bottom" no-caps @click="onVirtualScrollToBottom" />
+                </div>
+                <!-- <q-infinite-scroll :offset="250" scroll-target="#q-scroll-target-id" reverse @load="onInfiniteVirtual">
+                    <template #loading>
+                        <div class="row justify-center q-my-md">
+                            <q-spinner-dots color="primary" size="40px" />
+                        </div>
+                    </template>
+                </q-infinite-scroll> -->
+                <!-- <q-virtual-scroll id="q-scroll-target-id" ref="virtualListRef" v-slot="{ item, index }" style="max-height: 300px;" -->
+                <div id="virtual-scroll-target-holder" class="scroll" style="max-height: 300px">
+                    <p>Top Area</p>
+                    <q-virtual-scroll id="q-scroll-target-id" ref="virtualListRef" v-slot="{ item, index }"
+                        scroll-target="#virtual-scroll-target-holder"  :items="dataList" separator
+                        @virtual-scroll="onVirtualScroll">
+                        <div class="q-pa-md row justify-center">
+                            <div style="width: 100%;">
+                                <q-chat-message name="me" avatar="https://cdn.quasar.dev/img/avatar4.jpg" sent
+                                    stamp="7 minutes ago">
+                                    <div>
+                                        #{{ index }} - {{ item.label }}
+                                    </div>
+                                </q-chat-message>
+                                <q-chat-message name="Jane" avatar="https://cdn.quasar.dev/img/avatar3.jpg"
+                                    stamp="4 minutes ago">
+                                    <div>
+                                        #{{ index }} - {{ item.label }}
+                                    </div>
+                                </q-chat-message>
+                            </div>
+                        </div>
+                    </q-virtual-scroll>
+                    <p>Bottom Area</p>
+                    <q-infinite-scroll :offset="250" scroll-target="#virtual-scroll-target-holder" @load="onInfiniteVirtual">
+                        <template #loading>
+                            <div class="row justify-center q-my-md">
+                                <q-spinner-dots color="primary" size="40px" />
+                            </div>
+                        </template>
+                    </q-infinite-scroll>
+                </div>
+            </q-card-section>
+
         </q-card>
 
     </q-page>

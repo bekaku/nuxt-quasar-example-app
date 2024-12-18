@@ -1,3 +1,12 @@
+<script setup lang="ts">
+withDefaults(defineProps<{
+  no?: number
+  flat?: boolean
+}>(), {
+  no: 5,
+  flat: true,
+})
+</script>
 <template>
   <q-markup-table :flat="flat">
     <thead>
@@ -47,13 +56,3 @@
     </tbody>
   </q-markup-table>
 </template>
-
-<script setup lang="ts">
-withDefaults(defineProps<{
-  no?: number
-  flat?: boolean
-}>(), {
-  no: 5,
-  flat: true,
-})
-</script>

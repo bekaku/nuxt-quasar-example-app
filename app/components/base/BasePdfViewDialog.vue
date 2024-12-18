@@ -12,23 +12,22 @@ const { src, title, showDownload = true, fetchToServer = false, isBlob = false, 
     maximized?: boolean
 }>();
 const emit = defineEmits<{
-    onClose: [void]
-    onBeforeHide: [void]
-    onDelete: [index: number]
+    'on-close': []
+    'on-before-hide': []
+    'on-delete': [index: number]
 }>()
 const modelValue = defineModel<boolean>({ default: false });
 
 const onClose = () => {
     modelValue.value = false;
-    emit('onClose');
+    emit('on-close');
 };
 </script>
 <template>
-    <q-dialog
-:model-value="modelValue" :maximized="maximized" full-width full-height
-        @hide="onClose" @before-hide="$emit('onBeforeHide')">
-        <base-pdf-view :src :closeable :title :fetch-to-server :show-download :is-blob :scroll-height :min-height :min-width @on-close="onClose" />
+    <q-dialog :model-value="modelValue" :maximized="maximized" full-width full-height @hide="onClose"
+        @before-hide="$emit('on-before-hide')">
+        <base-pdf-view :src :closeable :title :fetch-to-server :show-download :is-blob :scroll-height :min-height
+            :min-width @on-close="onClose" />
     </q-dialog>
 </template>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

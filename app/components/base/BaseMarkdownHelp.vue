@@ -1,4 +1,7 @@
-<template>
+  <script setup lang="ts">
+  const { t } = useLang();
+  </script>
+  <template>
     <div class="row bg-black text-white">
       <div class="col">
         <q-list separator>
@@ -122,8 +125,5 @@
       </div>
     </div>
   </template>
-  <script setup lang="ts">
-  const { t } = useLang();
-  </script>
   <style scoped lang="scss"></style>
   

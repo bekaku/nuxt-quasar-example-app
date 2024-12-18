@@ -1,11 +1,3 @@
-<template>
-    <div class="row justify-center">
-        <q-btn
-:disable="isInfiniteDisabled" :label="label" class="text-capitalize q-ma-sm"
-            :class="color + ' ' + (fullWidth ? 'full-width' : '')" :icon="showIcon ? icon : undefined"
-            flat :loading="loading" @click="$emit('on-next-page')"/>
-    </div>
-</template>
 <script setup lang="ts">
 /*
  
@@ -52,3 +44,10 @@ withDefaults(
 );
 defineEmits(['on-next-page']);
 </script>
+<template>
+    <div class="row justify-center">
+        <q-btn :disable="isInfiniteDisabled" :label="label" class="text-capitalize q-ma-sm"
+            :class="color + ' ' + (fullWidth ? 'full-width' : '')" :icon="showIcon ? icon : undefined" flat
+            :loading="loading" @click="$emit('on-next-page')" />
+    </div>
+</template>

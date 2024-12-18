@@ -57,7 +57,7 @@ const onDownloadFile = async () => {
     const file = item;
     if (!file || !file.filePath) {
         onClose();
-        return new Promise(async (resolve) => resolve(false));
+        return new Promise((resolve) => resolve(false));
     }
 
     if (fetch) {
@@ -82,7 +82,7 @@ const onDownloadFile = async () => {
         }
     }
 
-    return new Promise(async (resolve) => resolve(true));
+    return new Promise((resolve) => resolve(true));
 
 };
 const detechFile = async () => {
@@ -100,12 +100,10 @@ const onClose = () => {
 </script>
 <template>
     <div v-if="item && fileType">
-        <lazy-base-pdf-view-dialog
-v-if="showView && fileType == 'pdf' && pdfSrc" v-model="showView" :src="pdfSrc"
+        <lazy-base-pdf-view-dialog v-if="showView && fileType == 'pdf' && pdfSrc" v-model="showView" :src="pdfSrc"
             :fetch-to-server="fetch" :title="item.fileName || title" @on-close="onClose" />
 
-        <lazy-base-image-view-dialog
-v-else-if="fileType == 'image' && showView" v-model="showView" :files="imageItems"
+        <lazy-base-image-view-dialog v-else-if="fileType == 'image' && showView" v-model="showView" :files="imageItems"
             :selected-index="imageSelectIndex" :show-delete-image="false" :maximized="false" :fetch="fetch"
             :show-arrow="showArrow" @on-close="onClose" />
     </div>

@@ -10,7 +10,6 @@ import {
     biShop
 } from '@quasar/extras/bootstrap-icons';
 import { ref } from 'vue';
-const { t } = useLang();
 const progress = ref(false);
 useHead({
     title: 'Button'
@@ -36,6 +35,7 @@ useHead({
                     <QuasarButton label="Primary" color="primary"/>
                     <QuasarButton label="Unelevated" unelevated color="primary"/>
                     <QuasarButton label="Outline" outline/>
+                    <QuasarButton label="Outline color" outline outline-color="teal" />
                     <QuasarButton color="white" :unelevated="false" text-color="black" label="Standard"/>
                     <QuasarButton color="secondary" label="Secondary"/>
                     <QuasarButton color="amber" glossy label="Amber"/>

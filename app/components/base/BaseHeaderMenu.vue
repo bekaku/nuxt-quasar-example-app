@@ -2,31 +2,28 @@
 // const {}=defineProps<{
 // }>();
 import {
-  biBoxArrowRight,
-  biCheck2,
-  biChevronExpand,
-  biChevronRight,
-  biGear,
-  biMoon,
-  biPersonSquare,
-  biQuestionCircle, biSun,
-  biTranslate
+    biBoxArrowRight,
+    biChevronExpand,
+    biChevronRight,
+    biGear,
+    biMoon,
+    biPersonSquare,
+    biQuestionCircle, biSun,
+    biTranslate
 } from '@quasar/extras/bootstrap-icons';
-const {screen}=useQuasar();
+const { screen } = useQuasar();
 const authenStore = useAuthenStore();
-const appStore = useAppStore();
 const { signout } = useAuth();
 const { t, currentLangugeName } = useLang();
-const {dark}=useQuasar();
+const { isDark } = useTheme();
 </script>
 <template>
     <q-item v-bind="$attrs" clickable>
         <q-item-section avatar top>
-            <base-avatar
-v-if="authenStore.loginedAvatar" class="shadow-5" :src="authenStore.loginedAvatar"
+            <base-avatar v-if="authenStore.loginedAvatar" class="shadow-5" :src="authenStore.loginedAvatar"
                 size="36px" />
         </q-item-section>
-        <q-item-section v-if="$q.screen.gt.xs">
+        <q-item-section v-if="screen.gt.xs">
             <q-item-label lines="1">
                 <span class="cursor-pointer text-weight-bold">
                     {{ authenStore.loginedDisplay }}
@@ -43,8 +40,7 @@ v-if="authenStore.loginedAvatar" class="shadow-5" :src="authenStore.loginedAvata
             <q-list style="min-width: 260px">
                 <q-item v-close-popup clickable :to="`/user/${authenStore.auth?.id}`">
                     <q-item-section avatar>
-                        <base-avatar
-v-if="authenStore.loginedAvatar" :src="authenStore.loginedAvatar" size="36px"
+                        <base-avatar v-if="authenStore.loginedAvatar" :src="authenStore.loginedAvatar" size="36px"
                             rounded />
                         <q-icon v-else :name="biPersonSquare" />
                     </q-item-section>
@@ -53,18 +49,17 @@ v-if="authenStore.loginedAvatar" :src="authenStore.loginedAvatar" size="36px"
                 <q-separator />
                 <q-item clickable>
                     <q-item-section avatar>
-                        <q-icon :name="dark.isActive ? biMoon : biSun" />
+                        <q-icon :name="isDark ? biMoon : biSun" />
                     </q-item-section>
                     <q-item-section>
                         <q-item-label lines="1">
-                            {{ t('base.appearance') }} :
-                            {{ !dark.isActive ? t('theme.light')  : t('theme.dark')}}
+                            {{ `${t('base.appearance')} : ${!isDark ? t('theme.light') : t('theme.dark')}` }} 
                         </q-item-label>
                     </q-item-section>
                     <q-item-section side>
                         <q-icon :name="biChevronRight" />
                     </q-item-section>
-                    <BaseThemeSwitcher :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start"/>
+                    <BaseThemeSwitcher :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start" />
                 </q-item>
                 <q-item clickable>
                     <q-item-section avatar>
@@ -72,13 +67,13 @@ v-if="authenStore.loginedAvatar" :src="authenStore.loginedAvatar" size="36px"
                     </q-item-section>
                     <q-item-section>
                         <q-item-label lines="1">
-                            {{ `${t('base.language')} ${currentLangugeName}` }} :
+                            {{ `${t('base.language')} : ${currentLangugeName}` }}
                         </q-item-label>
                     </q-item-section>
                     <q-item-section side>
                         <q-icon :name="biChevronRight" />
                     </q-item-section>
-                    <BaseLangugeSwitcher  :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start" />
+                    <BaseLangugeSwitcher :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start" />
                 </q-item>
 
                 <q-separator />

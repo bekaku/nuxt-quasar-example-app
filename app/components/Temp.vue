@@ -15,10 +15,11 @@ const props = withDefaults(
   }
 );
 const emit = defineEmits<{
-  onClose: [void]
+  'on-close': []
   change: [id: number]
   update: [value: string]
 }>()
+
 // const emit = defineEmits(['on-close', 'update:modelValue']);
 const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof QuasarFilePicker>>('filePickerCustomUiRef');
 const onClick = async (index: number, event: any) => {
@@ -54,6 +55,11 @@ const onTestClickFromParent = (from: string) => {
 defineExpose({
   onTestClickFromParent
 });
+/*
+To disable all rules on a specific line
+ // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+*/
 </script>
 <template>
   <q-card v-bind="$attrs" flat class="full-height">

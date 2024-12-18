@@ -11,25 +11,23 @@ const { showDeleteImage = false, maximized = true, fetch = false, showArrow = tr
     selectedIndex?: number
 }>();
 const emit = defineEmits<{
-    onClose: [void]
-    onBeforeHide: [void]
-    onDelete: [index: number]
+    'on-close': []
+    'on-before-hide': []
+    'on-delete': [index: number]
 }>()
 const modelValue = defineModel<boolean>({ default: false });
 
 
 const onClose = () => {
     modelValue.value = false;
-    emit('onClose');
+    emit('on-close');
 };
 </script>
 <template>
-    <q-dialog
-:model-value="modelValue" :maximized="maximized" full-width full-height
-        @hide="onClose" @before-hide="$emit('onBeforeHide')">
-        <base-image-view
-:files :selected-index :show-delete-image :show-arrow
-            @on-delete="index => $emit('onDelete', index)" @on-close="onClose"/>
+    <q-dialog :model-value="modelValue" :maximized="maximized" full-width full-height @hide="onClose"
+        @before-hide="$emit('on-before-hide')">
+        <base-image-view :files :selected-index :show-delete-image :show-arrow :fetch="fetch" :images="images"
+            @on-delete="index => $emit('on-delete', index)" @on-close="onClose" />
     </q-dialog>
 </template>
 <style lang="scss" scoped>

@@ -29,8 +29,8 @@ const { showDeleteImage = false, dark = true, fetch = false, showArrow = true, f
     closeable?: boolean
 }>();
 const emit = defineEmits<{
-    onClose: [void]
-    onBeforeHide: [void]
+    onClose: []
+    onBeforeHide: []
     onDelete: [index: number]
 }>()
 const baseImgViewSwiperRef = useTemplateRef<InstanceType<typeof BaseSwiperSlides>>('baseImgViewSwiperRef');

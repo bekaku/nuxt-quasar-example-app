@@ -5,7 +5,7 @@ import {
     biQuestionCircle,
     biSearch
 } from '@quasar/extras/bootstrap-icons';
-import {additionalMenu} from '~/libs/navs'
+import { additionalMenu } from '~/libs/navs';
 const { overlay = false, bordered = false, miniToOverlay = true, width = 250, showUserSetting = true } = defineProps<{
     overlay?: boolean;
     miniToOverlay?: boolean;
@@ -21,13 +21,12 @@ const miniState = ref(false);
 const searchText = ref<string>('');
 </script>
 <template>
-    <q-drawer
-v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
+    <q-drawer v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
         :mini-to-overlay="miniToOverlay && !appStore.leftDrawerOpen" :mini="miniState && !appStore.leftDrawerOpen"
         class="drawer-bg" @mouseover="miniState = false" @mouseout="miniState = true">
         <q-scroll-area class="fit">
             <div v-show="!miniState || appStore.leftDrawerOpen">
-                <BaseHeaderMenu class="q-pt-md" />
+                <BaseHeaderMenu v-if="showUserSetting" class="q-pt-md" />
                 <q-input v-model="searchText" class="q-pa-md" outlined dense>
                     <template #prepend>
                         <q-icon :name="biSearch" size="xs" />
@@ -37,7 +36,7 @@ v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered=
                     </template>
                 </q-input>
             </div>
-            <BaseMenuItems :menu-items="appStore.drawers"/>
+            <BaseMenuItems :menu-items="appStore.drawers" />
             <BaseMenuItems :menu-items="additionalMenu">
                 <template #after>
                     <q-separator />

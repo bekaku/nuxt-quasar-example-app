@@ -1,3 +1,18 @@
+<script setup lang="ts">
+withDefaults(defineProps<{
+  show?: boolean
+  flat?: boolean
+  bordered?: boolean
+  no?: number
+  cardHeight?: string
+}>(), {
+  show: true,
+  flat: false,
+  bordered: false,
+  no: 3,
+  cardHeight: '200px'
+})
+</script>
 <template>
   <div v-if="show" class="row" v-bind="$attrs">
     <div class="col-12">
@@ -30,18 +45,3 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-withDefaults(defineProps<{
-  show?: boolean
-  flat?: boolean
-  bordered?: boolean
-  no?: number
-  cardHeight?: string
-}>(), {
-  show: true,
-  flat: false,
-  bordered: false,
-  no:3,
-  cardHeight:'200px'
-})
-</script>

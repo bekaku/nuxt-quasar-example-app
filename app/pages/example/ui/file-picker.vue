@@ -1,95 +1,3 @@
-<template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> file-picker </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
-            <q-card-section>
-                <div class="row">
-                    <div class="col-12 q-pa-md">
-                        <div class="text-h5">
-                            Simple Picker
-                        </div>
-                        <QuasarFilePicker
-v-model="files" v-model:file-items="filesPreview" multiple :icon="biFileArrowUp"
-                            show-preview :accept="FileExtensionAccept" :label="t('base.chooseFile')"
-                            @on-file-add="onFileAdd" />
-                        <quasar-button class="q-my-md" @click="onSubmit">
-                            Submit
-                        </quasar-button>
-                        <q-separator />
-                    </div>
-                    <div class="col-12 q-pa-md">
-                        <div class="text-h5">
-                            Custom Ui
-                        </div>
-                        <QuasarFilePicker
-ref="filePickerCustomUiRef" v-model:file-items="customFiles" multiple
-                            :accept="FileExtensionAccept" @on-file-add="onCustomFileAdd">
-                            <quasar-button
-class="q-my-md" outline :icon="biUpload" label="Open Picker"
-                                @click="openPicker" />
-                        </QuasarFilePicker>
-                        <BaseFilesPreview
-:items="customFiles" format-size col="col-4 col-md-2 q-pa-md"
-                            @on-remove="onCustomRemove" />
-                        <q-separator />
-                    </div>
-                    <div class="col-12 q-pa-md">
-                        <div class="text-h5 q-pb-md">
-                            Custom Ui2
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6 q-pa-md">
-                                <QuasarFilePicker
-ref="filePickerCustomUi2Ref" v-model:file-items="custom2Files" style="display: none;"
-                                    multiple :accept="FileExtensionAccept" :max-files="5"
-                                    @on-file-add="onCustomFileAdd2"/>
-
-
-
-                                <q-input v-model="message" outlined type="textarea" autogrow label="Type message">
-                                    <template v-if="authenStore?.auth?.avatar?.thumbnail" #prepend>
-                                        <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
-                                    </template>
-                                    <template #before>
-                                        <quasar-button round flat :icon="biImage" color="grey-7" @click="openPicker2" />
-                                        <quasar-button round flat :icon="biEmojiSmile" color="grey-7" />
-                                    </template>
-                                    <template #after>
-                                        <quasar-button flat round :icon="biSend" color="primary">
-                                            <q-tooltip>
-                                                Send
-                                            </q-tooltip>
-                                        </quasar-button>
-                                    </template>
-                                </q-input>
-                            </div>
-                            <div class="col-12 col-md-6 q-pa-md">
-                                <q-list v-if="custom2Files != undefined && custom2Files.length > 0">
-                                    <base-scroll-area height="250px">
-                                        <base-files-preview-item-alt
-v-for="(f, fileIndex) in custom2Files"
-                                            :key="`f-${f.id}-${fileIndex}`" :item="f" :index="fileIndex"
-                                            dense format-size image-size="100px" show-delete
-                                            @on-remove="onCustomRemove2"/>
-                                    </base-scroll-area>
-                                </q-list>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </q-card-section>
-        </q-card>
-    </q-page>
-</template>
-
 <script setup lang="ts">
 import type { FileManagerDto } from '~/types/models';
 import { FileExtensionAccept } from '~/libs/constants';
@@ -147,5 +55,88 @@ const onCustomRemove2 = (index: number) => {
     custom2Files.value.splice(index, 1);
 };
 </script>
+<template>
+    <q-page padding>
+        <q-card flat bordered class="content-limit">
+            <q-card-section>
+                <q-toolbar>
+                    <q-toolbar-title> file-picker </q-toolbar-title>
+                    <q-space />
+                </q-toolbar>
+                <q-separator />
+            </q-card-section>
+            <q-card-section>
+                <div class="row">
+                    <div class="col-12 q-pa-md">
+                        <div class="text-h5">
+                            Simple Picker
+                        </div>
+                        <QuasarFilePicker v-model="files" v-model:file-items="filesPreview" multiple
+                            :icon="biFileArrowUp" show-preview :accept="FileExtensionAccept"
+                            :label="t('base.chooseFile')" @on-file-add="onFileAdd" />
+                        <quasar-button class="q-my-md" @click="onSubmit">
+                            Submit
+                        </quasar-button>
+                        <q-separator />
+                    </div>
+                    <div class="col-12 q-pa-md">
+                        <div class="text-h5">
+                            Custom Ui
+                        </div>
+                        <QuasarFilePicker ref="filePickerCustomUiRef" v-model:file-items="customFiles" multiple
+                            :accept="FileExtensionAccept" @on-file-add="onCustomFileAdd">
+                            <quasar-button class="q-my-md" outline :icon="biUpload" label="Open Picker"
+                                @click="openPicker" />
+                        </QuasarFilePicker>
+                        <BaseFilesPreview :items="customFiles" format-size col="col-4 col-md-2 q-pa-md"
+                            @on-remove="onCustomRemove" />
+                        <q-separator />
+                    </div>
+                    <div class="col-12 q-pa-md">
+                        <div class="text-h5 q-pb-md">
+                            Custom Ui2
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 q-pa-md">
+                                <QuasarFilePicker ref="filePickerCustomUi2Ref" v-model:file-items="custom2Files"
+                                    style="display: none;" multiple :accept="FileExtensionAccept" :max-files="5"
+                                    @on-file-add="onCustomFileAdd2" />
 
+
+
+                                <q-input v-model="message" outlined type="textarea" autogrow label="Type message">
+                                    <template v-if="authenStore?.auth?.avatar?.thumbnail" #prepend>
+                                        <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
+                                    </template>
+                                    <template #before>
+                                        <quasar-button round flat :icon="biImage" color="grey-7" @click="openPicker2" />
+                                        <quasar-button round flat :icon="biEmojiSmile" color="grey-7" />
+                                    </template>
+                                    <template #after>
+                                        <quasar-button flat round :icon="biSend" color="primary">
+                                            <q-tooltip>
+                                                Send
+                                            </q-tooltip>
+                                        </quasar-button>
+                                    </template>
+                                </q-input>
+                            </div>
+                            <div class="col-12 col-md-6 q-pa-md">
+                                <q-list v-if="custom2Files != undefined && custom2Files.length > 0">
+                                    <base-scroll-area height="250px">
+                                        <base-files-preview-item-alt v-for="(f, fileIndex) in custom2Files"
+                                            :key="`f-${f.id}-${fileIndex}`" :item="f" :index="fileIndex" dense
+                                            format-size image-size="100px" show-delete @on-remove="onCustomRemove2" />
+                                    </base-scroll-area>
+                                </q-list>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </q-card-section>
+        </q-card>
+    </q-page>
+</template>
 <style lang="scss" scoped></style>

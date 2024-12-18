@@ -37,15 +37,15 @@ const scrollToBottom = () => {
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
-const { minItemSize = 54, emitUpdate = true, scrollAreaHeight = '65vh', items, keyField = 'id', buffer = 800,  pageMode = false, } = defineProps<{
+const { minItemSize = 54, emitUpdate = true, scrollAreaHeight = '65vh', items, keyField = 'id', buffer = 800, pageMode = false, } = defineProps<{
   minItemSize?: number;
-    emitUpdate?: boolean;
-    scrollAreaHeight?: string;
-    minHeight?: string;
-    keyField?: string;
-    pageMode?: boolean;
-    buffer?: number;
-    items: T[]
+  emitUpdate?: boolean;
+  scrollAreaHeight?: string;
+  minHeight?: string;
+  keyField?: string;
+  pageMode?: boolean;
+  buffer?: number;
+  items: T[]
 }>();
 
 
@@ -90,20 +90,19 @@ defineExpose({
 </script>
 
 <template>
-  <DynamicScroller
-v-bind="$attrs" ref="appDynamicScrollerRef" :items="items" :emit-update="emitUpdate" :key-field="keyField"
-  :min-item-size="minItemSize" :buffer="buffer"  :page-mode="pageMode" :style="{ height: 'auto', maxHeight: scrollAreaHeight }" @resize="onResize"
-    @update="onUpdate">
+  <DynamicScroller v-bind="$attrs" ref="appDynamicScrollerRef" :items="items" :emit-update="emitUpdate"
+    :key-field="keyField" :min-item-size="minItemSize" :buffer="buffer" :page-mode="pageMode"
+    :style="{ height: 'auto', maxHeight: scrollAreaHeight }" @resize="onResize" @update="onUpdate">
     <template #before>
-      <slot name="slotBefore"/>
+      <slot name="slotBefore" />
     </template>
     <template #default="{ item, index, active }">
       <DynamicScrollerItem :item="item" :active="active" :data-index="index">
-        <slot v-bind="{ item, index, active }"/>
+        <slot v-bind="{ item, index, active }" />
       </DynamicScrollerItem>
     </template>
     <template #after>
-      <slot name="slotAfter"/>
+      <slot name="slotAfter" />
     </template>
   </DynamicScroller>
 </template>

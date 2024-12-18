@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import type { ApiResponse, IApiListResponse, OgMeta } from '~/types/common'
+import type { IApiListResponse, OgMeta } from '~/types/common';
 import type { Permission } from '~/types/models';
 
 const { $axios } = useNuxtApp();

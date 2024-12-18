@@ -1,14 +1,7 @@
-<template>
-    <q-no-ssr>
-        <MdPreview
-v-bind="$attrs" v-model="contentVal" :theme="dark.isActive ? 'dark' : 'light'" language="en-US"
-            :editor-id="editorId" :code-theme="codeTheme" :preview-theme="previewTheme" style="text-align: left;" />
-    </q-no-ssr>
-</template>
 <script setup lang="ts">
-import type { MDCodeTheme, MDPreviewTheme } from '~/types/common';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+import type { MDCodeTheme, MDPreviewTheme } from '~/types/common';
 
 const props = withDefaults(
     defineProps<{
@@ -25,7 +18,7 @@ const props = withDefaults(
         codeTheme: 'github',
     },
 );
-const { dark } = useQuasar();
+const { isDark } = useTheme();
 const contentVal = ref<string | undefined>(props.content)
 onMounted(() => {
     registerLinks();
@@ -33,12 +26,20 @@ onMounted(() => {
 const registerLinks = () => {
     const links = document.links;
     for (let i = 0, linksLength = links.length; i < linksLength; i++) {
-        if (links[i].hostname != window.location.hostname) {
+        if (links[i] != undefined && links[i]?.hostname != window.location.hostname) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             links[i].target = '_blank';
         }
     }
 };
 </script>
+<template>
+    <ClientOnly>
+        <MdPreview v-bind="$attrs" v-model="contentVal" :theme="isDark ? 'dark' : 'light'" language="en-US"
+            :editor-id="editorId" :code-theme="codeTheme" :preview-theme="previewTheme" style="text-align: left;" />
+    </ClientOnly>
+</template>
 <style scoped lang="scss">
 .md-editor-dark {
     --md-bk-color: var(--wee-second-bg-color-theme-dark) !important;

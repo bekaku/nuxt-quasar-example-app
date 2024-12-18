@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { FileManagerDto } from '~/types/models';
-const { t } = useLang();
 useHead({
     title: 'Image/Pdf View'
 })
-const { dark } = useQuasar();
+const { isDark } = useTheme();
 const imageSelectIndex = ref<number>(0);
 const showImageView = ref(false);
 const imageItems = ref<FileManagerDto[]>([
@@ -212,23 +211,20 @@ const setImagesFileView = (file: FileManagerDto) => {
                             <div class="col-12 col-md-6">
                                 <q-item-label header>Grid</q-item-label>
                                 <div class="row">
-                                    <div
-v-for="(item, i) in imageItems" :key="`img-${i}-${item.fileName}`"
+                                    <div v-for="(item, i) in imageItems" :key="`img-${i}-${item.fileName}`"
                                         class='col-4 col-md-3 q-pa-xs'>
-                                        <base-files-preview-item
-style="border-radius: 10px" :item="item" :index="i"
+                                        <base-files-preview-item style="border-radius: 10px" :item="item" :index="i"
                                             :show-delete="false" show-tooltip :use-thumbnail="false" image-size="100%"
-                                            :show-name="false" :show-size="false" @on-click="onImgPreviewClick"/>
+                                            :show-name="false" :show-size="false" @on-click="onImgPreviewClick" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 q-px-md">
                                 <q-item-label header>List</q-item-label>
                                 <base-scroll-area height="310px">
-                                    <base-files-preview-item-alt
-v-for="(itemAlt, iAlt) in imageItems"
+                                    <base-files-preview-item-alt v-for="(itemAlt, iAlt) in imageItems"
                                         :key="`img-${iAlt}-${itemAlt.fileName}`" :item="itemAlt" :index="iAlt" clickable
-                                        dense :show-delete="true" show-name show-size @on-click="onImgPreviewClick"/>
+                                        dense :show-delete="true" show-name show-size @on-click="onImgPreviewClick" />
                                 </base-scroll-area>
                             </div>
                         </div>
@@ -239,9 +235,8 @@ v-for="(itemAlt, iAlt) in imageItems"
                         </div>
                         <q-card flat bordered>
                             <client-only>
-                                <base-image-view
-:files="imageItems" :selected-index="imageSelectIndex"
-                                    :dark="dark.isActive" :show-delete-image="false" show-arrow height="350px"
+                                <base-image-view :files="imageItems" :selected-index="imageSelectIndex"
+                                    :dark="isDark" :show-delete-image="false" show-arrow height="350px"
                                     :closeable="false" />
                             </client-only>
                         </q-card>
@@ -254,12 +249,11 @@ v-for="(itemAlt, iAlt) in imageItems"
                             Pdf dialog View
                         </div>
                         <div class="row">
-                            <div
-v-for="(pdf, pdfIndex) in pdfItems" :key="`impdfg-${pdfIndex}-${pdf.id}`"
+                            <div v-for="(pdf, pdfIndex) in pdfItems" :key="`impdfg-${pdfIndex}-${pdf.id}`"
                                 class='col-4 col-md-2 q-pa-xs'>
-                                <base-files-preview-item
-style="border-radius: 10px" :item="pdf" :index="pdfIndex"
-                                    :show-delete="false" show-tooltip show-name show-size @on-click="onPdfPreviewClick"/>
+                                <base-files-preview-item style="border-radius: 10px" :item="pdf" :index="pdfIndex"
+                                    :show-delete="false" show-tooltip show-name show-size
+                                    @on-click="onPdfPreviewClick" />
                             </div>
                         </div>
 
@@ -267,8 +261,7 @@ style="border-radius: 10px" :item="pdf" :index="pdfIndex"
                             Pdf inline display
                         </div>
                         <q-card flat bordered>
-                            <base-pdf-view
-src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+                            <base-pdf-view src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
                                 :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
                         </q-card>
                     </q-card-section>
@@ -280,30 +273,25 @@ src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
                             Mix item View
                         </div>
                         <div class="row">
-                            <div
-v-for="(m, mIndex) in mixItems" :key="`impdfg-${mIndex}-${m.fileName}`"
+                            <div v-for="(m, mIndex) in mixItems" :key="`impdfg-${mIndex}-${m.fileName}`"
                                 class='col-4 col-md-2 q-pa-xs'>
-                                <base-files-preview-item
-style="border-radius: 10px" :item="m" :index="mIndex"
+                                <base-files-preview-item style="border-radius: 10px" :item="m" :index="mIndex"
                                     :show-delete="false" show-tooltip show-name show-size image-size="100%"
-                                    :lines-name="2" @on-click="onMixPreviewClick"/>
+                                    :lines-name="2" @on-click="onMixPreviewClick" />
                             </div>
                         </div>
                     </q-card-section>
                 </q-card>
             </q-card-section>
         </q-card>
-        <lazy-base-image-view-dialog
-v-if="showImageView" v-model="showImageView" :files="imageItems"
+        <lazy-base-image-view-dialog v-if="showImageView" v-model="showImageView" :files="imageItems"
             :selected-index="imageSelectIndex" :show-delete-image="true" :maximized="false" show-arrow
             @on-delete="onDeleteImage" @on-close="onImgPreviewClose" />
 
-        <lazy-base-pdf-view-dialog
-v-if="showPdfView && pdfSrc" v-model="showPdfView" :src="pdfSrc" :title="pdfName"
+        <lazy-base-pdf-view-dialog v-if="showPdfView && pdfSrc" v-model="showPdfView" :src="pdfSrc" :title="pdfName"
             @on-close="() => onClosePefView" />
 
-        <lazy-base-file-view-dialog
-v-if="showMixFiles && fileMixForView" v-model:show="showMixFiles"
+        <lazy-base-file-view-dialog v-if="showMixFiles && fileMixForView" v-model:show="showMixFiles"
             :item="fileMixForView" :image-list="fileImageItemsForView" :select-index="fileMixImageSelectIndex"
             title="Images" :show-arrow="true" />
     </q-page>

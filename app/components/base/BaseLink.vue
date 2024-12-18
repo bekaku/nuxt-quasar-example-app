@@ -1,16 +1,6 @@
-<template>
-    <q-btn
-type="a" align="left" :class="!dark.isActive ? color : colorDark"
-        class="text-capitalize app-text-link btn--no-hover" dense flat :to="to" :href="href ? href : undefined"
-        :target="external ? '_blank' : undefined" :label="label">
-        <slot />
-    </q-btn>
-</template>
-
 <script setup lang="ts">
 import type { IHrefTarget } from '~/types/common';
-import { useQuasar } from 'quasar';
-const { external=false, color='text-muted' } = defineProps<{
+const { external = false, color = 'text-muted' } = defineProps<{
     label: string
     external?: boolean
     href?: string
@@ -19,7 +9,7 @@ const { external=false, color='text-muted' } = defineProps<{
     color?: string
     colorDark?: string
 }>();
-const { dark } = useQuasar();
+const { isDark } = useTheme();
 // const { appGoto } = useBase();
 // const onOpen = (event: any) => {
 //   if (props.to) {
@@ -32,4 +22,11 @@ const { dark } = useQuasar();
 //   }
 // };
 </script>
+<template>
+    <q-btn type="a" align="left" :class="!isDark ? color : colorDark"
+        class="text-capitalize app-text-link btn--no-hover" dense flat :to="to" :href="href ? href : undefined"
+        :target="external ? '_blank' : undefined" :label="label">
+        <slot />
+    </q-btn>
+</template>
 <style lang="scss" scoped></style>

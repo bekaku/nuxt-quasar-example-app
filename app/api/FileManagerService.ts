@@ -79,48 +79,44 @@ export default () => {
       method: 'GET',
       responseType: 'arraybuffer'
     });
-    return new Promise(async (resolve /*reject*/) => {
-      if (response.data) {
-        if (responseDataType == 'blob') {
-          const imageUrlObject = await getBlobFromAxiosResponse(response);
-          resolve(imageUrlObject);
-        } else if (responseDataType == 'arraybuffer') {
-          resolve(response.data);
-        } else if (responseDataType == 'download') {
-          const contentType = response.headers['content-type'];
-          const fileName = getFileNameFromResponse(response);
-          downloadFromArrayBuffer(response.data, fileName, contentType);
-          // const name = 'Test.'
-          resolve(response.data);
-        } else if (responseDataType == 'axiosresponse') {
-          resolve(response);
-        }
+    if (response.data) {
+      if (responseDataType == 'blob') {
+        const imageUrlObject = await getBlobFromAxiosResponse(response);
+        return new Promise((resolve) => resolve(imageUrlObject));
+      } else if (responseDataType == 'arraybuffer') {
+        return new Promise((resolve) => resolve(response.data));
+      } else if (responseDataType == 'download') {
+        const contentType = response.headers['content-type'];
+        const fileName = getFileNameFromResponse(response);
+        downloadFromArrayBuffer(response.data, fileName, contentType);
+        // const name = 'Test.'
+        return new Promise((resolve) => resolve(response.data));
+      } else if (responseDataType == 'axiosresponse') {
+        return new Promise((resolve) => resolve(response));
       }
-    });
+    }
   };
   const downloadCdnData = async (
     path: string,
     downloadFileName?: string
   ): Promise<any> => {
     const response = await fethCdnData(path, 'axiosresponse');
-    return new Promise(async (resolve /*reject*/) => {
-      if (response.data) {
-        const contentType = response.headers['content-type'];
-        // const contentDisposition = response.headers['content-disposition'];
-        let fileName = await getFileNameFromAxiosResponse(response);
+    if (response.data) {
+      const contentType = response.headers['content-type'];
+      // const contentDisposition = response.headers['content-disposition'];
+      let fileName = await getFileNameFromAxiosResponse(response);
 
-        if (!fileName) {
-          const fileExtension = getFileExtension(contentType);
-          fileName = generateFileNameByExtesnsion(fileExtension, downloadFileName);
-        }
-        if (fileName) {
-          downloadFromArrayBuffer(response.data, fileName, contentType);
-        }
-        resolve(response.data);
+      if (!fileName) {
+        const fileExtension = getFileExtension(contentType);
+        fileName = generateFileNameByExtesnsion(fileExtension, downloadFileName);
       }
+      if (fileName) {
+        downloadFromArrayBuffer(response.data, fileName, contentType);
+      }
+      return new Promise((resolve)=>   resolve(response.data));
+    }
 
-      resolve(null);
-    });
+    return new Promise((resolve)=>   resolve(null));
   };
   return {
     uploadApi,

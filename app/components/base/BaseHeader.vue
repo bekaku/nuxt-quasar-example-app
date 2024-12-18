@@ -20,7 +20,8 @@ const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = tr
     showUserSetting?: boolean;
 }>();
 const { t } = useLang();
-const { screen, dark } = useQuasar();
+const { screen } = useQuasar();
+const { isDark } = useTheme();
 const appStore = useAppStore();
 const showGotTopBtn = ref(false);
 const showSearch = ref(false);
@@ -37,29 +38,26 @@ const onScroll = (info: any) => {
 </script>
 
 <template>
-    <q-header
-:reveal="reveal" height-hint="58" :bordered="bordered" :elevated="showGotTopBtn" :class="{
-        'app-second-bg-color-theme-dark text-white': dark.isActive,
-        'bg-white text-black': !dark.isActive,
+    <q-header :reveal="reveal" height-hint="58" :bordered="bordered" :elevated="showGotTopBtn" :class="{
+        'app-second-bg-color-theme-dark text-white': isDark,
+        'bg-white text-black': !isDark,
     }">
         <q-scroll-observer @scroll="onScroll" />
         <q-toolbar class="q-py-xs">
-            <q-btn
-v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
+            <q-btn v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
                 @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)" />
             <q-btn v-if="showLogo" flat no-caps no-wrap class="q-mr-xs" :ripple="false" to="/">
                 <q-avatar style="height: auto; width: 42px" square>
-                    <img
-:src="!dark.isActive
+                    <img :src="!isDark
                         ? '/logo/logo-black.png'
                         : '/logo/logo-white.png'
-                        " >
+                        ">
                 </q-avatar>
             </q-btn>
             <q-btn v-if="screen.gt.xs" flat class="text-capitalize" @click="onOpenSearch">
                 <span class="q-mr-sm text-muted">{{
                     t('base.search') + ' Vue Quasar'
-                    }}</span>
+                }}</span>
                 <q-icon :name="biSearch" />
             </q-btn>
             <q-space />
@@ -78,7 +76,7 @@ v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
                     <q-icon :name="biSearch" />
                 </q-btn>
                 <q-btn round dense flat :icon="biBell">
-                    <q-badge  color="negative" rounded text-color="white" floating>
+                    <q-badge color="negative" rounded text-color="white" floating>
                         99+
                     </q-badge>
                     <q-tooltip>{{ t('base.notifications') }}</q-tooltip>

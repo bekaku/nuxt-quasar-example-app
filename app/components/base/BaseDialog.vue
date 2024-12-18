@@ -50,7 +50,7 @@ v-if="canMaximized" round flat :icon="!maximizeModel ? biArrowsAngleExpand : biA
     >
     </base-dialog>
   */
-  import { biFile, biX, biFullscreen, biFullscreenExit, biArrowsAngleExpand, biArrowsAngleContract } from '@quasar/extras/bootstrap-icons';
+  import { biArrowsAngleContract, biArrowsAngleExpand, biFile, biX } from '@quasar/extras/bootstrap-icons';
   
   const {
     persistent = false,

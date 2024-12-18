@@ -284,6 +284,7 @@ export default {
         'minimize': 'ย่อ',
         'maximize': 'เต็มจอ',
         'notifications': 'แจ้งเตือน',
+        'typeForsearch': 'พิมพ์เพื่อค้นหา',
     },
     'theme': {
         'light': 'กลางวัน',

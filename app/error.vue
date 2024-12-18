@@ -7,8 +7,8 @@ const props = defineProps({
 })
 const { t } = useLang();
 const { isDevMode } = useDevice();
-const message = computed(() => String(props.error?.message || ''))
-const is404 = computed(() => props.error?.statusCode === 404 || message.value?.includes('404'))
+// const message = computed(() => String(props.error?.message || ''))
+// const is404 = computed(() => props.error?.statusCode === 404 || message.value?.includes('404'))
 const getStatusCode = computed(() => {
     const code = props.error?.statusCode;
     if (!code) {
@@ -23,6 +23,7 @@ const getStatusCode = computed(() => {
     } else if (code == 418) {
         return '418'
     }
+    return '500';
 })
 const getStatusText = computed(() => {
     const code = props.error?.statusCode;
@@ -38,6 +39,7 @@ const getStatusText = computed(() => {
     } else if (code == 418) {
         return t('http.418')
     }
+    return '';
 })
 function handleError() {
     return clearError({ redirect: '/' })
@@ -46,8 +48,7 @@ function handleError() {
 
 <template>
     <div>
-        <base-result
-:status="getStatusCode" :title="getStatusText"
+        <base-result :status="getStatusCode" :title="getStatusText"
             description="Looks like you've followed a broken link or entered a URL that doesn't exist on this site.">
             <template #extra>
                 <!-- <div class="text-h5" v-if="error">{{ error.statusCode }}</div> -->

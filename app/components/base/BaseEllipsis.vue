@@ -14,10 +14,9 @@ const onClick = (event: any) => {
 </script>
 
 <template>
-  <div
-v-bind="$attrs" :class="{ 'ellipsis-text': lines > 0 && showLineClamp, 'cursor-pointer': clickable }" class=""
+  <div v-bind="$attrs" :class="{ 'ellipsis-text': lines > 0 && showLineClamp, 'cursor-pointer': clickable }" class=""
     :style="maxWidth ? { maxWidth: maxWidth } : { maxWidth: '100%' }" @click="onClick">
-    <slot/>
+    <slot />
   </div>
 </template>
 

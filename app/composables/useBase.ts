@@ -2,6 +2,7 @@ import { biCheckCircle, biExclamationCircle, biExclamationTriangle, biInfoCircle
 import type { RouteLocationRaw } from "vue-router";
 import type { NavigateToOptions, NotifyOptions } from "~/types/common";
 import { useQuasar } from "quasar";
+import { Clipboard } from '@capacitor/clipboard';
 export const useBase = () => {
     const { $domPurify } = useNuxtApp()
     const route = useRoute();
@@ -110,7 +111,7 @@ export const useBase = () => {
                     icon,
                     timeout: 5000,
                     progress: true,
-                    position: 'bottom',
+                    position: 'bottom-left',
                     multiLine: false,
                     actions: !options?.hideClose
                         ? [{ icon: biX, color: 'white' }]
@@ -177,6 +178,15 @@ export const useBase = () => {
             }
         );
     };
+    const writeToClipboard = async (text: string) => {
+        await Clipboard.write({
+          string: text,
+        });
+        appToast(t('success.copy'), {multiLine:false})
+        return new Promise((resolve) => {
+          resolve(true);
+        });
+      };
     return {
         getPageMeta,
         getPageMetaByKey,
@@ -193,6 +203,7 @@ export const useBase = () => {
         appConfirm,
         appToast,
         appNavigateTo,
-        inputSanitizeHtml
+        inputSanitizeHtml,
+        writeToClipboard
     }
 };
