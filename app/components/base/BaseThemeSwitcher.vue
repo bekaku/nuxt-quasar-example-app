@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biCheck2 } from '@quasar/extras/bootstrap-icons';
-const { closeOnClick = false, anchor = 'bottom left', self = 'top start', width='175px' } = defineProps<{
+const { closeOnClick = false, anchor = 'bottom left', self = 'top start', width='180px' } = defineProps<{
     closeOnClick?: boolean
     anchor?: any
     self?: any

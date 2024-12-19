@@ -114,22 +114,22 @@ const getBgColor = () => {
     case '403':
     case '500':
     case '418':
-      color = !isDark ? 'amber-1' : 'amber-2';
+      color = !isDark.value ? 'amber-1' : 'amber-2';
       break;
     case 'success':
-      color = !isDark ? 'green-1' : 'green-2';
+      color = !isDark.value ? 'green-1' : 'green-2';
       break;
     case 'warning':
-      color = !isDark ? 'orange-1' : 'orange-2';
+      color = !isDark.value ? 'orange-1' : 'orange-2';
       break;
     case 'error':
-      color = !isDark ? 'red-1' : 'red-2';
+      color = !isDark.value ? 'red-1' : 'red-2';
       break;
     case 'empty':
-      color = !isDark ? 'grey-1' : 'grey-8';
+      color = !isDark.value ? 'grey-1' : 'grey-8';
       break;
     default:
-      color = !isDark ? 'blue-1' : 'blue-2';
+      color = !isDark.value ? 'blue-1' : 'blue-2';
       break;
   }
   return color;

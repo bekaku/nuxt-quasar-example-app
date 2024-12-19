@@ -6,6 +6,8 @@ const { t } = useLang();
 useHead({
     title: 'Dialog'
 })
+const { appConfirm } = useBase();
+
 const dialog = ref<boolean>(false);
 const dialog2 = ref<boolean>(false);
 
@@ -15,6 +17,7 @@ const dialogFullWidth = ref<boolean>(false);
 const dialogFullHeight = ref<boolean>(false);
 const dialogFullWidthHeight = ref<boolean>(false);
 const dialogMaximize = ref<boolean>(false);
+const dialogConfirmToClose = ref<boolean>(false);
 const text = ref();
 
 const menus = ref<LabelValue<number>[]>([
@@ -89,6 +92,13 @@ const openMenu = (event: any) => {
     }
     showMenu.value = true;
 };
+
+const onConfirmToClose = async() => {
+    const conf = await appConfirm(t('app.monogram'), 'Are you sure to close this dialog?');
+    if (conf) {
+        dialogConfirmToClose.value = false;
+    }
+}
 </script>
 <template>
     <q-page padding>
@@ -100,6 +110,7 @@ const openMenu = (event: any) => {
 
                 <QuasarButton label="Dialog" @click="dialog = true" />
                 <QuasarButton label="Dialog persistent" @click="dialog2 = true" />
+                <QuasarButton label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
 
                 <p>Size</p>
                 <QuasarButton label="Small" @click="dialogSmall = true" />
@@ -158,7 +169,6 @@ const openMenu = (event: any) => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
                 eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
                 minima, porro labore.
-
             </q-card-section>
         </base-dialog>
 
@@ -212,6 +222,15 @@ const openMenu = (event: any) => {
             </q-card-section>
         </base-dialog>
         <base-dialog v-if="dialogMaximize" v-model="dialogMaximize" title="Dialog Maximize" maximized can-maximized>
+            <q-card-section class="q-pt-none">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+                minima, porro labore.
+            </q-card-section>
+        </base-dialog>
+
+        <base-dialog v-if="dialogConfirmToClose" v-model="dialogConfirmToClose" title="Confirm to close title"
+            :icon="biPencil" :auto-close="false" persistent @on-close="onConfirmToClose">
             <q-card-section class="q-pt-none">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
                 eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus

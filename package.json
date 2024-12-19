@@ -14,6 +14,7 @@
   "dependencies": {
     "@capacitor/clipboard": "^6.0.2",
     "@capacitor/device": "^6.0.2",
+    "@coders-tm/vue-number-format": "^3.35.2",
     "@emoji-mart/data": "^1.2.1",
     "@quasar/extras": "^1.16.15",
     "@tato30/vue-pdf": "^1.11.3",

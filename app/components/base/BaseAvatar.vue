@@ -12,12 +12,14 @@ withDefaults(defineProps<{
     bordered?: boolean;
     borderedColor?: string;
     borderedWidth?: string;
+    alt?: string;
 }>(),
     {
         spinnerColor: 'white',
         imgBg: 'bg-grey-8',
         ratio: 4 / 3,
         size: '32px',
+        alt: 'avatar',
         square: false,
         rounded: false,
         fetch: false,
@@ -33,12 +35,13 @@ withDefaults(defineProps<{
             <template v-if="!fetch">
                 <q-img :src="src"
                     :class="{ 'bordered': bordered, 'avatar-rounded': !square && rounded, 'avatar-round': !square && !rounded }"
+                    :alt="alt"
                     :spinner-color="spinnerColor" no-native-menu />
             </template>
             <template v-else>
                 <base-image v-if="src" :src="src"
                     :class="{ 'bordered': bordered, 'avatar-rounded': !square && rounded, 'avatar-round': !square && !rounded }"
-                    :ratio="1" :fetch="fetch" />
+                    :ratio="1" :fetch="fetch" :alt="alt" />
             </template>
             <slot name="extra" />
         </slot>
@@ -46,7 +49,9 @@ withDefaults(defineProps<{
 </template>
 <style lang="scss" scoped>
 .bordered {
-    border: v-bind(borderedWidth) solid v-bind(borderedColor)
+    border: v-bind(borderedWidth) solid v-bind(borderedColor);
+    width: v-bind(size);
+    height: v-bind(size);
 }
 
 .avatar-holder {

@@ -29,7 +29,7 @@ export enum ICrudListHeaderOptionSearchType {
 
 export type Date = string;
 export type SearchOperation = ':' | '>' | '>=' | '<' | '<=' | '=' | '!=';
-export type AppColor = 'primary' | 'secondary' | 'accent' | 'dark' | 'positive' | 'negative' | 'info' | 'warning'
+export type AppColor = 'primary' | 'secondary' | 'accent' | 'dark' | 'positive' | 'negative' | 'info' | 'warning' | 'black' | 'white'
     | 'red' | 'red-1' | 'red-2' | 'red-3' | 'red-4' | 'red-5' | 'red-6' | 'red-7' | 'red-8' | 'red-9' | 'red-10' | 'red-11' | 'red-12' | 'red-13' | 'red-14'
     | 'pink' | 'pink-1' | 'pink-2' | 'pink-3' | 'pink-4' | 'pink-5' | 'pink-6' | 'pink-7' | 'pink-8' | 'pink-9' | 'pink-10' | 'pink-11' | 'pink-12' | 'pink-13' | 'pink-14'
     | 'purple' | 'purple-1' | 'purple-2' | 'purple-3' | 'purple-4' | 'purple-5' | 'purple-6' | 'purple-7' | 'purple-8' | 'purple-9' | 'purple-10' | 'purple-11' | 'purple-12' | 'purple-13' | 'purple-14'
@@ -505,6 +505,16 @@ export interface OgMeta {
 export interface SwiperSlideChange {
     activeIndex: number
     realIndex: number
+}
+export interface VueMoneyConFig {
+    decimal: string
+    separator: string
+    prefix: string
+    suffix: string
+    precision: number
+    masked: boolean
+    nullValue: string
+    reverseFill: boolean
 }
 export type CountryCode =
     | 'AC'

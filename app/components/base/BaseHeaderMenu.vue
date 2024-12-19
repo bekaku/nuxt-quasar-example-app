@@ -6,10 +6,10 @@ import {
     biChevronExpand,
     biChevronRight,
     biGear,
+    biGlobe2,
     biMoon,
     biPersonSquare,
-    biQuestionCircle, biSun,
-    biTranslate
+    biQuestionCircle, biSun
 } from '@quasar/extras/bootstrap-icons';
 const { screen } = useQuasar();
 const authenStore = useAuthenStore();
@@ -63,7 +63,7 @@ const { isDark } = useTheme();
                 </q-item>
                 <q-item clickable>
                     <q-item-section avatar>
-                        <q-icon :name="biTranslate" />
+                        <q-icon :name="biGlobe2" />
                     </q-item-section>
                     <q-item-section>
                         <q-item-label lines="1">

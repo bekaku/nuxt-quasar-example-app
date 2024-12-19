@@ -7,7 +7,7 @@ export const useBase = () => {
     const { $domPurify } = useNuxtApp()
     const route = useRoute();
     const router = useRouter();
-    const { loading, notify, dialog } = useQuasar();
+    const { loading, notify, dialog, dark } = useQuasar();
     const { t } = useLang();
     const getCurrentPath = (fullPath = true) => {
         return fullPath ? route.fullPath : route.path;
@@ -15,10 +15,10 @@ export const useBase = () => {
     const getPreviousPath = () => {
         return router.options.history.state.back;
     };
-    const getPageMeta=()=>{
+    const getPageMeta = () => {
         return route.meta;
     }
-    const getPageMetaByKey=(key:string)=>{
+    const getPageMetaByKey = (key: string) => {
         return route.meta[key];
     }
     const getParam = (field: string): string | undefined => {
@@ -180,13 +180,13 @@ export const useBase = () => {
     };
     const writeToClipboard = async (text: string) => {
         await Clipboard.write({
-          string: text,
+            string: text,
         });
-        appToast(t('success.copy'), {multiLine:false})
+        appToast(t('success.copy'), { multiLine: false })
         return new Promise((resolve) => {
-          resolve(true);
+            resolve(true);
         });
-      };
+    };
     return {
         getPageMeta,
         getPageMetaByKey,

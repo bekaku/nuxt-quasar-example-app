@@ -11,7 +11,7 @@ import { watchEffect, onBeforeUnmount, onMounted, ref } from 'vue';
 import { biCardImage } from '@quasar/extras/bootstrap-icons';
 import FileManagerService from '~/api/FileManagerService';
 
-const { src, spinnerColor = 'white', ratio = 4 / 3, fetch = false, imageBg = false, fit = 'cover', alt = 'img' } = defineProps<{
+const { src, spinnerColor = 'white', ratio = 4 / 3, fetch = false, imageBg = false, fit = 'cover', alt = 'image' } = defineProps<{
     src: string;
     fetch?: boolean;
     imageBg?: boolean;
@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <q-img v-if="loading" :spinner-color="spinnerColor" :placeholder-src="placHolder" :ratio="ratio" v-bind="$attrs"
+    <q-img v-if="loading" :spinner-color="spinnerColor" :placeholder-src="placHolder" :alt :ratio="ratio" v-bind="$attrs"
         loading="lazy">
         <div class="absolute-full flex flex-center">
             <q-inner-loading showing color="white" size="xs" />
@@ -83,7 +83,7 @@ onBeforeUnmount(() => {
         </template>
         <slot />
     </q-img>
-    <q-img v-else :ratio="ratio" v-bind="$attrs" loading="lazy" src="/images/no_picture_thumb.jpg" />
+    <q-img v-else :ratio="ratio" v-bind="$attrs" loading="lazy" src="/images/no_picture_thumb.jpg" :alt />
 </template>
 <style lang="scss" scoped>
 .img-bg {

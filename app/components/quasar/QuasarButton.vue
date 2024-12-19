@@ -43,12 +43,12 @@ import type { AppColor } from '~/types/common';
 </script>
   <template>
     <q-btn v-bind="$attrs" :outline :label="!outline ? label : undefined" :color="outlineColor || color"
-      :text-color="textColor" :no-caps="noCaps" :unelevated :glossy :flat :icon :icon-right="iconRight" :stack :round
+      :text-color="textColor" :no-caps="noCaps" :unelevated :glossy :flat :icon="!outline ? icon : undefined" :icon-right="!outline ? iconRight : undefined" :stack :round
       :square :push :rounded :align :size :loading :to :disable :dense
       :class="{ 'defult-outline': label && !outlineColor && outline }">
       <template v-if="outline">
-        <div :class="`text-${textColor ? textColor: color ?color: !isDark ? 'black' :'white'}`">
-          {{ label }}
+        <div class="" :class="`text-${textColor ? textColor: color ?color: !isDark ? 'black' :'white'}`">
+          <q-icon v-if="icon" :name="icon" class="q-mr-sm"/>{{ label }} <q-icon v-if="iconRight" :name="iconRight" class="q-ml-sm"/>
         </div>
       </template>
       <slot />

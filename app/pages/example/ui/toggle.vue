@@ -34,7 +34,4 @@ const toggle = ref<boolean>(false);
     </q-page>
 </template>
 <style lang="scss" scoped>
-.btn-fixed-width {
-    width: 200px
-}
 </style>

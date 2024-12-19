@@ -218,8 +218,21 @@ export const extractHashtagsFromString = (val: string): string[] => {
 export const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * max) + min;;
 }
-export const numberFormat = (no: number) => {
-    return no.toLocaleString();
+// export const numberFormat = (no: number | string | null | undefined) => {
+//     if (no == undefined || no == null) {
+//         return '';
+//     }
+//     return no.toLocaleString();
+// }
+export const numberFormat = (no: number | string | null | undefined) => {
+    if (no == undefined || no == null) {
+        return '';
+    }
+    let number = no;
+    if(typeof number !=='number'){
+        number = parseFloat(number);
+    }
+    return new Intl.NumberFormat().format(number);
 }
 export const isArray = (value: any): boolean => {
     return Array.isArray(value);
