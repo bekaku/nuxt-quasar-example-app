@@ -8,6 +8,7 @@ const props = defineProps({
 })
 const { t } = useLang();
 const { isDevMode } = useDevice();
+const { onPageBack } = useBase()
 // const message = computed(() => String(props.error?.message || ''))
 // const is404 = computed(() => props.error?.statusCode === 404 || message.value?.includes('404'))
 const getStatusCode = computed(() => {
@@ -33,6 +34,8 @@ const getStatusText = computed(() => {
     }
     if (code == 404) {
         return t('http.404')
+    } else if (code == 400) {
+        return t('http.400')
     } else if (code == 403) {
         return t('http.403')
     } else if (code == 500) {
@@ -43,18 +46,19 @@ const getStatusText = computed(() => {
     return '';
 })
 function handleError() {
-    return clearError({ redirect: '/' })
+    clearError()
+    // return clearError({ redirect: '/' })
+    onPageBack();
 }
 </script>
 
 <template>
     <div>
         <base-result :status="getStatusCode" :title="getStatusText"
-            description="Looks like you've followed a broken link or entered a URL that doesn't exist on this site.">
+            :description="error?.message || 'Looks like you\'ve followed a broken link or entered a URL that doesn\'t exist on this site.'">
             <template #extra>
-                <q-card flat bordered class="bg-black text-red">
-                    <q-card-section v-if="isDevMode()">
-                        <!-- {{ error }} -->
+                <QuasarCard  v-if="isDevMode()" >
+                    <q-card-section>
                         <q-item v-if="error?.statusCode">
                             <q-item-section>
                                 <q-item-label caption>Status code</q-item-label>
@@ -73,16 +77,17 @@ function handleError() {
                                 <q-item-label>{{ error?.message }}</q-item-label>
                             </q-item-section>
                         </q-item>
-                        <div class="text-h6 q-mt-md">
+                        <!-- {{ error }} -->
+                        <div class="text-h6 q-mt-md q-ml-md">
                             Stack
                         </div>
-                        <div style="max-height: 350px; overflow: auto;">
+                        <div class="q-ml-md bg-red-1 q-pa-md" style="max-height: 350px;max-width: 80vw; overflow: auto;">
                             <div v-if="error?.stack" v-html="error?.stack" />
                         </div>
                     </q-card-section>
 
 
-                </q-card>
+                </QuasarCard>
                 <div class="text-center q-my-lg">
                     <QuasarButton outline :icon="biArrowLeft" :label="t('base.back')" @click="handleError" />
                 </div>

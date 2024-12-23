@@ -7,13 +7,13 @@ export const useAxios = () => {
 
     const {$axios} = useNuxtApp()
     const config = useRuntimeConfig()
-    const jwtToken = useCookie(config.public.jwtKeyName);
+    // const jwtToken = useCookie(config.public.jwtKeyName);
     const {canSyncActiveStatusToServer} = useDevice();
     const {notify, loading} = useQuasar();
     const callAxiosProcess = async <T>(req: RequestType, devLog: boolean = true): Promise<AxiosResponse<T>> => {
         const canSyncOnlineStatus = await canSyncActiveStatusToServer();
         return new Promise((resolve, reject) => {
-            $axios.defaults.headers.Authorization = `Bearer ${jwtToken.value || ''}`;
+            // $axios.defaults.headers.Authorization = `Bearer ${jwtToken.value || ''}`;
             // console.log('useAxios > callAxios :', req);
             if (req.baseURL != undefined) {
                 $axios.defaults.baseURL = req.baseURL;

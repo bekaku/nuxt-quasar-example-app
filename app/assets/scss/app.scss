@@ -12,7 +12,8 @@
 
 // app global css in SCSS form
 :root {
-  --app-main-bg-color: #fff;
+  // --app-main-bg-color: #fff;
+  --app-main-bg-color:  hsl(210 40% 96.1% / .4);
 
   --app-main-bg-color-theme-dark: #1d1e22; //#1d232a
   --app-second-bg-color-theme-dark: #272a32; //#242b34
@@ -23,8 +24,8 @@
 
   --app-main-border-color: #dcdcdc;
   --app-main-border-color-theme-dark: #687782;
-
-
+ 
+  
   --app-main-border-light-color: #ededed;
   --app-main-border-lighter-color: #f8f8f8;
   --border-lighter-color: #f8f8f8;

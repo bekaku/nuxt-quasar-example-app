@@ -229,7 +229,7 @@ export const numberFormat = (no: number | string | null | undefined) => {
         return '';
     }
     let number = no;
-    if(typeof number !=='number'){
+    if (typeof number !== 'number') {
         number = parseFloat(number);
     }
     return new Intl.NumberFormat().format(number);
@@ -276,4 +276,25 @@ export const unescapeHtml = (safe: string | undefined) => {
         '&#039;': '\''
     };
     return safe.replace(/&(amp|lt|gt|quot|#039);/g, (entity) => map[entity]);
+};
+
+export const getValFromObjectByPath = (obj: any, path: string) => {
+    // getValFromObjectByPath({item:{name:'chanavee'}}, 'item.name')
+    const parts = path.split('.');
+    if (Array.isArray(parts)) {
+        const last: any = parts.pop();
+        const l = parts.length;
+        let i = 1;
+        let current: any = parts[0];
+        while ((obj = obj[current]) && i < l) {
+            current = parts[i];
+            i++;
+        }
+
+        if (!isEmpty(obj)) {
+            return obj[last];
+        }
+    }
+
+    return undefined;
 };

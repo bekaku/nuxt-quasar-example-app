@@ -14,7 +14,7 @@ const getLink = (item: Breadcrumb) => {
     const params = item.params;
     if (link && params && params.length > 0) {
         for (const p of params) {
-            const paramValue = getParam(p);
+            const paramValue = getParam<string>(p);
             if (paramValue) {
                 link = link.replaceAll(`:${p}`, paramValue);
             }

@@ -1,10 +1,11 @@
-import { biCheckCircle, biExclamationCircle, biExclamationTriangle, biInfoCircle, biX } from "@quasar/extras/bootstrap-icons";
-import type { RouteLocationRaw } from "vue-router";
-import type { NavigateToOptions, NotifyOptions } from "~/types/common";
-import { useQuasar } from "quasar";
 import { Clipboard } from '@capacitor/clipboard';
+import { biCheckCircle, biExclamationCircle, biExclamationTriangle, biInfoCircle, biX } from "@quasar/extras/bootstrap-icons";
+import DOMPurify from 'dompurify';
+import { useQuasar } from "quasar";
+import type { RouteLocationRaw } from "vue-router";
+import type { AppNuxtError, IPageMeta, NavigateToOptions, NotifyOptions } from "~/types/common";
 export const useBase = () => {
-    const { $domPurify } = useNuxtApp()
+    // const { $domPurify } = useNuxtApp()
     const route = useRoute();
     const router = useRouter();
     const { loading, notify, dialog, dark } = useQuasar();
@@ -18,24 +19,24 @@ export const useBase = () => {
     const getPageMeta = () => {
         return route.meta;
     }
-    const getPageMetaByKey = (key: string) => {
+    const getPageMetaByKey = (key: IPageMeta) => {
         return route.meta[key];
     }
-    const getParam = (field: string): string | undefined => {
+    const getParam = <T>(field: string): T | undefined => {
         if (!field) {
             return undefined;
         }
-        return route.params ? (route.params[field] as string) : undefined;
+        return route.params ? (route.params[field] as T) : undefined;
     };
     const getParamNumber = (att: string): number => {
         const val = getParam(att);
         return val != undefined ? +val : 0;
     };
-    const getQuery = (field: string): string | undefined => {
+    const getQuery = <T>(field: string): T | undefined => {
         if (!field) {
             return;
         }
-        return route.query ? (route.query[field] as string) : undefined;
+        return route.query ? (route.query[field] as T) : undefined;
     };
     const getQueryNumber = (att: string): number => {
         const val = getQuery(att);
@@ -90,20 +91,34 @@ export const useBase = () => {
             return;
         }
 
+
+        let color = undefined;
+        let textColor = undefined
+        if (options?.color == undefined && options?.type == undefined) {
+            color = !dark.isActive ? 'white' : 'black';
+            textColor = !dark.isActive ? 'black' : 'white';
+        }
         let icon: string | undefined = undefined;
         if (options && options.type) {
             const t = options.type;
             if (t === 'positive') {
                 icon = biCheckCircle;
+                textColor = 'white';
+                color = 'positive';
             } else if (t === 'negative') {
                 icon = biExclamationTriangle;
+                textColor = 'white';
+                color = 'negative';
             } else if (t === 'warning') {
                 icon = biExclamationCircle;
+                textColor = 'white';
+                color = 'warning';
             } else if (t === 'info') {
                 icon = biInfoCircle;
+                textColor = 'white';
+                color = 'info';
             }
         }
-
         notify(
             Object.assign(
                 {
@@ -113,9 +128,10 @@ export const useBase = () => {
                     progress: true,
                     position: 'bottom-left',
                     multiLine: false,
+                    color: color,
+                    textColor: textColor,
                     actions: !options?.hideClose
-                        ? [{ icon: biX, color: 'white' }]
-                        : undefined,
+                        ? [{ icon: biX, round: true, dense: false, color: textColor || 'white' }] : undefined,
                 },
                 options
             )
@@ -171,7 +187,11 @@ export const useBase = () => {
         if (!str) {
             return '';
         }
-        return $domPurify.sanitize(str,
+        if (import.meta.server) {
+            return str;
+        }
+        // return $domPurify.sanitize(str,
+        return DOMPurify.sanitize(str,
             {
                 ALLOWED_TAGS: allowTags,
                 ALLOWED_ATTR: allowAttrs
@@ -187,6 +207,13 @@ export const useBase = () => {
             resolve(true);
         });
     };
+    const appThrowError = (param: AppNuxtError) => {
+        return showError({
+            statusCode: param.statusCode,
+            statusMessage: param.statusMessage
+        })
+    }
+
     return {
         getPageMeta,
         getPageMetaByKey,
@@ -204,6 +231,7 @@ export const useBase = () => {
         appToast,
         appNavigateTo,
         inputSanitizeHtml,
-        writeToClipboard
+        writeToClipboard,
+        appThrowError
     }
 };

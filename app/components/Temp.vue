@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import type { QuasarFilePicker } from '#components';
 // const { count = 0, message = 'hello' } = defineProps<{
 //   count?: number

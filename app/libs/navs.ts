@@ -23,14 +23,15 @@ import {
     biInputCursorText,
     biList,
     biMarkdown,
-    biNewspaper,
     biPeople, biPerson, biPersonBadge,
     biPersonCircle,
     biPieChart,
     biShieldCheck,
     biToggleOff,
-    biUpload
+    biUpload,
+    biWindowSidebar
 } from '@quasar/extras/bootstrap-icons';
+import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
 import type { IMenu } from '~/types/common';
 
 export const appNavs: IMenu[] = [
@@ -191,7 +192,8 @@ export const additionalMenu: IMenu[] = [
                     {
                         icon: biToggleOff,
                         permission: '',
-                        title: 'Toggle',
+                        caption:'Toggle,Options',
+                        title: 'Options group',
                         translate: false,
                         to: '/example/ui/toggle'
                     },
@@ -285,7 +287,7 @@ export const additionalMenu: IMenu[] = [
                 to: '/example/swiper'
             },
             {
-                icon: biNewspaper,
+                icon: biWindowSidebar,
                 permission: '',
                 title: 'Social feed',
                 translate: false,
@@ -304,6 +306,20 @@ export const additionalMenu: IMenu[] = [
                 title: 'Test page',
                 translate: false,
                 to: '/test'
+            },
+            {
+                icon: mdiRobotConfused,
+                permission: '',
+                title: 'Error page',
+                translate: false,
+                to: '/permission/duplicate/0'
+            },
+            {
+                icon: mdiRobotConfused,
+                permission: '',
+                title: '404 page',
+                translate: false,
+                to: '/notfound'
             },
         ]
     }

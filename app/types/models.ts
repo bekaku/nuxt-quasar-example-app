@@ -43,6 +43,7 @@ export interface UserDto extends Id {
     selectedRoles?: number[];
     defaultLocale?: ILanguge;
     ownerProfile?: boolean;
+    permissions: string[]
 }
 export interface UserProfileDto extends Id {
     id: number;

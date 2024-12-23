@@ -1,5 +1,5 @@
-import type { ILanguge, ILocales, IMenu, IMenuPage, IMenuPageItem } from "~/types/common";
 import { appNavs } from '~/libs/navs';
+import type { IMenu, IMenuPage, IMenuPageItem } from "~/types/common";
 export const useMenu = () => {
     const appStore = useAppStore();
     const initialAppNav = async (): Promise<boolean> => {
@@ -101,7 +101,7 @@ export const useMenu = () => {
     }
 
     const isPermited = async (permission: string): Promise<boolean> => {
-        return await appStore.isHavePermission([permission]);
+        return await appStore.isHavePermissionLazy([permission]);
     }
     return {
         initialAppNav

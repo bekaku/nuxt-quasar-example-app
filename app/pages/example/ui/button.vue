@@ -40,6 +40,7 @@ useHead({
                     <QuasarButton label="Outline icon" outline :icon="biChatLeft" :icon-right="biRadar"/>
                     <QuasarButton label="Outline color" outline outline-color="teal" />
                     <QuasarButton color="white" :unelevated="false" text-color="black" label="Standard" />
+                    <QuasarButton color="deep-purple" :unelevated="false"  label="Standard" />
                     <QuasarButton color="secondary" label="Secondary" />
                     <QuasarButton color="amber" glossy label="Amber" />
                     <QuasarButton color="brown-5" label="Brown 5" />

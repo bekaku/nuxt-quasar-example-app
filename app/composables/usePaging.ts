@@ -1,4 +1,4 @@
-import { DefaultItemsPerPage } from "~/libs/constants";
+import { DefaultItemsPerPage, DefaultMaxItemsPerPage } from "~/libs/constants";
 import type { IPagination } from "~/types/common";
 
 export const usePaging = (perPage?: number) => {
@@ -13,7 +13,7 @@ export const usePaging = (perPage?: number) => {
         { text: '10', value: 10 },
         { text: '15', value: 15 },
         { text: '20', value: 20 },
-        { text: '50', value: 50 },
+        { text: `${DefaultMaxItemsPerPage}`, value: DefaultMaxItemsPerPage },
       ],
     };
     const pages = ref<IPagination>(Object.assign({}, pagesInitial));

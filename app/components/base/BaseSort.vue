@@ -17,7 +17,7 @@
       fields: () => [],
       icon: biSortDown,
       width: '200px',
-      listDense: false,
+      listDense: true,
       btnRound: false,
     }
   );
@@ -45,7 +45,7 @@
   };
 </script>
   <template>
-    <q-btn class="q-mx-sm" flat :round="btnRound" :icon="icon" :label="label">
+    <q-btn v-bind="$attrs" flat :round="btnRound" :icon="icon" :label="label">
       <q-menu>
         <q-list :style="{ minWidth: width }" :dense="listDense">
           <q-item-label header>{{ t('sort.sort') }}</q-item-label>

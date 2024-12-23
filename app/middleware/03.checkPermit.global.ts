@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const metaRequirePermit=to?.meta?.requiresPermission;
     if(metaRequirePermit!=undefined && isArray(metaRequirePermit)){
         const appStore = useAppStore();
-       const isPermited= await appStore.isHavePermission(metaRequirePermit as string[]);
+       const isPermited= await appStore.isHavePermissionLazy(metaRequirePermit as string[]);
         // console.log('middleware > checkPermit.global > metaRequirePermit: ', metaRequirePermit);
         // console.log('isPermited', isPermited);
         //TODO implement check authorize to this page or not

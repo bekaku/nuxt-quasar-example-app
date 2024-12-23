@@ -15,7 +15,7 @@ const {
     onPageChange,
     onPerPageChange,
 } = usePagefecth<Permission>({
-    urlEndpoint: '/api/permission',
+    apiEndpoint: '/api/permission',
     defaultSort: { column: 'id', mode: 'desc' },
     itemsPerPage: 4,
 });
@@ -29,7 +29,7 @@ const {
     onReload: onReload2,
     onNextPage,
 } = usePagefecth<Permission>({
-    urlEndpoint: '/api/permission',
+    apiEndpoint: '/api/permission',
     defaultSort: { column: 'id', mode: 'desc' },
     itemsPerPage: 4,
     concatList: true,

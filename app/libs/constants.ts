@@ -6,6 +6,28 @@ export const MaxSelectFiles = 10;
 export const LimitFileSizeMB = 50;
 export const LimitFileSize = LimitFileSizeMB * 1024 * 1024;
 export const DefaultItemsPerPage = 10;
+export const DefaultMaxItemsPerPage = 50;
+export const SearchMinCharactor = 1;
+export const SearchParamiter = '_q';
+export const KeywordParamiter = '_keyword';
+export const PageActionParamiter = 'crud';
+export const PageIdParamiter = 'id';
+export const BackendRootPath = undefined;
+export const SearchOperation = {
+  MATCH: ':',
+  GREATER_THAN: '>',
+  GREATER_THAN_EQUA: '>=',
+  LESS_THAN: '<',
+  LESS_THAN_EQUA: '<=',
+  EQUA: '=',
+  NOT_EQUA: '!=',
+};
+export const CrudAction = {
+  VIEW: 'view',
+  NEW: 'new',
+  COPY: 'copy',
+  EDIT: 'edit',
+};
 export const FileExtensionAccept =
   '.jpg,.png,.gif,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar';
 

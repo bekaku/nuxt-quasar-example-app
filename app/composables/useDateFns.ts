@@ -23,6 +23,9 @@ export const useDateFns = () => {
     const getDateDiffNow = (dateString: string) => {
         const d = removeTime(dateString);
         const currentDate = removeTime(getCurrentDateByFormat());
+        if(d==undefined || currentDate==undefined){
+            return 0;
+        }
         // return getDateDiff(Date.parse(d), new Date());
         return getDateDiff(Date.parse(d), Date.parse(currentDate));
     };
@@ -182,5 +185,7 @@ export const useDateFns = () => {
         getCurrentDateByFormat,
         getDateDiffMinutes,
         formatDistanceFromNow,
+        formatDate,
+        formatDateTime
     };
 };

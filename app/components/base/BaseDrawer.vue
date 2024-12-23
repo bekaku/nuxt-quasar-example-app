@@ -42,13 +42,13 @@ const searchText = ref<string>('');
                     <q-separator />
                     <q-item clickable>
                         <q-item-section side>
-                            <q-icon class="q-text-black" :name="biQuestionCircle" />
+                            <q-icon class="q-text-black" :name="biQuestionCircle" size="20px" />
                         </q-item-section>
                         <q-item-section>{{ t('base.help') }}</q-item-section>
                     </q-item>
                     <q-item clickable to="/settings">
                         <q-item-section side>
-                            <q-icon class="q-text-black" :name="biGear" />
+                            <q-icon class="q-text-black" :name="biGear" size="20px" />
                         </q-item-section>
                         <q-item-section>{{ t('base.setting') }}</q-item-section>
                     </q-item>

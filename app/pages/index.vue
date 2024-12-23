@@ -3,10 +3,10 @@ import { biBrightnessHigh, biMoon } from '@quasar/extras/bootstrap-icons';
 
 definePageMeta({
     // middleware: ["auth"]
-    // or middleware: 'auth'
     pageName: 'model_role',//custom meta
     requiresPermission: ['role_manage'],//custom meta
 })
+useInitPage();
 const appStore = useAppStore();
 const authenStore = useAuthenStore();
 const { dark, onSetTheme } = useTheme();

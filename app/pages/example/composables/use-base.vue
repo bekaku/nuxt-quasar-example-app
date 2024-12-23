@@ -33,7 +33,7 @@ const confirm2 = async () => {
             noCaps: true,
         },
     );
-    console.log(conf);
+    console.log('confirm2',conf);
 };
 const loader = () => {
     appLoading();

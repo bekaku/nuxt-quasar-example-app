@@ -1,6 +1,6 @@
-import {defineStore} from 'pinia';
-import {ref} from 'vue';
-import type {IMenu} from "~/types/common";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import type { IMenu } from "~/types/common";
 
 export const useAppStore = defineStore('appStore', () => {
 
@@ -14,34 +14,39 @@ export const useAppStore = defineStore('appStore', () => {
     const isPermited = (code: string): boolean => {
         return permissions.value.find((t: string) => t === code) != undefined;
     }
-    const isHavePermission = (codes: string[] | undefined): Promise<boolean> => {
+    const isHavePermission = (codes: string[] | undefined): boolean => {
         if (codes == undefined || codes.length == 0) {
-            return new Promise((resolve) => resolve(true));
+            return true;
         }
-        return new Promise((resolve) => {
-            let isHave = false;
-            for (const code of codes) {
-                if (!isHave) {
-                    isHave = isPermited(code);
-                    if (isHave) {
-                        break;
-                    }
+        let isHave = false;
+        for (const code of codes) {
+            if (!isHave) {
+                isHave = isPermited(code);
+                if (isHave) {
+                    break;
                 }
             }
+        }
+        return isHave
+    }
+    const isHavePermissionLazy = (codes: string[] | undefined): Promise<boolean> => {
+        return new Promise((resolve) => {
+            const isHave = isHavePermission(codes)
             resolve(isHave);
         })
     }
 
-    const setDrawers=(items: IMenu[])=>{
+    const setDrawers = (items: IMenu[]) => {
         drawers.value = items;
     }
-    const setLeftDrawer=(open: boolean)=>{
+    const setLeftDrawer = (open: boolean) => {
         leftDrawerOpen.value = open;
     }
     return {
         permissions,
         setPermissions,
         isHavePermission,
+        isHavePermissionLazy,
         drawers,
         setDrawers,
         leftDrawerOpen,

@@ -4,7 +4,6 @@ import { useMenu } from '~/composables/useMenu';
 import { AuthNoInitialPage } from '~/libs/constants';
 import { useAppStore } from '~/stores/appStore';
 import { useAuthenStore } from '~/stores/authenStore';
-import type { IAcl } from "~/types/common";
 import type { UserDto } from '~/types/models';
 
 export default defineNuxtRouteMiddleware(async (to) => {
@@ -37,21 +36,22 @@ export default defineNuxtRouteMiddleware(async (to) => {
         if (response && response?.status == 200 && response.data && !isAppException(response.data)) {
             authenStore.setAuthen(response.data);
 
-            const aclResponse = await callAxiosProcess<IAcl>({
-                API: '/api/permission/userAcl?getMenuList=0',
-                method: 'GET',
-            });
-            if (aclResponse && aclResponse?.status == 200 && aclResponse.data) {
-                const acl: IAcl = aclResponse.data;
-                if (acl.permissions && acl.permissions.length > 0) {
-                    appStore.setPermissions(acl.permissions);
-                }
+            // const aclResponse = await callAxiosProcess<IAcl>({
+            //     API: '/api/permission/userAcl?getMenuList=0',
+            //     method: 'GET',
+            // });
+            // if (aclResponse && aclResponse?.status == 200 && aclResponse.data) {
+            //     const acl: IAcl = aclResponse.data;
+            //     if (acl.permissions && acl.permissions.length > 0) {
+            //         appStore.setPermissions(acl.permissions);
+            //     }
+            //     await initialAppNav();
+            // }
 
-                // if (acl.menus && acl.menus.length > 0) {
-                //     appStore.setDrawers(acl.menus);
-                // }
-                await initialAppNav();
+            if(response.data.permissions&& response.data.permissions.length>0){
+                appStore.setPermissions(response.data.permissions);
             }
+            await initialAppNav();
         }
     } catch (error) {
         const errors = error as AxiosError;

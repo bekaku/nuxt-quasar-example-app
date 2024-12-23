@@ -1,7 +1,7 @@
   <script setup lang="ts">
   import type { IMenuPageItem } from '~/types/common';
 
-  const { item, darkText = 'text-white', lightText = 'text-black', dense = false, iconSize = 'sm' } = defineProps<{
+  const { item, darkText = 'text-white', lightText = 'text-black', dense = false, iconSize = '20px' } = defineProps<{
     item: IMenuPageItem;
     darkText?: string;
     lightText?: string;

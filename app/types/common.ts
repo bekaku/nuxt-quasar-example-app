@@ -49,6 +49,10 @@ export type AppColor = 'primary' | 'secondary' | 'accent' | 'dark' | 'positive' 
     | 'brown' | 'brown-1' | 'brown-2' | 'brown-3' | 'brown-4' | 'brown-5' | 'brown-6' | 'brown-7' | 'brown-8' | 'brown-9' | 'brown-10' | 'brown-11' | 'brown-12' | 'brown-13' | 'brown-14'
     | 'grey' | 'grey-1' | 'grey-2' | 'grey-3' | 'grey-4' | 'grey-5' | 'grey-6' | 'grey-7' | 'grey-8' | 'grey-9' | 'grey-10' | 'grey-11' | 'grey-12' | 'grey-13' | 'grey-14'
     | 'blue-grey' | 'blue-grey-1' | 'blue-grey-2' | 'blue-grey-3' | 'blue-grey-4' | 'blue-grey-5' | 'blue-grey-6' | 'blue-grey-7' | 'blue-grey-8' | 'blue-grey-9' | 'blue-grey-10' | 'blue-grey-11' | 'blue-grey-12' | 'blue-grey-13' | 'blue-grey-14';
+export type IPageMeta = 'pageName' | 'requiresPermission'
+export interface IPageMetaConfig {
+    setTitle?: boolean
+}
 export interface ChoosePhotoItem {
     webPath?: string;
     file?: File;
@@ -64,10 +68,11 @@ export type IHttpStatus =
 export type IMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type ITheme = 'dark' | 'light' | 'system' | 'realtime';
 export type ILanguge = 'en' | 'th';
-export type ICrudAction = 'new' | 'view' | 'copy';
+export type ICrudAction = 'new' | 'view' | 'edit' | 'copy';
 export type GenerateLinkType = 'post' | 'profile';
 export type EmojiSet = 'native' | 'apple' | 'facebook' | 'google' | 'twitter';
 export type IResult =
+    | '400'
     | '404'
     | '403'
     | '500'
@@ -102,7 +107,10 @@ export type FileType = 'pdf' | 'msexcel' | 'msword' | 'mspowerpoint' | 'image' |
 export type IAlign = 'center' | 'left' | 'right';
 export type LoginLogType = 'WEB' | 'IOS' | 'ANDROID';
 export type ChatHistoryTab = 'ALL' | 'GROUP' | 'FAVORITE';
-
+export interface AppNuxtError {
+    statusCode: number
+    statusMessage: string
+}
 export interface IThemeItem {
     key: ITheme;
     text: string;
@@ -172,6 +180,7 @@ export interface LabelValue<Type> {
     avatar?: string;
     icon?: string;
     fetch?: boolean;
+    color?: string;
     value: Type;
 }
 export interface IPagination {
@@ -187,6 +196,7 @@ export interface ICrudListHeaderOption {
     fillable?: boolean;
     sortable?: boolean;
     external?: boolean; //LINKABLE
+    viewButton?: boolean; //BASE_TOOL
     editButton?: boolean; //BASE_TOOL
     deleteButton?: boolean; //BASE_TOOL
     copyButton?: boolean; //BASE_TOOL
@@ -222,11 +232,14 @@ export interface ICrudListHeader {
 export interface CrudListApiOptions {
     apiEndpoint?: string;
     crudName?: string;
-    actionList?: string;
-    actionDelete?: string;
-    actionPost?: string;
-    actionPut?: string;
-    actionGetOne?: string;
+    enpointList?: string;
+    enpointDelete?: string;
+    enpointPost?: string;
+    enpointPut?: string;
+    enpointGetOne?: string;
+    pathNew?: string;
+    pathView?: string;
+    pathCopy?: string;
     additionalUri?: string;
     defaultSort?: ISort;
     defaultSorts?: ISort[];
@@ -236,13 +249,12 @@ export interface CrudListApiOptions {
     pageStartZero?: boolean;
     sortAble?: boolean;
     concatList?: boolean;
-}
-export interface ICrudListApiOptions extends CrudListApiOptions {
-    urlEndpoint: string;
     reverseList?: boolean;
     addUnshift?: boolean;
     preventResetListReload?: boolean;
+    headers?: ICrudListHeader[];
 }
+
 export interface ApiListResponse {
     totalPages: number;
     totalElements: number;

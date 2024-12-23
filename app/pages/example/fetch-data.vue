@@ -23,9 +23,9 @@ const reponseObjectLoading = ref<boolean>(false);
 const responseError = ref<any>();
 const responseErrorLoading = ref<boolean>(false);
 //https://nuxt.com/docs/getting-started/data-fetching
-const { data, refresh, clear, status, error } = await useAsyncData('gd5:test', async () => {
+const { data, refresh, clear, status, error } = await useAsyncData<Permission>('gd5:test', async () => {
     const response = await callAxios<any>({
-        API: '/test',
+        API: '/api/permission/1',
         method: 'GET',
     });
     return response;
@@ -157,8 +157,7 @@ const getOpengraph = async () => {
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response API" @click="fetchResponseApi" />
                                 <SkeletonItem v-if="reaponseApiLoading" show-header :items="5" />
-                                <div
-v-else style="max-height: 250px; overflow: auto"
+                                <div v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>{{ reponseApiItem }}</pre>
                                 </div>
@@ -170,8 +169,7 @@ v-else style="max-height: 250px; overflow: auto"
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response LIST" @click="fetchResponseList" />
                                 <SkeletonItem v-if="reponseListLoading" show-header :items="5" />
-                                <div
-v-else style="max-height: 250px; overflow: auto"
+                                <div v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>
                                 {{ reponseListItems }}
@@ -185,8 +183,7 @@ v-else style="max-height: 250px; overflow: auto"
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response Object" @click="fetchResponseObject" />
                                 <SkeletonItem v-if="reponseObjectLoading" show-header :items="5" />
-                                <div
-v-else style="max-height: 250px; overflow: auto"
+                                <div v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>
                                 {{ reponseObject }}
@@ -198,7 +195,8 @@ v-else style="max-height: 250px; overflow: auto"
                     <div class="col-12 col-md-6 q-pa-md">
                         <q-card>
                             <q-card-section class="q-gutter-y-md">
-                                <QuasarButton color="negative" outline label="Fetch ERROR handling" @click="fetchError" />
+                                <QuasarButton color="negative" outline label="Fetch ERROR handling"
+                                    @click="fetchError" />
 
                                 <SkeletonItem v-if="responseErrorLoading" show-header :items="5" />
                                 <div v-else style="overflow: auto" class="bg-black text-red">
@@ -220,7 +218,7 @@ v-else style="max-height: 250px; overflow: auto"
                     Retrieve og: and other meta attributes from a resource
                 </div>
                 <QuasarButton outline :loading="ogLoading" label="Fetch Opengraph detail" @click="getOpengraph" />
-                <LazyBaseOpenGraphItem v-if="ogItem" style="width: 750px;" :item="ogItem"/>
+                <LazyBaseOpenGraphItem v-if="ogItem" style="width: 750px;" :item="ogItem" />
             </q-card-section>
         </q-card>
     </q-page>

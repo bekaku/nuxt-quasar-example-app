@@ -56,6 +56,7 @@ const getIcon = (): string => {
       icon = mdiAllergy;
       break;
     case '500':
+    case '400':
       icon = mdiRobotConfused;
       break;
     case '418':
@@ -83,6 +84,7 @@ const getIcon = (): string => {
 const getIconColor = () => {
   let color = '';
   switch (props.status) {
+    case '400':
     case '404':
     case '403':
     case '500':
@@ -110,6 +112,7 @@ const getIconColor = () => {
 const getBgColor = () => {
   let color = '';
   switch (props.status) {
+    case '400':
     case '404':
     case '403':
     case '500':
