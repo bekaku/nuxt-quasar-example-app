@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Breadcrumb } from '~/types/common';
 import { useQuasar } from 'quasar';
-const { dense = true } = defineProps<{
+const { dense = true, items } = defineProps<{
     items: Breadcrumb[]
     dense?: boolean
 }>();
@@ -28,13 +28,16 @@ const canShow = (item: Breadcrumb) => {
     }
     return appStore.isHavePermission(item.permissions);
 };
+const getItems = computed<Breadcrumb[]>(() => {
+    return items.filter(t => canShow(t) === true);
+})
 </script>
 <template>
-    <div v-if="items.length > 0" class="q-pa-md q-gutter-sm" :class="{ 'limit-tabs': !screen.gt.xs }">
+    <div v-if="getItems.length > 0" class="q-pa-md q-gutter-sm" :class="{ 'limit-tabs': !screen.gt.xs }">
         <q-tabs :dense="dense" inline-label outside-arrows mobile-arrows active-color="primary">
-            <template v-for="(item, index) in items" :key="index">
-                <q-route-tab v-if="canShow(item)" :icon="item.icon"
-                    :label="item.translateLabel ? t(item.label) : item.label" :to="getLink(item)" />
+            <template v-for="(item, index) in getItems" :key="`${index}-${item.label}`">
+                <q-route-tab :icon="item.icon" :label="item.translateLabel ? t(item.label) : item.label"
+                    :to="getLink(item)" />
             </template>
         </q-tabs>
     </div>

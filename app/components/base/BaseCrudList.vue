@@ -9,7 +9,6 @@ import {
     biChevronExpand,
     biEraser,
     biFile,
-    biPlus,
     biPlusCircle,
     biSearch,
     biSortAlphaDown,
@@ -251,6 +250,7 @@ const onPageChange = async (v: number | undefined) => {
     }
 };
 const onPerPageChange = async (v: number | undefined) => {
+    console.log('CrudList > onPerPageChange')
     if (v && crudPages.value) {
         crudPages.value.itemsPerPage = v;
         emit('on-items-perpage-change', v);
@@ -667,7 +667,7 @@ const onPerPageChange = async (v: number | undefined) => {
                 </template>
                 <slot name="paging">
                     <base-paging v-if="crudPages && showPaging && crudPages.totalPages > 0" v-model="crudPages"
-                        :boundary-numbers="false" @update-current="onPageChange" @update-per-page="onPerPageChange" />
+                        :boundary-numbers="false" @update-current="onPageChange" @update-perpage="onPerPageChange" />
                 </slot>
             </QuasarCard>
         </div>

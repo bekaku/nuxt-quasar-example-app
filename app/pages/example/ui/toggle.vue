@@ -48,12 +48,12 @@ const options: LabelValue<number>[] = [
                 <div class="row">
                     <div class="col-4 q-pa-md">
                         Options inline
-                        <QuasarToggle v-model="optionsSelected" multiple :items="options" label="Options inline"
+                        <QuasarOption v-model="optionsSelected" :items="options" label="Options inline"
                             color="negative" />
                     </div>
                     <div class="col-4 q-pa-md">
                         Options virtical
-                        <QuasarToggle v-model="optionsSelected" multiple :items="options" label="Options" :inline="false"
+                        <QuasarOption v-model="optionsSelected" :items="options" label="Options" :inline="false"
                             color="negative" />
                     </div>
                 </div>

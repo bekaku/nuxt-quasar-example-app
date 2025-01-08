@@ -118,6 +118,7 @@ export const useAxios = () => {
         notify(
             {
                 message: `<strong>${response.message}</strong><br> ${response.errors?.join('<br>')}`,
+                html:true,
                 icon: biExclamationTriangle,
                 type: 'negative',
                 timeout: 15 * 1000,

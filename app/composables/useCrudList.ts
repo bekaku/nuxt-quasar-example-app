@@ -3,7 +3,7 @@ import type { CrudListApiOptions, IApiListResponse, ICrudAction, ICrudListHeader
 
 export const useCrudList = <T>(options: CrudListApiOptions) => {
 
-    const { appNavigateTo, getCurrentPath, getQuery, appConfirm, appLoading, inputSanitizeHtml } =
+    const { appNavigateTo, getCurrentPath, getQuery, appConfirm, appLoading, inputSanitizeHtml, appToast } =
         useBase();
     const { pages, sort, resetSort, resetPaging } = useSort(
         options ? options.defaultSort : undefined,
@@ -188,6 +188,10 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
             }
         } catch (error: any) {
             console.error('useCrudList', error);
+            if(error.message){
+                appToast(error.message,{type:'negative',});
+            }
+            
         } finally {
             if (!firstLoaded.value) {
                 firstLoaded.value = true;
@@ -337,17 +341,27 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     };
     const onDeleteItemSingle = async (id: number): Promise<boolean> => {
         const apiEndpoint = `${deleteApiEndpoint.value}/${id}`;
-        const response = await callAxios<ResponseMessage>({
-            API: apiEndpoint,
-            method: 'DELETE'
-        });
-        if (isAppException(response) || isServerException(response)) {
-            return new Promise((resolve) => {
-                resolve(false);
+        try {
+            const response = await callAxios<ResponseMessage>({
+                API: apiEndpoint,
+                method: 'DELETE'
             });
+            if (isAppException(response) || isServerException(response)) {
+                return new Promise((resolve) => {
+                    resolve(false);
+                });
+            }
+            return new Promise((resolve) => {
+                resolve(!!(response && response.status == 'OK'));
+            });
+        } catch (error:any) {
+            if(error.message){
+                appToast(error.message,{type:'negative',});
+            }
         }
+        
         return new Promise((resolve) => {
-            resolve(!!(response && response.status == 'OK'));
+            resolve(false);
         });
     };
     const onNewForm = () => {

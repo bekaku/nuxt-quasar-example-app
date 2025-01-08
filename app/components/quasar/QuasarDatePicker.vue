@@ -1,26 +1,31 @@
 <script setup lang="ts">
-import { biCalendarWeek, biX } from '@quasar/extras/bootstrap-icons';
+import { biCalendarWeek, biXCircleFill } from '@quasar/extras/bootstrap-icons';
+import type { AppColor } from '~/types/common';
 import { convertDateFormatToThai } from '~/utils/dateUtil';
 const props = withDefaults(
   defineProps<{
-    title?: string;
+    label?: string;
     minDate?: string;//yyy-mm-dd 2022-06-16
     maxDate?: string;//yyy-mm-dd 2022-06-16
     dateList?: string[]
     dense?: boolean
     disable?: boolean
     required?: boolean
+    color?: AppColor;
+    editMode?: boolean
   }>(),
   {
     dateList: () => [],
-    dense: false,
+    dense: true,
     disable: false,
     required: false,
+    editMode: true,
+    color: 'primary'
   }
 );
 const modelValue = defineModel<string | undefined | null>();
 const dateProxy = ref<any>(null);
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['on-update']);
 const limitDates = props.dateList?.map((item: any) => {
   return item.replaceAll('-', '/');
 });
@@ -60,23 +65,37 @@ const onClosePicker = (value: any) => {
   if (dateProxy.value) {
     dateProxy.value.hide();
   }
+  emit('on-update', value)
 };
+// const onOpenPicker = () => {
+//   if (dateProxy.value) {
+//     dateProxy.value.show();
+//   }
+// }
 </script>
 <template>
   <!-- :readonly="!required"
     :rules="required ? [required] : undefined"
     -->
-  <q-field outlined bottom-slots :label="title" stack-label>
+  <q-field :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense :disable="disable">
+
+    <q-popup-proxy v-if="editMode" ref="dateProxy" transition-show="scale" transition-hide="scale">
+      <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
+        :options="dateList.length > 0 ? limitDates : options" @update:model-value="onClosePicker">
+        <div class="row items-center justify-end">
+          <q-btn v-close-popup :label="t('base.close')" color="primary" flat />
+        </div>
+      </q-date>
+    </q-popup-proxy>
     <template #control>
       <div class="self-center full-width no-outline" tabindex="0">
         {{ convertDateFormatToThai(modelValue) }}
       </div>
     </template>
-    <template #append>
-      <q-btn flat round :icon="biCalendarWeek" :disable="disable" color="primary" dense>
+    <!-- <template #append>
+      <q-btn flat round :icon="biCalendarWeek" :disable="disable" :color="color" :dense>
         <q-tooltip>{{ t('base.chooseDate') }}</q-tooltip>
         <q-popup-proxy ref="dateProxy" transition-show="scale" transition-hide="scale">
-          <!--          @update:model-value="(value: any) => (dateProxy.hide())"-->
           <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
             :options="dateList.length > 0 ? limitDates : options" @update:model-value="onClosePicker">
             <div class="row items-center justify-end">
@@ -85,11 +104,14 @@ const onClosePicker = (value: any) => {
           </q-date>
         </q-popup-proxy>
       </q-btn>
+    </template> -->
+    <template #prepend>
+      <q-icon :name="biCalendarWeek" :color />
     </template>
     <template #after>
-      <q-btn v-if="modelValue" flat round :icon="biX" size="xs" @click="clear" />
+      <q-btn v-if="modelValue && editMode" flat round :icon="biXCircleFill" @click="clear" />
     </template>
-    <template v-if="required && !modelValue" #hint>
+    <template v-if="required && !modelValue && editMode && !disable" #hint>
       <span class="text-negative">
         {{ t('error.validateRequireChoose') }}
       </span>

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { biFileBarGraph, biFileEarmark, biPencil, biShieldCheck, biUiChecks } from '@quasar/extras/bootstrap-icons';
+import { PermissionFormBreadcrumb } from '~/libs/appBreadcrumbs';
 import { PermissionPermission } from '~/libs/appPermissions';
+import { TabTest } from '~/libs/appTabs';
 import type { LabelValue } from '~/types/common';
 import type { Permission } from '~/types/models';
 definePageMeta({
     pageName: 'model_permission',
     requiresPermission: [PermissionPermission.view],
+    breadcrumbs: PermissionFormBreadcrumb,
+    tabs: TabTest
 })
 useInitPage();
 // const { getParam } = useBase();
@@ -29,7 +33,7 @@ const {
     onDelete,
     crudName,
     onEnableEditForm,
-    isEditMode
+    isEditMode,
 } = useCrudForm<Permission>(
     {
         crudName: 'permission',
@@ -44,15 +48,12 @@ const radios: LabelValue<number>[] = [
     { label: 'Report', value: 2, icon: biFileBarGraph },
     { label: 'Other', value: 3, icon: biFileEarmark },
 ]
-const onSubmitCuntom = () => {
-    console.log('onSubmitCuntom');
-}
 </script>
 <template>
     <q-page padding>
-        <base-crud-form :crud-action="crudAction" :loading="loading" :crud-entity="crudEntity" :crud-name="crudName"
+        <BaseCrudForm :crud-action="crudAction" :loading="loading" :crud-entity="crudEntity" :crud-name="crudName"
             :icon="biShieldCheck" :title="t('model_permission')" :full-width="false" @on-back="onBack"
-            @on-edit-enable="onEnableEditForm" @on-submit="onSubmitCuntom" @on-delete="onDelete">
+            @on-edit-enable="onEnableEditForm" @on-submit="onSubmit" @on-delete="onDelete">
             <template #crudFromContent>
                 <div class="row">
                     <div class="col-12 col-md-6 q-pa-md">
@@ -64,16 +65,16 @@ const onSubmitCuntom = () => {
                             :label="t('model_permission_description')" :maxlength="255" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarToggle v-model="crudEntity.frontEnd" :disable="!isEditMode" label="Frontend" />
+                        <QuasarToggle v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
                         <div class="q-px-sm">Permission type</div>
-                        <QuasarRadio v-model="crudEntity.operationType" :disable="!isEditMode" :items="radios"
+                        <QuasarRadio v-model="crudEntity.operationType" :edit-mode="isEditMode" :items="radios"
                             :inline="false" />
                     </div>
                 </div>
             </template>
-        </base-crud-form>
+        </BaseCrudForm>
     </q-page>
 
 </template>

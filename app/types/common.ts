@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 export enum HttpMethod {
     GET,
@@ -49,10 +50,12 @@ export type AppColor = 'primary' | 'secondary' | 'accent' | 'dark' | 'positive' 
     | 'brown' | 'brown-1' | 'brown-2' | 'brown-3' | 'brown-4' | 'brown-5' | 'brown-6' | 'brown-7' | 'brown-8' | 'brown-9' | 'brown-10' | 'brown-11' | 'brown-12' | 'brown-13' | 'brown-14'
     | 'grey' | 'grey-1' | 'grey-2' | 'grey-3' | 'grey-4' | 'grey-5' | 'grey-6' | 'grey-7' | 'grey-8' | 'grey-9' | 'grey-10' | 'grey-11' | 'grey-12' | 'grey-13' | 'grey-14'
     | 'blue-grey' | 'blue-grey-1' | 'blue-grey-2' | 'blue-grey-3' | 'blue-grey-4' | 'blue-grey-5' | 'blue-grey-6' | 'blue-grey-7' | 'blue-grey-8' | 'blue-grey-9' | 'blue-grey-10' | 'blue-grey-11' | 'blue-grey-12' | 'blue-grey-13' | 'blue-grey-14';
-export type IPageMeta = 'pageName' | 'requiresPermission'
+export type IPageMeta = 'pageName' | 'requiresPermission' | 'breadcrumbs' | 'tabs'
+export type AppLocale = 'th' | 'en';
 export interface IPageMetaConfig {
     setTitle?: boolean
 }
+
 export interface ChoosePhotoItem {
     webPath?: string;
     file?: File;
@@ -107,9 +110,124 @@ export type FileType = 'pdf' | 'msexcel' | 'msword' | 'mspowerpoint' | 'image' |
 export type IAlign = 'center' | 'left' | 'right';
 export type LoginLogType = 'WEB' | 'IOS' | 'ANDROID';
 export type ChatHistoryTab = 'ALL' | 'GROUP' | 'FAVORITE';
+
 export interface AppNuxtError {
     statusCode: number
     statusMessage: string
+}
+export interface AppException {
+    status: string;
+    message: string;
+    errors?: string[];
+    timestamp?: string;
+}
+export interface ApiResponse {
+    response?: any;
+    error?: any;
+}
+export interface ApiListResponse {
+    totalPages: number;
+    totalElements: number;
+    last: boolean;
+}
+export interface Breadcrumb {
+    label: string;
+    translateLabel?: boolean;
+    icon?: string;
+    to?: string;
+    params?: string[];
+    queries?: string[];
+    permissions?: string[];
+    frontend?: boolean;
+}
+export interface CacheDateAndKey {
+    key: string;
+    date: string | number;
+}
+export interface Country {
+    code: CountryCode;
+    no: number;
+    name: string;
+}
+export interface CrudListApiOptions {
+    apiEndpoint?: string;
+    crudName?: string;
+    enpointList?: string;
+    enpointDelete?: string;
+    enpointPost?: string;
+    enpointPut?: string;
+    enpointGetOne?: string;
+    pathNew?: string;
+    pathView?: string;
+    pathCopy?: string;
+    additionalUri?: string;
+    defaultSort?: ISort;
+    defaultSorts?: ISort[];
+    itemsPerPage?: number;
+    fetchListOnload?: boolean;
+    pageAble?: boolean;
+    pageStartZero?: boolean;
+    sortAble?: boolean;
+    concatList?: boolean;
+    reverseList?: boolean;
+    addUnshift?: boolean;
+    preventResetListReload?: boolean;
+    headers?: ICrudListHeader[];
+}
+
+export interface CrudFormApiOptions {
+    apiEndpoint?: string;
+    crudName?: string;
+    fetchDataLink?: string;
+    backLink?: string;
+    backToPreviousPath?: boolean;
+    actionList?: string;
+    actionPost?: string;
+    actionPut?: string;
+    actionDelete?: string;
+    basePath?: string;
+    fectchDataOnLoad?: boolean;
+    autoPageTitle?: boolean;
+    preventRedirectToList?: boolean;
+    requestEntityName?: string;
+    methodPutIncludeId?: boolean;
+}
+export interface DefaultAxiosInstance {
+    Accept: string;
+    //   baseURL: string;
+    'Content-Type': string;
+    'X-language': string;
+    'Code-Version': number;
+    'X-Api-Client': string;
+    Authorization?: string;
+}
+export interface ForgotPasswordRequest {
+    email: string;
+    token?: string;
+    newPassword?: string;
+    confirmPassword?: string;
+}
+export interface IMenuPageItem {
+    iconText?: string;
+    color?: string;
+    icon?: string;
+    to?: string;
+    title?: string;
+    caption?: string;
+    titleI18n?: boolean;
+    permission?: string;
+    border?: boolean;
+    header?: string;
+    headerI18n?: boolean;
+    noActiveLink?: boolean;
+    userAcl?: boolean;
+    canShow?: boolean;
+    image?: string;
+    imageSize?: number;
+    fetchImage?: boolean;
+    iconSize?: number;
+    iconColor?: string;
+    translate?: boolean;
 }
 export interface IThemeItem {
     key: ITheme;
@@ -121,45 +239,6 @@ export interface ILocales {
     iso: ILanguge;
     flag: string;
     icon?: string;
-}
-export interface RequestType {
-    API: string;
-    baseURL?: string;
-    method: IMethod;
-    body?: any;
-    contentType?: string;
-    responseType?: 'arraybuffer' | 'document' | 'json' | 'text' | 'stream';
-}
-export interface ApiResponse {
-    response?: any;
-    error?: any;
-}
-export interface ResponseMessage {
-    status: IHttpStatus;
-    message?: string;
-    timestamp: string;
-}
-export interface ServerException {
-    status: number | string;
-    message: string;
-    error: string;
-    timestamp: string;
-    path: string;
-}
-export interface DefaultAxiosInstance {
-    Accept: string;
-    //   baseURL: string;
-    'Content-Type': string;
-    'X-language': string;
-    'Code-Version': number;
-    'X-Api-Client': string;
-    Authorization?: string;
-}
-export interface AppException {
-    status: string;
-    message: string;
-    errors?: string[];
-    timestamp?: string;
 }
 export type ISortModeType = 'asc' | 'desc';
 export interface ISort {
@@ -174,15 +253,6 @@ export interface ITextValue {
     text: string;
     value: number | string;
 }
-export interface LabelValue<Type> {
-    label: string;
-    description?: string;
-    avatar?: string;
-    icon?: string;
-    fetch?: boolean;
-    color?: string;
-    value: Type;
-}
 export interface IPagination {
     current: number;
     itemsPerPage: number;
@@ -190,6 +260,9 @@ export interface IPagination {
     totalElements?: number;
     last?: boolean;
     perPageList: ITextValue[];
+}
+export interface IApiListResponse<Type> extends ApiListResponse {
+    dataList: Type[];
 }
 export interface ICrudListHeaderOption {
     searchable?: boolean;
@@ -229,148 +302,6 @@ export interface ICrudListHeader {
     type: CrudListDataType;
     options: ICrudListHeaderOption;
 }
-export interface CrudListApiOptions {
-    apiEndpoint?: string;
-    crudName?: string;
-    enpointList?: string;
-    enpointDelete?: string;
-    enpointPost?: string;
-    enpointPut?: string;
-    enpointGetOne?: string;
-    pathNew?: string;
-    pathView?: string;
-    pathCopy?: string;
-    additionalUri?: string;
-    defaultSort?: ISort;
-    defaultSorts?: ISort[];
-    itemsPerPage?: number;
-    fetchListOnload?: boolean;
-    pageAble?: boolean;
-    pageStartZero?: boolean;
-    sortAble?: boolean;
-    concatList?: boolean;
-    reverseList?: boolean;
-    addUnshift?: boolean;
-    preventResetListReload?: boolean;
-    headers?: ICrudListHeader[];
-}
-
-export interface ApiListResponse {
-    totalPages: number;
-    totalElements: number;
-    last: boolean;
-}
-export interface IApiListResponse<Type> extends ApiListResponse {
-    dataList: Type[];
-}
-export interface CrudFormApiOptions {
-    apiEndpoint?: string;
-    crudName?: string;
-    fetchDataLink?: string;
-    backLink?: string;
-    backToPreviousPath?: boolean;
-    actionList?: string;
-    actionPost?: string;
-    actionPut?: string;
-    actionDelete?: string;
-    basePath?: string;
-    fectchDataOnLoad?: boolean;
-    autoPageTitle?: boolean;
-    preventRedirectToList?: boolean;
-    requestEntityName?: string;
-    methodPutIncludeId?: boolean;
-}
-export interface IMenuPageItem {
-    iconText?: string;
-    color?: string;
-    icon?: string;
-    to?: string;
-    title?: string;
-    caption?: string;
-    titleI18n?: boolean;
-    permission?: string;
-    border?: boolean;
-    header?: string;
-    headerI18n?: boolean;
-    noActiveLink?: boolean;
-    userAcl?: boolean;
-    canShow?: boolean;
-    image?: string;
-    imageSize?: number;
-    fetchImage?: boolean;
-    iconSize?: number;
-    iconColor?: string;
-    translate?: boolean;
-}
-export interface LoginRequest {
-    emailOrUsername: string | null;
-    password: string | null;
-    loginFrom: LoginLogType;
-    deviceId?: string | null;
-}
-export interface RefreshTokenRequest {
-    refreshToken?: string | null;
-    fcmToken?: string | null;
-    email?: string | null;
-    fcmEnable?: boolean;
-}
-export interface RefreshTokenResponse {
-    userId?: number;
-    authenticationToken: string;
-    refreshToken: string;
-    expiresAt: string;
-}
-export interface ForgotPasswordRequest {
-    email: string;
-    token?: string;
-    newPassword?: string;
-    confirmPassword?: string;
-}
-export interface NotifyOptions {
-    icon?: string;
-    caption?: string;
-    avatar?: string;
-    color?: string;
-    textColor?: string;
-    type?: 'positive' | 'negative' | 'warning' | 'info';
-    timeout?: number;
-    progress?: boolean;
-    multiLine?: boolean;
-    spinner?: boolean;
-    html?: boolean;
-    hideClose?: boolean;
-    position?:
-    | 'bottom'
-    | 'top-left'
-    | 'top-right'
-    | 'bottom-right'
-    | 'bottom-left'
-    | 'top'
-    | 'bottom'
-    | 'left'
-    | 'right'
-    | 'center';
-    actions?: any[];
-}
-
-export interface NavigateToOpenOptions {
-    target?: IHrefTarget
-    windowFeatures: {
-        width?: number
-        height?: number
-        popup?: boolean
-        left?: number
-        top?: number
-        noopener?: boolean
-        noreferrer?: boolean
-    }
-}
-export interface NavigateToOptions {
-    replace?: boolean
-    redirectCode?: number
-    external?: boolean
-    open?: NavigateToOpenOptions
-}
 export interface IAcl {
     menus: IMenu[];
     permissions: string[];
@@ -408,9 +339,6 @@ export interface IMenuPageItem {
 export interface IMenuPage extends IMenuPageItem {
     items?: IMenuPageItem[];
 }
-export interface RequestDto {
-    [key: string]: any;
-}
 export interface IFile {
     type: string;
     size: number;
@@ -418,9 +346,104 @@ export interface IFile {
     name?: string;
     filePath?: string | null;
 }
-export interface CacheDateAndKey {
-    key: string;
-    date: string | number;
+export interface LabelValue<Type> {
+    label: string;
+    description?: string;
+    avatar?: string;
+    icon?: string;
+    fetch?: boolean;
+    color?: string;
+    value: Type;
+}
+export interface LoginRequest {
+    emailOrUsername: string | null;
+    password: string | null;
+    loginFrom: LoginLogType;
+    deviceId?: string | null;
+}
+export interface NotifyOptions {
+    icon?: string;
+    caption?: string;
+    avatar?: string;
+    color?: string;
+    textColor?: string;
+    type?: 'positive' | 'negative' | 'warning' | 'info';
+    timeout?: number;
+    progress?: boolean;
+    multiLine?: boolean;
+    spinner?: boolean;
+    html?: boolean;
+    hideClose?: boolean;
+    position?:
+    | 'bottom'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'center';
+    actions?: any[];
+}
+export interface NavigateToOpenOptions {
+    target?: IHrefTarget
+    windowFeatures: {
+        width?: number
+        height?: number
+        popup?: boolean
+        left?: number
+        top?: number
+        noopener?: boolean
+        noreferrer?: boolean
+    }
+}
+export interface NavigateToOptions {
+    replace?: boolean
+    redirectCode?: number
+    external?: boolean
+    open?: NavigateToOpenOptions
+}
+export interface OgMeta {
+    domain: string;
+    url: string;
+    title?: string;
+    desc?: string;
+    image?: string;
+    imageAlt?: string;
+}
+export interface RefreshTokenRequest {
+    refreshToken?: string | null;
+    fcmToken?: string | null;
+    email?: string | null;
+    fcmEnable?: boolean;
+}
+export interface RefreshTokenResponse {
+    userId?: number;
+    authenticationToken: string;
+    refreshToken: string;
+    expiresAt: string;
+}
+export interface RefeshTokenStatus {
+    status: boolean;
+    fourceLogout: boolean;
+    token?: string;
+}
+export interface RequestDto {
+    [key: string]: any;
+}
+export interface RequestType {
+    API: string;
+    baseURL?: string;
+    method: IMethod;
+    body?: any;
+    contentType?: string;
+    responseType?: 'arraybuffer' | 'document' | 'json' | 'text' | 'stream';
+}
+export interface SwiperSlideChange {
+    activeIndex: number
+    realIndex: number
 }
 export interface SlideAutoplay {
     delay: number;
@@ -478,25 +501,17 @@ export type SlideModule =
     | 'Scrollbar'
     | 'Zoom'
     | 'Navigation';
-export interface Country {
-    code: CountryCode;
-    no: number;
-    name: string;
+export interface ResponseMessage {
+    status: IHttpStatus;
+    message?: string;
+    timestamp: string;
 }
-export interface Breadcrumb {
-    label: string;
-    translateLabel?: boolean;
-    icon?: string;
-    to?: string;
-    params?: string[];
-    queries?: string[];
-    permissions?: string[];
-    frontend?: boolean;
-}
-export interface RefeshTokenStatus {
-    status: boolean;
-    fourceLogout: boolean;
-    token?: string;
+export interface ServerException {
+    status: number | string;
+    message: string;
+    error: string;
+    timestamp: string;
+    path: string;
 }
 
 export interface VirtualScrollerUpdate {
@@ -506,18 +521,9 @@ export interface VirtualScrollerUpdate {
     visibleEndIndex: number;
     isScrollingToTop: boolean;
 }
-export interface OgMeta {
-    domain: string;
-    url: string;
-    title?: string;
-    desc?: string;
-    image?: string;
-    imageAlt?: string;
-}
-export interface SwiperSlideChange {
-    activeIndex: number
-    realIndex: number
-}
+
+
+
 export interface VueMoneyConFig {
     decimal: string
     separator: string
@@ -528,6 +534,7 @@ export interface VueMoneyConFig {
     nullValue: string
     reverseFill: boolean
 }
+
 export type CountryCode =
     | 'AC'
     | 'AD'

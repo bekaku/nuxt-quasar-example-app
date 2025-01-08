@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {  biShieldLock } from '@quasar/extras/bootstrap-icons';
+import { ExampleHomeBreadcrumb } from '~/libs/appBreadcrumbs';
 import { PermissionPermission } from '~/libs/appPermissions';
 import { CrudListDataType, ICrudListHeaderOptionSearchType, type ICrudListHeader } from '~/types/common';
 import type { Permission } from '~/types/models';
 definePageMeta({
   pageName: 'model_permission',
   requiresPermission: [PermissionPermission.list],
+  breadcrumbs: ExampleHomeBreadcrumb,
 })
 useInitPage();
 const headerItems: ICrudListHeader[] = [
@@ -125,17 +127,32 @@ const {t}=useLang();
       @on-keyword-search="onKeywordSearch"
       @on-item-delete="onItemDelete"
       @on-new-form="onNewForm"
-    />
-    <!-- <QuasarCard style="min-height: 350px;">
-      <q-card-section>
-        {{ dataList }}
-        <QuasarButton label="New item" outline :icon="biPlus" @click="onNewForm">
-          <QuasarTooltip>
-            Add new item
-          </QuasarTooltip>
-        </QuasarButton>
-      </q-card-section>
-    </QuasarCard> -->
+    >
+    <!--
+    <template #additionalBaseTool>
+    </template>
+    <template #baseTool="{index, item}">
+    </template>
+    <template #belowInnerSearchExtra>
+    </template>
+    <template #belowSearchExtra>
+    </template>
+    <template #extraBeforeInnerToolbar>
+    </template>
+    <template #extraInnerToolbar>
+    </template>
+    <template #extraToolbar>
+    </template>
+    <template #headerCard>
+    </template>
+    <template #paging>
+    </template>
+    <template #table>
+    </template>
+    <template #tbody="{fillableHeaders, list}">
+    </template>
+    -->
+    </BaseCrudList>
   </q-page>
 
 </template>

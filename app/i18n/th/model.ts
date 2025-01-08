@@ -92,6 +92,12 @@ export default {
   'model_files_directory_name': 'ชื่อโฟลเดอร์',
 
   'model': {
+    role: {
+      table: 'กลุ่มผู้ใช้งาน',
+      active: 'เปิดใช้งาน',
+      frontEnd: 'frontEnd',
+      name: 'ชื่อกลุ่ม',
+    },
     'user_data': {
       'table': 'ข้อมูลผู้ใช้',
       'employee_id': 'รหัสพนักงาน',

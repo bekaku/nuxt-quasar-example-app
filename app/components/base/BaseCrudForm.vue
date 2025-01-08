@@ -85,8 +85,8 @@ const onItemClick = (/*type: ICrudAction*/) => {
                                 <template v-if="crudAction && showActionText">
                                     {{
                                         crudAction === 'new' ? t('base.addNew')
-                                            : crudAction === 'view' ? t('base.view')
-                                                : crudAction === 'edit' ? t('base.edit') : t('base.copy')
+                                            : crudAction === 'copy' ? t('base.copy')
+                                                : crudAction === 'edit' ? t('base.edit') : ''
                                     }}
                                 </template>
                                 {{ title }}
@@ -107,7 +107,7 @@ const onItemClick = (/*type: ICrudAction*/) => {
                                         :loading
                                         :copy-button="crudAction == 'new' ? false : copyButton"
                                         :edit-button="editButton" :delete-button="deleteButton"
-                                        :crud-action="crudAction" @on-item-click="onItemClick" />
+                                        :crud-action="crudAction" @on-item-click="onItemClick" @on-item-delete="$emit('on-delete')" />
                                 </q-card-section>
                             </slot>
                         </q-form>

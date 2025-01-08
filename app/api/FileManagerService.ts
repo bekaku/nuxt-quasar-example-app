@@ -1,5 +1,5 @@
-import { useAxios } from '@/composables/useAxios';
-import type { FileManagerDto } from '@/types/models';
+import { useAxios } from '~/composables/useAxios';
+import type { FileManagerDto } from '~/types/models';
 import type { ResponseDataType, ResponseMessage } from '~/types/common';
 import { FileDirectoryKey, FileUploadKey } from '~/libs/constants';
 import {

@@ -3,7 +3,7 @@
 import { FORMAT_DATE14 } from '~/utils/dateUtil';
 import { ref } from 'vue';
 useHead({
-    title:'Date time Picker'
+    title: 'Date time Picker'
 })
 const { getCurrentDateByFormat } = useDateFns();
 const d = ref(getCurrentDateByFormat(FORMAT_DATE14));
@@ -28,12 +28,10 @@ const onUpdateTime = (v: string) => {
             <q-card-section>
                 <div class="row">
                     <div class="col-4 q-pa-md">
-                        <QuasarDatePicker v-model="d" title="Select Date" required @update:model-value="onUpdate" />
+                        <QuasarDatePicker v-model="d" label="Select Date" required @on-update="onUpdate" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <quasar-time-picker
-v-model="pickTime" title="Select Date" required
-                            @update:model-value="onUpdateTime" />
+                        <quasar-time-picker v-model="pickTime" label="Select Date" required @on-update="onUpdateTime" />
                     </div>
 
                 </div>

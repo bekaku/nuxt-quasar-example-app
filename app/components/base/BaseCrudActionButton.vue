@@ -21,16 +21,16 @@ withDefaults(defineProps<{
     deleteButton: true,
     button: false,
 });
-const emit=defineEmits<{
+const emit = defineEmits<{
     'on-item-click': [type: ICrudAction]
     'on-item-copy': []
     'on-item-delete': []
 }>()
 const { t } = useLang();
-const onEditBtnBaseClick=(type: ICrudAction)=>{
+const onEditBtnBaseClick = (type: ICrudAction) => {
     emit('on-item-click', type)
 }
-const onEditBtnClick=(type: ICrudAction)=>{
+const onEditBtnClick = (type: ICrudAction) => {
     onEditBtnBaseClick(type)
 }
 </script>
@@ -47,20 +47,30 @@ const onEditBtnClick=(type: ICrudAction)=>{
             </q-tooltip>
         </QuasarButton>
         <template v-if="editButton && isHaveManagePermission">
-            <QuasarButton :loading
-                :icon="!button ? biPencil : crudAction == 'new' || crudAction == 'edit' || crudAction == 'copy' ? biFloppy : biPencil"
-                :flat="!button" :dense="!button" :unelevated="button" :outline="button && crudAction == 'view'"
-                :color="!button || crudAction == 'view' ? undefined : 'primary'" :round="!button" :size="size"
-                :label="!button || crudAction == undefined ? undefined
-                    : crudAction == 'view' ? t('base.edit') : crudAction == 'edit' || crudAction == 'new' || crudAction == 'copy' ? t('base.save') : undefined"
-                :type="crudAction == 'copy' || crudAction == 'edit' || crudAction == 'new' ? 'submit' : 'button'"
-                @click="onEditBtnClick('edit')">
-                <q-tooltip v-if="!button">
-                    {{
-                        t('base.edit')
-                    }}
-                </q-tooltip>
-            </QuasarButton>
+            <template v-if="!button">
+                <QuasarButton :icon="biPencil" flat dense round :size="size" type="button"
+                    @click="onEditBtnClick('edit')">
+                    <q-tooltip>
+                        {{
+                            t('base.edit')
+                        }}
+                    </q-tooltip>
+                </QuasarButton>
+            </template>
+            <template v-else>
+                <QuasarButton v-if="crudAction === 'view'" :loading :icon="biPencil" :unelevated="button" outline
+                    :size="size" :label="t('base.edit')" type="button" @click="onEditBtnClick('edit')" />
+                <QuasarButton v-else :loading :icon="biFloppy" unelevated color="primary" :size="size"
+                    :label="crudAction == 'edit' || crudAction == 'new' || crudAction == 'copy' ? t('base.save') : undefined"
+                    type="submit">
+                    <q-tooltip v-if="!button">
+                        {{
+                            t('base.edit')
+                        }}
+                    </q-tooltip>
+                </QuasarButton>
+            </template>
+
         </template>
 
         <QuasarButton v-if="copyButton && isHaveManagePermission" :loading :icon="biCopy" :flat="!button"
@@ -70,7 +80,7 @@ const onEditBtnClick=(type: ICrudAction)=>{
                 {{ t('base.copy') }}
             </q-tooltip>
         </QuasarButton>
-        <QuasarButton v-if="deleteButton && isHaveManagePermission" color="negative" :loading :icon="biTrash"
+        <QuasarButton v-if="deleteButton && isHaveManagePermission && crudAction!=='copy' && crudAction!=='new'" color="negative" :loading :icon="biTrash"
             :flat="!button" :outline="button" :outline-color="!button ? undefined : 'negative'" :dense="!button"
             :round="!button" :size="size" :label="!button || crudAction == undefined ? undefined : t('base.delete')"
             @click="$emit('on-item-delete')">

@@ -178,7 +178,8 @@ export const additionalMenu: IMenu[] = [
                     {
                         icon: biInputCursorText,
                         permission: '',
-                        title: 'Input Text',
+                        title: 'Form Input',
+                        caption:'Form, Input, Textarea',
                         translate: false,
                         to: '/example/ui/input-text'
                     },
@@ -192,7 +193,7 @@ export const additionalMenu: IMenu[] = [
                     {
                         icon: biToggleOff,
                         permission: '',
-                        caption:'Toggle,Options',
+                        caption:'Toggle,Options,Radios',
                         title: 'Options group',
                         translate: false,
                         to: '/example/ui/toggle'

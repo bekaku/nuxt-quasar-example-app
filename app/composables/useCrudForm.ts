@@ -76,6 +76,9 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
             }
         } catch (error: any) {
             console.error('useCrudForm>fetchDataById', error);
+            if(error.message){
+                appToast(error.message,{type:'negative',});
+            }
         } finally {
             if (!firstLoaded.value) {
                 firstLoaded.value = true;
@@ -140,7 +143,7 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         if (!options.apiEndpoint || !options.crudName) {
             return;
         }
-        if (crudAction.value === CrudAction.VIEW) {
+        if (crudAction.value === CrudAction.EDIT) {
             return options.actionPut
                 ? options.actionPut
                 : options.apiEndpoint + '/' + snakeToCamel(options.crudName) + (options.methodPutIncludeId === undefined || options.methodPutIncludeId === true ? '/' + crudEntity.value.id : '');
@@ -164,7 +167,7 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         if (isDevMode()) {
             console.log(
                 'useCrudFrom > onSubmit',
-                crudAction.value === CrudAction.VIEW ? 'PUT' : 'POST',
+                crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
                 requestItem
             );
         }
@@ -173,7 +176,7 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         try {
             const response = await callAxios<any>({
                 API: apiEnpoint.value,
-                method: crudAction.value === CrudAction.VIEW ? 'PUT' : 'POST',
+                method: crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
                 body: requestItem
             });
             if (isDevMode()) {
@@ -188,7 +191,7 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
                     crudAction.value === CrudAction.COPY
                 ) {
                     showToast(t('success.insertSuccesfull'));
-                } else if (crudAction.value === CrudAction.VIEW) {
+                } else if (crudAction.value === CrudAction.EDIT) {
                     showToast(t('success.updateSuccesfull'));
                 }
             }
@@ -198,6 +201,9 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
             }
         } catch (error: any) {
             console.error('useCrudForm>onSubmit', error);
+            if(error.message){
+                appToast(error.message,{type:'negative',});
+            }
         } finally {
             loading.value = false;
         }
@@ -224,8 +230,9 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
                 : '';
     });
     const onDelete = async () => {
+        console.log('onDelete', crudAction.value != CrudAction.EDIT ||  crudAction.value != CrudAction.VIEW)
         if (
-            crudAction.value != CrudAction.VIEW &&
+            (crudAction.value != CrudAction.EDIT ||  crudAction.value != CrudAction.VIEW)&&
             !crudEntity.value &&
             crudId.value == 0 &&
             !deleteApiEndpoint.value
@@ -246,6 +253,9 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
                 onBack();
             } catch (error: any) {
                 console.error('useCrudForm>onDelete', error);
+                if(error.message){
+                    appToast(error.message,{type:'negative',});
+                }
             } finally {
                 loading.value = false;
             }

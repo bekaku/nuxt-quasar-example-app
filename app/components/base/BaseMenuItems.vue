@@ -45,7 +45,7 @@
                       {{ page?.translate !== false ? t(`${page.title}`) : page.title }}
                     </q-item-section>
                   </template>
-                  <q-list v-ripple clickable class="q-pl-sm">
+                  <q-list class="q-pl-sm">
                     <div class="parent-menu-border">
                     <BaseMenuItem v-for="(pageItem, pageItemIndex) in page.items"
                       :key="`parent-${index}-page-${pageIndex}-sub-${pageItemIndex}`" :light-text="lightText"

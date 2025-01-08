@@ -83,6 +83,12 @@ export default {
   'model_files_directory_id': 'Id',
   'model_files_directory_name': 'Folder name',
   'model': {
+    role: {
+      table: 'Role',
+      active: 'Active',
+      frontEnd: 'FrontEnd',
+      name: 'Name',
+    },
     'user_data': {
       'table': 'User data',
       'employee_id': 'Employee id',
