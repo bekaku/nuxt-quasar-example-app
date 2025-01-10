@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { LabelValue } from '~/types/common';
-import { biCopy, biPencil, biThreeDots, biTrash } from '@quasar/extras/bootstrap-icons';
+import { biPencil, biTrash } from '@quasar/extras/bootstrap-icons';
 const { t } = useLang();
 
 useHead({
@@ -20,80 +19,11 @@ const dialogMaximize = ref<boolean>(false);
 const dialogConfirmToClose = ref<boolean>(false);
 const text = ref();
 
-const menus = ref<LabelValue<number>[]>([
-    {
-        label: 'Edit',
-        description: 'edit this item',
-        avatar: '',
-        icon: biPencil,
-        fetch: false,
-        value: 1
-    },
-    {
-        label: 'Delete',
-        description: 'Delete this item',
-        avatar: '',
-        icon: biTrash,
-        fetch: false,
-        value: 2
-    },
-    {
-        label: 'Copy',
-        description: 'Copy this item',
-        avatar: '',
-        icon: biCopy,
-        fetch: false,
-        value: 3
-    }
-]);
-const menus2: LabelValue<number>[] = [
-    {
-        label: 'Cody Fisher',
-        value: 1,
-        description: 'Fisher',
-        avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg'
-    },
-    {
-        label: 'Robert Fox',
-        value: 2,
-        description: 'Fox',
-        avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg',
-    },
-    {
-        label: 'Esther Howard',
-        value: 3,
-        description: 'Howard',
-        avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg',
-    },
-    {
-        label: 'Darlene Robertson',
-        value: 4,
-        description: 'Robertson',
-        avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg',
-    },
-    {
-        label: 'Ralph Edwards',
-        value: 5,
-        description: 'Edwards',
-        avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png'
-    },
-];
-const showMenu = ref(false);
 const onPopConfirmChange = (status: boolean) => {
     console.log('onPopConfirmChange', status)
 }
-const onMenuClick = (value: number) => {
-    console.log('onMenuClick', value);
-    showMenu.value = false;
-}
-const openMenu = (event: any) => {
-    if (event) {
-        event.stopImmediatePropagation();
-    }
-    showMenu.value = true;
-};
 
-const onConfirmToClose = async() => {
+const onConfirmToClose = async () => {
     const conf = await appConfirm(t('app.monogram'), 'Are you sure to close this dialog?');
     if (conf) {
         dialogConfirmToClose.value = false;
@@ -122,7 +52,7 @@ const onConfirmToClose = async() => {
             </q-card-section>
 
             <q-card-section class="q-gutter-md">
-                <div class="text-h6">Pop confirm</div>
+                <div class="text-h6">Popover confirm</div>
                 <q-separator />
                 <QuasarButton label="Delete item" color="negative" :icon="biTrash">
                     <base-pop-confirm :title="t('base.deleteConfirm')" confirm-color="negative"
@@ -142,25 +72,30 @@ const onConfirmToClose = async() => {
                     </base-pop-confirm>
                 </QuasarButton>
             </q-card-section>
-
             <q-card-section class="q-gutter-md">
-                <div class="text-h6">Menu</div>
+                <div class="text-h6">Popover</div>
                 <q-separator />
-                <q-btn dense :icon="biThreeDots" flat label="Show menu">
-                    <BaseSimpleMenu :items="menus" @on-click="onMenuClick" />
-                </q-btn>
-                <q-item clickable>
-                    <q-item-section>
-                        Q-item Menu v-model
-                    </q-item-section>
-                    <q-item-section side>
-                        <q-btn dense :icon="biThreeDots" round flat @click="openMenu($event)" />
-                        <q-menu v-model="showMenu" cover anchor="top middle">
-                            <BaseSimpleMenuItem v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
-                                v-close-popup :item="item" @click="onMenuClick(item.value)" />
-                        </q-menu>
-                    </q-item-section>
-                </q-item>
+                <QuasarButton label="Show popover">
+                    <QuasarPopover width="250px">
+                        <q-banner>
+                            <template #avatar>
+                                <q-icon :name="biPencil" color="primary" />
+                            </template>
+                            You have lost connection to the internet. This app is offline.
+                        </q-banner>
+                    </QuasarPopover>
+                </QuasarButton>
+                <QuasarButton label="Handles right-click" color="red-4">
+                    <QuasarPopover width="450px" context-menu >
+                        <q-banner>
+                            <template #avatar>
+                                <q-icon :name="biPencil" color="primary" />
+                            </template>
+                            You have lost connection to the internet. This app is offline.
+                        </q-banner>
+                    </QuasarPopover>
+                </QuasarButton>
+
             </q-card-section>
         </q-card>
 

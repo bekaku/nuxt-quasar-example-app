@@ -6,6 +6,7 @@ import {
     biEye,
     biEyeSlash,
 } from '@quasar/extras/bootstrap-icons';
+import QuasarInput from '../quasar/QuasarInput.vue';
 const { actionAlign = 'center', showCurrentPassword = false, showLogout = false } = defineProps<{
     submitLabel?: string;
     actionAlign?: 'center' | 'left' | 'right';
@@ -44,26 +45,25 @@ const onSubmit = () => {
 <template>
     <q-form ref="formPwd" @submit="onSubmit">
         <q-card-section>
-            <base-alert dense type="is-warning" :icon="biShieldLock" :message="t('authen.helper2')" radius
-                class="q-mb-md"/>
+            <base-alert type="is-warning" :icon="biShieldLock" :message="t('authen.helper2')" radius class="q-mb-md"/>
             <div class="row">
-                <div v-if="showCurrentPassword" class="col-12 col-md-12">
-                    <q-input v-model="currentPassword" :readonly="loading" outlined dense autocomplete="off"
+                <div v-if="showCurrentPassword" class="col-12">
+                    <QuasarInput v-model="currentPassword" :readonly="loading" autocomplete="off"
                         :type="showPassword ? 'text' : 'password'" :label="t('authen.currentPassword')"
-                        :rules="[(val) => requireField(val, t('authen.currentPassword'))]">
+                        :rules="[(val:any) => requireField(val, t('authen.currentPassword'))]">
                         <template #prepend>
                             <q-icon :name="biShieldLock" />
                         </template>
                         <template #append>
                             <q-icon :name="showPassword ? biEye : biEyeSlash" @click="showPassword = !showPassword" />
                         </template>
-                    </q-input>
+                    </QuasarInput>
                 </div>
-                <div class="col-12 col-md-12 q-py-sm">
-                    <q-input v-model="newPassword" class="q-pt-md" :readonly="loading" outlined dense autocomplete="off"
+                <div class="col-12 q-py-sm">
+                    <QuasarInput v-model="newPassword" class="q-pt-md" :readonly="loading" autocomplete="off"
                         :type="showPassword ? 'text' : 'password'" :label="t('authen.newPassword')" :rules="[
-                            (val) => requireField(val, t('authen.newPassword')),
-                            (val) => validatePasswordStrongV2(val) || t('authen.helper2'),
+                            (val:any) => requireField(val, t('authen.newPassword')),
+                            (val:any) => validatePasswordStrongV2(val) || t('authen.helper2'),
                         ]">
                         <template #prepend>
                             <q-icon :name="biLock" color="grey-9" />
@@ -71,14 +71,14 @@ const onSubmit = () => {
                         <template #append>
                             <q-icon v-if="isValidPwd" :name="biCheck" color="positive" />
                         </template>
-                    </q-input>
+                    </QuasarInput>
                 </div>
-                <div class="col-12 col-md-12">
-                    <q-input v-model="confirmPassword" class="q-pt-md" :readonly="loading" outlined dense
+                <div class="col-12">
+                    <QuasarInput v-model="confirmPassword" class="q-pt-md" :readonly="loading"
                         autocomplete="off" :type="showPassword ? 'text' : 'password'"
                         :label="t('authen.confirmPassword')" :rules="[
-                            (val) => requireField(val, t('authen.confirmPassword')),
-                            (val) =>
+                            (val:any) => requireField(val, t('authen.confirmPassword')),
+                            (val:any) =>
                                 validateTheSamePwd(val) || t('error.passwordNotMatchNew'),
                         ]">
                         <template #prepend>
@@ -87,7 +87,7 @@ const onSubmit = () => {
                         <template #append>
                             <q-icon v-if="isSamePwd" :name="biCheck" color="positive" />
                         </template>
-                    </q-input>
+                    </QuasarInput>
                 </div>
             </div>
         </q-card-section>

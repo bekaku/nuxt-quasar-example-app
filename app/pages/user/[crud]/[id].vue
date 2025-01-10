@@ -11,6 +11,7 @@ import {
     biPencil,
 } from '@quasar/extras/bootstrap-icons';
 import RoleService from '~/api/RoleService';
+import UserService from '~/api/UserService';
 import { UserFormBreadcrumb } from '~/libs/appBreadcrumbs';
 import { UserPermission } from '~/libs/appPermissions';
 import type { UserDto, Role } from '~/types/models';
@@ -26,6 +27,7 @@ const { required, requireEmail, requireUsername } = useValidation();
 const { appLoading } = useBase();
 const { isDark } = useTheme();
 const { findAllBackendRole } = RoleService();
+const { updateUserPassword } = UserService();
 const roles = ref<Role[]>([]);
 const filterText = ref('');
 const selectedAll = ref(false);
@@ -33,8 +35,6 @@ const selectedAll = ref(false);
 const showChangePasswordForm = ref(false);
 const currentPassword = ref<string>('');
 const newPassword = ref<string>('');
-const rePassword = ref<string>('');
-const showPassword = ref(false);
 const logoutAllDevice = ref(true);
 
 const initialEntity: UserDto = Object.freeze<UserDto>({
@@ -114,8 +114,25 @@ const updateSelectedAll = (val: boolean) => {
 };
 
 //change password
-const onChangePassword=()=>{
-    console.log('onChangePassword');
+const onChangePassword = async () => {
+    showChangePasswordForm.value = false;
+    if (crudEntity.value && crudEntity.value.id && crudEntity.value.id > 0) {
+        appLoading();
+        try {
+            await updateUserPassword({
+                password: newPassword.value,
+                logoutAllDevice: logoutAllDevice.value,
+            }, crudEntity.value.id);
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            appLoading(false);
+            newPassword.value = '';
+            currentPassword.value = '';
+            logoutAllDevice.value = true;
+        }
+    }
+
 }
 </script>
 <template>
@@ -204,12 +221,13 @@ const onChangePassword=()=>{
                                 <q-list v-if="filteredList.length > 0" dense>
                                     <q-item v-for="(p, index) in filteredList" :key="index" v-ripple tag="label">
                                         <q-item-section avatar>
-                                            <q-checkbox  v-model="crudEntity.selectedRoles" :disable="!isEditMode"  :val="p.id" />
+                                            <q-checkbox v-model="crudEntity.selectedRoles" :disable="!isEditMode"
+                                                :val="p.id" />
                                         </q-item-section>
                                         <q-item-section>
                                             <q-item-label>{{
                                                 p.name ? p.name : 'unknown'
-                                                }}</q-item-label>
+                                            }}</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
@@ -246,20 +264,11 @@ const onChangePassword=()=>{
 
             </template>
         </BaseCrudForm>
-        <base-dialog v-if="showChangePasswordForm" v-model="showChangePasswordForm" :title="t('base.changePassword')" :icon="biPencil">
-            <q-card-section class="q-pt-none">
-                <base-password-form
-                    v-model:current-password="currentPassword"
-                    v-model:new-password="newPassword"
-                    v-model:logout-all-device="logoutAllDevice"
-                    v-model:loading="loading"
-                    show-current-password
-                    show-logout
-                    :submit-label="t('updatePassword')"
-                    action-align="left"
-                    @on-submit="onChangePassword"
-                />
-            </q-card-section>
-        </base-dialog>
+        <BaseDialog v-if="showChangePasswordForm" v-model="showChangePasswordForm" :title="t('base.changePassword')"
+            :icon="biPencil">
+            <BasePasswordForm v-model:current-password="currentPassword" v-model:new-password="newPassword"
+                v-model:logout-all-device="logoutAllDevice" v-model:loading="loading" show-current-password show-logout
+                :submit-label="t('updatePassword')" action-align="left" @on-submit="onChangePassword" />
+        </BaseDialog>
     </q-page>
 </template>

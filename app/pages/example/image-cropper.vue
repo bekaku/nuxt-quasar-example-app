@@ -84,8 +84,7 @@ const onCropImage = async (f: any) => {
             </q-card-section>
         </q-card>
 
-        <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper"
-            @on-okay="onCropImage" />
+        <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper" @on-okay="onCropImage"/>
     </q-page>
 </template>
 <style lang="scss" scoped></style>

@@ -169,6 +169,13 @@ export const additionalMenu: IMenu[] = [
                         to: '/example/ui/dialog'
                     },
                     {
+                        icon: biList,
+                        permission: '',
+                        title: 'Dropdown menu',
+                        translate: false,
+                        to: '/example/ui/dropdown-menu'
+                    },
+                    {
                         icon: biUpload,
                         permission: '',
                         title: 'File picker',

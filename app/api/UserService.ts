@@ -41,7 +41,9 @@ export default () => {
     return await callAxios<ResponseMessage>({
       API: '/api/user/selfUpdatePassword',
       method: 'PUT',
-      body: req,
+      body: {
+        userChangePasswordRequest: req
+      },
     });
   };
   const updateUserPassword = async (
@@ -51,17 +53,9 @@ export default () => {
     return await callAxios<ResponseMessage>({
       API: `/api/user/updateUserPassword/${userId}`,
       method: 'PUT',
-      body: req,
-    });
-  };
-  const updateUserPasswordByAdmin = async (
-    req: UserChangePasswordRequest,
-    userId: number
-  ): Promise<ResponseMessage | null> => {
-    return await callAxios<ResponseMessage>({
-      API: `/api/user/updateUserPasswordByAdmin/${userId}`,
-      method: 'PUT',
-      body: req,
+      body: {
+        userChangePasswordRequest: req
+      },
     });
   };
   const currentAuthSession = async (q: string): Promise<AccessTokenDto[] | null> => {
@@ -121,6 +115,5 @@ export default () => {
     updateDefaultLocale,
     updatePersonalData,
     updateEmail,
-    updateUserPasswordByAdmin
   };
 };

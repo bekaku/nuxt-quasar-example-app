@@ -11,7 +11,7 @@ export interface AccessTokenDto extends Id {
     activeNow: boolean;
     createdDate: string;
     lastestActive: string;
-  }
+}
 export interface FileManagerDto extends Id {
     fileMime: string;
     fileName: string;
@@ -42,7 +42,7 @@ export interface Role extends Id {
     active: boolean;
     frontEnd: boolean;
     selectdPermissions: number[];
-   }
+}
 export interface UserDto extends Id {
     email: string;
     uuid?: string;
@@ -69,13 +69,11 @@ export interface UserProfileDto extends Id {
     cover: ImageDto | null;
 }
 export interface UserChangePasswordRequest {
-    userChangePasswordRequest: {
-      password: string;
-      newPassword?: string;
-      logoutAllDevice: boolean;
-    };
-  }
-  export interface UserPersonalEditRequest {
+    password: string;
+    newPassword?: string;
+    logoutAllDevice: boolean;
+}
+export interface UserPersonalEditRequest {
     fullName?: string;
     email?: string;
     username?: string;
@@ -84,5 +82,5 @@ export interface UserChangePasswordRequest {
     teamLeaderName?: string;
     initialConfig?: boolean;
     autoFollowUser?: boolean;
-  }
+}
 

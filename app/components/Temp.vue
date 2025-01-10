@@ -38,6 +38,7 @@ const onClick = async (index: number, event: any) => {
 // const modelValue = defineModel<number>();
 // const modelValue = defineModel<number[]>({ default: [] });
 //const count = defineModel<number>('count',{default: 0});
+//const open = defineModel<boolean>('open');
 /*
 How to access to a child method from the parent
 

@@ -1,5 +1,5 @@
-import type { LoginRequest, RefreshTokenResponse } from '~/types/common';
 import AuthenService from '~/api/AuthenService';
+import type { LoginRequest } from '~/types/common';
 export const useAuth = () => {
     const { singin: signinToServer, singoutToServer } = AuthenService();
     const authenStore = useAuthenStore();

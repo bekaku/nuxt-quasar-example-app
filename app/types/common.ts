@@ -353,7 +353,9 @@ export interface LabelValue<Type> {
     icon?: string;
     fetch?: boolean;
     color?: string;
-    value: Type;
+    value?: Type;
+    border?: boolean;
+    children?: LabelValue<Type>[]
 }
 export interface LoginRequest {
     emailOrUsername: string | null;

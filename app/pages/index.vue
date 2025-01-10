@@ -3,8 +3,8 @@ import { biBrightnessHigh, biMoon } from '@quasar/extras/bootstrap-icons';
 
 definePageMeta({
     // middleware: ["auth"]
-    pageName: 'model_role',//custom meta
-    requiresPermission: ['role_manage'],//custom meta
+    pageName: 'base.home',//custom meta
+    // requiresPermission: ['role_manage'],//custom meta
 })
 useInitPage();
 const appStore = useAppStore();
