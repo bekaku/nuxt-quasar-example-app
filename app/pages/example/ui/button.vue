@@ -45,10 +45,10 @@ useHead({
                     <QuasarButton color="amber" glossy label="Amber" />
                     <QuasarButton color="brown-5" label="Brown 5" />
                     <QuasarButton color="black" label="Black" />
-                    <QuasarButton label="Flat" flat />
+                    <QuasarButton label="Flat" flat color="primary" />
                     <QuasarButton label="Icon Left" color="negative" :icon="biGear" />
                     <QuasarButton label="Icon Right" color="warning" :icon-right="biNewspaper" />
-                    <QuasarButton label="Icon Both" :icon="biPerson" :icon-right="biQuestionCircle" />
+                    <QuasarButton label="Icon Both" :unelevated="false" :icon="biPerson" :icon-right="biQuestionCircle" />
                     <QuasarButton :icon="biPhone" label="Stacked" stack color="purple" />
 
                     <QuasarButton round color="primary" :icon="biShop" />
@@ -61,10 +61,10 @@ useHead({
                             <img src="https://cdn.quasar.dev/img/avatar2.jpg">
                         </q-avatar>
                     </QuasarButton>
-                    <QuasarButton no-caps>
+                    <QuasarButton no-caps :unelevated="false">
                         Multiline<br>Button
                     </QuasarButton>
-                    <QuasarButton style="width: 200px">
+                    <QuasarButton style="width: 200px" :unelevated="false">
                         <div class="ellipsis">
                             This is some very long text that is expected to be truncated
                         </div>
@@ -78,13 +78,13 @@ useHead({
                     <QuasarButton align="around" class="btn-fixed-width" color="brown-5" label="Align around"
                         :icon="biLightbulb" />
 
-                    <QuasarButton label="Size xs" size="xs" />
-                    <QuasarButton label="Size sm" size="sm" />
-                    <QuasarButton label="Size md" size="md" />
-                    <QuasarButton label="Size lg" size="lg" />
-                    <QuasarButton label="Size xl" size="xl" />
-                    <QuasarButton label="Size PX" size="50px" />
-                    <QuasarButton label="Click for Loading" :loading="progress" @click="progress = true" />
+                    <QuasarButton label="Size xs" size="xs" :unelevated="false" />
+                    <QuasarButton label="Size sm" size="sm" :unelevated="false" />
+                    <QuasarButton label="Size md" size="md" :unelevated="false" />
+                    <QuasarButton label="Size lg" size="lg" :unelevated="false" />
+                    <QuasarButton label="Size xl" size="xl" :unelevated="false"/>
+                    <QuasarButton label="Size PX" size="50px" :unelevated="false"/>
+                    <QuasarButton label="Click for Loading" :loading="progress" :unelevated="false" @click="progress = true" />
                     <QuasarButton label="Stop loading" color="negative" @click="progress = false" />
                 </div>
             </q-card-section>

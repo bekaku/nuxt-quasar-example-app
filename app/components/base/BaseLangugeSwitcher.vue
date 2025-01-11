@@ -9,9 +9,9 @@ const { locale, onSwitchLocale, availableLocales } = useLang();
 </script>
 <template>
     <!-- :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start" -->
-    <q-menu :anchor="anchor" :self="self" v-bind="$attrs">
+    <q-menu :anchor="anchor" :self="self" v-bind="$attrs" :auto-close="closeOnClick">
         <q-list style="min-width: 150px">
-            <q-item v-for="lang in availableLocales" :key="lang.iso" clickable :v-close-popup="closeOnClick"
+            <q-item v-for="lang in availableLocales" :key="lang.iso" clickable
                 @click="onSwitchLocale(lang.iso)">
                 <q-item-section>{{ lang.name }}</q-item-section>
                 <q-item-section v-if="lang.iso == locale" side>

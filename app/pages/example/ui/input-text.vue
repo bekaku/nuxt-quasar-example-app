@@ -20,6 +20,9 @@ const editMode = ref<boolean>(true);
 const onSubmit = () => {
     console.log('onSubmit');
 }
+const onOptSubmit = (otp?: string) => {
+    console.log('onOptSubmit', otp);
+}
 </script>
 <template>
     <q-page padding>
@@ -40,7 +43,7 @@ const onSubmit = () => {
                                 <q-card-section class="q-gutter-sm">
                                     <div class="text-h6">
                                         <q-icon :name="editMode ? biPencil : biEye" /> {{ editMode ? 'Edit mode' :
-                                        'Viewmode'}}
+                                            'Viewmode' }}
                                     </div>
                                     <q-toggle v-model="editMode" label="Toggle mode" />
                                     <QuasarInput v-model="name" :edit-mode="editMode" label="Name" :icon="biPerson"
@@ -91,19 +94,26 @@ const onSubmit = () => {
                                     <div class="text-h6">
                                         Date picker
                                     </div>
-                                    <QuasarDatePicker v-model="pickDate" :edit-mode="editMode" label="Select Date" required />
+                                    <QuasarDatePicker v-model="pickDate" :edit-mode="editMode" label="Select Date"
+                                        required />
 
                                     <div class="text-h6">
                                         Time picker
                                     </div>
-                                    <QuasarTimePicker v-model="pickTime" :edit-mode="editMode" label="Select time" required />
-                                    
+                                    <QuasarTimePicker v-model="pickTime" :edit-mode="editMode" label="Select time"
+                                        required />
+
 
                                     <div class="text-h6">
                                         Text area
                                     </div>
                                     <QuasarInput v-model="text" :edit-mode="editMode" label="Test area" type="textarea"
                                         :icon="biPencil" />
+
+                                    <div class="text-h6">
+                                        Input OTP
+                                    </div>
+                                    <QuasarInputOtp :input-length="6" @on-submit="onOptSubmit" />
                                 </q-card-section>
                             </q-card>
 

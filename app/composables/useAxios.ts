@@ -1,16 +1,18 @@
-import type {AxiosResponse} from "axios";
-import type {AppException, RequestType, ResponseMessage} from "~/types/common";
-import {biCheckCircle, biExclamationTriangle, biX} from "@quasar/extras/bootstrap-icons";
-import {useQuasar} from "quasar";
+import type { AxiosResponse } from "axios";
+import type { AppException, RequestType, ResponseMessage } from "~/types/common";
+import { biCheckCircle, biExclamationTriangle, biX } from "@quasar/extras/bootstrap-icons";
+import { useQuasar } from "quasar";
 
 export const useAxios = () => {
 
-    const {$axios} = useNuxtApp()
+    const { $axios } = useNuxtApp()
     const config = useRuntimeConfig()
     // const jwtToken = useCookie(config.public.jwtKeyName);
-    const {canSyncActiveStatusToServer} = useDevice();
-    const {notify, loading} = useQuasar();
+    const { canSyncActiveStatusToServer } = useDevice();
+    const { notify, loading: quasarLoading } = useQuasar();
+    const loading = ref<boolean>(false);
     const callAxiosProcess = async <T>(req: RequestType, devLog: boolean = true): Promise<AxiosResponse<T>> => {
+        loading.value = true;
         const canSyncOnlineStatus = await canSyncActiveStatusToServer();
         return new Promise((resolve, reject) => {
             // $axios.defaults.headers.Authorization = `Bearer ${jwtToken.value || ''}`;
@@ -43,7 +45,6 @@ export const useAxios = () => {
                 }
                 resolve(response as AxiosResponse<T>);
             }).catch((error) => {
-                // appLoading(false);
                 if (error?.response) {
                     if (error.response.status != 401 && error.response.status != 403) {
                         const responseData = error?.response?.data;
@@ -53,6 +54,8 @@ export const useAxios = () => {
                     }
                 }
                 reject(error);
+            }).finally(() => {
+                loading.value = false;
             });
         });
     };
@@ -112,20 +115,20 @@ export const useAxios = () => {
         if (import.meta.server || response == null) {
             return;
         }
-        if (loading.isActive) {
-            loading.hide();
+        if (quasarLoading.isActive) {
+            quasarLoading.hide();
         }
         notify(
             {
                 message: `<strong>${response.message}</strong><br> ${response.errors?.join('<br>')}`,
-                html:true,
+                html: true,
                 icon: biExclamationTriangle,
                 type: 'negative',
                 timeout: 15 * 1000,
                 progress: true,
                 position: 'bottom-left',
                 multiLine: true,
-                actions: [{icon: biX, color: 'white'}]
+                actions: [{ icon: biX, color: 'white' }]
             },
         );
     };
@@ -133,8 +136,8 @@ export const useAxios = () => {
         if (import.meta.server || !response.message) {
             return;
         }
-        if (loading.isActive) {
-            loading.hide();
+        if (quasarLoading.isActive) {
+            quasarLoading.hide();
         }
         notify(
             {
@@ -145,10 +148,10 @@ export const useAxios = () => {
                 progress: true,
                 position: 'bottom-left',
                 multiLine: true,
-                actions: [{icon: biX, color: 'white'}]
+                actions: [{ icon: biX, color: 'white' }]
             },
         );
     }
 
-    return {callAxios, validateServerResponse, callAxiosFile, callAxiosProcess};
+    return { callAxios, validateServerResponse, callAxiosFile, callAxiosProcess };
 };

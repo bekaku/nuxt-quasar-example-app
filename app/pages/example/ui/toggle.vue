@@ -26,19 +26,19 @@ const options: LabelValue<number>[] = [
             </q-card-section>
             <q-card-section>
                 <div class="text-h6">
-                    Toggle : {{ toggle }}
+                    Toggle/ Checkbox : {{ toggle }}
                 </div>
                 <div class="row">
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" :use-checkbox="true" color="primary"
+                        <QuasarToggle v-model="toggle" label="Toggle" color="primary"
                             :use-label-title="false" size="md" true-label="True label" false-label="False label" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" :use-checkbox="false" color="negative"
+                        <QuasarToggle v-model="toggle" label="Toggle" color="negative"
                             size="md" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" :use-checkbox="toggle" color="negative"
+                        <QuasarChekbox v-model="toggle" label="Checkbox" color="negative"
                             size="md" />
                     </div>
                 </div>

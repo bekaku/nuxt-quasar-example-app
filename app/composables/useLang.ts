@@ -1,6 +1,7 @@
 import type { ILanguge, ILocales } from "~/types/common";
 
 export const useLang = () => {
+    const timeout = ref<any>();
     const availableLocales: ILocales[] = [
         {
             name: 'English',
@@ -37,10 +38,16 @@ export const useLang = () => {
     }
     const onSwitchLocale = (l: ILanguge) => {
         onSetLocale(l);
-        // if(!import.meta.server){
-        //     window.location.reload()
-        // }
+        timeout.value = setTimeout(() => {
+            window.location.reload()
+        }, 500);
     }
+    onBeforeUnmount(() => {
+        if (timeout.value) {
+            clearTimeout(timeout.value)
+            timeout.value = undefined;
+        }
+    })
     return {
         t,
         locale,

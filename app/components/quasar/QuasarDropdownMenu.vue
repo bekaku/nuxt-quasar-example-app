@@ -16,7 +16,7 @@ const { width = '100px', cover = true, anchor = "top middle", dense = true } = d
 const open = defineModel<boolean>('open', { default: undefined });
 const menuRef = ref<any>();
 const emit = defineEmits(['on-click']);
-const onClick = (value: T) => {
+const onClick = (value: T | undefined) => {
   emit('on-click', value);
   if (menuRef.value) {
     menuRef.value.hide();
@@ -33,7 +33,7 @@ const onHide = () => {
     @hide="onHide">
     <q-list>
       <template v-for="(item, index) in items" :key="`app-menu-${item.value}-${index}`">
-        <QuasarDropdownMenuItem :item="item" :dense
+        <BaseLabelValueItem :item="item" :dense
           :clickable="item.value != undefined || (item.children && item.children.length > 0)" @on-click="onClick">
           <template v-if="item.children && item.children.length > 0">
             <!-- Level 2 -->
@@ -43,7 +43,7 @@ const onHide = () => {
 
             <q-menu anchor="top end" self="top start">
               <q-list :dense>
-                <QuasarDropdownMenuItem v-for="(itemLevel2, indexLevel2) in item.children"
+                <BaseLabelValueItem v-for="(itemLevel2, indexLevel2) in item.children"
                   :key="`app-submenulevel2-${index}-${indexLevel2}`" :item="itemLevel2"
                   :clickable="item.value != undefined || (item.children && item.children.length > 0)" :dense
                   @on-click="onClick">
@@ -54,19 +54,19 @@ const onHide = () => {
                     </q-item-section>
                     <q-menu anchor="top end" self="top start">
                       <q-list :dense>
-                        <QuasarDropdownMenuItem v-for="(itemLevel3, indexLevel3) in itemLevel2.children"
+                        <BaseLabelValueItem v-for="(itemLevel3, indexLevel3) in itemLevel2.children"
                           :key="`app-submenulevel3-${index}-${indexLevel2}-${indexLevel3}`"
                           :clickable="item.value != undefined || (item.children && item.children.length > 0)"
                           :item="itemLevel3" :dense @on-click="onClick" />
                       </q-list>
                     </q-menu>
                   </template>
-                </QuasarDropdownMenuItem>
+                </BaseLabelValueItem>
               </q-list>
             </q-menu>
           </template>
 
-        </QuasarDropdownMenuItem>
+        </BaseLabelValueItem>
         <q-separator v-if="item.border == true" />
       </template>
 

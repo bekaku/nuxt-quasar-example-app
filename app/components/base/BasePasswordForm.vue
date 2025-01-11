@@ -98,7 +98,7 @@ const onSubmit = () => {
         </q-card-section>
 
         <q-card-actions :align="actionAlign">
-            <q-btn unelevated type="submit" color="primary" :label="submitLabel" />
+            <q-btn unelevated type="submit" color="primary" :label="submitLabel || t('base.okay')" />
         </q-card-actions>
 
     </q-form>

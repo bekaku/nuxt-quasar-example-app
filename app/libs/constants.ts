@@ -57,11 +57,13 @@ export const FileTypeAcceptList = [
 // ];
 export const AuthNoInitialPage: string[] = [
   'auth-login',
+  'auth-forgot-password',
   'error',
   'all',
 ];
 export const AuthNoFilterPage: string[] = [
   'error',
   'all',
+  'auth-forgot-password',
   'test',
 ];

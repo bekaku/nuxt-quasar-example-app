@@ -190,7 +190,7 @@ const onChangePassword = async () => {
                             @click="showChangePasswordForm = true" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarToggle v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('base.enable')" />
+                        <QuasarChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('base.enable')" />
                     </div>
                 </div>
                 <q-separator />

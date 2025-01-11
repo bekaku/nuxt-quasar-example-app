@@ -65,7 +65,7 @@ const radios: LabelValue<number>[] = [
                             :label="t('model_permission_description')" :maxlength="255" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarToggle v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
+                        <QuasarChekbox v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
                         <div class="q-px-sm">Permission type</div>

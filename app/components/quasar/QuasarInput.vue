@@ -1,17 +1,42 @@
 <script setup lang="ts">
 import type { VueMoneyConFig } from '~/types/common';
 
-const { dense = true, counter = false, filled = false, bottomSlots = false, outlined = true, fetchImage = false, readonly = false, clearable = false, rounded = false,
-    iconSize = '24px', avatarSize = '30px', type = 'text', autogrow = true, rows=1, textareaHeight='125px',
-    editMode = true, 
-    viewBorderless = true, viewStackLabel = true, viewOutlined = false,viewShowHint=true, viewShowAppend=true, viewShowBefore=true, viewShowPrepend=true, viewShowAfter=true  } = defineProps<{
+const {
+    dense = true,
+    debounce = 0,
+    counter = false,
+    filled = false,
+    bottomSlots = false,
+    outlined = true,
+    fetchImage = false,
+    readonly = false,
+    clearable = false,
+    rounded = false,
+    borderless = false,
+    iconSize = '24px',
+    avatarSize = '30px',
+    type = 'text',
+    autogrow = true,
+    rows = 1,
+    textareaHeight = '125px',
+    editMode = true,
+    viewBorderless = true,
+    viewStackLabel = true,
+    viewOutlined = false,
+    viewShowHint = true,
+    viewShowAppend = true,
+    viewShowBefore = true,
+    viewShowPrepend = true,
+    viewShowAfter = true } = defineProps<{
         avatar?: string
         avatarSize?: string
         bottomSlots?: boolean
+        borderless?: boolean
         autogrow?: boolean
         counter?: boolean
         clearable?: boolean
         dense?: boolean
+        debounce?: number
         disable?: boolean
         fetchImage?: boolean
         filled?: boolean
@@ -49,11 +74,12 @@ const modelValue = defineModel<number | string | null>();
 </script>
 <template>
     <template v-if="editMode">
-        <q-input v-if="!isMoney" v-bind="$attrs" v-model="modelValue" :outlined :filled :bottom-slots="bottomSlots"
-            :label :placeholder :readonly :disable :rules="rules" :autogrow="type == 'textarea' ? autogrow : undefined" :rows="type == 'textarea' ? rows : undefined" :max-rows="type == 'textarea' ? maxRows : undefined" :min="min"
-            :max="max" :type="type" :counter :maxlength="maxlength" :dense="type == 'textarea' ? false : dense" :rounded :clearable 
-            :hint
-             :input-style="{ minHeight: type == 'textarea' && autogrow ? textareaHeight : undefined }">
+        <q-input v-if="!isMoney" v-bind="$attrs" v-model="modelValue" :debounce :outlined="outlined && !borderless" :filled :bottom-slots="bottomSlots"
+            :label :placeholder :readonly :disable :rules="rules" :autogrow="type == 'textarea' ? autogrow : undefined"
+            :rows="type == 'textarea' ? rows : undefined" :max-rows="type == 'textarea' ? maxRows : undefined"
+            :min="min" :max="max" :type="type" :counter :maxlength="maxlength"
+            :dense="type == 'textarea' ? false : dense" :rounded :clearable :hint :borderless="borderless"
+            :input-style="{ minHeight: type == 'textarea' && autogrow ? textareaHeight : undefined }">
             <!-- :class="{'limited-autogrow':type == 'textarea' && autogrow}"> -->
             <template #before>
                 <slot name="before" />
@@ -95,10 +121,11 @@ const modelValue = defineModel<number | string | null>();
         </BaseInputMoney>
     </template>
     <q-field v-else v-bind="$attrs" :model-value="modelValue" :bottom-slots="bottomSlots" :label
-        :outlined="viewOutlined" :filled="filled" :stack-label="viewStackLabel" :dense
-        :borderless="viewBorderless" :hint="viewShowHint ? hint : undefined">
+        :outlined="viewOutlined" :filled="filled" :stack-label="viewStackLabel" :dense :borderless="viewBorderless"
+        :hint="viewShowHint ? hint : undefined">
         <template #control>
-            <div class="self-center full-width no-outline app-auto-newline" tabindex="0">{{ type == 'number' || isMoney ?
+            <div class="self-center full-width no-outline app-auto-newline" tabindex="0">{{ type == 'number' || isMoney
+                ?
                 numberFormat(modelValue) : modelValue }}</div>
         </template>
         <template v-if="viewShowBefore" #before>
@@ -122,5 +149,4 @@ const modelValue = defineModel<number | string | null>();
         </template>
     </q-field>
 </template>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

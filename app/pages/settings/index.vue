@@ -152,7 +152,7 @@ const onUpdatePrivateData = () => {
                             </div>
                         </div>
                         <div class="col-12 col-md-12 q-pa-md">
-                            <QuasarToggle v-model="entityPersonal.autoFollowUser" :label="t('base.other')" />
+                            <QuasarChekbox v-model="entityPersonal.autoFollowUser" :label="t('base.other')" />
                         </div>
                         <q-card-actions align="right">
                             <QuasarButton :disable="!canSubmitUdatePrivateData" unelevated color="primary"

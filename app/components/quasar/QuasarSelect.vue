@@ -99,7 +99,7 @@ const onScroll = ({ to, ref }: any) => {
 </script>
 <template>
     <skeleton-item v-if="loading" show :items="1" :show-header="false" />
-    <q-select v-else v-model="modelValue" :label="label" :dense="dense" :outlined="outlined" :filled="filled"
+    <q-select v-else v-bind="$attrs" v-model="modelValue" :label="label" :dense="dense" :outlined="outlined" :filled="filled"
         :option-value="optionValue" :option-label="optionLabel" :loading="lazyLoading" ottom-slots emit-value
         map-options :use-chips="useChips" :multiple="multiple" :readonly="readonly" :use-input="canFilter"
         :options="options" :input-debounce="inputDebounce" :rules="[required ? requiredSelect : ({} as any)]"

@@ -18,7 +18,7 @@ const singleModel2 = ref<number>();
 const multipleAnyModel = ref<any[]>([]);
 const lazyLoading = ref(false);
 const cascadeLoading = ref(false);
-
+const commandPaletteModel = ref<number[]>([])
 const lazyItems = ref<LabelValue<number>[]>([
     {
         label: 'api_client_list',
@@ -286,6 +286,18 @@ watch(districtSeleted, () => {
                             :lazy-loading="cascadeLoading" :multiple="false" label="Sub District" />
                     </div>
                 </div>
+
+                <div class="text-h5 q-my-sm">
+                    Command palette {{ commandPaletteModel }}
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <quasar-command-palette v-model="commandPaletteModel" multiple :items="simpleItems2"/>
+                    </div>
+                </div>
+                
+
             </q-card-section>
         </q-card>
     </q-page>

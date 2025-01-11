@@ -18,8 +18,6 @@ import {
     biX
 } from '@quasar/extras/bootstrap-icons';
 import { getValFromObjectByPath } from '~/utils/appUtil';
-import QuasarDatePicker from '../quasar/QuasarDatePicker.vue';
-import QuasarToggle from '../quasar/QuasarToggle.vue';
 const {
     icon = biFile,
     showPaging = true,
@@ -39,7 +37,8 @@ const {
     crudName,
     viewPermission,
     managePermission,
-    byPassPermission = false
+    byPassPermission = false,
+    tableSeperator='horizontal'
 } = defineProps<{
     crudName?: string
     viewPermission?: string[]
@@ -62,6 +61,7 @@ const {
     showFilter?: boolean
     showSort?: boolean
     fullWidth?: boolean
+    tableSeperator?: "horizontal" | "vertical" | "cell" | "none" | undefined
 }>();
 const emit = defineEmits([
     'on-page-no-change',
@@ -217,7 +217,7 @@ const isHaveViewPermission = computed(() => {
     if (byPassPermission) {
         return true;
     }
-    return viewPermission && viewPermission.length>0
+    return viewPermission && viewPermission.length > 0
         ? appStore.isHavePermission(viewPermission)
         : crudName
             ? appStore.isHavePermission([`${crudName}_view`])
@@ -227,7 +227,7 @@ const isHaveManagePermission = computed(() => {
     if (byPassPermission) {
         return true;
     }
-    return managePermission && managePermission.length>0
+    return managePermission && managePermission.length > 0
         ? appStore.isHavePermission(managePermission)
         : crudName
             ? appStore.isHavePermission([`${crudName}_manage`])
@@ -388,7 +388,7 @@ const onPerPageChange = async (v: number | undefined) => {
                                                     searchCol.options?.searchType ==
                                                     ICrudListHeaderOptionSearchType.BOOLEAN
                                                 ">
-                                                    <QuasarToggle v-model="searchCol.options.searchModel" use-checkbox
+                                                    <QuasarChekbox v-model="searchCol.options.searchModel" use-checkbox
                                                         use-label-title :label="t(searchCol.label)" />
                                                 </template>
                                                 <template v-else-if="
@@ -426,12 +426,12 @@ const onPerPageChange = async (v: number | undefined) => {
                 </template>
                 <template v-else>
                     <slot name="table">
-                        <q-markup-table v-if="list.length > 0" separator="cell" flat bordered>
+                        <q-markup-table v-if="list.length > 0" :separator="tableSeperator" flat bordered>
                             <thead>
                                 <slot name="theader">
                                     <tr>
                                         <th v-if="isHaveManagePermission && showCheckbox">
-                                            <q-checkbox v-model="selectedAll" @click="onCheckedAll">
+                                            <!-- <q-checkbox v-model="selectedAll" keep-color color="grey-6" @click="onCheckedAll">
                                                 <q-tooltip>
                                                     {{
                                                         !selectedAll
@@ -439,7 +439,16 @@ const onPerPageChange = async (v: number | undefined) => {
                                                             : t('base.deselectAll')
                                                     }}
                                                 </q-tooltip>
-                                            </q-checkbox>
+                                            </q-checkbox> -->
+                                            <QuasarChekbox v-model="selectedAll" :show-label="false"  @click="onCheckedAll">
+                                                <q-tooltip>
+                                                    {{
+                                                        !selectedAll
+                                                            ? t('base.selectAll')
+                                                            : t('base.deselectAll')
+                                                    }}
+                                                </q-tooltip>
+                                            </QuasarChekbox>
                                         </th>
                                         <template v-for="(tblHeader, tblIndex) in fillableHeaders"
                                             :key="`tblHeader-${tblIndex}`">

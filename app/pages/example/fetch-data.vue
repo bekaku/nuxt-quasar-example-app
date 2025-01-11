@@ -107,6 +107,13 @@ const fetchError = async () => {
         responseErrorLoading.value = false;
     });
 }
+
+// const { data: apiData, error: apiError, loading: apiLoading, clear:apiClear, refresh : apiRefresh} = await useApi<Permission>({
+//     API: '/api/permission/findAllBackendPermission',
+//     method: 'GET',
+// });
+
+
 const getDataNowFromServer = async () => {
     const now = await $fetch('/api/now');// call api in internal server path /src/server/api/now.ts
     console.log('getDataNowFromServer', now);
@@ -137,6 +144,8 @@ const getOpengraph = async () => {
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-md">
+
+
                 <div class="text-h5">
                     AsyncData
                 </div>

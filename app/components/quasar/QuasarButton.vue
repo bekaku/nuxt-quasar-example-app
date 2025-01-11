@@ -4,7 +4,7 @@ import type { AppColor } from '~/types/common';
   const {
     outline = false,
     noCaps = true,
-    unelevated = false,
+    unelevated = true,
     glossy = false,
     flat = false,
     stack = false,

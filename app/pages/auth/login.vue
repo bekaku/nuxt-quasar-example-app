@@ -6,7 +6,9 @@ useSeoMeta({
 definePageMeta({
     layout: 'empty',
     // middleware: ["auth"]
+    pageName: 'authen.login',
 })
+useInitPage();
 const { signin } = useAuth();
 const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
@@ -110,13 +112,13 @@ const onReset = () => {
                     </q-card-section>
                     <q-form ref="loginForm" class="q-px-sm" @submit="onSubmit" @reset="onReset()">
                         <q-card-section>
-                            <q-input v-model="email" :readonly="loading" outlined :label="t('base.emailOrUsername')"
+                            <QuasarInput v-model="email" :readonly="loading" :dense="false" :label="t('base.emailOrUsername')"
                                 :rules="[required]">
                                 <template #prepend>
                                     <q-icon :name="biPerson" color="grey-9" />
                                 </template>
-                            </q-input>
-                            <q-input v-model="password" class="q-pt-lg" :readonly="loading" outlined
+                            </QuasarInput>
+                            <QuasarInput v-model="password" class="q-pt-lg" :readonly="loading" :dense="false"
                                 :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
                                 :rules="[required]">
                                 <template #prepend>
@@ -126,17 +128,18 @@ const onReset = () => {
                                     <q-icon :name="showPassword ? biEye : biEyeSlash" class="cursor-pointer"
                                         color="grey-9" @click="showPassword = !showPassword" />
                                 </template>
-                            </q-input>
+                            </QuasarInput>
                         </q-card-section>
                         <q-card-actions>
-                            <q-btn unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
+                            <QuasarButton unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
                                 :label="t('authen.login')" type="submit" />
                         </q-card-actions>
                     </q-form>
                     <q-card-section class="text-center q-pa-sm">
-                        <NuxtLink to="/auth/forgot-password" class="app-text-link">
+                        <BaseLink to="/auth/forgot-password">
                             {{ t('authen.forgetPassword') }}
-                        </NuxtLink>
+                        </BaseLink>
+                        
 
                         <q-separator class="q-my-md" />
                         <div class="row items-center q-gutter-x-md justify-center">

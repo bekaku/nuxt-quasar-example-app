@@ -140,7 +140,7 @@ const updateSelectedAll = (val: boolean) => {
             </QuasarInput>
           </div>
           <div class="col-12 col-md-4  q-px-md q-gutter-md">
-            <QuasarToggle v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
+            <QuasarChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
           </div>
         </div>
         <q-separator />

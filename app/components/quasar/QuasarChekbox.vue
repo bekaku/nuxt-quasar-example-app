@@ -3,6 +3,7 @@ import { biCheck, biX } from '@quasar/extras/bootstrap-icons';
 
 withDefaults(
     defineProps<{
+        title?: string;
         label?: string;
         trueLabel?: string;
         falseLabel?: string;
@@ -32,23 +33,21 @@ withDefaults(
     }
 );
 const { t } = useLang();
-// defineEmits(['update:modelValue']);
 const modelValue = defineModel<boolean | T[]>();
 </script>
 <template>
-    <div v-if="!label && showTitle" class="text-muted">
-        {{ label }}
+    <div v-if="!title">
+        {{ title }}
     </div>
-    <q-toggle v-bind="$attrs" v-model="modelValue" :checked-icon="biCheck" :disable="!editMode || disable"
-        :color="color" :size="size" :keep-color="keepColor" :label="!showLabel ? '' :
-            useLabelTitle ? (label ? label : t('base.enable')) : modelValue
+    <q-checkbox v-bind="$attrs" v-model="modelValue" :keep-color="keepColor" :color="color" :size="size"
+        :disable="!editMode || disable" :label="!showLabel ? '' : useLabelTitle ? (label ? label : t('base.enable')) : modelValue
+            ? trueLabel
                 ? trueLabel
-                    ? trueLabel
-                    : t('base.enable')
-                : falseLabel
-                    ? falseLabel
-                    : t('base.disable')
-            " :unchecked-icon="biX">
+                : t('base.enable')
+            : falseLabel
+                ? falseLabel
+                : t('base.disable')
+            ">
         <slot />
-    </q-toggle>
+    </q-checkbox>
 </template>

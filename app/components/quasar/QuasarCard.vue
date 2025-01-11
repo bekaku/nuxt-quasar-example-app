@@ -5,7 +5,7 @@ const {flat=false, bordered=true}=defineProps<{
 }>();
 </script>
 <template>
-    <q-card v-bind="$attrs" :flat :bordered class="default-card">
+    <q-card v-bind="$attrs" :flat :bordered="bordered" :class="{'default-card' : !flat}">
         <slot />
     </q-card>
 </template>

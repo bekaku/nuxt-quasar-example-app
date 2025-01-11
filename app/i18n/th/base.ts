@@ -285,6 +285,7 @@ export default {
         'maximize': 'เต็มจอ',
         'notifications': 'แจ้งเตือน',
         'typeForsearch': 'พิมพ์เพื่อค้นหา',
+        'typeCommandForsearch': 'Type a command to search',
     },
     'theme': {
         'light': 'กลางวัน',
