@@ -194,6 +194,7 @@ export const additionalMenu: IMenu[] = [
                         icon: biChevronExpand,
                         permission: '',
                         title: 'Select',
+                        caption : 'Select, Command palette',
                         translate: false,
                         to: '/example/ui/select'
                     },

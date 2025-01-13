@@ -1,42 +1,35 @@
 <script setup lang="ts" generic="T">
-import type { LabelValue } from '~/types/common';
-import { biCheck, biChevronExpand, biX, biSearch, biCheck2 } from '@quasar/extras/bootstrap-icons';
+import { biCheck2, biSearch } from '@quasar/extras/bootstrap-icons';
+import type { AppColor, LabelValue } from '~/types/common';
 
 const {
     items,
-    debounce = 100,
     multiple = false,
     loading = false,
-    fetchImage = false,
-    inputDebounce = 0,
-    lazy = false,
-    lazyLoading = false,
+    inputDebounce = 100,
     canFilter = true,
-    clearable = true,
     dense = true,
-    icon = biSearch
+    icon = biSearch,
+    color = 'primary',
+    scrollHeight = '420px',
 } = defineProps<{
     items: LabelValue<T>[];
     label?: string;
-    debounce?: number;
     readonly?: boolean;
     dense?: boolean;
     canFilter?: boolean;
-    clearable?: boolean;
     multiple?: boolean;
     icon?: string;
     loading?: boolean;
-    fetchImage?: boolean;
     inputDebounce?: number;
     lazy?: boolean
     noOptionsText?: string
-    lazyLoading?: boolean
     placeholder?: string
+    color?: AppColor
+    iconSize?: string
+    avatarSize?: string
+    scrollHeight?: string
 }>();
-const emit = defineEmits<{
-    'on-filter': [value: string, update: any]
-    'on-scroll': [to: number, ref: any]
-}>()
 const { t } = useLang();
 const modelValue = defineModel<T | T[] | null>();
 // const options = ref<LabelValue<T>[]>([...items]);
@@ -44,19 +37,28 @@ const filterText = ref<string>('');
 // watchEffect(() => {
 //     options.value = items;
 // })
-const getSelected = computed<undefined | LabelValue<T>>(() => {
-    if (multiple || !modelValue.value) {
-        return undefined;
-    }
-    return items.find(t => t.value == modelValue.value)
-})
+const emit = defineEmits<{
+    'on-click': [val: T | undefined]
+}>()
 const filterItems = computed(() => {
     if (filterText.value === undefined || filterText.value.trim().length == 0) {
         return items;
     }
-    return items.filter((v) => v.label.toLowerCase().includes(filterText.value.trim()));
+    return items
+        .map(item => {
+            if (item.children) {
+                // If the item has children, filter them
+                const filteredChildren = item.children.filter(child => child.label.toLowerCase().includes(filterText.value.toLowerCase()) || (child.description != undefined && child.description.toLowerCase().includes(filterText.value.toLowerCase())));
+                return { ...item, children: filteredChildren };
+            } else {
+                // If no children, filter by the item's own label
+                return item.label.toLowerCase().includes(filterText.value.toLowerCase()) || (item.description != undefined && item.description.toLowerCase().includes(filterText.value.toLowerCase())) ? item : null;
+            }
+        })
+        .filter(item => item !== null && (!item.children || item.children.length > 0));
 })
 const onClick = (val: T | undefined) => {
+    emit('on-click', val);
     if (val == undefined) {
         return;
     }
@@ -68,15 +70,11 @@ const onClick = (val: T | undefined) => {
             modelValue.value = val;
         }
     }
-    console.log('onClick', val);
     if (modelValue.value != undefined && Array.isArray(modelValue.value)) {
         const t = getSelectedBy(val);
-        console.log('getSelectedBy', t);
         if (t) {
-            console.log('remove self');
             modelValue.value = modelValue.value.filter((v: T) => v !== val);
         } else {
-            console.log('addnew');
             modelValue.value.push(val);
         }
     }
@@ -97,17 +95,48 @@ const getSelectedBy = (val: T | undefined) => {
 </script>
 <template>
     <QuasarCard v-bind="$attrs" bordered flat>
-        {{ filterText }}
-        <QuasarInput v-model="filterText" borderless :icon="icon" :dense :debounce
-            :placeholder="placeholder || t('base.typeForsearch') + '...'" />
+        <QuasarInput v-if="canFilter" v-model="filterText" borderless :icon="icon" :dense :debounce="inputDebounce"
+            :placeholder="placeholder || t('base.typeForsearch') + '...'">
+            <template v-if="loading" #prepend>
+                <BaseSpinner type="defult" size="24px" />
+            </template>
+            <template #append>
+                <slot name="inputAppend" />
+            </template>
+
+        </QuasarInput>
         <q-separator />
         <q-card-section>
-            <BaseLabelValueItem v-for="(item, index) in filterItems" :key="`app-command-palette-${item.value}-${index}`"
-                :item="item" :dense :clickable="item.value != undefined" @on-click="onClick">
-                <q-item-section v-if="getSelectedBy(item.value)" side>
-                    <q-icon :name="biCheck2" />
-                </q-item-section>
-            </BaseLabelValueItem>
+            <q-list :dense>
+                <BaseScrollArea :height="scrollHeight">
+                    <template v-for="(item, index) in filterItems" :key="`app-commandpalette-${index}`">
+                        <template v-if="item && item.children && item.children.length > 0">
+                            <q-item-label header>{{ item.label }}</q-item-label>
+                            <q-separator v-if="item.border" class="q-mb-sm" />
+                            <BaseLabelValueItem v-for="(itemLevel2, indexLevel2) in item.children"
+                                :key="`app-submenulevel2-${index}-${indexLevel2}`" :item="itemLevel2"
+                                :avatar-size="iconSize" :icon-size="iconSize" :high-light-text="filterText"
+                                :color="getSelectedBy(itemLevel2.value) ? 'primary' : undefined" :dense
+                                :clickable="item.value != undefined || (item.children && item.children.length > 0)"
+                                @on-click="onClick">
+                                <q-item-section v-if="getSelectedBy(itemLevel2.value)" side>
+                                    <q-icon :name="biCheck2" :color />
+                                </q-item-section>
+                            </BaseLabelValueItem>
+                        </template>
+                        <template v-else>
+                            <BaseLabelValueItem v-if="item" :item="item" :dense :avatar-size="iconSize"
+                                :icon-size="iconSize" :high-light-text="filterText"
+                                :clickable="item.value != undefined || (item.children && item.children.length > 0)"
+                                :color="getSelectedBy(item.value) ? 'primary' : undefined" @on-click="onClick">
+                                <q-item-section v-if="getSelectedBy(item.value)" side>
+                                    <q-icon :name="biCheck2" :color />
+                                </q-item-section>
+                            </BaseLabelValueItem>
+                        </template>
+                    </template>
+                </BaseScrollArea>
+            </q-list>
         </q-card-section>
 
     </QuasarCard>

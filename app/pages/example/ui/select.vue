@@ -5,7 +5,8 @@ import {
     biGear,
     biLightbulb,
     biPerson,
-    biPhone
+    biPhone,
+    biX
 } from '@quasar/extras/bootstrap-icons';
 useHead({
     title: 'Select'
@@ -19,6 +20,7 @@ const multipleAnyModel = ref<any[]>([]);
 const lazyLoading = ref(false);
 const cascadeLoading = ref(false);
 const commandPaletteModel = ref<number[]>([])
+const showCommandPaletteDialog = ref<boolean>(false)
 const lazyItems = ref<LabelValue<number>[]>([
     {
         label: 'api_client_list',
@@ -59,31 +61,31 @@ const simpleItems: LabelValue<number>[] = [
 const simpleItems2: LabelValue<number>[] = [
     {
         label: 'Cody Fisher',
-        value: 1,
+        value: 6,
         description: 'Fisher',
         avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg'
     },
     {
         label: 'Robert Fox',
-        value: 2,
+        value: 7,
         description: 'Fox',
         avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg',
     },
     {
         label: 'Esther Howard',
-        value: 3,
+        value: 8,
         description: 'Howard',
         avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg',
     },
     {
         label: 'Darlene Robertson',
-        value: 4,
+        value: 9,
         description: 'Robertson',
         avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg',
     },
     {
         label: 'Ralph Edwards',
-        value: 5,
+        value: 10,
         description: 'Edwards',
         avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png'
     },
@@ -110,6 +112,22 @@ const simpleItems3: any[] = [
         id: 5,
     },
 ];
+
+const items3: LabelValue<number>[] = [
+    {
+        label: 'Users',
+        children: simpleItems2
+    },
+    {
+        label: 'Other',
+        children: simpleItems
+    },
+    {
+        label: 'test',
+        description: 'Just test',
+        value: 55
+    },
+]
 
 
 //cascade example 
@@ -162,7 +180,7 @@ const onLoadProviceItems = async () => {
         provinceItems.value.push({
             label: p.name_th,
             value: p.id,
-            description :p.name_en
+            description: p.name_en
         })
     }
     cascadeLoading.value = false;
@@ -181,7 +199,7 @@ const onLoadDistrictItems = async () => {
         districtItems.value.push({
             label: d.name_th,
             value: d.id,
-            description :d.name_en
+            description: d.name_en
         })
     }
     cascadeLoading.value = false;
@@ -293,17 +311,29 @@ watch(districtSeleted, () => {
 
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <quasar-command-palette v-model="commandPaletteModel" multiple :items="simpleItems2"/>
+                        <quasar-command-palette v-model="commandPaletteModel" multiple :items="items3" />
+                    </div>
+                    <div class="col-12 col-md-6 q-px-md">
+                        <div class="text-h5 q-my-sm">
+                            Command palette dialog {{ commandPaletteModel }}
+                        </div>
+                        <quasar-button outline label="Open Command palette dialog"
+                            @click="showCommandPaletteDialog = true" />
                     </div>
                 </div>
-                
+
 
             </q-card-section>
         </q-card>
+
+        <BaseDialog v-model="showCommandPaletteDialog" :show-toolbar="false"
+            dialog-style="width: 756px; max-width: 80vw;">
+            <quasar-command-palette v-model="commandPaletteModel" class="q-pt-sm" multiple :items="items3">
+                <template #inputAppend>
+                    <QuasarButton round :icon="biX" @click="showCommandPaletteDialog=false" />
+                </template>
+            </quasar-command-palette>
+        </BaseDialog>
     </q-page>
 </template>
-<style lang="scss" scoped>
-.btn-fixed-width {
-    width: 200px
-}
-</style>
+<style lang="scss" scoped></style>

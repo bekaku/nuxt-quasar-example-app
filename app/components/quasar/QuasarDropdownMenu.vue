@@ -15,7 +15,9 @@ const { width = '100px', cover = true, anchor = "top middle", dense = true } = d
 }>();
 const open = defineModel<boolean>('open', { default: undefined });
 const menuRef = ref<any>();
-const emit = defineEmits(['on-click']);
+const emit = defineEmits<{
+  'on-click': [val: T | undefined]
+}>()
 const onClick = (value: T | undefined) => {
   emit('on-click', value);
   if (menuRef.value) {

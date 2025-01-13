@@ -1,13 +1,14 @@
 <script setup lang="ts" generic="T">
-import type { LabelValue } from '~/types/common';
+import type { AppColor, LabelValue } from '~/types/common';
 
 
-const { item, iconSize = '20px', avatarSize = '24px', dense = true, } = defineProps<{
+const { item, iconSize = '20px', avatarSize = '24px', dense = true } = defineProps<{
   item: LabelValue<T>
   iconSize?: string
   avatarSize?: string
   dense?: boolean
   clickable?: boolean
+  color?: AppColor
 }>();
 const emit = defineEmits<{
   'on-click': [val: T | undefined]
@@ -29,7 +30,9 @@ const onClick = () => {
       </template>
     </q-item-section>
     <q-item-section>
-      <q-item-label :class="item.color ? 'text-' + item.color : ''">{{ item.label }}</q-item-label>
+      <q-item-label :class="color ? 'text-' +color: item.color ? 'text-' + item.color : ''">
+        {{ item.label }}
+      </q-item-label>
       <q-item-label v-if="item.description" caption>{{ item.description }}</q-item-label>
     </q-item-section>
     <slot />

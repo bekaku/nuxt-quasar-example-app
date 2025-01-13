@@ -298,3 +298,6 @@ export const getValFromObjectByPath = (obj: any, path: string) => {
 
     return undefined;
 };
+export const cloneObject = <T>(obj: T) => {
+    return Object.assign({}, obj) as T;
+  };

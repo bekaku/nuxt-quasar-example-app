@@ -24,6 +24,7 @@ const {
   transitionHide = 'fade',
   canMaximized = false,
   autoClose = true,
+  showToolbar = true,
 } =
   defineProps<{
     persistent?: boolean;
@@ -39,6 +40,7 @@ const {
     maxWidth?: string;
     dialogStyle?: string;
     autoClose?: boolean;
+    showToolbar?: boolean;
   }>();
 
 const modelValue = defineModel<boolean>({ default: false });
@@ -60,7 +62,7 @@ const onClose = () => {
       </div> -->
     <q-card v-bind="$attrs" flat bordered :style="dialogStyle">
       <slot name="toolBar">
-        <q-bar class="bg-transparent q-my-xs">
+        <q-bar v-if="showToolbar" class="bg-transparent q-my-xs">
           <slot name="icon">
             <q-icon v-if="icon" :name="icon" />
           </slot>
