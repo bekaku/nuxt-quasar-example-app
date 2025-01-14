@@ -85,7 +85,7 @@ const getSelectedBy = (val: T | undefined) => {
     }
 
     if (!multiple) {
-        return modelValue.value
+        return modelValue.value === val
     }
     if (modelValue.value != undefined && Array.isArray(modelValue.value)) {
         return modelValue.value.find((t: T) => t == val)
@@ -95,10 +95,13 @@ const getSelectedBy = (val: T | undefined) => {
 </script>
 <template>
     <QuasarCard v-bind="$attrs" bordered flat>
-        <QuasarInput v-if="canFilter" v-model="filterText" borderless :icon="icon" :dense :debounce="inputDebounce"
+        <QuasarInput v-if="canFilter" v-model="filterText" borderless :dense :debounce="inputDebounce"
             :placeholder="placeholder || t('base.typeForsearch') + '...'">
-            <template v-if="loading" #prepend>
-                <BaseSpinner type="defult" size="24px" />
+            <template #prepend>
+                <template v-if="loading">
+                    <BaseSpinner type="defult" size="24px" class="q-mb-sm" />
+                </template>
+                <q-icon v-else :name="icon" class="text-muted" size="20px" />
             </template>
             <template #append>
                 <slot name="inputAppend" />
@@ -107,7 +110,8 @@ const getSelectedBy = (val: T | undefined) => {
         </QuasarInput>
         <q-separator />
         <q-card-section>
-            <q-list :dense>
+            <LazyBaseSpinner v-if="loading" />
+            <q-list v-else :dense>
                 <BaseScrollArea :height="scrollHeight">
                     <template v-for="(item, index) in filterItems" :key="`app-commandpalette-${index}`">
                         <template v-if="item && item.children && item.children.length > 0">

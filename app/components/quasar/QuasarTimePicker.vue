@@ -1,7 +1,7 @@
   <script setup lang="ts">
   import { biClock, biXCircleFill } from '@quasar/extras/bootstrap-icons';
 import type { AppColor } from '~/types/common';
-  const { dense = true, disable = false, required = false, color = 'primary', editMode=true, } = defineProps<{
+  const { dense = true, disable = false, required = false, editMode=true, } = defineProps<{
     label?: string
     dense?: boolean
     disable?: boolean

@@ -16,7 +16,7 @@ useHead({
         <div class="fullscreen text-center q-pa-md flex flex-center">
             <base-result status="404" :description="t('error.pageNotFound')">
                 <template #extra>
-                    <q-btn flat :icon="biArrowLeft" :label="t('base.back')" @click="onPageBack" />
+                    <QuasarButton rounded flat :icon="biArrowLeft" :label="t('base.back')" @click="onPageBack" />
                 </template>
             </base-result>
         </div>

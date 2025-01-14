@@ -22,9 +22,12 @@ const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = tr
 const { t } = useLang();
 const { screen } = useQuasar();
 const { isDark } = useTheme();
+const { appNavigateTo } = useBase();
 const appStore = useAppStore();
 const showGotTopBtn = ref(false);
 const showSearch = ref(false);
+
+const searchTimeout = ref<any>();
 const onOpenSearch = () => {
     showSearch.value = true;
 };
@@ -35,6 +38,18 @@ const onScroll = (info: any) => {
         showGotTopBtn.value = false;
     }
 };
+const onSearchMenuClick = (to: string) => {
+    showSearch.value = false;
+    setTimeout(() => {
+        appNavigateTo(to);
+    }, 500)
+}
+onBeforeUnmount(() => {
+    if (searchTimeout.value) {
+        clearTimeout(searchTimeout.value);
+    }
+    searchTimeout.value = null;
+})
 </script>
 
 <template>
@@ -54,10 +69,8 @@ const onScroll = (info: any) => {
                         ">
                 </q-avatar>
             </q-btn>
-            <q-btn v-if="screen.gt.xs" flat class="text-capitalize" @click="onOpenSearch">
-                <span class="q-mr-sm text-muted">{{
-                    t('base.search') + ' Vue Quasar'
-                }}</span>
+            <q-btn v-if="screen.gt.xs" flat rounded class="text-capitalize" @click="onOpenSearch">
+                <span class="q-mr-sm text-muted">{{t('base.search')}}</span>
                 <q-icon :name="biSearch" />
             </q-btn>
             <q-space />
@@ -84,5 +97,7 @@ const onScroll = (info: any) => {
                 <LazyBaseHeaderMenu v-if="showUserSetting" style="max-width: 225px" />
             </div>
         </q-toolbar>
+        <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
     </q-header>
+
 </template>

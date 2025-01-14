@@ -78,7 +78,7 @@ note、abstract、info、tip、success、question、warning、failure、danger�
 </script>
 <template>
     <q-page padding>
-        <q-card flat bordered class="content-limit">
+        <QuasarCard flat :bordered="false" class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Markdown </q-toolbar-title>
@@ -87,7 +87,7 @@ note、abstract、info、tip、success、question、warning、failure、danger�
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-y-lg">
-                <q-card class="q-my-lg q-pa-md">
+                <QuasarCard flat class="q-my-lg q-pa-md">
                     <div class="text-h5 q-mb-md">
                         <q-icon :name="biPencil" /> Editor
                         <q-btn flat :icon="biQuestion" class="text-capitalize text-muted" dense
@@ -101,15 +101,15 @@ note、abstract、info、tip、success、question、warning、failure、danger�
                         </q-btn>
                     </div>
                     <base-markdown-editor v-model="content" :editor-id="contentId" />
-                </q-card>
+                </QuasarCard>
 
-                <q-card class="q-my-lg q-pa-md">
+                <QuasarCard flat class="q-my-lg q-pa-md">
                     <div class="text-h5 q-mb-md">
                         <q-icon :name="biEye" /> Preview
                     </div>
                     <base-markdown-preview :content="content" :editor-id="contentPreviewId" />
-                </q-card>
+                </QuasarCard>
             </q-card-section>
-        </q-card>
+        </QuasarCard>
     </q-page>
 </template>

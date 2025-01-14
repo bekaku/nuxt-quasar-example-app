@@ -20,7 +20,6 @@ const props = withDefaults(
     disable: false,
     required: false,
     editMode: true,
-    color: 'primary'
   }
 );
 const modelValue = defineModel<string | undefined | null>();
