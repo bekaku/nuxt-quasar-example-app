@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T">
-import { biCheck, biX } from '@quasar/extras/bootstrap-icons';
 
 withDefaults(
     defineProps<{
@@ -13,9 +12,6 @@ withDefaults(
         showTitle?: boolean;
         disable?: boolean;
         editMode?: boolean
-        inline?: boolean
-        fetchImage?: boolean;
-        leftLabel?: boolean;
         showLabel?: boolean;
         keepColor?: boolean;
     }>(),
@@ -24,10 +20,7 @@ withDefaults(
         size: 'md',
         useLabelTitle: true,
         showTitle: false,
-        inline: true,
         editMode: true,
-        fetchImage: false,
-        leftLabel: false,
         showLabel: true,
         keepColor: false,
     }
@@ -36,7 +29,7 @@ const { t } = useLang();
 const modelValue = defineModel<boolean | T[]>();
 </script>
 <template>
-    <div v-if="!title">
+    <div v-if="showTitle&&!title">
         {{ title }}
     </div>
     <q-checkbox v-bind="$attrs" v-model="modelValue" :keep-color="keepColor" :color="color" :size="size"

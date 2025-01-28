@@ -77,8 +77,8 @@ note、abstract、info、tip、success、question、warning、failure、danger�
 `);
 </script>
 <template>
-    <q-page padding>
-        <QuasarCard flat :bordered="false" class="content-limit">
+    <QuasarPage class="content-limit">
+        <!-- <QuasarCard flat :bordered="false" class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Markdown </q-toolbar-title>
@@ -86,30 +86,35 @@ note、abstract、info、tip、success、question、warning、failure、danger�
                 </q-toolbar>
                 <q-separator />
             </q-card-section>
-            <q-card-section class="q-gutter-y-lg">
-                <QuasarCard flat class="q-my-lg q-pa-md">
-                    <div class="text-h5 q-mb-md">
-                        <q-icon :name="biPencil" /> Editor
-                        <q-btn flat :icon="biQuestion" class="text-capitalize text-muted" dense
-                            :label="`(${t('base.canUseMarkdown')})`">
-                            <q-tooltip>
-                                {{ t('base.canUseMarkdownHelp') }}
-                            </q-tooltip>
-                            <q-menu style="width: 450px">
-                                <base-markdown-help />
-                            </q-menu>
-                        </q-btn>
-                    </div>
-                    <base-markdown-editor v-model="content" :editor-id="contentId" />
-                </QuasarCard>
-
-                <QuasarCard flat class="q-my-lg q-pa-md">
-                    <div class="text-h5 q-mb-md">
-                        <q-icon :name="biEye" /> Preview
-                    </div>
-                    <base-markdown-preview :content="content" :editor-id="contentPreviewId" />
-                </QuasarCard>
-            </q-card-section>
+            <q-card-section class="q-gutter-y-lg"> -->
+        <q-toolbar>
+            <q-toolbar-title> Markdown </q-toolbar-title>
+            <q-space />
+        </q-toolbar>
+        <q-separator />
+        <QuasarCard flat class="q-my-lg q-pa-md">
+            <div class="text-h5 q-mb-md">
+                <q-icon :name="biPencil" /> Editor
+                <q-btn flat :icon="biQuestion" class="text-capitalize text-muted" dense
+                    :label="`(${t('base.canUseMarkdown')})`">
+                    <q-tooltip>
+                        {{ t('base.canUseMarkdownHelp') }}
+                    </q-tooltip>
+                    <q-menu style="width: 450px">
+                        <base-markdown-help />
+                    </q-menu>
+                </q-btn>
+            </div>
+            <base-markdown-editor v-model="content" :editor-id="contentId" />
         </QuasarCard>
-    </q-page>
+
+        <QuasarCard flat class="q-my-lg q-pa-md">
+            <div class="text-h5 q-mb-md">
+                <q-icon :name="biEye" /> Preview
+            </div>
+            <base-markdown-preview :content="content" :editor-id="contentPreviewId" />
+        </QuasarCard>
+        <!-- </q-card-section>
+        </QuasarCard> -->
+    </QuasarPage>
 </template>

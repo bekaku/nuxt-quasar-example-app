@@ -18,8 +18,8 @@ const onEmojiClick = (emoji: string) => {
 };
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage class="content-limit">
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Emoji picker </q-toolbar-title>
@@ -92,14 +92,14 @@ const onEmojiClick = (emoji: string) => {
                 <div class="text-h6">
                     Quasar Icon
                 </div>
-                <BaseIcon :icon="biAppIndicator" icon-set="quasar"/>
-                <BaseIcon :icon="biPenFill" icon-set="quasar" color="blue-grey-13"/>
-                <BaseIcon :icon="mdiAbTesting" icon-set="quasar"/>
-                <BaseIcon :icon="mdiAccount" icon-set="quasar"/>
-                <BaseIcon :icon="laAddressBook" icon-set="quasar"/>
+                <BaseIcon :icon="biAppIndicator" icon-set="quasar" />
+                <BaseIcon :icon="biPenFill" icon-set="quasar" color="blue-grey-13" />
+                <BaseIcon :icon="mdiAbTesting" icon-set="quasar" />
+                <BaseIcon :icon="mdiAccount" icon-set="quasar" />
+                <BaseIcon :icon="laAddressBook" icon-set="quasar" />
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 
 <style lang="scss" scoped></style>

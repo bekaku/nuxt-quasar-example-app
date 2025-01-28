@@ -6,7 +6,7 @@ useSeoMeta({
 const test = ref('');
 </script>
 <template>
-    <q-page padding>
+    <QuasarPage>
 
 
         <div>
@@ -16,5 +16,5 @@ const test = ref('');
             <button @click="testStore.setDecrement()">Click--</button>
         </div>
         <NuxtLink to="/">Back</NuxtLink>
-    </q-page>
+    </QuasarPage>
 </template>

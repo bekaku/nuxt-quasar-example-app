@@ -1,22 +1,21 @@
   <script setup>
-  import { ref, watch } from 'vue';
-  import 'cropperjs/dist/cropper.css';
-  import Cropper from 'cropperjs';
-  import { blobToFile } from '~/utils/fileUtil';
   import {
-    biFullscreen,
-    biXSquare,
-    biCrop,
-    biZoomIn,
-    biZoomOut,
-    biArrowClockwise,
-    biArrowCounterclockwise,
-    biArrowsCollapse,
-    biArrowLeftRight,
-    biCheck,
-    biFileImage,
-    biFullscreenExit,
-  } from '@quasar/extras/bootstrap-icons';
+  biArrowClockwise,
+  biArrowCounterclockwise,
+  biArrowLeftRight,
+  biArrowsAngleContract, biArrowsAngleExpand,
+  biArrowsCollapse,
+  biCheck,
+  biCrop,
+  biFileImage,
+  biX,
+  biZoomIn,
+  biZoomOut
+} from '@quasar/extras/bootstrap-icons';
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+import { ref, watch } from 'vue';
+import { blobToFile } from '~/utils/fileUtil';
   const props = defineProps({
     dialog: {
       type: Boolean,
@@ -162,23 +161,23 @@
     <q-dialog v-model="show" persistent :maximized="maximizedToggle" transition-show="slide-up"
       transition-hide="slide-down">
       <q-card style="min-width: 80%" flat bordered>
-        <q-bar>
+        <q-bar class="bg-transparent q-my-xs">
           <q-icon :name="biCrop" />
           <div>{{ title || '' }}</div>
 
           <q-space />
-          <q-btn dense flat :icon="!maximizedToggle ? biFullscreen : biFullscreenExit"
+          <q-btn round flat :icon="!maximizedToggle ? biArrowsAngleExpand : biArrowsAngleContract"
             @click="maximizedToggle = !maximizedToggle">
             <q-tooltip>{{
               !maximizedToggle ? t('maximize') : t('minimize')
             }}</q-tooltip>
           </q-btn>
 
-          <q-btn dense flat :icon="biXSquare" @click="onClose">
+          <q-btn round flat :icon="biX" @click="onClose">
             <q-tooltip>{{ t('base.close') }}</q-tooltip>
           </q-btn>
         </q-bar>
-        <div class="row">
+        <div class="row bg-grey-1">
           <div class="col-12 col-md-5">
             <q-card-section>
               <q-file v-model="originalimagFile" outlined bottom-slots :label="t('base.chooseFile')" counter

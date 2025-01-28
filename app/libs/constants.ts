@@ -60,10 +60,14 @@ export const AuthNoInitialPage: string[] = [
   'auth-forgot-password',
   'error',
   'all',
+  'auth-login-v1',
+  'auth-login-v2',
 ];
 export const AuthNoFilterPage: string[] = [
   'error',
   'all',
   'auth-forgot-password',
   'test',
+  'auth-login-v1',
+  'auth-login-v2',
 ];

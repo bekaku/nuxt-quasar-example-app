@@ -27,80 +27,102 @@ const {
     viewShowAppend = true,
     viewShowBefore = true,
     viewShowPrepend = true,
-    viewShowAfter = true } = defineProps<{
-        avatar?: string
-        avatarSize?: string
-        bottomSlots?: boolean
-        borderless?: boolean
-        autogrow?: boolean
-        counter?: boolean
-        clearable?: boolean
-        dense?: boolean
-        debounce?: number
-        disable?: boolean
-        fetchImage?: boolean
-        filled?: boolean
-        hint?: string
-        icon?: string
-        iconSize?: string
-        label?: string
-        maxlength?: number
-        min?: number
-        max?: number
-        moneyConfig?: VueMoneyConFig
-        outlined?: boolean
-        placeholder?: string
-        readonly?: boolean
-        rounded?: boolean
-        rules?: any[]
-        rows?: number
-        maxRows?: number
-        textAlign?: 'left' | 'right' | 'center'
-        textareaHeight?: string
-        type?: 'text' | 'password' | 'textarea' | 'email' | 'search' | 'tel' | 'url' | 'number'
-        isMoney?: boolean
-        editMode?: boolean
-        viewBorderless?: boolean
-        viewOutlined?: boolean
-        viewStackLabel?: boolean
-        viewShowAfter?: boolean
-        viewShowAppend?: boolean
-        viewShowBefore?: boolean
-        viewShowHint?: boolean
-        viewShowPrepend?: boolean
-    }>()
+    viewShowAfter = true,
+    stackLabel = false
+} = defineProps<{
+    avatar?: string
+    avatarSize?: string
+    bottomSlots?: boolean
+    borderless?: boolean
+    autogrow?: boolean
+    counter?: boolean
+    clearable?: boolean
+    dense?: boolean
+    debounce?: number
+    disable?: boolean
+    fetchImage?: boolean
+    filled?: boolean
+    hint?: string
+    icon?: string
+    iconSize?: string
+    label?: string
+    maxlength?: number
+    min?: number
+    max?: number
+    moneyConfig?: VueMoneyConFig
+    outlined?: boolean
+    placeholder?: string
+    readonly?: boolean
+    rounded?: boolean
+    rules?: any[]
+    rows?: number
+    maxRows?: number
+    textAlign?: 'left' | 'right' | 'center'
+    textareaHeight?: string
+    type?: 'text' | 'password' | 'textarea' | 'email' | 'search' | 'tel' | 'url' | 'number'
+    isMoney?: boolean
+    editMode?: boolean
+    viewBorderless?: boolean
+    viewOutlined?: boolean
+    viewStackLabel?: boolean
+    viewShowAfter?: boolean
+    viewShowAppend?: boolean
+    viewShowBefore?: boolean
+    viewShowHint?: boolean
+    viewShowPrepend?: boolean
+    stackLabel?: boolean
+}>()
 
 const modelValue = defineModel<number | string | null>();
+defineEmits<{
+    'update:model-value': [value: number | string | undefined | null]
+    'focus': [event: any]
+    'blur': [event: any]
+    'clear': [value: number | string | undefined]
+}>()
 </script>
 <template>
     <template v-if="editMode">
-        <q-input v-if="!isMoney" v-bind="$attrs" v-model="modelValue" :debounce :outlined="outlined && !borderless" :filled :bottom-slots="bottomSlots"
-            :label :placeholder :readonly :disable :rules="rules" :autogrow="type == 'textarea' ? autogrow : undefined"
-            :rows="type == 'textarea' ? rows : undefined" :max-rows="type == 'textarea' ? maxRows : undefined"
-            :min="min" :max="max" :type="type" :counter :maxlength="maxlength"
-            :dense="type == 'textarea' ? false : dense" :rounded :clearable :hint :borderless="borderless"
-            :input-style="{ minHeight: type == 'textarea' && autogrow ? textareaHeight : undefined }">
-            <!-- :class="{'limited-autogrow':type == 'textarea' && autogrow}"> -->
-            <template #before>
-                <slot name="before" />
-            </template>
-            <template #prepend>
-                <slot name="prepend">
-                    <base-avatar v-if="avatar" :fetch-image="fetchImage" :src="avatar" :size="avatarSize" />
-                    <q-icon v-else-if="icon" :name="icon" :size="iconSize" />
-                </slot>
-            </template>
-            <template #append>
-                <slot name="append" />
-            </template>
+        <template v-if="!isMoney">
 
-            <template #hint>
-                <slot name="hint" />
-            </template>
-            <template #after>
-                <slot name="after" />
-            </template>
-        </q-input>
+            <q-input v-bind="$attrs" v-model="modelValue" :debounce :outlined="outlined && !borderless" :filled
+                :bottom-slots="bottomSlots" :label :stack-label="stackLabel" :placeholder :readonly :disable
+                :rules="rules" :autogrow="type == 'textarea' ? autogrow : undefined"
+                :rows="type == 'textarea' ? rows : undefined" :max-rows="type == 'textarea' ? maxRows : undefined"
+                :min="min" :max="max" :type="type" :counter :maxlength="maxlength"
+                :dense="type == 'textarea' ? false : dense" :rounded :clearable :hint :borderless="borderless"
+                :input-style="{ minHeight: type == 'textarea' && autogrow ? textareaHeight : undefined }">
+                <template #before>
+                    <slot name="before" />
+                </template>
+                <template #prepend>
+                    <slot name="prepend">
+                        <base-avatar v-if="avatar" :fetch-image="fetchImage" :src="avatar" :size="avatarSize" />
+                        <q-icon v-else-if="icon" :name="icon" :size="iconSize" />
+                    </slot>
+                </template>
+                <template #append>
+                    <slot name="append" />
+                </template>
+
+                <template #hint>
+                    <slot name="hint" />
+                </template>
+                <template #after>
+                    <slot name="after" />
+                </template>
+                <template #error>
+                    <slot name="error" />
+                </template>
+                <template #counter>
+                    <slot name="counter" />
+                </template>
+                <template #loading>
+                    <slot name="loading" />
+                </template>
+            </q-input>
+
+        </template>
         <BaseInputMoney v-else v-bind="$attrs" v-model="modelValue" :outlined :dense :readonly :config="moneyConfig"
             :label :text-align="textAlign">
             <template #append>

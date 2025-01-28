@@ -83,7 +83,9 @@
   --gray-900: #111827;
   --gray-950: #030712;
 }
-
+.bg-dark-900{
+  background-color: var(--color-dark-900) !important;
+}
 .text-message-sent {
   color: var(--color-primary-500) !important;
   // color: #b2dfdb !important;

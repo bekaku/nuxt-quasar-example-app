@@ -31,24 +31,24 @@ const onConfirmToClose = async () => {
 }
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section class="q-gutter-md">
                 <div class="text-h6">Dialog</div>
                 <q-separator />
 
 
-                <QuasarButton label="Dialog" @click="dialog = true" />
-                <QuasarButton label="Dialog persistent" @click="dialog2 = true" />
-                <QuasarButton label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
+                <QuasarButton outline label="Dialog" @click="dialog = true" />
+                <QuasarButton outline label="Dialog persistent" @click="dialog2 = true" />
+                <QuasarButton outline label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
 
                 <p>Size</p>
-                <QuasarButton label="Small" @click="dialogSmall = true" />
-                <QuasarButton label="Medium" @click="dialogMedium = true" />
-                <QuasarButton label="Full Width" @click="dialogFullWidth = true" />
-                <QuasarButton label="Full Height" @click="dialogFullHeight = true" />
-                <QuasarButton label="Full Width and Height" @click="dialogFullWidthHeight = true" />
-                <QuasarButton label="Maximize" @click="dialogMaximize = true" />
+                <QuasarButton outline label="Small" @click="dialogSmall = true" />
+                <QuasarButton outline label="Medium" @click="dialogMedium = true" />
+                <QuasarButton outline label="Full Width" @click="dialogFullWidth = true" />
+                <QuasarButton outline label="Full Height" @click="dialogFullHeight = true" />
+                <QuasarButton outline label="Full Width and Height" @click="dialogFullWidthHeight = true" />
+                <QuasarButton outline label="Maximize" @click="dialogMaximize = true" />
             </q-card-section>
 
             <q-card-section class="q-gutter-md">
@@ -97,7 +97,7 @@ const onConfirmToClose = async () => {
                 </QuasarButton>
 
             </q-card-section>
-        </q-card>
+        </QuasarCard>
 
         <base-dialog v-if="dialog" v-model="dialog" title="Dialog title" :icon="biPencil">
             <q-card-section class="q-pt-none">
@@ -172,5 +172,5 @@ const onConfirmToClose = async () => {
                 minima, porro labore.
             </q-card-section>
         </base-dialog>
-    </q-page>
+    </QuasarPage>
 </template>

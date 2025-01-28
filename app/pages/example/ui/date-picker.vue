@@ -16,8 +16,8 @@ const onUpdateTime = (v: string) => {
 }
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Date time picker </q-toolbar-title>
@@ -37,8 +37,8 @@ const onUpdateTime = (v: string) => {
                 </div>
 
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped>
 .btn-fixed-width {

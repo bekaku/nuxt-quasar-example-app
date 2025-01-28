@@ -10,13 +10,13 @@ if (import.meta.server) {
 }
 </script>
 <template>
-    <q-page padding>
+    <QuasarPage>
         public config {{ $config.public }}
 
         <p>
             <NuxtLink to="/">Back</NuxtLink>
         </p>
-    </q-page>
+    </QuasarPage>
 
 
 </template>

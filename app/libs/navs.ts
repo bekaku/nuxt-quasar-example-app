@@ -29,6 +29,7 @@ import {
     biShieldCheck,
     biToggleOff,
     biUpload,
+    biWindowFullscreen,
     biWindowSidebar
 } from '@quasar/extras/bootstrap-icons';
 import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
@@ -272,6 +273,20 @@ export const additionalMenu: IMenu[] = [
                 title: 'Image/Pdf View',
                 translate: false,
                 to: '/example/image-view'
+            },
+            {
+                icon: biWindowFullscreen,
+                permission: '',
+                title: 'Login 2',
+                translate: false,
+                to: '/auth/login-v1'
+            },
+            {
+                icon: biWindowFullscreen,
+                permission: '',
+                title: 'Login 3',
+                translate: false,
+                to: '/auth/login-v2'
             },
             {
                 icon: biMarkdown,

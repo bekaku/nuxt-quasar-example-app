@@ -286,6 +286,7 @@ export default {
         'notifications': 'แจ้งเตือน',
         'typeForsearch': 'พิมพ์เพื่อค้นหา',
         'typeCommandForsearch': 'Type a command to search',
+        'searchMenu': 'ค้นหาเมนู',
     },
     'theme': {
         'light': 'กลางวัน',

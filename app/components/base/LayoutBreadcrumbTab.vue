@@ -8,7 +8,7 @@ const tabs = computed<Breadcrumb[] | undefined>(() => getPageMetaByKey('tabs') a
 <template>
     <div v-if="(breadcrumbs &&breadcrumbs.length > 0) || (tabs &&tabs.length > 0)" class="row q-mt-lg">
         <div class="col">
-            <lazy-q-toolbar v-if="breadcrumbs && breadcrumbs.length > 0" flat bordered class="rounded-borders">
+            <lazy-q-toolbar v-if="breadcrumbs && breadcrumbs.length > 0" flat bordered class="rounded">
                 <LazyBaseBreadcrumbs v-if="breadcrumbs.length > 0" :items="breadcrumbs"
                     :separator-icon="biChevronRight" />
             </lazy-q-toolbar>

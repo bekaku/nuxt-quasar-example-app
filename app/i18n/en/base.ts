@@ -285,6 +285,7 @@ export default {
         'maximize': 'Maximize',
         'typeForsearch': 'Type to search',
         'typeCommandForsearch': 'Type a command to search',
+        'searchMenu': 'Search menu',
     },
     'theme': {
         'light': 'Light',

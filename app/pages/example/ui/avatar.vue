@@ -18,8 +18,8 @@ const getTooltipBy = (index: number) => {
 }
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Avatar </q-toolbar-title>
@@ -57,7 +57,7 @@ const getTooltipBy = (index: number) => {
 
 
                 <div class="row q-gutter-x-xl">
-                    <base-avatar-group :items="items" :limit="5" size="42px">
+                    <base-avatar-group :items="items" :limit="5" size="42px" class="q-pl-lg">
                         <template #extra="{ index }">
                             <q-tooltip>
                                 {{ getTooltipBy(index) }}
@@ -67,6 +67,6 @@ const getTooltipBy = (index: number) => {
                     <base-avatar-group :items="items" :limit="5" size="42px" boder-color="#00a0dc" />
                 </div>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>

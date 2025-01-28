@@ -18,7 +18,7 @@ const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
 </script>
 <template>
-    <q-item v-bind="$attrs" clickable>
+    <q-item v-bind="$attrs" clickable class="rounded">
         <q-item-section avatar top>
             <base-avatar v-if="authenStore.loginedAvatar" class="shadow-5" :src="authenStore.loginedAvatar"
                 size="36px" />

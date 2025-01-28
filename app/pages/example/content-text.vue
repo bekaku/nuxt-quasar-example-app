@@ -48,8 +48,8 @@ const testExtractHashTag = () => {
 }
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage class="content-limit">
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Content Text </q-toolbar-title>
@@ -108,7 +108,7 @@ const testExtractHashTag = () => {
                     </div>
                 </div>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

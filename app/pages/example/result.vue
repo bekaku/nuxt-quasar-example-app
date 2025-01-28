@@ -6,8 +6,8 @@ useHead({
 })
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Result </q-toolbar-title>
@@ -16,29 +16,15 @@ useHead({
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-y-lg">
-                <q-card bordered flat>
-                    <base-result :description="t('error.dataNotfound')" status="empty" />
-                </q-card>
+                <base-result :description="t('error.dataNotfound')" status="empty" />
 
-                <q-card bordered flat>
-                    <base-result title="403" description="Forbidden" status="403" />
-                </q-card>
+                <base-result title="403" description="Forbidden" status="403" />
 
-                <q-card bordered flat>
-                    <base-result title="404" description="Not found" status="404" />
-                </q-card>
-                <q-card bordered flat>
-                    <base-result description="Error" status="error" />
-                </q-card>
-                <q-card bordered flat>
-                    <base-result description="Info" :icon="biImage" status="info" />
-                </q-card>
-                <q-card bordered flat>
-                    <base-result description="Success" status="success" />
-                </q-card>
-                <q-card bordered flat>
-                    <base-result description="Warning" status="warning" />
-                </q-card>
+                <base-result title="404" description="Not found" status="404" />
+                <base-result description="Error" status="error" />
+                <base-result description="Info" :icon="biImage" status="info" />
+                <base-result description="Success" status="success" />
+                <base-result description="Warning" status="warning" />
 
                 <!-- <base-result :description="t('error.dataNotfound')">
                     <template #extra>
@@ -46,8 +32,8 @@ useHead({
                     </template>
 </base-result> -->
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped>
 .btn-fixed-width {

@@ -14,7 +14,6 @@ const onChange = (event: any) => {
 }
 </script>
 <template>
-    <ClientOnly>
         <draggable v-bind="$attrs" v-model="modelValue" :group="group" :item-key="itemKey" @change="onChange">
             <template #header>
                 <slot name="slotHeader"/>
@@ -26,5 +25,4 @@ const onChange = (event: any) => {
                 <slot name="slotFooter"/>
             </template>
         </draggable>
-    </ClientOnly>
 </template>

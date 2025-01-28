@@ -46,6 +46,7 @@ const {
 const modelValue = defineModel<boolean>({ default: false });
 const emit = defineEmits(['on-close', 'on-before-hide']);
 const { t } = useLang();
+const { isDark } = useTheme();
 const maximizeModel = ref(maximized);
 const onClose = () => {
   emit('on-close');
@@ -56,13 +57,14 @@ const onClose = () => {
 </script>
 <template>
   <q-dialog :model-value="modelValue" :persistent="persistent" :maximized="maximizeModel"
-    :transition-show="transitionShow" :transition-hide="transitionHide" :full-width="fullWidth" :full-height="fullHeight" @hide="onClose" @before-hide="$emit('on-before-hide')">
+    :transition-show="transitionShow" :transition-hide="transitionHide" :full-width="fullWidth"
+    :full-height="fullHeight" @hide="onClose" @before-hide="$emit('on-before-hide')">
     <!-- <div v-bind="$attrs" :style="dialogStyle">
         <slot></slot>
       </div> -->
-    <q-card v-bind="$attrs" flat bordered :style="dialogStyle">
+    <q-card v-bind="$attrs" flat :style="dialogStyle" :class="{ 'bg-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }">
       <slot name="toolBar">
-        <q-bar v-if="showToolbar" class="bg-transparent q-my-xs">
+        <q-bar v-if="showToolbar" class="q-mb-xs" :class="{ 'bg-white': !isDark, 'bg-dark-900': isDark }">
           <slot name="icon">
             <q-icon v-if="icon" :name="icon" />
           </slot>

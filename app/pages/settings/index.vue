@@ -119,7 +119,7 @@ const onUpdatePrivateData = () => {
                     <LazyUserCard v-if="authenStore.auth" :avatar-image="authenStore.auth?.avatar?.image"
                         :cover-image="authenStore.loginedCover" :name="authenStore.loginedDisplay"
                         :description="t('app.name')" height="250px" avatar-top="110px"
-                        description-style="margin-top:35px" class="shadow-up-5">
+                        description-style="margin-top:35px">
                         <template #extra>
                             <div class="text-white absolute-right q-pa-md">
                                 <QuasarButton round unelevated color="pink" :icon="biPencilFill"

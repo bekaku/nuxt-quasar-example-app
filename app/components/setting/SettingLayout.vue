@@ -42,7 +42,7 @@ const navs: IMenu[] = [
 ];
 </script>
 <template>
-    <q-page v-bind="$attrs" padding>
+    <QuasarPage v-bind="$attrs" padding>
         <div class="row">
             <div class="col-12 col-md-3 q-px-md">
                 <BaseMenuItems :menu-items="navs"/>
@@ -53,5 +53,5 @@ const navs: IMenu[] = [
             </div>
         </div>
         <slot/>
-    </q-page>
+    </QuasarPage>
 </template>

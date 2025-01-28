@@ -192,17 +192,16 @@ const setImagesFileView = (file: FileManagerDto) => {
 };
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
-            <q-card-section>
+    <QuasarPage class="content-limit">
+        <!-- <QuasarCard class="content-limit"> -->
+            <!-- <q-card-section> -->
                 <q-toolbar>
                     <q-toolbar-title> Image/Pdf View </q-toolbar-title>
                     <q-space />
                 </q-toolbar>
-                <q-separator />
-            </q-card-section>
-            <q-card-section>
-                <q-card>
+            <!-- </q-card-section> -->
+            <!-- <q-card-section> -->
+                <QuasarCard>
                     <q-card-section>
                         <div class="text-h6 q-mb-md">
                             Image Dialog
@@ -241,9 +240,9 @@ const setImagesFileView = (file: FileManagerDto) => {
                             </client-only>
                         </q-card>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
 
-                <q-card class="q-my-md">
+                <QuasarCard class="q-my-md">
                     <q-card-section>
                         <div class="text-h6 q-mb-md">
                             Pdf dialog View
@@ -265,9 +264,9 @@ const setImagesFileView = (file: FileManagerDto) => {
                                 :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
                         </q-card>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
 
-                <q-card class="q-my-md">
+                <QuasarCard class="q-my-md">
                     <q-card-section>
                         <div class="text-h6 q-mb-md">
                             Mix item View
@@ -281,9 +280,9 @@ const setImagesFileView = (file: FileManagerDto) => {
                             </div>
                         </div>
                     </q-card-section>
-                </q-card>
-            </q-card-section>
-        </q-card>
+                </QuasarCard>
+            <!-- </q-card-section>
+        </QuasarCard> -->
         <lazy-base-image-view-dialog v-if="showImageView" v-model="showImageView" :files="imageItems"
             :selected-index="imageSelectIndex" :show-delete-image="true" :maximized="false" show-arrow
             @on-delete="onDeleteImage" @on-close="onImgPreviewClose" />
@@ -294,6 +293,6 @@ const setImagesFileView = (file: FileManagerDto) => {
         <lazy-base-file-view-dialog v-if="showMixFiles && fileMixForView" v-model:show="showMixFiles"
             :item="fileMixForView" :image-list="fileImageItemsForView" :select-index="fileMixImageSelectIndex"
             title="Images" :show-arrow="true" />
-    </q-page>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

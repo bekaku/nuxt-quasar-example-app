@@ -104,7 +104,7 @@ const {
 );
 </script>
 <template>
-      <q-page padding>
+      <QuasarPage>
         <BaseCrudList
       :icon="biPerson" 
       :title="t('model.role.table')"
@@ -130,5 +130,5 @@ const {
       @on-item-delete="onItemDelete" 
       @on-new-form="onNewForm" 
     />
-        </q-page>
+        </QuasarPage>
 </template>

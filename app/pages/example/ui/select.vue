@@ -230,8 +230,8 @@ watch(districtSeleted, () => {
 })
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Select </q-toolbar-title>
@@ -324,7 +324,7 @@ watch(districtSeleted, () => {
 
 
             </q-card-section>
-        </q-card>
+        </QuasarCard>
 
         <BaseDialog v-model="showCommandPaletteDialog" :show-toolbar="false"
             dialog-style="width: 756px; max-width: 80vw;">
@@ -334,6 +334,6 @@ watch(districtSeleted, () => {
                 </template>
             </quasar-command-palette>
         </BaseDialog>
-    </q-page>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

@@ -190,11 +190,11 @@ const items = [
 ];
 </script>
 <template>
-    <q-page padding class="content-limit">
+    <QuasarPage padding class="content-limit">
 
         <div class="row">
             <div class="col col-md-6 q-pa-sm">
-                <q-card flat bordered>
+                <QuasarCard>
                     <div class="q-pa-md text-h5">
                         Horizontal
                     </div>
@@ -233,10 +233,10 @@ const items = [
                             </template>
                         </base-swiper-slides>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
             </div>
             <div class="col col-md-6 q-pa-sm">
-                <q-card flat bordered>
+                <QuasarCard>
                     <div class="q-pa-md text-h5">
                         Virtical
                     </div>
@@ -261,10 +261,10 @@ const items = [
                             </swiper-slide>
                         </base-swiper-slides>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
             </div>
             <div class="col col-md-6 q-pa-sm">
-                <q-card flat bordered>
+                <QuasarCard>
                     <div class="q-pa-md text-h5">
                         Card
                     </div>
@@ -298,10 +298,10 @@ const items = [
                             </swiper-slide>
                         </base-swiper-slides>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
             </div>
             <div class="col-12 q-pa-sm">
-                <q-card flat bordered>
+                <QuasarCard>
                     <div class="q-pa-md text-h5">
                         Grid
                     </div>
@@ -334,10 +334,10 @@ const items = [
                             </base-swiper-slides>
                         </ClientOnly>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
             </div>
         </div>
-    </q-page>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped>
 .btn-fixed-width {

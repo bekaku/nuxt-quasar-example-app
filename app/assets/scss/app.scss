@@ -474,3 +474,15 @@ body.body--dark .emoji-mart-anchor {
   background: -webkit-linear-gradient(to right, #434343, #000000);
   background: linear-gradient(to right, #434343, #000000);
 }
+
+.rounded {
+  border-radius: 10px !important;
+}
+.rounded-full {
+  border-radius: 20px !important;
+}
+
+
+.border-radius-inherit {
+  border-radius: inherit;
+}

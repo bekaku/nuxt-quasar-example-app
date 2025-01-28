@@ -24,7 +24,7 @@
     overrapSize?: string;
   }>(),
     {
-      boderColor: 'white',
+      boderColor: '#fff',
       spinnerColor: 'white',
       imgBg: 'bg-grey-8',
       ratio: 4 / 3,
@@ -33,7 +33,6 @@
       rounded: false,
       fetch: false,
       bordered: false,
-      borderedColor: '#fff',
       height: 0,
       limit: 5,
       overrapSize: '-10px',

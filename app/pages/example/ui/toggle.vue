@@ -9,14 +9,14 @@ const toggle = ref<boolean>(false);
 const optionsSelected = ref<number[]>([]);
 const radioSelectd = ref<number>();
 const options: LabelValue<number>[] = [
-    { label: 'Crud', value: 1, color: 'negative', icon:biAndroid },
-    { label: 'Report', value: 2, color: 'purple' , avatar:'https://cdn.quasar.dev/img/avatar2.jpg' },
+    { label: 'Crud', value: 1, color: 'negative', icon: biAndroid },
+    { label: 'Report', value: 2, color: 'purple', avatar: 'https://cdn.quasar.dev/img/avatar2.jpg' },
     { label: 'Other', value: 3 },
 ]
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Toggle </q-toolbar-title>
@@ -30,16 +30,14 @@ const options: LabelValue<number>[] = [
                 </div>
                 <div class="row">
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" color="primary"
-                            :use-label-title="false" size="md" true-label="True label" false-label="False label" />
+                        <QuasarToggle v-model="toggle" label="Toggle" color="primary" :use-label-title="false" size="md"
+                            true-label="True label" false-label="False label" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" color="negative"
-                            size="md" />
+                        <QuasarToggle v-model="toggle" label="Toggle" color="negative" size="md" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarChekbox v-model="toggle" label="Checkbox" color="negative"
-                            size="md" />
+                        <QuasarChekbox v-model="toggle" label="Checkbox" color="negative" size="md" />
                     </div>
                 </div>
                 <div class="text-h6">
@@ -71,7 +69,7 @@ const options: LabelValue<number>[] = [
                     </div>
                 </div>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

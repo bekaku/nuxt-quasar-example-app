@@ -6,19 +6,36 @@ import {
     biSearch
 } from '@quasar/extras/bootstrap-icons';
 import { additionalMenu } from '~/libs/navs';
-const { overlay = false, bordered = false, miniToOverlay = true, width = 250, showUserSetting = true } = defineProps<{
+const { overlay = false, bordered = false, miniToOverlay = true, width = 250 } = defineProps<{
     overlay?: boolean;
     miniToOverlay?: boolean;
     bordered?: boolean;
     width?: number;
-    showUserSetting?: boolean;
 }>();
 const { version: quasarVersion } = useQuasar();
 const { t } = useLang();
+const { appNavigateTo } = useBase();
+const { isDark } = useTheme();
 const appStore = useAppStore();
 const drawerModel = ref(true);
 const miniState = ref(false);
-const searchText = ref<string>('');
+const searchTimeout = ref<any>();
+const showSearch = ref(false);
+const onOpenSearch = () => {
+    showSearch.value = true;
+};
+const onSearchMenuClick = (to: string) => {
+    showSearch.value = false;
+    setTimeout(() => {
+        appNavigateTo(to);
+    }, 500)
+}
+onBeforeUnmount(() => {
+    if (searchTimeout.value) {
+        clearTimeout(searchTimeout.value);
+    }
+    searchTimeout.value = null;
+})
 </script>
 <template>
     <q-drawer v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
@@ -26,15 +43,29 @@ const searchText = ref<string>('');
         class="drawer-bg" @mouseover="miniState = false" @mouseout="miniState = true">
         <q-scroll-area class="fit">
             <div v-show="!miniState || appStore.leftDrawerOpen">
-                <BaseHeaderMenu v-if="showUserSetting" class="q-pt-md" />
-                <q-input v-model="searchText" class="q-pa-md" outlined dense>
+                <!-- <q-input v-model="searchText" class="q-pa-md" outlined dense>
                     <template #prepend>
                         <q-icon :name="biSearch" size="xs" />
                     </template>
-                    <template #append>
+<template #append>
+                         <q-icon :name="biCommand" size="xs" />
+                   </template>
+</q-input> -->
+                <q-item clickable dense class="search-item"
+                    :class="{ 'bg-blue-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }"
+                    @click="onOpenSearch">
+                    <q-item-section side>
+                        <q-icon :name="biSearch" size="xs" />
+                    </q-item-section>
+                    <q-item-section>
+                        <q-item-label caption>
+                            {{ t('base.searchMenu') }}
+                        </q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
                         <q-icon :name="biCommand" size="xs" />
-                    </template>
-                </q-input>
+                    </q-item-section>
+                </q-item>
             </div>
             <BaseMenuItems :menu-items="appStore.drawers" />
             <BaseMenuItems :menu-items="additionalMenu">
@@ -66,32 +97,13 @@ const searchText = ref<string>('');
                 </template>
             </BaseMenuItems>
         </q-scroll-area>
+        <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
     </q-drawer>
 </template>
-<style lang="sass">
-.drawer-card-header
-  background-color: #212635
-.drawer-card
-  background-color: #282d3f
-
-.active-menu-link
-  color: $primary
-.YL
-  &__toolbar-input-container
-    min-width: 100px
-    width: 55%
-  &__toolbar-input-btn
-    border-radius: 0
-    border-style: solid
-    border-width: 1px 1px 1px 0
-    border-color: rgba(0,0,0,.24)
-    max-width: 60px
-    width: 100%
-  &__drawer-footer-link
-    color: inherit
-    text-decoration: none
-    font-weight: 500
-    font-size: .75rem
-    &:hover
-      text-decoration: underline
+<style lang="scss" scoped>
+.search-item {
+    padding: 10px;
+    margin: 10px 10px 0 10px;
+    border-radius: 20px;
+}
 </style>

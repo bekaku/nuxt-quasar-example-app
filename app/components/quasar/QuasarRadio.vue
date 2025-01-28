@@ -2,7 +2,7 @@
 import type { LabelValue } from '~/types/common';
 
 const { items, inline = true, size = 'md', fetchImage=false, leftLabel=false, editMode=true } = defineProps<{
-    items: LabelValue<T>[]
+    items: LabelValue<T>[] | any
     disable?: boolean
     inline?: boolean
     size?: string

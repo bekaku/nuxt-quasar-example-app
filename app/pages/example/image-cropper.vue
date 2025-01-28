@@ -25,8 +25,8 @@ const onCropImage = async (f: any) => {
 };
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage class="content-limit">
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Image Cropper </q-toolbar-title>
@@ -82,9 +82,9 @@ const onCropImage = async (f: any) => {
                     </div>
                 </div>
             </q-card-section>
-        </q-card>
+        </QuasarCard>
 
         <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper" @on-okay="onCropImage"/>
-    </q-page>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

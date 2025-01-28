@@ -40,8 +40,8 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> usePageFetch </q-toolbar-title>
@@ -50,7 +50,7 @@ onMounted(async () => {
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-md">
-                <q-card flat bordered>
+                <QuasarCard flat bordered>
                     <q-card-section>
                         <q-toolbar>
                             <q-toolbar-title> Paging </q-toolbar-title>
@@ -85,9 +85,9 @@ onMounted(async () => {
                             </template>
                         </template>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
 
-                <q-card class="q-my-md" flat bordered>
+                <QuasarCard class="q-my-md" flat bordered>
                     <q-card-section>
                         <q-toolbar>
                             <q-toolbar-title> Loadmore </q-toolbar-title>
@@ -129,9 +129,9 @@ onMounted(async () => {
                             </template>
                         </template>
                     </q-card-section>
-                </q-card>
+                </QuasarCard>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

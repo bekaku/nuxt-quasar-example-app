@@ -76,7 +76,7 @@ const onClosePicker = (value: any) => {
   <!-- :readonly="!required"
     :rules="required ? [required] : undefined"
     -->
-  <q-field :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense :disable="disable">
+  <q-field v-bind="$attrs" :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense :disable="disable" class="cursor-pointer">
 
     <q-popup-proxy v-if="editMode" ref="dateProxy" transition-show="scale" transition-hide="scale">
       <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"

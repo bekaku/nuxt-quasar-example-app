@@ -136,10 +136,9 @@ const onChangePassword = async () => {
 }
 </script>
 <template>
-    <q-page padding>
-
+    <QuasarPage>
         <BaseCrudForm :icon="biPerson" :title="t('model_user')" :crud-name="crudName" :crud-action="crudAction"
-            :crud-entity="crudEntity" :full-width="false" :list-permission="[UserPermission.list]"
+            :crud-entity="crudEntity" :list-permission="[UserPermission.list]"
             :manage-permission="[UserPermission.manage]" :loading="loading" @on-back="onBack" @on-submit="onSubmit"
             @on-delete="onDelete" @on-edit-enable="onEnableEditForm">
             <template #crudFromContent>
@@ -227,7 +226,7 @@ const onChangePassword = async () => {
                                         <q-item-section>
                                             <q-item-label>{{
                                                 p.name ? p.name : 'unknown'
-                                            }}</q-item-label>
+                                                }}</q-item-label>
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
@@ -270,5 +269,5 @@ const onChangePassword = async () => {
                 v-model:logout-all-device="logoutAllDevice" v-model:loading="loading" show-current-password show-logout
                 :submit-label="t('updatePassword')" action-align="left" @on-submit="onChangePassword" />
         </BaseDialog>
-    </q-page>
+    </QuasarPage>
 </template>

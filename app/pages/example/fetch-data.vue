@@ -134,8 +134,8 @@ const getOpengraph = async () => {
 }
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage class="content-limit">
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Fetch data </q-toolbar-title>
@@ -162,7 +162,7 @@ const getOpengraph = async () => {
                 <QuasarButton @click="fetchDataViaComposible">Fetch Data Via Composible</QuasarButton>
                 <div class="row">
                     <div class="col-12 col-md-6 q-pa-md">
-                        <q-card>
+                        <QuasarCard flat>
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response API" @click="fetchResponseApi" />
                                 <SkeletonItem v-if="reaponseApiLoading" show-header :items="5" />
@@ -171,10 +171,10 @@ const getOpengraph = async () => {
                                     <pre>{{ reponseApiItem }}</pre>
                                 </div>
                             </q-card-section>
-                        </q-card>
+                        </QuasarCard>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <q-card>
+                        <QuasarCard flat>
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response LIST" @click="fetchResponseList" />
                                 <SkeletonItem v-if="reponseListLoading" show-header :items="5" />
@@ -185,10 +185,10 @@ const getOpengraph = async () => {
                             </pre>
                                 </div>
                             </q-card-section>
-                        </q-card>
+                        </QuasarCard>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <q-card>
+                        <QuasarCard flat>
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton outline label="Fetch response Object" @click="fetchResponseObject" />
                                 <SkeletonItem v-if="reponseObjectLoading" show-header :items="5" />
@@ -199,10 +199,10 @@ const getOpengraph = async () => {
                             </pre>
                                 </div>
                             </q-card-section>
-                        </q-card>
+                        </QuasarCard>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <q-card>
+                        <QuasarCard flat>
                             <q-card-section class="q-gutter-y-md">
                                 <QuasarButton color="negative" outline label="Fetch ERROR handling"
                                     @click="fetchError" />
@@ -214,7 +214,7 @@ const getOpengraph = async () => {
                                     </pre>
                                 </div>
                             </q-card-section>
-                        </q-card>
+                        </QuasarCard>
                     </div>
                 </div>
                 <q-separator />
@@ -229,6 +229,6 @@ const getOpengraph = async () => {
                 <QuasarButton outline :loading="ogLoading" label="Fetch Opengraph detail" @click="getOpengraph" />
                 <LazyBaseOpenGraphItem v-if="ogItem" style="width: 750px;" :item="ogItem" />
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>

@@ -16,7 +16,7 @@ if(!import.meta.server){
 }
 </script>
 <template>
-    <q-page padding>
+    <QuasarPage>
         <QuasarCard>
             <q-card-section class="q-gutter-md">
                 <QBtn label="Light" :icon="biBrightnessHigh" @click="onSetTheme('light')" />
@@ -27,5 +27,5 @@ if(!import.meta.server){
                 <BaseLink to="/config">To Config page</BaseLink>
             </q-card-section>
         </QuasarCard>
-    </q-page>
+    </QuasarPage>
 </template>

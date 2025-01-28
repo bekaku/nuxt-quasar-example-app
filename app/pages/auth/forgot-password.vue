@@ -95,7 +95,7 @@ const setNewPassword = async () => {
 };
 </script>
 <template>
-    <q-page class="window-height row justify-center items-center content-limit">
+    <QuasarPage :padding="false" class="window-height row justify-center items-center content-limit">
         <div class="row context">
             <div class="col-12">
                 <QuasarCard style="max-width: 580px;">
@@ -162,5 +162,5 @@ const setNewPassword = async () => {
                 </QuasarCard>
             </div>
         </div>
-    </q-page>
+    </QuasarPage>
 </template>

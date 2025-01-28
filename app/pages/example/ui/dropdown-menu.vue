@@ -135,7 +135,7 @@ const submenus: LabelValue<string>[] = [
         ]
     },
 ];
-const onMenuClick = (value: number) => {
+const onMenuClick = (value: number |string | undefined) => {
     console.log('onMenuClick', value);
     showMenu.value = false;
 }
@@ -151,8 +151,8 @@ const onItemClick = () => {
 
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section class="q-gutter-md">
                 <div class="text-h6">Menu</div>
                 <q-separator />
@@ -172,12 +172,12 @@ const onItemClick = () => {
                             <QuasarDropdownMenuItem v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
                                 v-close-popup :item="item" @click="onMenuClick(item.value)" />
                         </q-menu> -->
-                        <QuasarButton :icon="biThreeDots" flat label="Click here" @click="openMenu($event)">
+                        <QuasarButton :icon="biThreeDots" outline label="Click here" @click="openMenu($event)">
                             <QuasarDropdownMenu v-model:open="showMenu" :items="menus2" @on-click="onMenuClick" />
                         </QuasarButton>
                     </q-item-section>
                 </q-item>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>

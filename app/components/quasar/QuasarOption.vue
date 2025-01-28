@@ -8,7 +8,7 @@ withDefaults(
         size?: string;
         showTitle?: boolean;
         disable?: boolean;
-        items?: LabelValue<T>[]
+        items: LabelValue<T>[] | any
         inline?: boolean
         fetchImage?: boolean;
         leftLabel?: boolean;

@@ -124,9 +124,9 @@ const updateSelectedAll = (val: boolean) => {
 </script>
 
 <template>
-  <q-page padding>
+  <QuasarPage>
     <BaseCrudForm :icon="biPeople" :title="t('model.role.table')" :crud-name="crudName" :crud-action="crudAction"
-      :crud-entity="crudEntity" :full-width="false" :list-permission="[RolePermission.list]"
+      :crud-entity="crudEntity" :full-width="true" :list-permission="[RolePermission.list]"
       :manage-permission="[RolePermission.manage]" :loading="loading" @on-back="onBack" @on-submit="onSubmit"
       @on-delete="onDelete" @on-edit-enable="onEnableEditForm">
       <template #crudFromContent>
@@ -298,5 +298,5 @@ const updateSelectedAll = (val: boolean) => {
         </div>
       </template>
     </BaseCrudForm>
-  </q-page>
+  </QuasarPage>
 </template>

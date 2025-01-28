@@ -52,7 +52,7 @@ const radios: LabelValue<number>[] = [
 <template>
     <q-page padding>
         <BaseCrudForm :crud-action="crudAction" :loading="loading" :crud-entity="crudEntity" :crud-name="crudName"
-            :icon="biShieldCheck" :title="t('model_permission')" :full-width="false" @on-back="onBack"
+            :icon="biShieldCheck" :title="t('model_permission')" @on-back="onBack"
             @on-edit-enable="onEnableEditForm" @on-submit="onSubmit" @on-delete="onDelete">
             <template #crudFromContent>
                 <div class="row">

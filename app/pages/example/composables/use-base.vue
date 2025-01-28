@@ -56,8 +56,8 @@ const onCopyText = async () => {
 };
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> useBase </q-toolbar-title>
@@ -71,13 +71,13 @@ const onCopyText = async () => {
                 <QuasarButton label="show confirm" color="negative" @click="confirm" />
                 <QuasarButton label="show confirm Custom Btn" @click="confirm2" />
                 <QuasarButton label="Navigate to" outline @click="appNavigateTo('/example/image-view')" />
-                <q-input v-model="textModel" outlined style="width: 250px">
+                <QuasarInput v-model="textModel" style="width: 250px">
                     <template #append>
                         <QuasarButton flat round :icon="biCopy" @click="onCopyText" />
                     </template>
-                </q-input>
+                </QuasarInput>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

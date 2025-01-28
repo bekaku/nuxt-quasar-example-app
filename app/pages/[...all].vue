@@ -12,7 +12,7 @@ useHead({
 </script>
 
 <template>
-    <q-page padding class="content-limit">
+    <QuasarPage class="content-limit">
         <div class="fullscreen text-center q-pa-md flex flex-center">
             <base-result status="404" :description="t('error.pageNotFound')">
                 <template #extra>
@@ -21,5 +21,5 @@ useHead({
             </base-result>
         </div>
 
-    </q-page>
+    </QuasarPage>
 </template>

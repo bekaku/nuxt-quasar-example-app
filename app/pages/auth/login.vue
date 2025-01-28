@@ -14,14 +14,12 @@ const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
 const { getDeviceId } = useDevice();
 const { required } = useValidation();
-const { screen } = useQuasar();
-const cardHeight = ref('700px');
 const email = ref<string | null>('admin@mydomain.com');
 const password = ref<string | null>('P@ssw0rd');
 const showPassword = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const loginForm = ref(null);
-const slide = ref('style');
+const rememberMe = ref(false)
 const deviceId = ref();
 const onSubmit = async () => {
     loading.value = true;
@@ -39,107 +37,77 @@ const onReset = () => {
     password.value = null;
     showPassword.value = false;
 };
+
 </script>
 <template>
-    <q-page class="window-height row justify-center items-center">
-        <div class="row context">
-            <div class="col-12 col-md-6 bg-primary">
-                <q-card v-if="!screen.sm && !screen.xs" square flat class="q-pb-lg bg-primary"
-                    :style="`max-width: 480px; height: ${cardHeight}`">
-                    <q-card-section>
-                        <q-carousel v-model="slide" autoplay infinite transition-prev="scale" transition-next="scale"
-                            swipeable animated control-color="white" navigation height="500px"
-                            class="bg-primary text-white rounded-borders">
-                            <q-carousel-slide name="style" class="column no-wrap flex-center">
-                                <div class="q-mt-md text-center">
-                                    <img src="/logo/logo-white.png" style="height: 175px; width: auto">
-                                    <div class="text-h3 text-weight-bolder">Nuxt 3 Quasar</div>
-                                    <div class="text-subtitle1 q-mt-lg">
-                                        Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry.
-                                    </div>
-                                </div>
-                            </q-carousel-slide>
-                            <q-carousel-slide name="tv" class="column no-wrap flex-center">
-                                <img src="/logo/logo-white.png" style="height: 175px; width: auto">
-                                <div class="text-subtitle1 q-mt-md text-center">
-                                    Lorem Ipsum is simply dummy text of the printing and
-                                    typesetting industry.
-                                </div>
-                            </q-carousel-slide>
-                            <q-carousel-slide name="layers" class="column no-wrap flex-center">
-                                <img src="/logo/logo-white.png" style="height: 205px; width: auto">
-                                <div class="text-subtitle1 q-mt-md text-center">
-                                    Lorem Ipsum is simply dummy text of the printing and
-                                    typesetting industry.
-                                </div>
-                            </q-carousel-slide>
-                            <q-carousel-slide name="map" class="column no-wrap flex-center">
-                                <img src="/logo/logo-white.png" style="height: 175px; width: auto">
-                                <div class="text-subtitle1 q-mt-md text-center">
-                                    Lorem Ipsum is simply dummy text of the printing and
-                                    typesetting industry.
-                                </div>
-                            </q-carousel-slide>
-                        </q-carousel>
-                    </q-card-section>
-                </q-card>
+    <QuasarPage :padding="false" :class="{ 'bg-white': !isDark, 'app-second-bg-color-theme-dark': isDark }">
+        <div class="row items-center q-pa-md" style="height: 100vh;">
+            <!-- Left Column - Fantasy Background -->
+            <div class="col-12 col-md-6 fantasy-bg shadow-5">
+                <div class="overlay flex flex-center text-white">
+                    <div class="q-pa-xl text-center">
+                        <h2 class="text-h2 text-weight-bold q-mb-md">Welcome to Our {{ t('app.monogram') }}</h2>
+                        <p class="text-h5">Embark on your next adventure</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-md-6">
-                <q-card square flat bordered class="q-pa-lg"
-                    :style="`max-width: 480px; height: ${cardHeight};min-width:350px`">
-                    <!-- <q-toolbar class="q-py-xs" style="background: none" :class="isDark
-                        ? 'app-second-bg-color-theme-dark text-white'
-                        : 'text-black'
-                        ">
-                        <q-space />
-                        <q-btn flat no-wrap :icon="biGlobe" :label="currentLangugeName">
-                            <q-icon class="q-ml-sm" :name="biChevronExpand" size="16px" />
-                            <BaseThemeSwitcher />
-                        </q-btn>
-                    </q-toolbar> -->
-                    <q-card-section class="text-center">
-                        <q-img :src="isDark
-                            ? '/logo/logo-white.png'
-                            : '/logo/logo-black.png'
-                            " spinner-color="white" style="height: auto; max-width: 120px" />
+            <!-- Right Column - Login Form -->
+            <div class="col-12 col-md-6 flex flex-center">
+                <div class="q-pa-md" style="width: 70%;max-width: 80%;">
+                    <div class="text-center q-mb-xl">
+                        <q-avatar size="100px" class="q-mb-md" square>
+                            <q-img :src="isDark
+                                ? '/logo/logo-white.png'
+                                : '/logo/logo-black.png'
+                                " spinner-color="white" alt="logo" style="height: auto; max-width: 120px" />
+                        </q-avatar>
                         <div class="text-h4 text-weight-bolder q-my-md">
                             {{ t('base.loginTitle') }}
                         </div>
                         <div class="text-body1 text-grey-6 q-my-md">
                             {{ t('base.loginTitle2') }}
                         </div>
-                    </q-card-section>
-                    <q-form ref="loginForm" class="q-px-sm" @submit="onSubmit" @reset="onReset()">
-                        <q-card-section>
-                            <QuasarInput v-model="email" :readonly="loading" :dense="false" :label="t('base.emailOrUsername')"
-                                :rules="[required]">
-                                <template #prepend>
-                                    <q-icon :name="biPerson" color="grey-9" />
-                                </template>
-                            </QuasarInput>
-                            <QuasarInput v-model="password" class="q-pt-lg" :readonly="loading" :dense="false"
-                                :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
-                                :rules="[required]">
-                                <template #prepend>
-                                    <q-icon :name="biLock" color="grey-9" />
-                                </template>
-                                <template #append>
-                                    <q-icon :name="showPassword ? biEye : biEyeSlash" class="cursor-pointer"
-                                        color="grey-9" @click="showPassword = !showPassword" />
-                                </template>
-                            </QuasarInput>
-                        </q-card-section>
-                        <q-card-actions>
-                            <QuasarButton unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
-                                :label="t('authen.login')" type="submit" />
-                        </q-card-actions>
+                    </div>
+
+                    <q-form ref="loginForm" class="q-gutter-md" @submit.prevent="onSubmit" @reset="onReset()">
+                        <QuasarInput v-model="email" :readonly="loading" :dense="false"
+                            :label="t('base.emailOrUsername')" :rules="[required]">
+                            <template #prepend>
+                                <q-icon :name="biPerson" color="grey-9" />
+                            </template>
+                        </QuasarInput>
+                        <QuasarInput v-model="password" :readonly="loading" :dense="false"
+                            :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
+                            :rules="[required]">
+                            <template #prepend>
+                                <q-icon :name="biLock" color="grey-9" />
+                            </template>
+                            <template #append>
+                                <q-icon :name="showPassword ? biEye : biEyeSlash" class="cursor-pointer" color="grey-9"
+                                    @click="showPassword = !showPassword" />
+                            </template>
+                        </QuasarInput>
+
+                        <div class="row items-center justify-between">
+                            <q-checkbox v-model="rememberMe" label="Remember me" />
+                            <BaseLink to="/auth/forgot-password" color="primary">
+                                {{ t('authen.forgetPassword') }}
+                            </BaseLink>
+                        </div>
+
+                        <div class="q-px-sm">
+                            <QuasarButton unelevated :loading="loading" size="lg" color="primary"
+                                class="full-width text-white" :label="t('authen.login')" type="submit" />
+                        </div>
                     </q-form>
-                    <q-card-section class="text-center q-pa-sm">
-                        <BaseLink to="/auth/forgot-password">
-                            {{ t('authen.forgetPassword') }}
-                        </BaseLink>
-                        
+
+                    <div class="text-center q-mt-lg">
+                        Don't have an account?
+                        <BaseLink to="/signup" color="primary">Sign Up</BaseLink>
+                        <!-- <BaseLink to="/auth/forgot-password">
+                                {{ t('authen.forgetPassword') }}
+                            </BaseLink> -->
+
 
                         <q-separator class="q-my-md" />
                         <div class="row items-center q-gutter-x-md justify-center">
@@ -155,9 +123,41 @@ const onReset = () => {
                                 <BaseThemeSwitcher anchor="top left" self="bottom left" close-on-click />
                             </q-btn>
                         </div>
-                    </q-card-section>
-                </q-card>
+                    </div>
+                </div>
             </div>
         </div>
-    </q-page>
+    </QuasarPage>
 </template>
+<style scoped>
+.fantasy-bg {
+    background-image: url('https://images.pexels.com/photos/3184460/pexels-photo-3184460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover;
+    background-position: center;
+    min-height: 90vh;
+    border-radius: 20px;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(16, 0, 43, 0.0) 0%, rgba(52, 0, 87, 0.6) 100%);
+
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    .fantasy-bg {
+        min-height: 40vh;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .overlay {
+        border-radius: 20px 20px 0 0;
+    }
+}
+</style>

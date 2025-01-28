@@ -56,8 +56,8 @@ const onCustomRemove2 = (index: number) => {
 };
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> file-picker </q-toolbar-title>
@@ -136,7 +136,7 @@ const onCustomRemove2 = (index: number) => {
                 </div>
 
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped></style>

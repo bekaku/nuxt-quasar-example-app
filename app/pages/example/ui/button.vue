@@ -18,8 +18,8 @@ useHead({
 })
 </script>
 <template>
-    <q-page padding>
-        <q-card flat bordered class="content-limit">
+    <QuasarPage>
+        <QuasarCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Button </q-toolbar-title>
@@ -34,13 +34,15 @@ useHead({
                 </base-ripple-item>
 
                 <div class="q-pa-md q-gutter-sm">
+                    <QuasarButton label="Standard" />
+                    <QuasarButton label="Elevated" :unelevated="false" />
+                    <QuasarButton color="white" text-color="black" label="Standard color" />
+                    <QuasarButton color="deep-purple" label="Standard" />
                     <QuasarButton label="Primary" color="primary" />
-                    <QuasarButton label="Unelevated" unelevated color="primary" />
+                    <QuasarButton label="Unelevated" color="primary" />
                     <QuasarButton label="Outline" outline />
                     <QuasarButton label="Outline icon" outline :icon="biChatLeft" :icon-right="biRadar"/>
                     <QuasarButton label="Outline color" outline outline-color="teal" />
-                    <QuasarButton color="white" :unelevated="false" text-color="black" label="Standard" />
-                    <QuasarButton color="deep-purple" :unelevated="false"  label="Standard" />
                     <QuasarButton color="secondary" label="Secondary" />
                     <QuasarButton color="amber" glossy label="Amber" />
                     <QuasarButton color="brown-5" label="Brown 5" />
@@ -88,8 +90,8 @@ useHead({
                     <QuasarButton label="Stop loading" color="negative" @click="progress = false" />
                 </div>
             </q-card-section>
-        </q-card>
-    </q-page>
+        </QuasarCard>
+    </QuasarPage>
 </template>
 <style lang="scss" scoped>
 .btn-fixed-width {
