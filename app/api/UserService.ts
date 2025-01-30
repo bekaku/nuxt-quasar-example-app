@@ -31,7 +31,7 @@ export default () => {
   };
   const updateDefaultLocale = async (locale: AppLocale): Promise<UserDto | null> => {
     return await callAxios<UserDto>({
-      API: `/api/user/updateDefaultLocale/?locale=${locale}`,
+      API: `/api/user/updateDefaultLocale?locale=${locale}`,
       method: 'PUT',
     });
   };

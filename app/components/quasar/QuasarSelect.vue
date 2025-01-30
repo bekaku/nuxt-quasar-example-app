@@ -99,14 +99,14 @@ const onScroll = ({ to, ref }: any) => {
 </script>
 <template>
     <skeleton-item v-if="loading" show :items="1" :show-header="false" />
-    <q-select v-else v-bind="$attrs" v-model="modelValue" :label="label" :dense="dense" :outlined="outlined" :filled="filled"
-        :option-value="optionValue" :option-label="optionLabel" :loading="lazyLoading" ottom-slots emit-value
-        map-options :use-chips="useChips" :multiple="multiple" :readonly="readonly" :use-input="canFilter"
+    <q-select v-else v-bind="$attrs" v-model="modelValue" :label="label" :dense="dense" :outlined="outlined"
+        :filled="filled" :option-value="optionValue" :option-label="optionLabel" :loading="lazyLoading" ottom-slots
+        emit-value map-options :use-chips="useChips" :multiple="multiple" :readonly="readonly" :use-input="canFilter"
         :options="options" :input-debounce="inputDebounce" :rules="[required ? requiredSelect : ({} as any)]"
         :dropdown-icon="biChevronExpand" @filter="filterFn" @virtual-scroll="onScroll">
         <template #prepend>
             <slot name="prepend">
-                <template v-if="getSelected!==undefined">
+                <template v-if="getSelected !== undefined">
                     <base-avatar v-if="getSelected.avatar" :fetch-image="fetchImage" :src="getSelected.avatar" />
                     <q-icon v-else-if="getSelected.icon" :name="getSelected.icon" />
                 </template>
@@ -121,6 +121,15 @@ const onScroll = ({ to, ref }: any) => {
 
         <!--    <template v-slot:option="scope">-->
         <!--    <template v-slot:option="{ itemProps, opt, selected, toggleOption }">-->
+        <template v-if="multiple" #selected-item="scope">
+            <q-chip square :removable="clearable" @remove="scope.removeAtIndex(scope.index)">
+                <base-avatar v-if="scope.opt?.avatar" :fetch-image="fetchImage" :src="scope.opt.avatar" size="20px" />
+                <q-avatar v-else-if="scope.opt?.icon" color="primary" text-color="white">
+                    <q-icon :name="scope.opt.icon" />
+                </q-avatar>
+                {{ scope.opt.label }}
+            </q-chip>
+        </template>
         <template #option="{ itemProps, opt, selected }">
             <q-item v-bind="itemProps">
                 <q-item-section v-if="opt.avatar || opt.icon" avatar>

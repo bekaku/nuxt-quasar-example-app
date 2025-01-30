@@ -1,36 +1,27 @@
 <script setup lang="ts" generic="T">
 import { biCheck, biX } from '@quasar/extras/bootstrap-icons';
 
-withDefaults(
-    defineProps<{
-        label?: string;
-        trueLabel?: string;
-        falseLabel?: string;
-        color?: string;
-        size?: string;
-        useLabelTitle?: boolean;
-        showTitle?: boolean;
-        disable?: boolean;
-        editMode?: boolean
-        inline?: boolean
-        fetchImage?: boolean;
-        leftLabel?: boolean;
-        showLabel?: boolean;
-        keepColor?: boolean;
-    }>(),
-    {
-        color: 'primary',
-        size: 'md',
-        useLabelTitle: true,
-        showTitle: false,
-        inline: true,
-        editMode: true,
-        fetchImage: false,
-        leftLabel: false,
-        showLabel: true,
-        keepColor: false,
-    }
-);
+const {
+    color = 'primary',
+    size = 'md',
+    useLabelTitle = true,
+    showTitle = false,
+    editMode = true,
+    showLabel = true,
+    keepColor = false,
+} = defineProps<{
+    label?: string;
+    trueLabel?: string;
+    falseLabel?: string;
+    color?: string;
+    size?: string;
+    useLabelTitle?: boolean;
+    showTitle?: boolean;
+    disable?: boolean;
+    editMode?: boolean
+    showLabel?: boolean;
+    keepColor?: boolean;
+}>();
 const { t } = useLang();
 // defineEmits(['update:modelValue']);
 const modelValue = defineModel<boolean | T[]>();

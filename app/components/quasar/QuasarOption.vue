@@ -1,29 +1,26 @@
 <script setup lang="ts" generic="T">
 import type { LabelValue } from '~/types/common';
 
-withDefaults(
-    defineProps<{
-        label?: string;
-        color?: string;
-        size?: string;
-        showTitle?: boolean;
-        disable?: boolean;
-        items: LabelValue<T>[] | any
-        inline?: boolean
-        fetchImage?: boolean;
-        leftLabel?: boolean;
-        editMode?: boolean
-    }>(),
-    {
-        color: 'primary',
-        size: 'md',
-        showTitle: false,
-        inline: true,
-        fetchImage: false,
-        leftLabel: false,
-        editMode: true,
-    }
-);
+const {
+    color = 'primary',
+    size = 'md',
+    showTitle = false,
+    inline = true,
+    fetchImage = false,
+    leftLabel = false,
+    editMode = true,
+} = defineProps<{
+    label?: string;
+    color?: string;
+    size?: string;
+    showTitle?: boolean;
+    disable?: boolean;
+    items: LabelValue<T>[] | any
+    inline?: boolean
+    fetchImage?: boolean;
+    leftLabel?: boolean;
+    editMode?: boolean
+}>();
 const modelValue = defineModel<T[]>();
 </script>
 <template>

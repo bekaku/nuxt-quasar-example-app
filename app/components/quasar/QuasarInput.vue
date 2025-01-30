@@ -18,7 +18,7 @@ const {
     type = 'text',
     autogrow = true,
     rows = 1,
-    textareaHeight = '125px',
+    textareaHeight = '105px',
     editMode = true,
     viewBorderless = true,
     viewStackLabel = true,
@@ -28,7 +28,8 @@ const {
     viewShowBefore = true,
     viewShowPrepend = true,
     viewShowAfter = true,
-    stackLabel = false
+    stackLabel = false,
+    required = false
 } = defineProps<{
     avatar?: string
     avatarSize?: string
@@ -57,6 +58,8 @@ const {
     rules?: any[]
     rows?: number
     maxRows?: number
+    required?: boolean
+    stackLabel?: boolean
     textAlign?: 'left' | 'right' | 'center'
     textareaHeight?: string
     type?: 'text' | 'password' | 'textarea' | 'email' | 'search' | 'tel' | 'url' | 'number'
@@ -70,10 +73,10 @@ const {
     viewShowBefore?: boolean
     viewShowHint?: boolean
     viewShowPrepend?: boolean
-    stackLabel?: boolean
+
 }>()
 
-const modelValue = defineModel<number | string | null>();
+const modelValue = defineModel<number | string | null | undefined>();
 defineEmits<{
     'update:model-value': [value: number | string | undefined | null]
     'focus': [event: any]
@@ -92,6 +95,11 @@ defineEmits<{
                 :min="min" :max="max" :type="type" :counter :maxlength="maxlength"
                 :dense="type == 'textarea' ? false : dense" :rounded :clearable :hint :borderless="borderless"
                 :input-style="{ minHeight: type == 'textarea' && autogrow ? textareaHeight : undefined }">
+                <template #label>
+                    <slot name="label">
+                       {{ label }} <template v-if="required"><span class="text-negative">*</span></template>
+                    </slot>
+                </template>
                 <template #before>
                     <slot name="before" />
                 </template>
@@ -113,9 +121,6 @@ defineEmits<{
                 </template>
                 <template #error>
                     <slot name="error" />
-                </template>
-                <template #counter>
-                    <slot name="counter" />
                 </template>
                 <template #loading>
                     <slot name="loading" />
