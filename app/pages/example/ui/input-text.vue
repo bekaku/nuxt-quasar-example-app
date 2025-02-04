@@ -28,7 +28,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
 }
 </script>
 <template>
-    <QuasarPage>
+    <BasePage>
         <q-toolbar>
             <q-toolbar-title> Input Text </q-toolbar-title>
             <q-space />
@@ -37,14 +37,14 @@ const onInputUpdate = (val: string | number | undefined | null) => {
         <div class="row">
             <div class="col-12 col-md-6 q-pa-md q-gutter-md">
                 <q-form class="q-gutter-md" @submit="onSubmit">
-                    <QuasarCard>
+                    <BaseCard>
                         <q-card-section class="q-gutter-sm">
                             <div class="text-h6">
                                 <q-icon :name="editMode ? biPencil : biEye" /> {{ editMode ? 'Edit mode' :
                                     'Viewmode' }}
                             </div>
                             <q-toggle v-model="editMode" label="Toggle mode" />
-                            <QuasarInput v-model="name" :edit-mode="editMode" label="Name" :icon="biPerson" bottom-slots
+                            <BaseInput v-model="name" :edit-mode="editMode" label="Name" :icon="biPerson" bottom-slots
                                 hint="This is a hint" :rules="[required]" @update:model-value="onInputUpdate">
                                 <template #before>
                                     <q-avatar>
@@ -57,14 +57,14 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                                         @click="showPassword = !showPassword" />
                                 </template>
                                 <template #after>
-                                    <QuasarButton flat round :icon="biSend" />
+                                    <BaseButton flat round :icon="biSend" />
                                 </template>
-                            </QuasarInput>
-                            <QuasarInput v-model="surname" :edit-mode="editMode" label="Surname" :rules="[required]"
+                            </BaseInput>
+                            <BaseInput v-model="surname" :edit-mode="editMode" label="Surname" :rules="[required]"
                                 avatar="https://cdn.quasar.dev/img/avatar2.jpg" />
-                            <QuasarInput v-model="email" :edit-mode="editMode" label="Email" :icon="biEnvelope"
+                            <BaseInput v-model="email" :edit-mode="editMode" label="Email" :icon="biEnvelope"
                                 :rules="[required, requireEmail]" clearable />
-                            <QuasarInput v-model="title" :edit-mode="editMode" label="Title" clearable counter
+                            <BaseInput v-model="title" :edit-mode="editMode" label="Title" clearable counter
                                 :maxlength="20">
                                 <template #prepend>
                                     <q-icon :name="biPencil" />
@@ -72,58 +72,58 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                                 <template #append>
                                     <BaseIcon icon="uil:vuejs" color="teal" />
                                 </template>
-                            </QuasarInput>
+                            </BaseInput>
                             <ClientOnly>
-                                <QuasarInput v-model="amount" :edit-mode="editMode" label="Amount" type="number"
+                                <BaseInput v-model="amount" :edit-mode="editMode" label="Amount" type="number"
                                     :min="0" :max="10" hint="Limit 0 to 10" />
-                                <QuasarInput v-model="amount2" :edit-mode="editMode" label="Amount2" type="number"
+                                <BaseInput v-model="amount2" :edit-mode="editMode" label="Amount2" type="number"
                                     hint="Between 1 to 50"
                                     :rules="[(val: any) => validateMinMaxValue(val, 1, 50, 'Amount 2')]" />
                             </ClientOnly>
                             <div class="text-h6">
                                 Money format
                             </div>
-                            <QuasarInput v-model="money" :edit-mode="editMode" label="Money format" is-money>
+                            <BaseInput v-model="money" :edit-mode="editMode" label="Money format" is-money>
                                 <template #prepend>
                                     <q-icon :name="biCoin" />
                                 </template>
-                            </QuasarInput>
+                            </BaseInput>
 
                             <div class="text-h6">
                                 Date picker
                             </div>
-                            <QuasarDatePicker v-model="pickDate" :edit-mode="editMode" label="Select Date" required />
+                            <BaseDatePicker v-model="pickDate" :edit-mode="editMode" label="Select Date" required />
 
                             <div class="text-h6">
                                 Time picker
                             </div>
-                            <QuasarTimePicker v-model="pickTime" :edit-mode="editMode" label="Select time" required />
+                            <BaseTimePicker v-model="pickTime" :edit-mode="editMode" label="Select time" required />
 
 
                             <div class="text-h6">
                                 Text area
                             </div>
-                            <QuasarInput v-model="text" :edit-mode="editMode" label="Test area" placeholder="textarea"
+                            <BaseInput v-model="text" :edit-mode="editMode" label="Test area" placeholder="textarea"
                                 type="textarea" :icon="biPencil" />
 
                             <div class="text-h6">
                                 Input OTP
                             </div>
-                            <QuasarInputOtp :input-length="6" @on-submit="onOptSubmit" />
+                            <BaseInputOtp :input-length="6" @on-submit="onOptSubmit" />
                         </q-card-section>
-                    </QuasarCard>
+                    </BaseCard>
 
-                    <QuasarButton v-if="editMode" label="Submit" type="submit" color="primary" />
+                    <BaseButton v-if="editMode" label="Submit" type="submit" color="primary" />
                 </q-form>
             </div>
 
             <div class="col-12 col-md-6 q-pa-md">
-                <QuasarCard>
+                <BaseCard>
                     <q-card-section class="q-gutter-sm">
                         <div class="text-h6">
                             View mode
                         </div>
-                        <QuasarInput v-model="name" :edit-mode="false" label="Name" :icon="biPerson" bottom-slots
+                        <BaseInput v-model="name" :edit-mode="false" label="Name" :icon="biPerson" bottom-slots
                             hint="This is a hint" :view-show-after="false" :view-show-append="false">
                             <template #before>
                                 <q-avatar>
@@ -135,41 +135,41 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                                     :icon="showPassword ? biEye : biEyeSlash" @click="showPassword = !showPassword" />
                             </template>
                             <template #after>
-                                <QuasarButton flat round :icon="biSend" />
+                                <BaseButton flat round :icon="biSend" />
                             </template>
-                        </QuasarInput>
-                        <QuasarInput v-model="surname" :edit-mode="false" label="Surname"
+                        </BaseInput>
+                        <BaseInput v-model="surname" :edit-mode="false" label="Surname"
                             avatar="https://cdn.quasar.dev/img/avatar2.jpg" />
-                        <QuasarInput v-model="email" :edit-mode="false" label="Email" :icon="biEnvelope" clearable />
-                        <QuasarInput v-model="title" :edit-mode="false" label="Title" clearable counter>
+                        <BaseInput v-model="email" :edit-mode="false" label="Email" :icon="biEnvelope" clearable />
+                        <BaseInput v-model="title" :edit-mode="false" label="Title" clearable counter>
                             <template #prepend>
                                 <q-icon :name="biPencil" />
                             </template>
                             <template #append>
                                 <BaseIcon icon="uil:vuejs" color="teal" />
                             </template>
-                        </QuasarInput>
-                        <QuasarInput v-model="amount" :edit-mode="false" label="Amount" type="number"
+                        </BaseInput>
+                        <BaseInput v-model="amount" :edit-mode="false" label="Amount" type="number"
                             hint="Limit 0 to 10" :view-show-hint="false" />
-                        <QuasarInput v-model="amount2" :edit-mode="false" label="Amount2" type="number"
+                        <BaseInput v-model="amount2" :edit-mode="false" label="Amount2" type="number"
                             hint="Between 1 to 50" />
                         <div class="text-h6">
                             Money format
                         </div>
-                        <QuasarInput v-model="money" :edit-mode="false" label="Money format" is-money>
+                        <BaseInput v-model="money" :edit-mode="false" label="Money format" is-money>
                             <template #prepend>
                                 <q-icon :name="biCoin" />
                             </template>
-                        </QuasarInput>
+                        </BaseInput>
                         <div class="text-h6">
                             Text area
                         </div>
-                        <QuasarInput v-model="text" :edit-mode="false" label="Test area" type="textarea"
+                        <BaseInput v-model="text" :edit-mode="false" label="Test area" type="textarea"
                             :icon="biPencil" />
                     </q-card-section>
-                </QuasarCard>
+                </BaseCard>
             </div>
         </div>
-    </QuasarPage>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

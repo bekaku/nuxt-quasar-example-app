@@ -124,7 +124,7 @@ const updateSelectedAll = (val: boolean) => {
 </script>
 
 <template>
-  <QuasarPage>
+  <BasePage>
     <BaseCrudForm :icon="biPeople" :title="t('model.role.table')" :crud-name="crudName" :crud-action="crudAction"
       :crud-entity="crudEntity" :full-width="true" :list-permission="[RolePermission.list]"
       :manage-permission="[RolePermission.manage]" :loading="loading" @on-back="onBack" @on-submit="onSubmit"
@@ -132,15 +132,15 @@ const updateSelectedAll = (val: boolean) => {
       <template #crudFromContent>
         <div class="row">
           <div class="col-12 q-pa-md">
-            <QuasarInput v-model="crudEntity.name" :readonly="loading" :edit-mode="isEditMode" :label="t('model.role.name')" type="text"
+            <BaseInput v-model="crudEntity.name" :readonly="loading" :edit-mode="isEditMode" :label="t('model.role.name')" type="text"
               :rules="[required]" :maxlength="125" counter>
               <template #hint>
                 <span class="text-negative">*</span>
               </template>
-            </QuasarInput>
+            </BaseInput>
           </div>
           <div class="col-12 col-md-4  q-px-md q-gutter-md">
-            <QuasarChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
+            <BaseChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
           </div>
         </div>
         <q-separator />
@@ -151,7 +151,7 @@ const updateSelectedAll = (val: boolean) => {
               {{ t('model_permission') }}
             </div>
             <q-card-section>
-              <QuasarInput v-model="filterText" :label="t('base.search')" type="text">
+              <BaseInput v-model="filterText" :label="t('base.search')" type="text">
                 <template #prepend>
                   <q-checkbox v-if="isEditMode" v-model="selectedAll" @click="onCheckedAll">
                     <q-tooltip>
@@ -166,7 +166,7 @@ const updateSelectedAll = (val: boolean) => {
                 <template #append>
                   <q-icon :name="biSearch" />
                 </template>
-              </QuasarInput>
+              </BaseInput>
               <BaseScrollArea height="450px">
                 <q-list v-if="filteredList.length > 0" dense>
                   <q-item-label header>{{ t('crudPermission') }}</q-item-label>
@@ -298,5 +298,5 @@ const updateSelectedAll = (val: boolean) => {
         </div>
       </template>
     </BaseCrudForm>
-  </QuasarPage>
+  </BasePage>
 </template>

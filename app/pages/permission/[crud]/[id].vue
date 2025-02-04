@@ -57,19 +57,19 @@ const radios: LabelValue<number>[] = [
             <template #crudFromContent>
                 <div class="row">
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarInput v-model="crudEntity.code" :edit-mode="isEditMode" :icon="biShieldCheck"
+                        <BaseInput v-model="crudEntity.code" :edit-mode="isEditMode" :icon="biShieldCheck"
                             :label="t('model_permission_name')" :rules="[required]" :maxlength="125" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarInput v-model="crudEntity.remark" :edit-mode="isEditMode" :icon="biPencil"
+                        <BaseInput v-model="crudEntity.remark" :edit-mode="isEditMode" :icon="biPencil"
                             :label="t('model_permission_description')" :maxlength="255" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarChekbox v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
+                        <BaseChekbox v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
                         <div class="q-px-sm">Permission type</div>
-                        <QuasarRadio v-model="crudEntity.operationType" :edit-mode="isEditMode" :items="radios"
+                        <BaseRadio v-model="crudEntity.operationType" :edit-mode="isEditMode" :items="radios"
                             :inline="false" />
                     </div>
                 </div>

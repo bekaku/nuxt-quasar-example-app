@@ -106,8 +106,8 @@ const onInfiniteVirtual = (index: number, done: any) => {
 }
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard flat bordered class="content-limit">
+    <BasePage>
+        <BaseCard flat bordered class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Virtual scroller </q-toolbar-title>
@@ -249,7 +249,7 @@ const onInfiniteVirtual = (index: number, done: any) => {
                 </div>
             </q-card-section>
 
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

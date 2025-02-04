@@ -15,8 +15,8 @@ const options: LabelValue<number>[] = [
 ]
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Toggle </q-toolbar-title>
@@ -30,14 +30,14 @@ const options: LabelValue<number>[] = [
                 </div>
                 <div class="row">
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" color="primary" :use-label-title="false" size="md"
+                        <BaseToggle v-model="toggle" label="Toggle" color="primary" :use-label-title="false" size="md"
                             true-label="True label" false-label="False label" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarToggle v-model="toggle" label="Toggle" color="negative" size="md" />
+                        <BaseToggle v-model="toggle" label="Toggle" color="negative" size="md" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <QuasarChekbox v-model="toggle" label="Checkbox" color="negative" size="md" />
+                        <BaseChekbox v-model="toggle" label="Checkbox" color="negative" size="md" />
                     </div>
                 </div>
                 <div class="text-h6">
@@ -46,12 +46,12 @@ const options: LabelValue<number>[] = [
                 <div class="row">
                     <div class="col-4 q-pa-md">
                         Options inline
-                        <QuasarOption v-model="optionsSelected" :items="options" label="Options inline"
+                        <BaseOption v-model="optionsSelected" :items="options" label="Options inline"
                             color="negative" />
                     </div>
                     <div class="col-4 q-pa-md">
                         Options virtical
-                        <QuasarOption v-model="optionsSelected" :items="options" label="Options" :inline="false"
+                        <BaseOption v-model="optionsSelected" :items="options" label="Options" :inline="false"
                             color="negative" />
                     </div>
                 </div>
@@ -61,15 +61,15 @@ const options: LabelValue<number>[] = [
                 <div class="row">
                     <div class="col-4 q-pa-md">
                         Options inline
-                        <QuasarRadio v-model="radioSelectd" :items="options" />
+                        <BaseRadio v-model="radioSelectd" :items="options" />
                     </div>
                     <div class="col-4 q-pa-md">
                         Options virtical
-                        <QuasarRadio v-model="radioSelectd" :items="options" :inline="false" />
+                        <BaseRadio v-model="radioSelectd" :items="options" :inline="false" />
                     </div>
                 </div>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

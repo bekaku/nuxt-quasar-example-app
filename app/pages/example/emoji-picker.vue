@@ -18,8 +18,8 @@ const onEmojiClick = (emoji: string) => {
 };
 </script>
 <template>
-    <QuasarPage class="content-limit">
-        <QuasarCard>
+    <BasePage class="content-limit">
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Emoji picker </q-toolbar-title>
@@ -36,7 +36,7 @@ const onEmojiClick = (emoji: string) => {
                         <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
                     </template>
                     <template #before>
-                        <quasar-button round flat :icon="biImage" color="grey-7" />
+                        <BaseButton round flat :icon="biImage" color="grey-7" />
                         <ClientOnly>
                             <q-btn round flat :icon="biEmojiSmile" color="grey-7">
                                 <q-menu>
@@ -47,11 +47,11 @@ const onEmojiClick = (emoji: string) => {
                         </ClientOnly>
                     </template>
                     <template #after>
-                        <quasar-button flat round :icon="biSend" color="primary">
+                        <BaseButton flat round :icon="biSend" color="primary">
                             <q-tooltip>
                                 Send
                             </q-tooltip>
-                        </quasar-button>
+                        </BaseButton>
                     </template>
                 </q-input>
             </q-card-section>
@@ -82,12 +82,12 @@ const onEmojiClick = (emoji: string) => {
                 <BaseIcon icon="uil:youtube" color="red" />
                 <BaseIcon icon="uil:syringe" color="blue" />
                 <BaseIcon icon="uil:shovel" />
-                <QuasarButton color="primary">
+                <BaseButton color="primary">
                     <BaseIcon icon="uil:trophy" class="q-mr-sm" /> With button
-                </QuasarButton>
-                <QuasarButton outline>
+                </BaseButton>
+                <BaseButton outline>
                     <BaseIcon icon="uil:utensils-alt" color="pink" class="q-mr-sm" /> With button
-                </QuasarButton>
+                </BaseButton>
 
                 <div class="text-h6">
                     Quasar Icon
@@ -98,8 +98,8 @@ const onEmojiClick = (emoji: string) => {
                 <BaseIcon :icon="mdiAccount" icon-set="quasar" />
                 <BaseIcon :icon="laAddressBook" icon-set="quasar" />
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 
 <style lang="scss" scoped></style>

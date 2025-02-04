@@ -16,8 +16,8 @@ const onUpdateTime = (v: string) => {
 }
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Date time picker </q-toolbar-title>
@@ -28,17 +28,17 @@ const onUpdateTime = (v: string) => {
             <q-card-section>
                 <div class="row">
                     <div class="col-4 q-pa-md">
-                        <QuasarDatePicker v-model="d" label="Select Date" required @on-update="onUpdate" />
+                        <BaseDatePicker v-model="d" label="Select Date" required @on-update="onUpdate" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <quasar-time-picker v-model="pickTime" label="Select Date" required @on-update="onUpdateTime" />
+                        <BaseTimePicker v-model="pickTime" label="Select Date" required @on-update="onUpdateTime" />
                     </div>
 
                 </div>
 
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped>
 .btn-fixed-width {

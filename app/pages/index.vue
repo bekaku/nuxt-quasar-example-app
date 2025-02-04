@@ -16,8 +16,8 @@ if(!import.meta.server){
 }
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section class="q-gutter-md">
                 <QBtn label="Light" :icon="biBrightnessHigh" @click="onSetTheme('light')" />
                 <QBtn label="Dark" :icon="biMoon" @click="onSetTheme('dark')" />
@@ -26,6 +26,6 @@ if(!import.meta.server){
                 <BaseLink to="/param/users-admins/123?action=view">To Param page</BaseLink>
                 <BaseLink to="/config">To Config page</BaseLink>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>

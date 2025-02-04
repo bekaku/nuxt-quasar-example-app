@@ -71,16 +71,16 @@ const onItemClick = (/*type: ICrudAction*/) => {
 <template>
     <div class="row" :class="{ 'content-limit': !fullWidth, }">
         <div class="col">
-            <QuasarCard>
+            <BaseCard>
                 <q-card-section>
                     <slot name="crudFromToolbar">
                         <q-toolbar class="q-mb-lg">
-                            <QuasarButton v-if="isHaveListPermission && showBack" flat round :icon="biArrowLeft"
+                            <BaseButton v-if="isHaveListPermission && showBack" flat round :icon="biArrowLeft"
                                 @click="$emit('on-back')">
                                 <q-tooltip>
                                     {{ t('base.back') }}
                                 </q-tooltip>
-                            </QuasarButton>
+                            </BaseButton>
                             <q-toolbar-title>
                                 <template v-if="crudAction && showActionText">
                                     {{
@@ -114,7 +114,7 @@ const onItemClick = (/*type: ICrudAction*/) => {
                     </slot>
                 </q-card-section>
 
-            </QuasarCard>
+            </BaseCard>
         </div>
     </div>
 </template>

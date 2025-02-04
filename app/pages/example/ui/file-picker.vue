@@ -2,7 +2,7 @@
 import type { FileManagerDto } from '~/types/models';
 import { FileExtensionAccept } from '~/libs/constants';
 import { biFileArrowUp, biUpload, biSend, biEmojiSmile, biImage } from '@quasar/extras/bootstrap-icons';
-import { QuasarFilePicker } from '#components';
+import { BaseFilePicker } from '#components';
 const authenStore = useAuthenStore();
 const { t } = useLang();
 useHead({
@@ -11,7 +11,7 @@ useHead({
 const files = ref<File[]>([]);
 const filesPreview = ref<FileManagerDto[]>([]);
 
-const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof QuasarFilePicker>>('filePickerCustomUiRef');
+const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef');
 const customFiles = ref<FileManagerDto[]>([]);
 
 const filePickerCustomUi2Ref = useTemplateRef('filePickerCustomUi2Ref');
@@ -56,8 +56,8 @@ const onCustomRemove2 = (index: number) => {
 };
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> file-picker </q-toolbar-title>
@@ -71,23 +71,23 @@ const onCustomRemove2 = (index: number) => {
                         <div class="text-h5">
                             Simple Picker
                         </div>
-                        <QuasarFilePicker v-model="files" v-model:file-items="filesPreview" multiple
+                        <BaseFilePicker v-model="files" v-model:file-items="filesPreview" multiple
                             :icon="biFileArrowUp" show-preview :accept="FileExtensionAccept"
                             :label="t('base.chooseFile')" @on-file-add="onFileAdd" />
-                        <quasar-button class="q-my-md" @click="onSubmit">
+                        <BaseButton class="q-my-md" @click="onSubmit">
                             Submit
-                        </quasar-button>
+                        </BaseButton>
                         <q-separator />
                     </div>
                     <div class="col-12 q-pa-md">
                         <div class="text-h5">
                             Custom Ui
                         </div>
-                        <QuasarFilePicker ref="filePickerCustomUiRef" v-model:file-items="customFiles" multiple
+                        <BaseFilePicker ref="filePickerCustomUiRef" v-model:file-items="customFiles" multiple
                             :accept="FileExtensionAccept" @on-file-add="onCustomFileAdd">
-                            <quasar-button class="q-my-md" outline :icon="biUpload" label="Open Picker"
+                            <BaseButton class="q-my-md" outline :icon="biUpload" label="Open Picker"
                                 @click="openPicker" />
-                        </QuasarFilePicker>
+                        </BaseFilePicker>
                         <BaseFilesPreview :items="customFiles" format-size col="col-4 col-md-2 q-pa-md"
                             @on-remove="onCustomRemove" />
                         <q-separator />
@@ -98,7 +98,7 @@ const onCustomRemove2 = (index: number) => {
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6 q-pa-md">
-                                <QuasarFilePicker ref="filePickerCustomUi2Ref" v-model:file-items="custom2Files"
+                                <BaseFilePicker ref="filePickerCustomUi2Ref" v-model:file-items="custom2Files"
                                     style="display: none;" multiple :accept="FileExtensionAccept" :max-files="5"
                                     @on-file-add="onCustomFileAdd2" />
 
@@ -109,15 +109,15 @@ const onCustomRemove2 = (index: number) => {
                                         <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
                                     </template>
                                     <template #before>
-                                        <quasar-button round flat :icon="biImage" color="grey-7" @click="openPicker2" />
-                                        <quasar-button round flat :icon="biEmojiSmile" color="grey-7" />
+                                        <BaseButton round flat :icon="biImage" color="grey-7" @click="openPicker2" />
+                                        <BaseButton round flat :icon="biEmojiSmile" color="grey-7" />
                                     </template>
                                     <template #after>
-                                        <quasar-button flat round :icon="biSend" color="primary">
+                                        <BaseButton flat round :icon="biSend" color="primary">
                                             <q-tooltip>
                                                 Send
                                             </q-tooltip>
-                                        </quasar-button>
+                                        </BaseButton>
                                     </template>
                                 </q-input>
                             </div>
@@ -136,7 +136,7 @@ const onCustomRemove2 = (index: number) => {
                 </div>
 
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

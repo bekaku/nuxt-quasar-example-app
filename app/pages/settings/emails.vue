@@ -40,7 +40,7 @@ const onSubmit = async () => {
 <template>
     <SettingLayout>
         <template #content>
-            <QuasarCard class="q-px-md">
+            <BaseCard class="q-px-md">
                 <q-card-section>
                     <div class="text-h6">{{ t('base.emailEdit') }}</div>
                     <q-separator />
@@ -49,18 +49,18 @@ const onSubmit = async () => {
                     <q-form @submit="onSubmit">
                         <div class="row">
                             <div class="col-12 col-md-6 q-pa-md">
-                                <QuasarInput v-model="entity.email" :label="t('base.emailEdit')"
+                                <BaseInput v-model="entity.email" :label="t('base.emailEdit')"
                                     :rules="[required, requireEmail]" type="email" />
                             </div>
                         </div>
                         <q-card-actions align="right">
-                            <QuasarButton :disable="!canSubmit" unelevated color="primary" :icon="biPencil"
+                            <BaseButton :disable="!canSubmit" unelevated color="primary" :icon="biPencil"
                                 :label="t('base.edit')" type="submit" />
                         </q-card-actions>
                     </q-form>
                     <q-inner-loading :showing="loading" :label="t('base.pleaseWait')" label-class="text-primary" />
                 </q-card-section>
-            </QuasarCard>
+            </BaseCard>
         </template>
     </SettingLayout>
 </template>

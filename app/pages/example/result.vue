@@ -6,8 +6,8 @@ useHead({
 })
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard class="content-limit">
+    <BasePage>
+        <BaseCard class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Result </q-toolbar-title>
@@ -32,8 +32,8 @@ useHead({
                     </template>
 </base-result> -->
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped>
 .btn-fixed-width {

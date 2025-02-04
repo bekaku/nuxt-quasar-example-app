@@ -95,12 +95,12 @@ const setNewPassword = async () => {
 };
 </script>
 <template>
-    <QuasarPage :padding="false" class="window-height row justify-center items-center content-limit">
+    <BasePage :padding="false" class="window-height row justify-center items-center content-limit">
         <div class="row context">
             <div class="col-12">
-                <QuasarCard style="max-width: 580px;">
+                <BaseCard style="max-width: 580px;">
                     <q-toolbar>
-                        <QuasarButton to="/auth/login" :icon="biArrowLeft" round flat/>
+                        <BaseButton to="/auth/login" :icon="biArrowLeft" round flat/>
                         <q-toolbar-title>
                             {{ t('authen.forgetPassword') }}
                         </q-toolbar-title>
@@ -119,15 +119,15 @@ const setNewPassword = async () => {
                                         </div>
                                     </div>
 
-                                    <QuasarInput v-model="entity.email" :label="t('base.email')"
+                                    <BaseInput v-model="entity.email" :label="t('base.email')"
                                         :rules="[requireEmail]">
                                         <template #prepend>
                                             <q-icon :name="biEnvelope" />
                                         </template>
-                                    </QuasarInput>
+                                    </BaseInput>
 
                                     <q-card-actions align="center">
-                                        <QuasarButton unelevated type="submit" color="primary"
+                                        <BaseButton unelevated type="submit" color="primary"
                                             :label="t('base.continue')" />
                                     </q-card-actions>
                                 </q-form>
@@ -146,9 +146,9 @@ const setNewPassword = async () => {
                                     </div>
                                 </div>
 
-                                <QuasarInputOtp :input-length="6" @on-submit="verifyCode" />
+                                <BaseInputOtp :input-length="6" @on-submit="verifyCode" />
                                 <q-card-actions align="center">
-                                    <QuasarButton flat color="primary" class="q-ml-sm" :label="t('base.previous')"
+                                    <BaseButton flat color="primary" class="q-ml-sm" :label="t('base.previous')"
                                         @click="step = 1" />
                                 </q-card-actions>
                             </q-step>
@@ -159,8 +159,8 @@ const setNewPassword = async () => {
                             </q-step>
                         </q-stepper>
                     </q-card-section>
-                </QuasarCard>
+                </BaseCard>
             </div>
         </div>
-    </QuasarPage>
+    </BasePage>
 </template>

@@ -10,13 +10,13 @@ if (import.meta.server) {
 }
 </script>
 <template>
-    <QuasarPage>
+    <BasePage>
         public config {{ $config.public }}
 
         <p>
             <NuxtLink to="/">Back</NuxtLink>
         </p>
-    </QuasarPage>
+    </BasePage>
 
 
 </template>

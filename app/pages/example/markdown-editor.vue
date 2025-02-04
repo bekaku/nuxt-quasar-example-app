@@ -77,8 +77,8 @@ note、abstract、info、tip、success、question、warning、failure、danger�
 `);
 </script>
 <template>
-    <QuasarPage class="content-limit">
-        <!-- <QuasarCard flat :bordered="false" class="content-limit">
+    <BasePage class="content-limit">
+        <!-- <BaseCard flat :bordered="false" class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Markdown </q-toolbar-title>
@@ -92,7 +92,7 @@ note、abstract、info、tip、success、question、warning、failure、danger�
             <q-space />
         </q-toolbar>
         <q-separator />
-        <QuasarCard flat class="q-my-lg q-pa-md">
+        <BaseCard flat class="q-my-lg q-pa-md">
             <div class="text-h5 q-mb-md">
                 <q-icon :name="biPencil" /> Editor
                 <q-btn flat :icon="biQuestion" class="text-capitalize text-muted" dense
@@ -106,15 +106,15 @@ note、abstract、info、tip、success、question、warning、failure、danger�
                 </q-btn>
             </div>
             <base-markdown-editor v-model="content" :editor-id="contentId" />
-        </QuasarCard>
+        </BaseCard>
 
-        <QuasarCard flat class="q-my-lg q-pa-md">
+        <BaseCard flat class="q-my-lg q-pa-md">
             <div class="text-h5 q-mb-md">
                 <q-icon :name="biEye" /> Preview
             </div>
             <base-markdown-preview :content="content" :editor-id="contentPreviewId" />
-        </QuasarCard>
+        </BaseCard>
         <!-- </q-card-section>
-        </QuasarCard> -->
-    </QuasarPage>
+        </BaseCard> -->
+    </BasePage>
 </template>

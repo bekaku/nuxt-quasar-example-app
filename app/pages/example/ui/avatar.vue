@@ -18,8 +18,8 @@ const getTooltipBy = (index: number) => {
 }
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Avatar </q-toolbar-title>
@@ -67,6 +67,6 @@ const getTooltipBy = (index: number) => {
                     <base-avatar-group :items="items" :limit="5" size="42px" boder-color="#00a0dc" />
                 </div>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>

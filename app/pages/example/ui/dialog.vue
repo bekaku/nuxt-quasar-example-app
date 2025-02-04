@@ -31,73 +31,73 @@ const onConfirmToClose = async () => {
 }
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section class="q-gutter-md">
                 <div class="text-h6">Dialog</div>
                 <q-separator />
 
 
-                <QuasarButton outline label="Dialog" @click="dialog = true" />
-                <QuasarButton outline label="Dialog persistent" @click="dialog2 = true" />
-                <QuasarButton outline label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
+                <BaseButton outline label="Dialog" @click="dialog = true" />
+                <BaseButton outline label="Dialog persistent" @click="dialog2 = true" />
+                <BaseButton outline label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
 
                 <p>Size</p>
-                <QuasarButton outline label="Small" @click="dialogSmall = true" />
-                <QuasarButton outline label="Medium" @click="dialogMedium = true" />
-                <QuasarButton outline label="Full Width" @click="dialogFullWidth = true" />
-                <QuasarButton outline label="Full Height" @click="dialogFullHeight = true" />
-                <QuasarButton outline label="Full Width and Height" @click="dialogFullWidthHeight = true" />
-                <QuasarButton outline label="Maximize" @click="dialogMaximize = true" />
+                <BaseButton outline label="Small" @click="dialogSmall = true" />
+                <BaseButton outline label="Medium" @click="dialogMedium = true" />
+                <BaseButton outline label="Full Width" @click="dialogFullWidth = true" />
+                <BaseButton outline label="Full Height" @click="dialogFullHeight = true" />
+                <BaseButton outline label="Full Width and Height" @click="dialogFullWidthHeight = true" />
+                <BaseButton outline label="Maximize" @click="dialogMaximize = true" />
             </q-card-section>
 
             <q-card-section class="q-gutter-md">
                 <div class="text-h6">Popover confirm</div>
                 <q-separator />
-                <QuasarButton label="Delete item" color="negative" :icon="biTrash">
+                <BaseButton label="Delete item" color="negative" :icon="biTrash">
                     <base-pop-confirm :title="t('base.deleteConfirm')" confirm-color="negative"
                         @on-change="onPopConfirmChange" />
-                </QuasarButton>
+                </BaseButton>
 
-                <QuasarButton label="Custom label">
+                <BaseButton label="Custom label">
                     <base-pop-confirm title="Custom label" confirm-color="teal" label-confirm="Custom confirm"
                         cancel-color="grey" label-cancel="Blaa" @on-change="onPopConfirmChange" />
-                </QuasarButton>
-                <QuasarButton label="More custom">
+                </BaseButton>
+                <BaseButton label="More custom">
                     <base-pop-confirm title="Addon label" width="350px" @on-change="onPopConfirmChange">
                         <q-input v-model="text" outlined label="This input overide title prop" />
                         <template #bottom>
                             bottom slot
                         </template>
                     </base-pop-confirm>
-                </QuasarButton>
+                </BaseButton>
             </q-card-section>
             <q-card-section class="q-gutter-md">
                 <div class="text-h6">Popover</div>
                 <q-separator />
-                <QuasarButton label="Show popover">
-                    <QuasarPopover width="250px">
+                <BaseButton label="Show popover">
+                    <BasePopover width="250px">
                         <q-banner>
                             <template #avatar>
                                 <q-icon :name="biPencil" color="primary" />
                             </template>
                             You have lost connection to the internet. This app is offline.
                         </q-banner>
-                    </QuasarPopover>
-                </QuasarButton>
-                <QuasarButton label="Handles right-click" color="red-4">
-                    <QuasarPopover width="450px" context-menu >
+                    </BasePopover>
+                </BaseButton>
+                <BaseButton label="Handles right-click" color="red-4">
+                    <BasePopover width="450px" context-menu >
                         <q-banner>
                             <template #avatar>
                                 <q-icon :name="biPencil" color="primary" />
                             </template>
                             You have lost connection to the internet. This app is offline.
                         </q-banner>
-                    </QuasarPopover>
-                </QuasarButton>
+                    </BasePopover>
+                </BaseButton>
 
             </q-card-section>
-        </QuasarCard>
+        </BaseCard>
 
         <base-dialog v-if="dialog" v-model="dialog" title="Dialog title" :icon="biPencil">
             <q-card-section class="q-pt-none">
@@ -172,5 +172,5 @@ const onConfirmToClose = async () => {
                 minima, porro labore.
             </q-card-section>
         </base-dialog>
-    </QuasarPage>
+    </BasePage>
 </template>

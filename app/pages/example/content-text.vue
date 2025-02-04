@@ -48,8 +48,8 @@ const testExtractHashTag = () => {
 }
 </script>
 <template>
-    <QuasarPage class="content-limit">
-        <QuasarCard>
+    <BasePage class="content-limit">
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Content Text </q-toolbar-title>
@@ -67,12 +67,12 @@ const testExtractHashTag = () => {
                             </template>
                         </q-input>
 
-                        <quasar-button @click="onPreview">
+                        <BaseButton @click="onPreview">
                             Reload Preview
-                        </quasar-button>
-                        <quasar-button class="q-ml-md" color="negative" @click="testExtractHashTag">
+                        </BaseButton>
+                        <BaseButton class="q-ml-md" color="negative" @click="testExtractHashTag">
                             Extract HashTag from content
-                        </quasar-button>
+                        </BaseButton>
 
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
@@ -108,7 +108,7 @@ const testExtractHashTag = () => {
                     </div>
                 </div>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

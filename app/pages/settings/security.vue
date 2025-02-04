@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
 <template>
     <SettingLayout>
         <template #content>
-            <QuasarCard class="q-px-md">
+            <BaseCard class="q-px-md">
                 <q-card-section>
                     <div class="text-h6">{{ t('updatePassword') }}</div>
                     <q-separator />
@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
                     </BaseVirtualScrollerRecycle>
                 </q-list>
 
-            </QuasarCard>
+            </BaseCard>
         </template>
     </SettingLayout>
 </template>

@@ -112,13 +112,13 @@ const onReset = () => {
                     </q-card-section>
                     <q-form ref="loginForm" class="q-px-sm" @submit.prevent="onSubmit" @reset="onReset()">
                         <q-card-section>
-                            <QuasarInput v-model="email" :readonly="loading" :dense="false" :label="t('base.emailOrUsername')"
+                            <BaseInput v-model="email" :readonly="loading" :dense="false" :label="t('base.emailOrUsername')"
                                 :rules="[required]">
                                 <template #prepend>
                                     <q-icon :name="biPerson" color="grey-9" />
                                 </template>
-                            </QuasarInput>
-                            <QuasarInput v-model="password" class="q-pt-lg" :readonly="loading" :dense="false"
+                            </BaseInput>
+                            <BaseInput v-model="password" class="q-pt-lg" :readonly="loading" :dense="false"
                                 :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
                                 :rules="[required]">
                                 <template #prepend>
@@ -128,10 +128,10 @@ const onReset = () => {
                                     <q-icon :name="showPassword ? biEye : biEyeSlash" class="cursor-pointer"
                                         color="grey-9" @click="showPassword = !showPassword" />
                                 </template>
-                            </QuasarInput>
+                            </BaseInput>
                         </q-card-section>
                         <q-card-actions>
-                            <QuasarButton unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
+                            <BaseButton unelevated :loading="loading" size="lg" color="primary" class="full-width text-white"
                                 :label="t('authen.login')" type="submit" />
                         </q-card-actions>
                     </q-form>

@@ -1,7 +1,10 @@
-import messages from '~/i18n';
+import en from '~/i18n/en';
+import th from '~/i18n/th';
 export default defineI18nConfig(() => ({
     legacy: false,
     locale: 'th',
-    fallbackLocale: 'th',
-    messages
+    messages: {
+        en,
+        th
+    }
 }))

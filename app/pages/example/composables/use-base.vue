@@ -56,8 +56,8 @@ const onCopyText = async () => {
 };
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> useBase </q-toolbar-title>
@@ -66,18 +66,18 @@ const onCopyText = async () => {
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-md">
-                <QuasarButton label="show loading" color="primary" outline unelevated @click="loader" />
-                <QuasarButton label="show toast" color="warning" @click="toaster" />
-                <QuasarButton label="show confirm" color="negative" @click="confirm" />
-                <QuasarButton label="show confirm Custom Btn" @click="confirm2" />
-                <QuasarButton label="Navigate to" outline @click="appNavigateTo('/example/image-view')" />
-                <QuasarInput v-model="textModel" style="width: 250px">
+                <BaseButton label="show loading" color="primary" outline unelevated @click="loader" />
+                <BaseButton label="show toast" color="warning" @click="toaster" />
+                <BaseButton label="show confirm" color="negative" @click="confirm" />
+                <BaseButton label="show confirm Custom Btn" @click="confirm2" />
+                <BaseButton label="Navigate to" outline @click="appNavigateTo('/example/image-view')" />
+                <BaseInput v-model="textModel" style="width: 250px">
                     <template #append>
-                        <QuasarButton flat round :icon="biCopy" @click="onCopyText" />
+                        <BaseButton flat round :icon="biCopy" @click="onCopyText" />
                     </template>
-                </QuasarInput>
+                </BaseInput>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

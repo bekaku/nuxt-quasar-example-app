@@ -45,7 +45,7 @@ const onReset = () => {
         <div class="row">
             <div v-if="!screen.sm && !screen.xs"  class="col-12 col-md-6 bg-fansy">
                 <div class="row justify-center items-center" style="height: 100vh;">
-                    <QuasarCard v-if="!screen.sm && !screen.xs" square flat :bordered="false"
+                    <BaseCard v-if="!screen.sm && !screen.xs" square flat :bordered="false"
                         class="q-pb-lg bg-transparent">
                         <q-card-section>
                             <q-carousel v-model="slide" autoplay infinite transition-prev="scale"
@@ -84,12 +84,12 @@ const onReset = () => {
                                 </q-carousel-slide>
                             </q-carousel>
                         </q-card-section>
-                    </QuasarCard>
+                    </BaseCard>
                 </div>
             </div>
             <div class="col-12 col-md-6">
                 <div class="row justify-center items-center" style="height: 100vh;">
-                    <QuasarCard flat :bordered="false" class="q-pa-lg"
+                    <BaseCard flat :bordered="false" class="q-pa-lg"
                         :style="`width: 80%;`">
                         <q-card-section class="text-center">
                             <q-img :src="isDark
@@ -105,13 +105,13 @@ const onReset = () => {
                         </q-card-section>
                         <q-form ref="loginForm" class="q-px-sm" @submit.prevent="onSubmit" @reset="onReset()">
                             <q-card-section>
-                                <QuasarInput v-model="email" :readonly="loading" :dense="false"
+                                <BaseInput v-model="email" :readonly="loading" :dense="false"
                                     :label="t('base.emailOrUsername')" :rules="[required]">
                                     <template #prepend>
                                         <q-icon :name="biPerson" color="grey-9" />
                                     </template>
-                                </QuasarInput>
-                                <QuasarInput v-model="password" class="q-pt-md" :readonly="loading" :dense="false"
+                                </BaseInput>
+                                <BaseInput v-model="password" class="q-pt-md" :readonly="loading" :dense="false"
                                     :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
                                     :rules="[required]">
                                     <template #prepend>
@@ -121,7 +121,7 @@ const onReset = () => {
                                         <q-icon :name="showPassword ? biEye : biEyeSlash" class="cursor-pointer"
                                             color="grey-9" @click="showPassword = !showPassword" />
                                     </template>
-                                </QuasarInput>
+                                </BaseInput>
                                 <div class="text-right">
                                     <BaseLink to="/auth/forgot-password">
                                         {{ t('authen.forgetPassword') }}
@@ -129,7 +129,7 @@ const onReset = () => {
                                 </div>
                             </q-card-section>
                             <q-card-actions class="q-px-lg">
-                                <QuasarButton unelevated :loading="loading" size="lg" color="primary"
+                                <BaseButton unelevated :loading="loading" size="lg" color="primary"
                                     class="full-width text-white" :label="t('authen.login')" type="submit" />
                             </q-card-actions>
                         </q-form>
@@ -155,7 +155,7 @@ const onReset = () => {
                                 </q-btn>
                             </div>
                         </q-card-section>
-                    </QuasarCard>
+                    </BaseCard>
                 </div>
             </div>
         </div>

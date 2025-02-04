@@ -134,8 +134,8 @@ const getOpengraph = async () => {
 }
 </script>
 <template>
-    <QuasarPage class="content-limit">
-        <QuasarCard>
+    <BasePage class="content-limit">
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Fetch data </q-toolbar-title>
@@ -152,31 +152,31 @@ const getOpengraph = async () => {
                 <div style="max-height: 250px; overflow: auto" class="bg-black text-light-green-13">
                     <pre>{{ data }}</pre>
                 </div>
-                <QuasarButton @click="() => refresh()">Refresh data</QuasarButton>
-                <QuasarButton @click="() => clear()">clear data</QuasarButton>
+                <BaseButton @click="() => refresh()">Refresh data</BaseButton>
+                <BaseButton @click="() => clear()">clear data</BaseButton>
                 <q-separator />
                 <div class="text-h5">
                     Axios
                 </div>
-                <QuasarButton @click="fetchData">Fetch data via $axios</QuasarButton>
-                <QuasarButton @click="fetchDataViaComposible">Fetch Data Via Composible</QuasarButton>
+                <BaseButton @click="fetchData">Fetch data via $axios</BaseButton>
+                <BaseButton @click="fetchDataViaComposible">Fetch Data Via Composible</BaseButton>
                 <div class="row">
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarCard flat>
+                        <BaseCard flat>
                             <q-card-section class="q-gutter-y-md">
-                                <QuasarButton outline label="Fetch response API" @click="fetchResponseApi" />
+                                <BaseButton outline label="Fetch response API" @click="fetchResponseApi" />
                                 <SkeletonItem v-if="reaponseApiLoading" show-header :items="5" />
                                 <div v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
                                     <pre>{{ reponseApiItem }}</pre>
                                 </div>
                             </q-card-section>
-                        </QuasarCard>
+                        </BaseCard>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarCard flat>
+                        <BaseCard flat>
                             <q-card-section class="q-gutter-y-md">
-                                <QuasarButton outline label="Fetch response LIST" @click="fetchResponseList" />
+                                <BaseButton outline label="Fetch response LIST" @click="fetchResponseList" />
                                 <SkeletonItem v-if="reponseListLoading" show-header :items="5" />
                                 <div v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
@@ -185,12 +185,12 @@ const getOpengraph = async () => {
                             </pre>
                                 </div>
                             </q-card-section>
-                        </QuasarCard>
+                        </BaseCard>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarCard flat>
+                        <BaseCard flat>
                             <q-card-section class="q-gutter-y-md">
-                                <QuasarButton outline label="Fetch response Object" @click="fetchResponseObject" />
+                                <BaseButton outline label="Fetch response Object" @click="fetchResponseObject" />
                                 <SkeletonItem v-if="reponseObjectLoading" show-header :items="5" />
                                 <div v-else style="max-height: 250px; overflow: auto"
                                     class="bg-black text-light-green-13">
@@ -199,12 +199,12 @@ const getOpengraph = async () => {
                             </pre>
                                 </div>
                             </q-card-section>
-                        </QuasarCard>
+                        </BaseCard>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarCard flat>
+                        <BaseCard flat>
                             <q-card-section class="q-gutter-y-md">
-                                <QuasarButton color="negative" outline label="Fetch ERROR handling"
+                                <BaseButton color="negative" outline label="Fetch ERROR handling"
                                     @click="fetchError" />
 
                                 <SkeletonItem v-if="responseErrorLoading" show-header :items="5" />
@@ -214,21 +214,21 @@ const getOpengraph = async () => {
                                     </pre>
                                 </div>
                             </q-card-section>
-                        </QuasarCard>
+                        </BaseCard>
                     </div>
                 </div>
                 <q-separator />
                 <div class="text-h5">
                     Internal Server API
                 </div>
-                <QuasarButton @click="() => getDataNowFromServer()">Date now from api</QuasarButton>
-                <QuasarButton @click="() => getApiFromServer()">getApiFromServer api</QuasarButton>
+                <BaseButton @click="() => getDataNowFromServer()">Date now from api</BaseButton>
+                <BaseButton @click="() => getApiFromServer()">getApiFromServer api</BaseButton>
                 <div class="text-h5">
                     Retrieve og: and other meta attributes from a resource
                 </div>
-                <QuasarButton outline :loading="ogLoading" label="Fetch Opengraph detail" @click="getOpengraph" />
+                <BaseButton outline :loading="ogLoading" label="Fetch Opengraph detail" @click="getOpengraph" />
                 <LazyBaseOpenGraphItem v-if="ogItem" style="width: 750px;" :item="ogItem" />
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>

@@ -151,33 +151,33 @@ const onItemClick = () => {
 
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section class="q-gutter-md">
                 <div class="text-h6">Menu</div>
                 <q-separator />
-                <QuasarButton :icon="biThreeDots" outline label="Simple menu">
-                    <QuasarDropdownMenu :items="menus" @on-click="onMenuClick" />
-                </QuasarButton>
-                <QuasarButton :icon="biThreeDots" outline label="Submenus">
-                    <QuasarDropdownMenu :items="submenus" @on-click="onMenuClick" />
-                </QuasarButton>
+                <BaseButton :icon="biThreeDots" outline label="Simple menu">
+                    <BaseDropdownMenu :items="menus" @on-click="onMenuClick" />
+                </BaseButton>
+                <BaseButton :icon="biThreeDots" outline label="Submenus">
+                    <BaseDropdownMenu :items="submenus" @on-click="onMenuClick" />
+                </BaseButton>
                 <q-item clickable @click="onItemClick">
                     <q-item-section>
                         Q-item open state
                     </q-item-section>
                     <q-item-section side>
-                        <!-- <QuasarButton dense :icon="biThreeDots" round flat @click="openMenu($event)" />
+                        <!-- <BaseButton dense :icon="biThreeDots" round flat @click="openMenu($event)" />
                         <q-menu v-model="showMenu" cover anchor="top middle">
-                            <QuasarDropdownMenuItem v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
+                            <BaseDropdownMenuItem v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
                                 v-close-popup :item="item" @click="onMenuClick(item.value)" />
                         </q-menu> -->
-                        <QuasarButton :icon="biThreeDots" outline label="Click here" @click="openMenu($event)">
-                            <QuasarDropdownMenu v-model:open="showMenu" :items="menus2" @on-click="onMenuClick" />
-                        </QuasarButton>
+                        <BaseButton :icon="biThreeDots" outline label="Click here" @click="openMenu($event)">
+                            <BaseDropdownMenu v-model:open="showMenu" :items="menus2" @on-click="onMenuClick" />
+                        </BaseButton>
                     </q-item-section>
                 </q-item>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>

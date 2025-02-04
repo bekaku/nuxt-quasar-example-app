@@ -2,72 +2,6 @@
 // https://nuxt.com/modules/quasar
 import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
 export default defineNuxtConfig({
-  // Nuxt 4 directory structure and features
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: {
-    compatibilityVersion: 4,
-  },
-
-  ssr:true,
-  devtools: { enabled: true },
-
-  devServer: {
-    port: 3003
-  },
-
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt', '@nuxt/eslint', '@nuxt/icon'],
-
-  runtimeConfig: {
-    // The private keys which are only available within server-side
-    apiSecret: '123',// can be overridden by NUXT_API_SECRET environment variable
-    // Keys within public, will be also exposed to the client-side
-    public: {
-      apiBase: '/api',//override by NUXT_PUBLIC_API_BASE in .env
-      cdnBase: '/api',
-      apiClient: '',
-      timeOut: 0,
-      appVersion: '',
-      codeVersion: 0,
-      webUrl: '',
-      defaultLocale: 'th',
-      jwtKeyName: 'token',
-      refreshJwtKeyName: 'refresh_token',
-      jwtAges: 30,//days
-    }
-  },
-
-  // css
-  css: [
-    '~/assets/scss/color.scss',
-    '~/assets/scss/app.scss',
-    '~/assets/scss/typography.scss',
-  ],
-
-  i18n: {
-    vueI18n: './i18n.config.ts' // if you are using custom path, default
-  },
-
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          silenceDeprecations: ['import', 'global-builtin', 'legacy-js-api'],
-        },
-        sass: {
-          silenceDeprecations: ['import', 'global-builtin', 'legacy-js-api'],
-        }
-      },
-    },
-  },
-
-  vue: {
-    compilerOptions: {
-      // isCustomElement: (tag) => tag.startsWith('swiper-'),
-      isCustomElement: (tag) =>
-        ['swiper-container', 'swiper-slide'].includes(tag)
-    }
-  },
-
   app: {
     head: {
       title: 'Quasar + Nuxt 3',
@@ -83,7 +17,30 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     }
   },
-
+  compatibilityDate: '2024-12-14',
+  css: [
+    '~/assets/scss/color.scss',
+    '~/assets/scss/app.scss',
+    '~/assets/scss/typography.scss',
+  ],
+  devtools: { enabled: true },
+  devServer: {
+    port: 3003
+  },
+  // Nuxt 4 directory structure and features
+  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
+  future: {
+    compatibilityVersion: 4,
+  },
+  i18n: {
+    locales: [
+      { code: 'en', iso: 'en-US', name: 'English' },
+      { code: 'th', iso: 'th', name: 'ไทย' }
+    ],
+    defaultLocale: 'th',
+    vueI18n: './i18n.config.ts' // if you are using custom path, default
+  },
+  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt', '@nuxt/eslint', '@nuxt/icon'],
   quasar: {
     // Configurable Component Defaults
     appConfigKey: 'nuxtQuasarCustom',
@@ -146,6 +103,42 @@ export default defineNuxtConfig({
       },
     },
   },
-
-  compatibilityDate: '2024-12-14'
+  runtimeConfig: {
+    // The private keys which are only available within server-side
+    apiSecret: '123',// can be overridden by NUXT_API_SECRET environment variable
+    // Keys within public, will be also exposed to the client-side
+    public: {
+      apiBase: '/api',//override by NUXT_PUBLIC_API_BASE in .env
+      cdnBase: '/api',
+      apiClient: '',
+      timeOut: 0,
+      appVersion: '',
+      codeVersion: 0,
+      webUrl: '',
+      defaultLocale: 'th',
+      jwtKeyName: 'token',
+      refreshJwtKeyName: 'refresh_token',
+      jwtAges: 30,//days
+    }
+  },
+  ssr: true,
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: ['import', 'global-builtin', 'legacy-js-api'],
+        },
+        sass: {
+          silenceDeprecations: ['import', 'global-builtin', 'legacy-js-api'],
+        }
+      },
+    },
+  },
+  vue: {
+    compilerOptions: {
+      // isCustomElement: (tag) => tag.startsWith('swiper-'),
+      isCustomElement: (tag) =>
+        ['swiper-container', 'swiper-slide'].includes(tag)
+    }
+  },
 })

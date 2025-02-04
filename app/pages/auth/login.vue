@@ -40,7 +40,7 @@ const onReset = () => {
 
 </script>
 <template>
-    <QuasarPage :padding="false" :class="{ 'bg-white': !isDark, 'app-second-bg-color-theme-dark': isDark }">
+    <BasePage :padding="false" :class="{ 'bg-white': !isDark, 'app-second-bg-color-theme-dark': isDark }">
         <div class="row items-center q-pa-md" style="height: 100vh;">
             <!-- Left Column - Fantasy Background -->
             <div class="col-12 col-md-6 fantasy-bg shadow-5">
@@ -70,13 +70,13 @@ const onReset = () => {
                     </div>
 
                     <q-form ref="loginForm" class="q-gutter-md" @submit.prevent="onSubmit" @reset="onReset()">
-                        <QuasarInput v-model="email" :readonly="loading" :dense="false"
+                        <BaseInput v-model="email" :readonly="loading" :dense="false"
                             :label="t('base.emailOrUsername')" :rules="[required]">
                             <template #prepend>
                                 <q-icon :name="biPerson" color="grey-9" />
                             </template>
-                        </QuasarInput>
-                        <QuasarInput v-model="password" :readonly="loading" :dense="false"
+                        </BaseInput>
+                        <BaseInput v-model="password" :readonly="loading" :dense="false"
                             :type="showPassword ? 'text' : 'password'" :label="t('authen.password')"
                             :rules="[required]">
                             <template #prepend>
@@ -86,7 +86,7 @@ const onReset = () => {
                                 <q-icon :name="showPassword ? biEye : biEyeSlash" class="cursor-pointer" color="grey-9"
                                     @click="showPassword = !showPassword" />
                             </template>
-                        </QuasarInput>
+                        </BaseInput>
 
                         <div class="row items-center justify-between">
                             <q-checkbox v-model="rememberMe" label="Remember me" />
@@ -96,7 +96,7 @@ const onReset = () => {
                         </div>
 
                         <div class="q-px-sm">
-                            <QuasarButton unelevated :loading="loading" size="lg" color="primary"
+                            <BaseButton unelevated :loading="loading" size="lg" color="primary"
                                 class="full-width text-white" :label="t('authen.login')" type="submit" />
                         </div>
                     </q-form>
@@ -127,7 +127,7 @@ const onReset = () => {
                 </div>
             </div>
         </div>
-    </QuasarPage>
+    </BasePage>
 </template>
 <style scoped>
 .fantasy-bg {

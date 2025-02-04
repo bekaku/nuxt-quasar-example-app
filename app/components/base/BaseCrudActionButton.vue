@@ -38,29 +38,29 @@ const onEditBtnClick = (type: ICrudAction) => {
 
     <div v-if="isHaveManagePermission || isHaveViewPermission"
         :class="{ 'q-gutter-xs': !button, 'q-gutter-md': button }">
-        <QuasarButton v-if="editButton && isHaveViewPermission" :loading :icon="biEye" flat dense round :size="size"
+        <BaseButton v-if="editButton && isHaveViewPermission" :loading :icon="biEye" flat dense round :size="size"
             @click="onEditBtnBaseClick('view')">
             <q-tooltip v-if="!button">
                 {{
                     t('base.view')
                 }}
             </q-tooltip>
-        </QuasarButton>
+        </BaseButton>
         <template v-if="editButton && isHaveManagePermission">
             <template v-if="!button">
-                <QuasarButton :icon="biPencil" flat dense round :size="size" type="button"
+                <BaseButton :icon="biPencil" flat dense round :size="size" type="button"
                     @click="onEditBtnClick('edit')">
                     <q-tooltip>
                         {{
                             t('base.edit')
                         }}
                     </q-tooltip>
-                </QuasarButton>
+                </BaseButton>
             </template>
             <template v-else>
-                <QuasarButton v-if="crudAction === 'view'" :loading :icon="biPencil" :unelevated="button" outline
+                <BaseButton v-if="crudAction === 'view'" :loading :icon="biPencil" :unelevated="button" outline
                     :size="size" :label="t('base.edit')" type="button" @click="onEditBtnClick('edit')" />
-                <QuasarButton v-else :loading :icon="biFloppy" unelevated color="primary" :size="size"
+                <BaseButton v-else :loading :icon="biFloppy" unelevated color="primary" :size="size"
                     :label="crudAction == 'edit' || crudAction == 'new' || crudAction == 'copy' ? t('base.save') : undefined"
                     type="submit">
                     <q-tooltip v-if="!button">
@@ -68,26 +68,26 @@ const onEditBtnClick = (type: ICrudAction) => {
                             t('base.edit')
                         }}
                     </q-tooltip>
-                </QuasarButton>
+                </BaseButton>
             </template>
 
         </template>
 
-        <QuasarButton v-if="copyButton && isHaveManagePermission" :loading :icon="biCopy" :flat="!button"
+        <BaseButton v-if="copyButton && isHaveManagePermission" :loading :icon="biCopy" :flat="!button"
             :dense="!button" :size="size" :outline="button"
             :label="!button || crudAction == undefined ? undefined : t('base.copy')" @click="$emit('on-item-copy')">
             <q-tooltip v-if="!button">
                 {{ t('base.copy') }}
             </q-tooltip>
-        </QuasarButton>
-        <QuasarButton v-if="deleteButton && isHaveManagePermission && crudAction!=='copy' && crudAction!=='new'" color="negative" :loading :icon="biTrash"
+        </BaseButton>
+        <BaseButton v-if="deleteButton && isHaveManagePermission && crudAction!=='copy' && crudAction!=='new'" color="negative" :loading :icon="biTrash"
             :flat="!button" :outline="button" :outline-color="!button ? undefined : 'negative'" :dense="!button"
             :round="!button" :size="size" :label="!button || crudAction == undefined ? undefined : t('base.delete')"
             @click="$emit('on-item-delete')">
             <q-tooltip v-if="!button" class="bg-negative">
                 {{ t('base.delete') }}
             </q-tooltip>
-        </QuasarButton>
+        </BaseButton>
         <slot name="additionalBtn" />
     </div>
 </template>

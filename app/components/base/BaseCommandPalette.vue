@@ -94,8 +94,8 @@ const getSelectedBy = (val: T | undefined) => {
 }
 </script>
 <template>
-    <QuasarCard v-bind="$attrs" bordered flat>
-        <QuasarInput v-if="canFilter" v-model="filterText" borderless :dense :debounce="inputDebounce"
+    <BaseCard v-bind="$attrs" bordered flat>
+        <BaseInput v-if="canFilter" v-model="filterText" borderless :dense :debounce="inputDebounce"
             :placeholder="placeholder || t('base.typeForsearch') + '...'">
             <template #prepend>
                 <template v-if="loading">
@@ -107,7 +107,7 @@ const getSelectedBy = (val: T | undefined) => {
                 <slot name="inputAppend" />
             </template>
 
-        </QuasarInput>
+        </BaseInput>
         <q-separator />
         <q-card-section>
             <LazyBaseSpinner v-if="loading" />
@@ -143,5 +143,5 @@ const getSelectedBy = (val: T | undefined) => {
             </q-list>
         </q-card-section>
 
-    </QuasarCard>
+    </BaseCard>
 </template>

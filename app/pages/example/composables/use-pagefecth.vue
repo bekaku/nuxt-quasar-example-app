@@ -40,8 +40,8 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> usePageFetch </q-toolbar-title>
@@ -50,16 +50,16 @@ onMounted(async () => {
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-md">
-                <QuasarCard flat bordered>
+                <BaseCard flat bordered>
                     <q-card-section>
                         <q-toolbar>
                             <q-toolbar-title> Paging </q-toolbar-title>
                             <q-space />
-                            <QuasarButton  flat round :icon="biArrowClockwise" @click="onReload">
+                            <BaseButton  flat round :icon="biArrowClockwise" @click="onReload">
                                 <q-tooltip>
                                     Reload data
                                 </q-tooltip>
-                                </QuasarButton>
+                                </BaseButton>
                         </q-toolbar>
                         <template v-if="!firstLoaded">
                             <base-spinner />
@@ -85,18 +85,18 @@ onMounted(async () => {
                             </template>
                         </template>
                     </q-card-section>
-                </QuasarCard>
+                </BaseCard>
 
-                <QuasarCard class="q-my-md" flat bordered>
+                <BaseCard class="q-my-md" flat bordered>
                     <q-card-section>
                         <q-toolbar>
                             <q-toolbar-title> Loadmore </q-toolbar-title>
                             <q-space />
-                            <QuasarButton  flat round :icon="biArrowClockwise" @click="onReload2">
+                            <BaseButton  flat round :icon="biArrowClockwise" @click="onReload2">
                                 <q-tooltip>
                                     Reload data
                                 </q-tooltip>
-                                </QuasarButton>
+                                </BaseButton>
                         </q-toolbar>
                         <template v-if="!firstLoaded2">
                             <base-spinner />
@@ -129,9 +129,9 @@ onMounted(async () => {
                             </template>
                         </template>
                     </q-card-section>
-                </QuasarCard>
+                </BaseCard>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>

@@ -104,7 +104,7 @@ const {
 const {t}=useLang();
 </script>
 <template>
-  <QuasarPage>
+  <BasePage>
     <BaseCrudList
       :icon="biShieldLock"
       :title="t('model_permission')"
@@ -153,6 +153,6 @@ const {t}=useLang();
     </template>
     -->
     </BaseCrudList>
-  </QuasarPage>
+  </BasePage>
 
 </template>

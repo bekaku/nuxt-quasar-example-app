@@ -6,9 +6,9 @@ onMounted(() => {
 })
 </script>
 <template>
-    <QuasarPage>
+    <BasePage>
 
         <p v-if="$route && $route.params">{{ $route?.params?.group }} - {{ $route.params.id }}</p>
         <NuxtLink to="/">Back</NuxtLink>
-    </QuasarPage>
+    </BasePage>
 </template>

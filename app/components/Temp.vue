@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import type { QuasarFilePicker } from '#components';
+import type { BaseFilePicker } from '#components';
 // const { count = 0, message = 'hello' } = defineProps<{
 //   count?: number
 //   message?: string
@@ -21,7 +21,7 @@ const emit = defineEmits<{
 }>()
 
 // const emit = defineEmits(['on-close', 'update:modelValue']);
-const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof QuasarFilePicker>>('filePickerCustomUiRef');
+const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef');
 const onClick = async (index: number, event: any) => {
   if (event) {
     // event.stopPropagation();

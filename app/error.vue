@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 import { biArrowLeft } from '@quasar/extras/bootstrap-icons';
-import QuasarButton from './components/quasar/QuasarButton.vue';
+import BaseButton from './components/base/BaseButton.vue';
 
 const props = defineProps({
     error: Object as () => NuxtError
@@ -57,7 +57,7 @@ function handleError() {
         <base-result :status="getStatusCode" :title="getStatusText"
             :description="error?.message || 'Looks like you\'ve followed a broken link or entered a URL that doesn\'t exist on this site.'">
             <template #extra>
-                <QuasarCard  v-if="isDevMode()" >
+                <BaseCard  v-if="isDevMode()" >
                     <q-card-section>
                         <q-item v-if="error?.statusCode">
                             <q-item-section>
@@ -87,9 +87,9 @@ function handleError() {
                     </q-card-section>
 
 
-                </QuasarCard>
+                </BaseCard>
                 <div class="text-center q-my-lg">
-                    <QuasarButton outline :icon="biArrowLeft" :label="t('base.back')" @click="handleError" />
+                    <BaseButton outline :icon="biArrowLeft" :label="t('base.back')" @click="handleError" />
                 </div>
                 <!-- <div v-if="error" class="text-h5">{{ error.statusCode }}</div> -->
             </template>

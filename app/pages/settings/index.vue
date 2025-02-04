@@ -91,7 +91,7 @@ const onUpdatePrivateData = () => {
 <template>
     <SettingLayout>
         <template #content>
-            <QuasarCard class="q-px-md">
+            <BaseCard class="q-px-md">
                 <q-card-section>
                     <div class="text-h6">{{ t('base.editPhoto') }}</div>
                 </q-card-section>
@@ -99,19 +99,19 @@ const onUpdatePrivateData = () => {
                     <!-- <q-card v-if="authenStore.auth" class="shadow-up-5">
                         <div :style="coverStyle" />
                         <div class="text-white absolute-right q-pa-md">
-                            <QuasarButton round unelevated color="pink" :icon="biPencilFill"
+                            <BaseButton round unelevated color="pink" :icon="biPencilFill"
                                 @click="onOpenCropperCover">
                                 <q-tooltip>{{ t('base.changeCover') }}</q-tooltip>
-                            </QuasarButton>
+                            </BaseButton>
                         </div>
 
                         <div class="text-white absolute-center">
                             <q-avatar size="120px" style="top: 75px" class="shadow-5">
                                 <q-img spinner-color="white" :src="authenStore.loginedAvatar" />
                                 <div class="absolute-bottom" style="top: 55px">
-                                    <QuasarButton round :icon="biPencilFill" color="pink" @click="onOpenCropper">
+                                    <BaseButton round :icon="biPencilFill" color="pink" @click="onOpenCropper">
                                         <q-tooltip>{{ t('base.changeAvatar') }}</q-tooltip>
-                                    </QuasarButton>
+                                    </BaseButton>
                                 </div>
                             </q-avatar>
                         </div>
@@ -122,16 +122,16 @@ const onUpdatePrivateData = () => {
                         description-style="margin-top:35px">
                         <template #extra>
                             <div class="text-white absolute-right q-pa-md">
-                                <QuasarButton round unelevated color="pink" :icon="biPencilFill"
+                                <BaseButton round unelevated color="pink" :icon="biPencilFill"
                                     @click="onOpenCropperCover">
                                     <q-tooltip>{{ t('base.changeCover') }}</q-tooltip>
-                                </QuasarButton>
+                                </BaseButton>
                             </div>
                             <div class="text-white absolute-center">
                                 <div class="absolute-bottom" style="top: 55px">
-                                    <QuasarButton round :icon="biPencilFill" color="pink" @click="onOpenCropper">
+                                    <BaseButton round :icon="biPencilFill" color="pink" @click="onOpenCropper">
                                         <q-tooltip>{{ t('base.changeAvatar') }}</q-tooltip>
-                                    </QuasarButton>
+                                    </BaseButton>
                                 </div>
                             </div>
                         </template>
@@ -143,24 +143,24 @@ const onUpdatePrivateData = () => {
                     <q-form @submit="onUpdatePrivateData">
                         <div class="row">
                             <div class="col-12 col-md-6 q-pa-md">
-                                <QuasarInput v-model="entityPersonal.fullName" :label="t('base.editName')"
+                                <BaseInput v-model="entityPersonal.fullName" :label="t('base.editName')"
                                     :rules="[required]" />
                             </div>
                             <div class="col-12 col-md-6 q-pa-md">
-                                <QuasarInput v-model="entityPersonal.positionName"
+                                <BaseInput v-model="entityPersonal.positionName"
                                     :label="t('model.user_data.positionName')" :rules="[required]" />
                             </div>
                         </div>
                         <div class="col-12 col-md-12 q-pa-md">
-                            <QuasarChekbox v-model="entityPersonal.autoFollowUser" :label="t('base.other')" />
+                            <BaseChekbox v-model="entityPersonal.autoFollowUser" :label="t('base.other')" />
                         </div>
                         <q-card-actions align="right">
-                            <QuasarButton :disable="!canSubmitUdatePrivateData" unelevated color="primary"
+                            <BaseButton :disable="!canSubmitUdatePrivateData" unelevated color="primary"
                                 :icon="biPencil" :label="t('base.okay')" type="submit" />
                         </q-card-actions>
                     </q-form>
                 </q-card-section>
-            </QuasarCard>
+            </BaseCard>
         </template>
         <BaseImageCropper :title="t('cropAvatar')" :dialog="showAvatarCroper" @on-okay="onUpdateAvatar"
             @on-close="showAvatarCroper = false" />

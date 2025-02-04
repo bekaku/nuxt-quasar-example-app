@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
-import QuasarCard from "~/components/quasar/QuasarCard.vue";
+import BaseCard from "~/components/base/BaseCard.vue";
 //https://github.com/SortableJS/vue.draggable.next
 useHead({
     title: 'Darg drop'
@@ -45,8 +45,8 @@ const onEndDrag = () => {
 }
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard flat bordered>
+    <BasePage>
+        <BaseCard flat bordered>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Darg drop </q-toolbar-title>
@@ -132,14 +132,14 @@ const onEndDrag = () => {
                                         @start="draging3 = true" @end="draging3 = false">
                                         <template #item="{ element, index }">
                                             <div class="q-ma-md text-center">
-                                                <QuasarCard style="width: 150px;" class="cursor-pointer">
+                                                <BaseCard style="width: 150px;" class="cursor-pointer">
                                                     <q-avatar>
                                                         <img :src="element.img">
                                                     </q-avatar>
                                                     <q-card-section>
                                                         {{ element.name }} {{ index }}
                                                     </q-card-section>
-                                                </QuasarCard>
+                                                </BaseCard>
                                             </div>
                                         </template>
                                     </draggable>
@@ -156,8 +156,8 @@ const onEndDrag = () => {
                     </div>
                 </client-only>
             </q-card-section>
-        </QuasarCard>
-    </QuasarPage>
+        </BaseCard>
+    </BasePage>
 </template>
 <style lang="scss" scoped>
 .drag-area {

@@ -260,7 +260,7 @@ const onPerPageChange = async (v: number | undefined) => {
 <template>
     <div class="row" :class="{ 'content-limit': !fullWidth, }">
         <div class="col">
-            <QuasarCard>
+            <BaseCard>
                 <slot name="headerCard" />
                 <q-card-section>
                     <q-toolbar>
@@ -274,12 +274,12 @@ const onPerPageChange = async (v: number | undefined) => {
                         </q-toolbar-title>
                         <div class="row items-center">
                             <q-form v-if="showSearchTextBox && !showSearch" @submit="onKeywordSearch">
-                                <QuasarInput v-model="filterText" rounded clearable :placeholder="t('base.searchHelp3')"
+                                <BaseInput v-model="filterText" rounded clearable :placeholder="t('base.searchHelp3')"
                                     class="q-mr-md" style="width: 350px">
                                     <template #prepend>
                                         <q-icon :name="biSearch" />
                                     </template>
-                                </QuasarInput>
+                                </BaseInput>
                                 <!-- <q-input v-model="filterText" dense outlined rounded clearable style="width: 350px"
                                     :placeholder="t('base.searchHelp3')">
                                     <template #prepend>
@@ -288,15 +288,15 @@ const onPerPageChange = async (v: number | undefined) => {
                                 </q-input> -->
                             </q-form>
                             <slot name="extraBeforeInnerToolbar" />
-                            <QuasarButton v-if="isHaveManagePermission && showNewBtn" class="q-ml-xs"
+                            <BaseButton v-if="isHaveManagePermission && showNewBtn" class="q-ml-xs"
                                 :label="t('base.addNew')" color="primary" unelevated :icon="biPlusCircle"
                                 @click="$emit('on-new-form')">
                                 <q-tooltip>{{ t('base.addNew') }}</q-tooltip>
-                            </QuasarButton>
-                            <QuasarButton v-if="showSearchBtn" class="q-ml-xs" flat round :icon="biSearch"
+                            </BaseButton>
+                            <BaseButton v-if="showSearchBtn" class="q-ml-xs" flat round :icon="biSearch"
                                 @click="showSearch = !showSearch">
                                 <q-tooltip>{{ t('base.search') }}</q-tooltip>
-                            </QuasarButton>
+                            </BaseButton>
                             <base-sort v-if="showSort" :sort="sort" flat round :fields="sortableHeaders"
                                 @on-sort-column="$emit('on-sort', $event)"
                                 @on-sort-mode="$emit('on-sort-mode', $event)" />
@@ -388,7 +388,7 @@ const onPerPageChange = async (v: number | undefined) => {
                                                     searchCol.options?.searchType ==
                                                     ICrudListHeaderOptionSearchType.BOOLEAN
                                                 ">
-                                                    <QuasarChekbox v-model="searchCol.options.searchModel" use-checkbox
+                                                    <BaseChekbox v-model="searchCol.options.searchModel" use-checkbox
                                                         use-label-title :label="t(searchCol.label)" />
                                                 </template>
                                                 <template v-else-if="
@@ -396,7 +396,7 @@ const onPerPageChange = async (v: number | undefined) => {
                                                     ICrudListHeaderOptionSearchType.DATE
                                                 ">
                                                     <template v-if="searchCol.options.searchModel != undefined">
-                                                        <QuasarDatePicker v-model="searchCol.options.searchModel" dense
+                                                        <BaseDatePicker v-model="searchCol.options.searchModel" dense
                                                             :title="t(searchCol.label)" />
                                                     </template>
                                                 </template>
@@ -410,10 +410,10 @@ const onPerPageChange = async (v: number | undefined) => {
                                 <slot name="belowSearchExtra" />
                                 <q-separator />
                                 <q-card-actions align="center">
-                                    <QuasarButton type="submit" outline :icon="biSearch" :label="t('base.okay')" />
-                                    <QuasarButton flat :icon="biX" :label="t('base.close')"
+                                    <BaseButton type="submit" outline :icon="biSearch" :label="t('base.okay')" />
+                                    <BaseButton flat :icon="biX" :label="t('base.close')"
                                         @click="showSearch = false" />
-                                    <QuasarButton flat :icon="biEraser" :label="t('base.clear')"
+                                    <BaseButton flat :icon="biEraser" :label="t('base.clear')"
                                         @click="onClearSearch" />
                                 </q-card-actions>
                             </template>
@@ -440,7 +440,7 @@ const onPerPageChange = async (v: number | undefined) => {
                                                     }}
                                                 </q-tooltip>
                                             </q-checkbox> -->
-                                            <QuasarChekbox v-model="selectedAll" :show-label="false"  @click="onCheckedAll">
+                                            <BaseChekbox v-model="selectedAll" :show-label="false"  @click="onCheckedAll">
                                                 <q-tooltip>
                                                     {{
                                                         !selectedAll
@@ -448,7 +448,7 @@ const onPerPageChange = async (v: number | undefined) => {
                                                             : t('base.deselectAll')
                                                     }}
                                                 </q-tooltip>
-                                            </QuasarChekbox>
+                                            </BaseChekbox>
                                         </th>
                                         <template v-for="(tblHeader, tblIndex) in fillableHeaders"
                                             :key="`tblHeader-${tblIndex}`">
@@ -678,7 +678,7 @@ const onPerPageChange = async (v: number | undefined) => {
                     <base-paging v-if="crudPages && showPaging && crudPages.totalPages > 0" v-model="crudPages"
                         :boundary-numbers="false" @update-current="onPageChange" @update-perpage="onPerPageChange" />
                 </slot>
-            </QuasarCard>
+            </BaseCard>
         </div>
     </div>
 </template>

@@ -67,11 +67,11 @@ const onClickItem = (val: string | undefined) => {
 </script>
 <template>
     <BaseDialog v-model="modelValue" :show-toolbar="false" dialog-style="width: 756px; max-width: 80vw;">
-        <quasar-command-palette v-model="commandPaletteModel" :loading="loading" class="q-pt-sm" :multiple="false"
+        <BaseCommandPalette v-model="commandPaletteModel" :loading="loading" class="q-pt-sm" :multiple="false"
             :items="menuItems" @on-click="onClickItem">
             <template #inputAppend>
-                <QuasarButton round :icon="biX" @click="modelValue = false" />
+                <BaseButton round :icon="biX" @click="modelValue = false" />
             </template>
-        </quasar-command-palette>
+        </BaseCommandPalette>
     </BaseDialog>
 </template>

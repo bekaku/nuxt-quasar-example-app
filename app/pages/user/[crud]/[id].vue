@@ -136,7 +136,7 @@ const onChangePassword = async () => {
 }
 </script>
 <template>
-    <QuasarPage>
+    <BasePage>
         <BaseCrudForm :icon="biPerson" :title="t('model_user')" :crud-name="crudName" :crud-action="crudAction"
             :crud-entity="crudEntity" :list-permission="[UserPermission.list]"
             :manage-permission="[UserPermission.manage]" :loading="loading" @on-back="onBack" @on-submit="onSubmit"
@@ -147,21 +147,21 @@ const onChangePassword = async () => {
                         <LazyBaseAvatar size="125px" rounded :src="crudEntity.avatar.thumbnail" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarInput v-model="crudEntity.email" :edit-mode="isEditMode" :label="t('model_user_email')"
+                        <BaseInput v-model="crudEntity.email" :edit-mode="isEditMode" :label="t('model_user_email')"
                             :readonly="loading" type="email" :rules="[required, requireEmail]" :maxlength="100" counter>
                             <template #prepend>
                                 <q-icon :name="biEnvelope" />
                             </template>
-                        </QuasarInput>
+                        </BaseInput>
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarInput v-model="crudEntity.username" :edit-mode="isEditMode"
+                        <BaseInput v-model="crudEntity.username" :edit-mode="isEditMode"
                             :label="t('model_user_username')" :readonly="loading" :rules="[requireUsername]"
                             :maxlength="20" counter>
                             <template #prepend>
                                 <q-icon :name="biPerson" />
                             </template>
-                        </QuasarInput>
+                        </BaseInput>
                         <q-banner class="q-my-sm" :class="isDark ? 'bg-grey-9' : 'bg-grey-3'" dense>
                             <template #avatar>
                                 <q-icon :name="biInfoCircle" color="primary" />
@@ -176,20 +176,20 @@ const onChangePassword = async () => {
                         </q-banner>
                     </div>
                     <div v-if="crudAction == 'new'" class="col-12 col-md-6 q-pa-md">
-                        <QuasarInput v-model="crudEntity.password" type="password" :edit-mode="isEditMode"
+                        <BaseInput v-model="crudEntity.password" type="password" :edit-mode="isEditMode"
                             :label="t('model_user_login_password')" :readonly="loading" :rules="[required]">
                             <template #prepend>
                                 <q-icon :name="biKey" />
                             </template>
-                        </QuasarInput>
+                        </BaseInput>
 
                     </div>
                     <div v-if="crudAction == 'view' || crudAction == 'edit'" class="col-12 col-md-6 q-pa-md">
-                        <QuasarButton :label="t('base.changePassword')" color="primary" flat :icon="biKey"
+                        <BaseButton :label="t('base.changePassword')" color="primary" flat :icon="biKey"
                             @click="showChangePasswordForm = true" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <QuasarChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('base.enable')" />
+                        <BaseChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('base.enable')" />
                     </div>
                 </div>
                 <q-separator />
@@ -200,7 +200,7 @@ const onChangePassword = async () => {
                             {{ t('model_role') }}
                         </div>
                         <q-card-section>
-                            <QuasarInput v-model="filterText" :label="t('base.search')" type="text">
+                            <BaseInput v-model="filterText" :label="t('base.search')" type="text">
                                 <template #prepend>
                                     <q-checkbox v-if="isEditMode" v-model="selectedAll" @click="onCheckedAll">
                                         <q-tooltip>
@@ -215,7 +215,7 @@ const onChangePassword = async () => {
                                 <template #append>
                                     <q-icon :name="biSearch" />
                                 </template>
-                            </QuasarInput>
+                            </BaseInput>
                             <BaseScrollArea height="250px">
                                 <q-list v-if="filteredList.length > 0" dense>
                                     <q-item v-for="(p, index) in filteredList" :key="index" v-ripple tag="label">
@@ -269,5 +269,5 @@ const onChangePassword = async () => {
                 v-model:logout-all-device="logoutAllDevice" v-model:loading="loading" show-current-password show-logout
                 :submit-label="t('updatePassword')" action-align="left" @on-submit="onChangePassword" />
         </BaseDialog>
-    </QuasarPage>
+    </BasePage>
 </template>

@@ -230,8 +230,8 @@ watch(districtSeleted, () => {
 })
 </script>
 <template>
-    <QuasarPage>
-        <QuasarCard>
+    <BasePage>
+        <BaseCard>
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Select </q-toolbar-title>
@@ -246,7 +246,7 @@ watch(districtSeleted, () => {
                         <div class="text-h5 q-my-sm">
                             Single Select
                         </div>
-                        <quasar-select v-model="singleModel" required can-filter clearable :items="simpleItems" dense
+                        <BaseSelect v-model="singleModel" required can-filter clearable :items="simpleItems" dense
                             :multiple="false" label="Select Single" />
                         <p>simpleModel : {{ singleModel }}</p>
                     </div>
@@ -254,7 +254,7 @@ watch(districtSeleted, () => {
                         <div class="text-h5 q-my-sm">
                             Single Avatar Select
                         </div>
-                        <quasar-select v-model="singleModel2" can-filter clearable :items="simpleItems2" dense
+                        <BaseSelect v-model="singleModel2" can-filter clearable :items="simpleItems2" dense
                             :multiple="false" label="Select Multiple" />
                         <p>singleModel2 : {{ singleModel2 }}</p>
                     </div>
@@ -262,7 +262,7 @@ watch(districtSeleted, () => {
                         <div class="text-h5 q-my-sm">
                             Multiple Select
                         </div>
-                        <quasar-select v-model="multipleModel" can-filter clearable :items="simpleItems2" dense
+                        <BaseSelect v-model="multipleModel" can-filter clearable :items="simpleItems2" dense
                             use-chips multiple label="Select Multiple" />
                         <p>multipleModel : {{ multipleModel }}</p>
                     </div>
@@ -270,7 +270,7 @@ watch(districtSeleted, () => {
                         <div class="text-h5 q-my-sm">
                             Select Alt
                         </div>
-                        <quasar-select-alt v-model="multipleAnyModel" :items="simpleItems3" multiple dense
+                        <BaseSelectAlt v-model="multipleAnyModel" :items="simpleItems3" multiple dense
                             label="Select Any" option-label="name" option-value="id" />
                         <p>multipleAnyModel : {{ multipleAnyModel }}</p>
                     </div>
@@ -278,7 +278,7 @@ watch(districtSeleted, () => {
                         <div class="text-h5 q-my-sm">
                             Lazy loading, Virtual Scroller
                         </div>
-                        <quasar-select v-model="singleLazyModel" can-filter clearable :items="lazyItems" dense
+                        <BaseSelect v-model="singleLazyModel" can-filter clearable :items="lazyItems" dense
                             :multiple="false" lazy :input-debounce="300" :lazy-loading="lazyLoading"
                             label="Select lazy Single" :no-options-text="t('base.typeForsearch')"
                             @on-filter="onLazyFilter" @on-scroll="onLazyScroll" />
@@ -292,15 +292,15 @@ watch(districtSeleted, () => {
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-4 q-pa-md">
-                        <quasar-select v-model="provinceSeleted" can-filter :items="provinceItems" dense
+                        <BaseSelect v-model="provinceSeleted" can-filter :items="provinceItems" dense
                             :lazy-loading="cascadeLoading" :multiple="false" label="Province" />
                     </div>
                     <div class="col-12 col-md-4 q-pa-md">
-                        <quasar-select v-model="districtSeleted" can-filter :items="districtItems" dense
+                        <BaseSelect v-model="districtSeleted" can-filter :items="districtItems" dense
                             :lazy-loading="cascadeLoading" :multiple="false" label="District" />
                     </div>
                     <div class="col-12 col-md-4 q-pa-md">
-                        <quasar-select v-model="subdistrictSeleted" can-filter :items="subdistrictItems" dense
+                        <BaseSelect v-model="subdistrictSeleted" can-filter :items="subdistrictItems" dense
                             :lazy-loading="cascadeLoading" :multiple="false" label="Sub District" />
                     </div>
                 </div>
@@ -311,29 +311,29 @@ watch(districtSeleted, () => {
 
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <quasar-command-palette v-model="commandPaletteModel" multiple :items="items3" />
+                        <BaseCommandPalette v-model="commandPaletteModel" multiple :items="items3" />
                     </div>
                     <div class="col-12 col-md-6 q-px-md">
                         <div class="text-h5 q-my-sm">
                             Command palette dialog {{ commandPaletteModel }}
                         </div>
-                        <quasar-button outline label="Open Command palette dialog"
+                        <BaseButton outline label="Open Command palette dialog"
                             @click="showCommandPaletteDialog = true" />
                     </div>
                 </div>
 
 
             </q-card-section>
-        </QuasarCard>
+        </BaseCard>
 
         <BaseDialog v-model="showCommandPaletteDialog" :show-toolbar="false"
             dialog-style="width: 756px; max-width: 80vw;">
-            <quasar-command-palette v-model="commandPaletteModel" class="q-pt-sm" multiple :items="items3">
+            <BaseCommandPalette v-model="commandPaletteModel" class="q-pt-sm" multiple :items="items3">
                 <template #inputAppend>
-                    <QuasarButton round :icon="biX" @click="showCommandPaletteDialog=false" />
+                    <BaseButton round :icon="biX" @click="showCommandPaletteDialog=false" />
                 </template>
-            </quasar-command-palette>
+            </BaseCommandPalette>
         </BaseDialog>
-    </QuasarPage>
+    </BasePage>
 </template>
 <style lang="scss" scoped></style>
