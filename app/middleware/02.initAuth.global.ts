@@ -15,8 +15,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     // if (import.meta.server) return
 
     // if (AuthNoInitialPath.includes(to.path)) return
-    if (to.name == undefined) return
-    if (typeof to.name == 'string' && AuthNoInitialPage.includes(to.name)) return
+    if (to.name == undefined || (typeof to.name !== 'string')) return
+    const baseRouteName = to?.name?.replace(/___[a-z]{2}$/, '');
+    if (typeof to.name == 'string' && AuthNoInitialPage.includes(baseRouteName)) return
 
     const authenStore = useAuthenStore();
     // Skip if user already loaded
@@ -48,7 +49,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
             //     await initialAppNav();
             // }
 
-            if(response.data.permissions&& response.data.permissions.length>0){
+            if (response.data.permissions && response.data.permissions.length > 0) {
                 appStore.setPermissions(response.data.permissions);
             }
             await initialAppNav();

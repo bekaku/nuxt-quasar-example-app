@@ -103,8 +103,7 @@ const onCustomRemove2 = (index: number) => {
                                     @on-file-add="onCustomFileAdd2" />
 
 
-
-                                <q-input v-model="message" outlined type="textarea" autogrow label="Type message">
+                                <q-input v-model="message" dense outlined type="textarea" autogrow label="Type message">
                                     <template v-if="authenStore?.auth?.avatar?.thumbnail" #prepend>
                                         <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
                                     </template>

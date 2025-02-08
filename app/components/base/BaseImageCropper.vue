@@ -158,8 +158,7 @@ import { blobToFile } from '~/utils/fileUtil';
   );
 </script>
   <template>
-    <q-dialog v-model="show" persistent :maximized="maximizedToggle" transition-show="slide-up"
-      transition-hide="slide-down">
+    <q-dialog v-model="show" persistent :maximized="maximizedToggle">
       <q-card style="min-width: 80%" flat bordered>
         <q-bar class="bg-transparent q-my-xs">
           <q-icon :name="biCrop" />
@@ -177,10 +176,10 @@ import { blobToFile } from '~/utils/fileUtil';
             <q-tooltip>{{ t('base.close') }}</q-tooltip>
           </q-btn>
         </q-bar>
-        <div class="row bg-grey-1">
+        <div class="row">
           <div class="col-12 col-md-5">
             <q-card-section>
-              <q-file v-model="originalimagFile" outlined bottom-slots :label="t('base.chooseFile')" counter
+              <q-file v-model="originalimagFile" dense outlined bottom-slots :label="t('base.chooseFile')" counter
                 max-files="1" accept=".jpg, .png, image/*" :max-file-size="1048576 * 10" @rejected="onRejected"
                 @update:model-value="onFileAdded">
                 <template #prepend>

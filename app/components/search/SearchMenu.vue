@@ -70,7 +70,7 @@ const onClickItem = (val: string | undefined) => {
         <BaseCommandPalette v-model="commandPaletteModel" :loading="loading" class="q-pt-sm" :multiple="false"
             :items="menuItems" @on-click="onClickItem">
             <template #inputAppend>
-                <BaseButton round :icon="biX" @click="modelValue = false" />
+                <BaseButton round flat :icon="biX" @click="modelValue = false" />
             </template>
         </BaseCommandPalette>
     </BaseDialog>

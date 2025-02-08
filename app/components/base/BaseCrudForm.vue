@@ -67,6 +67,9 @@ const onItemClick = (/*type: ICrudAction*/) => {
         emit('on-edit-enable')
     }
 }
+const onSubmit=()=>{
+    emit('on-submit')
+}
 </script>
 <template>
     <div class="row" :class="{ 'content-limit': !fullWidth, }">
@@ -97,7 +100,8 @@ const onItemClick = (/*type: ICrudAction*/) => {
                         </q-toolbar>
                     </slot>
                     <slot name="crudFrom">
-                        <q-form class="q-gutter-md" @submit="$emit('on-submit')">
+                        <!-- <q-form class="q-gutter-md" @submit="$emit('on-submit')"> -->
+                        <q-form class="q-gutter-md" @submit="onSubmit">
                             <slot name="crudFromContent" />
                             <slot name="crudAction">
                                 <q-separator />

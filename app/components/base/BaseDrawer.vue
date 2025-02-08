@@ -43,14 +43,17 @@ onBeforeUnmount(() => {
         class="drawer-bg" @mouseover="miniState = false" @mouseout="miniState = true">
         <q-scroll-area class="fit">
             <div v-show="!miniState || appStore.leftDrawerOpen">
-                <!-- <q-input v-model="searchText" class="q-pa-md" outlined dense>
-                    <template #prepend>
-                        <q-icon :name="biSearch" size="xs" />
-                    </template>
-<template #append>
-                         <q-icon :name="biCommand" size="xs" />
-                   </template>
-</q-input> -->
+                <div class="row justify-center q-pa-sm">
+                    <q-btn flat round no-caps :ripple="false" to="/">
+                        <q-avatar style="height: auto; width: 45px" square>
+                            <img alt="logo" :src="!isDark
+                                ? '/logo/logo-black.png'
+                                : '/logo/logo-white.png'
+                                ">
+                        </q-avatar>
+                    </q-btn>
+                </div>
+
                 <q-item clickable dense class="search-item"
                     :class="{ 'bg-blue-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }"
                     @click="onOpenSearch">
@@ -104,6 +107,6 @@ onBeforeUnmount(() => {
 .search-item {
     padding: 10px;
     margin: 10px 10px 0 10px;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 </style>

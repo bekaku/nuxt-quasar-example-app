@@ -27,7 +27,7 @@ export enum ICrudListHeaderOptionSearchType {
     DATE,
     DATETIME,
 }
-
+export type IconSet = 'nuxt' | 'quasar';
 export type Date = string;
 export type SearchOperation = ':' | '>' | '>=' | '<' | '<=' | '=' | '!=';
 export type AppColor = 'primary' | 'secondary' | 'accent' | 'dark' | 'positive' | 'negative' | 'info' | 'warning' | 'black' | 'white'
@@ -294,6 +294,7 @@ export interface ICrudListHeaderOption {
     func?: any;
     trueIcon?: string;
     falseIcon?: string;
+    clickable?: boolean;
 }
 export interface ICrudListHeader {
     column?: string;

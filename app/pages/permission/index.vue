@@ -55,6 +55,7 @@ const headerItems: ICrudListHeader[] = [
       align: 'center',
       searchType: ICrudListHeaderOptionSearchType.BOOLEAN,
       searchModel: false,
+      clickable: true,
       searchOperation: '=',
     },
   },
@@ -102,6 +103,16 @@ const {
   },
 );
 const {t}=useLang();
+
+const onColClick = (event: any, index: number, headerOption: ICrudListHeader, colValue: any) => {
+    console.log('pages/permission/index.vue : onColClick');
+    console.log({
+      index,
+      event,
+      headerOption,
+      colValue,
+    });
+}
 </script>
 <template>
   <BasePage>
@@ -127,6 +138,7 @@ const {t}=useLang();
       @on-keyword-search="onKeywordSearch"
       @on-item-delete="onItemDelete"
       @on-new-form="onNewForm"
+      @on-col-click="onColClick"
     >
     <!--
     <template #additionalBaseTool>

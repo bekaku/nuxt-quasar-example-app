@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { biCheck2, biPeople, biSearch, biShieldCheck, biShieldLock, biX } from '@quasar/extras/bootstrap-icons';
+import { biPeople, biShieldCheck, biShieldLock, biTrash } from '@quasar/extras/bootstrap-icons';
 import PermissionService from '~/api/PermissionService';
 import { RoleFormBreadcrumb } from '~/libs/appBreadcrumbs';
 import { RolePermission } from '~/libs/appPermissions';
+import type { LabelValue } from '~/types/common';
 import type { Permission, Role } from '~/types/models';
 const { t } = useLang();
 const { required } = useValidation();
@@ -42,8 +43,8 @@ const {
   entity
 );
 const permissions = ref<Permission[]>([]);
-const filterText = ref('');
 const selectedAll = ref(false);
+const permissionItems = ref<LabelValue<number>[]>([]);
 onMounted(() => {
   onLoadData();
 });
@@ -52,6 +53,39 @@ const onLoadData = async () => {
   const response = await findAllBackendPermission();
   if (response) {
     permissions.value = response;
+    permissionItems.value.push({
+      label: t('crudPermission'),
+      children: response.filter(c => c.operationType === 1)
+        .map(c => {
+          return {
+            label: c.description || 'unknow',
+            value: c.id || 0,
+            description: c.code
+          }
+        })
+    })
+    // permissionItems.value.push({
+    //   label: t('reportPermission'),
+    //   children: response.filter(c => c.operationType === 2)
+    //     .map(c => {
+    //       return {
+    //         label: c.description || 'unknow',
+    //         value: c.id || 0,
+    //         description: c.code
+    //       }
+    //     })
+    // })
+    // permissionItems.value.push({
+    //   label: t('otherPermission'),
+    //   children: response.filter(c => c.operationType === 3)
+    //     .map(c => {
+    //       return {
+    //         label: c.description || 'unknow',
+    //         value: c.id || 0,
+    //         description: c.code
+    //       }
+    //     })
+    // })
   }
 
   // const frontends = await findAllFrontendPermission();
@@ -62,45 +96,8 @@ const onLoadData = async () => {
   await preFectData();
   appLoading(false);
 };
-const filteredList = computed(() => {
-  const list = permissions.value;
-  const search = filterText.value
-    ? filterText.value.toLowerCase().trim()
-    : null;
-  if (!search) {
-    return list;
-  }
-  return list.filter(
-    (c: Permission) =>
-      c.description && c.description.toString().toLowerCase().includes(search),
-  );
-});
-const filteredCrudList = computed(() =>
-  filteredList.value.filter(
-    (c: Permission) => c.operationType === 1 && !c.frontEnd,
-  ),
-);
-const filteredReportList = computed(() =>
-  filteredList.value.filter(
-    (c: Permission) => c.operationType === 2 && !c.frontEnd,
-  ),
-);
-const filteredOtherList = computed(() =>
-  filteredList.value.filter(
-    (c: Permission) => c.operationType === 3 && !c.frontEnd,
-  ),
-);
-// const filteredFrontendList = computed(() =>
-//   filteredList.value.filter((c: Permission) => c.frontEnd),
-// );
-
-const findDisplayPermissionById = (id: number) => {
-  const item = permissions.value.find((p) => p.id === id);
-  return item && item.description ? item.description : 'unknown';
-};
-const findCodePermissionById = (id: number) => {
-  const item = permissions.value.find((p) => p.id === id);
-  return item && item.code ? item.code : 'unknown';
+const getPermissionById = (id: number): LabelValue<number> | undefined => {
+  return permissionItems.value.find((p) => p.children?.find(r => r.value === id))?.children?.find(t => t.value == id);
 };
 const removePermission = (index: number) => {
   if (crudEntity.value && crudEntity.value.selectdPermissions) {
@@ -132,12 +129,8 @@ const updateSelectedAll = (val: boolean) => {
       <template #crudFromContent>
         <div class="row">
           <div class="col-12 q-pa-md">
-            <BaseInput v-model="crudEntity.name" :readonly="loading" :edit-mode="isEditMode" :label="t('model.role.name')" type="text"
-              :rules="[required]" :maxlength="125" counter>
-              <template #hint>
-                <span class="text-negative">*</span>
-              </template>
-            </BaseInput>
+            <BaseInput v-model="crudEntity.name" required :readonly="loading" :edit-mode="isEditMode"
+              :label="t('model.role.name')" type="text" :rules="[required]" :maxlength="125" counter />
           </div>
           <div class="col-12 col-md-4  q-px-md q-gutter-md">
             <BaseChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
@@ -146,14 +139,12 @@ const updateSelectedAll = (val: boolean) => {
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <div class="q-px-md">
-              <q-icon :name="biShieldLock" size="sm" color="negative" />
-              {{ t('model_permission') }}
-            </div>
+            <BaseTextHeader :icon="biShieldLock" :label="t('model_permission')" />
             <q-card-section>
-              <BaseInput v-model="filterText" :label="t('base.search')" type="text">
-                <template #prepend>
-                  <q-checkbox v-if="isEditMode" v-model="selectedAll" @click="onCheckedAll">
+              <BaseCommandPalette v-model="crudEntity.selectdPermissions" :readonly="!isEditMode" multiple
+                :items="permissionItems" use-checkbox>
+                <template #inputAppend>
+                  <BaseChekbox v-if="isEditMode" v-model="selectedAll" :show-label="false" @click="onCheckedAll">
                     <q-tooltip>
                       {{
                         !selectedAll
@@ -161,136 +152,26 @@ const updateSelectedAll = (val: boolean) => {
                           : t('base.deselectAll')
                       }}
                     </q-tooltip>
-                  </q-checkbox>
+                  </BaseChekbox>
                 </template>
-                <template #append>
-                  <q-icon :name="biSearch" />
-                </template>
-              </BaseInput>
-              <BaseScrollArea height="450px">
-                <q-list v-if="filteredList.length > 0" dense>
-                  <q-item-label header>{{ t('crudPermission') }}</q-item-label>
-                  <q-separator spaced />
-                  <q-item v-for="(p, index) in filteredCrudList" :key="index" v-ripple tag="label">
-                    <q-item-section avatar>
-                      <q-checkbox v-model="crudEntity.selectdPermissions" :disable="!isEditMode" :val="p.id" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{
-                        p.description ? p.description : 'unknown'
-                      }}</q-item-label>
-                      <q-item-label caption>
-                        {{
-                          p.code
-                        }}
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item-label header>{{
-                    t('reportPermission')
-                  }}</q-item-label>
-                  <q-separator spaced />
-                  <q-item v-for="(r, index) in filteredReportList" :key="index" v-ripple tag="label">
-                    <q-item-section avatar>
-                      <q-checkbox v-model="crudEntity.selectdPermissions" :val="r.id" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{
-                        r.description ? r.description : 'unknown'
-                      }}</q-item-label>
-                      <q-item-label caption>
-                        {{
-                          r.code
-                        }}
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item-label header>{{ t('otherPermission') }}</q-item-label>
-                  <q-separator spaced />
-                  <q-item v-for="(o, index) in filteredOtherList" :key="index" v-ripple tag="label">
-                    <q-item-section avatar>
-                      <q-checkbox v-model="crudEntity.selectdPermissions" :val="o.id" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{
-                        o.description ? o.description : 'unknown'
-                      }}</q-item-label>
-                      <q-item-label caption>
-                        {{
-                          o.code
-                        }}
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <!-- <q-item-label header>Frontend</q-item-label>
-                  <q-separator spaced />
-                  <q-item v-for="(f, index) in filteredFrontendList" :key="index" v-ripple tag="label">
-                    <q-item-section avatar>
-                      <q-checkbox v-model="crudEntity.selectdPermissions" :val="f.id" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{
-                        f.description ? f.description : 'unknown'
-                        }}</q-item-label>
-                      <q-item-label caption>
-                        {{
-                          f.code
-                        }}
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item> -->
-                </q-list>
-                <template v-else>
-                  <base-result status="empty" :description="t('error.dataNotfound')" />
-                </template>
-              </BaseScrollArea>
+              </BaseCommandPalette>
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <div class="q-px-md">
-              <q-icon color="positive" :name="biShieldCheck" size="sm" />
-              {{ t('permissionGrant') }}
-            </div>
+            <BaseTextHeader :icon="biShieldCheck" :label="t('permissionGrant')" />
             <q-card-section>
               <BaseScrollArea height="450px">
-                <q-list v-if="crudEntity.selectdPermissions.length > 0" dense>
-                  <q-item
-                    v-for="(s, index) in crudEntity.selectdPermissions"
-                    :key="index"
-                    v-ripple
-                  >
-                    <q-item-section avatar>
-                      <q-icon color="primary" :name="biCheck2" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{
-                        findDisplayPermissionById(s)
-                      }}</q-item-label>
-                        <q-item-label caption>{{
-                          findCodePermissionById(s)
-                        }}
-                      </q-item-label>
-                    </q-item-section>
-                    <q-item-section v-if="isEditMode" side>
-                      <q-btn
-                        flat
-                        round
-                        color="negative"
-                        :icon="biX"
-                        @click="removePermission(index)"
-                      />
-                    </q-item-section>
-                  </q-item>
+                <q-list v-if="crudEntity.selectdPermissions.length > 0">
+                  <template v-for="(s, index) in crudEntity.selectdPermissions" :key="`${index}-${s}`">
+                    <BaseLabelValueItem v-if="getPermissionById(s)" :item="getPermissionById(s)">
+                      <template v-if="isEditMode" #end>
+                        <BaseButton flat :icon="biTrash" round text-color="negative" @click="removePermission(index)" />
+                      </template>
+                    </BaseLabelValueItem>
+                  </template>
                 </q-list>
                 <template v-else>
-                  <base-result
-                    status="empty"
-                    icon-size="55px"
-                    :description="t('permissionNotFound')"
-                  />
+                  <base-result status="empty" :description="t('permissionNotFound')" />
                 </template>
               </BaseScrollArea>
             </q-card-section>

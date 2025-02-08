@@ -330,7 +330,7 @@ watch(districtSeleted, () => {
             dialog-style="width: 756px; max-width: 80vw;">
             <BaseCommandPalette v-model="commandPaletteModel" class="q-pt-sm" multiple :items="items3">
                 <template #inputAppend>
-                    <BaseButton round :icon="biX" @click="showCommandPaletteDialog=false" />
+                    <BaseButton flat round :icon="biX" @click="showCommandPaletteDialog=false" />
                 </template>
             </BaseCommandPalette>
         </BaseDialog>

@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import {
-    biPerson,
-    biSearch,
+    biCheckCircle,
     biEnvelope,
-    biCheck,
-    biX,
-    biKey,
-    biPeople,
     biInfoCircle,
+    biKey,
     biPencil,
+    biPeople,
+    biPerson,
+    biTrash
 } from '@quasar/extras/bootstrap-icons';
 import RoleService from '~/api/RoleService';
 import UserService from '~/api/UserService';
 import { UserFormBreadcrumb } from '~/libs/appBreadcrumbs';
 import { UserPermission } from '~/libs/appPermissions';
-import type { UserDto, Role } from '~/types/models';
+import type { LabelValue } from '~/types/common';
+import type { Role, UserDto } from '~/types/models';
 
 definePageMeta({
     pageName: 'model_user',
@@ -29,7 +29,6 @@ const { isDark } = useTheme();
 const { findAllBackendRole } = RoleService();
 const { updateUserPassword } = UserService();
 const roles = ref<Role[]>([]);
-const filterText = ref('');
 const selectedAll = ref(false);
 // update user password
 const showChangePasswordForm = ref(false);
@@ -64,6 +63,7 @@ const {
     },
     initialEntity
 );
+const roleItems = ref<LabelValue<number>[]>([]);
 onMounted(() => {
     onLoadData();
 });
@@ -72,26 +72,18 @@ const onLoadData = async () => {
     const res = await findAllBackendRole();
     if (res) {
         roles.value = res;
-
+        for (const r of res) {
+            roleItems.value.push({
+                label: r.name,
+                value: r.id || 0,
+            })
+        }
     }
     await preFectData();
     appLoading(false);
 };
-const filteredList = computed(() => {
-    const list = roles.value;
-    const search = filterText.value
-        ? filterText.value.toLowerCase().trim()
-        : null;
-    if (!search) {
-        return list;
-    }
-    return list.filter(
-        (c: Role) => c.name && c.name.toString().toLowerCase().includes(search),
-    );
-});
-const findDisplayRoleById = (id: number) => {
-    const item = roles.value.find((p) => p.id === id);
-    return item && item.name ? item.name : 'unknown';
+const getRoleById = (id: number): LabelValue<number> | undefined => {
+    return roleItems.value.find((p) => p.value === id);
 };
 const removeRole = (index: number) => {
     if (crudEntity.value && crudEntity.value.selectedRoles) {
@@ -185,7 +177,7 @@ const onChangePassword = async () => {
 
                     </div>
                     <div v-if="crudAction == 'view' || crudAction == 'edit'" class="col-12 col-md-6 q-pa-md">
-                        <BaseButton :label="t('base.changePassword')" color="primary" flat :icon="biKey"
+                        <BaseButton :label="t('base.changePassword')" :icon="biKey"
                             @click="showChangePasswordForm = true" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
@@ -195,14 +187,13 @@ const onChangePassword = async () => {
                 <q-separator />
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <div class="q-px-md">
-                            <q-icon :name="biPeople" size="sm" />
-                            {{ t('model_role') }}
-                        </div>
+                        <BaseTextHeader :icon="biPeople" :label="t('model_role')" />
                         <q-card-section>
-                            <BaseInput v-model="filterText" :label="t('base.search')" type="text">
-                                <template #prepend>
-                                    <q-checkbox v-if="isEditMode" v-model="selectedAll" @click="onCheckedAll">
+                            <BaseCommandPalette v-model="crudEntity.selectedRoles" :readonly="!isEditMode" multiple
+                                scroll-height="200px" use-checkbox :items="roleItems">
+                                <template #inputAppend>
+                                    <BaseChekbox v-if="isEditMode" v-model="selectedAll" :show-label="false"
+                                        @click="onCheckedAll">
                                         <q-tooltip>
                                             {{
                                                 !selectedAll
@@ -210,48 +201,24 @@ const onChangePassword = async () => {
                                                     : t('base.deselectAll')
                                             }}
                                         </q-tooltip>
-                                    </q-checkbox>
+                                    </BaseChekbox>
                                 </template>
-                                <template #append>
-                                    <q-icon :name="biSearch" />
-                                </template>
-                            </BaseInput>
-                            <BaseScrollArea height="250px">
-                                <q-list v-if="filteredList.length > 0" dense>
-                                    <q-item v-for="(p, index) in filteredList" :key="index" v-ripple tag="label">
-                                        <q-item-section avatar>
-                                            <q-checkbox v-model="crudEntity.selectedRoles" :disable="!isEditMode"
-                                                :val="p.id" />
-                                        </q-item-section>
-                                        <q-item-section>
-                                            <q-item-label>{{
-                                                p.name ? p.name : 'unknown'
-                                                }}</q-item-label>
-                                        </q-item-section>
-                                    </q-item>
-                                </q-list>
-                            </BaseScrollArea>
+                            </BaseCommandPalette>
                         </q-card-section>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="q-px-md">
-                            <q-icon color="positive" :name="biCheck" size="sm" />
-                            {{ t('userRoleSelected') }}
-                        </div>
+                        <BaseTextHeader :icon="biCheckCircle" :label="t('userRoleSelected')" />
                         <q-card-section v-if="crudEntity.selectedRoles">
                             <BaseScrollArea height="250px">
                                 <q-list v-if="crudEntity.selectedRoles.length > 0" dense>
-                                    <q-item v-for="(s, index) in crudEntity.selectedRoles" :key="index" v-ripple>
-                                        <q-item-section avatar>
-                                            <q-icon color="primary" :name="biCheck" />
-                                        </q-item-section>
-                                        <q-item-section>
-                                            <q-item-label>{{ findDisplayRoleById(s) }}</q-item-label>
-                                        </q-item-section>
-                                        <q-item-section v-if="isEditMode" side>
-                                            <q-btn flat round color="negative" :icon="biX" @click="removeRole(index)" />
-                                        </q-item-section>
-                                    </q-item>
+                                    <template v-for="(s, index) in crudEntity.selectedRoles" :key="`${index}-${s}`">
+                                        <BaseLabelValueItem v-if="getRoleById(s)" :item="getRoleById(s)">
+                                            <template v-if="isEditMode" #end>
+                                                <BaseButton flat :icon="biTrash" round text-color="negative"
+                                                    @click="removeRole(index)" />
+                                            </template>
+                                        </BaseLabelValueItem>
+                                    </template>
                                 </q-list>
                                 <template v-else>
                                     <base-result status="empty" :description="t('userRoleNotFound')" />

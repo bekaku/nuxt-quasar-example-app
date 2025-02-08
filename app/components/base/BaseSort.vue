@@ -25,7 +25,7 @@
   const emit = defineEmits(['on-sort-column', 'on-sort-mode']);
   const { t } = useLang();
   const { sortMode } = useSort();
-  const onSortColumn = (column: string | number | boolean) => {
+  const onSortColumn = (column: string) => {
     if (!column || !props.sort) {
       return;
     }

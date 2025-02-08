@@ -301,3 +301,11 @@ export const getValFromObjectByPath = (obj: any, path: string) => {
 export const cloneObject = <T>(obj: T) => {
     return Object.assign({}, obj) as T;
   };
+
+  export const appPreventDefult = async (event: any) => {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+};

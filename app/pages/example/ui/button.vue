@@ -9,7 +9,8 @@ import {
     biPhone,
     biQuestionCircle,
     biRadar,
-    biShop
+    biShop,
+    biWrench
 } from '@quasar/extras/bootstrap-icons';
 import { ref } from 'vue';
 const progress = ref(false);
@@ -29,11 +30,15 @@ useHead({
             </q-card-section>
             <q-card-section>
 
-                <base-ripple-item style="width: 150px;padding: 10px;">
+
+
+                <BaseRippleItem style="width: 150px;padding: 10px;">
                     This is Ripple Item
-                </base-ripple-item>
+                </BaseRippleItem>
 
                 <div class="q-pa-md q-gutter-sm">
+                    
+                    <BaseButton round flat :icon="biWrench"/>
                     <BaseButton label="Standard" />
                     <BaseButton label="Elevated" :unelevated="false" />
                     <BaseButton color="white" text-color="black" label="Standard color" />
@@ -88,6 +93,8 @@ useHead({
                     <BaseButton label="Size PX" size="50px" :unelevated="false"/>
                     <BaseButton label="Click for Loading" :loading="progress" :unelevated="false" @click="progress = true" />
                     <BaseButton label="Stop loading" color="negative" @click="progress = false" />
+
+                    <BaseButton label="Full" full />
                 </div>
             </q-card-section>
         </BaseCard>

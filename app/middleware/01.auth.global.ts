@@ -1,7 +1,8 @@
 import { AuthNoFilterPage } from '~/libs/constants';
 export default defineNuxtRouteMiddleware((to) => {
-    if (to.name == undefined) return
-    if (typeof to.name == 'string' && AuthNoFilterPage.includes(to.name)) return
+    if (to.name == undefined ||  (typeof to.name !== 'string') ) return
+    const baseRouteName = to?.name?.replace(/___[a-z]{2}$/, '');
+    if (typeof to.name == 'string' && AuthNoFilterPage.includes(baseRouteName)) return
     // console.log('middleware > auth.global > Pagename: ', to.name, ', path: ', to.path, ',meta: ', to.meta?.layout);
 
 

@@ -27,11 +27,20 @@ const emit = defineEmits<{
     'on-item-delete': []
 }>()
 const { t } = useLang();
-const onEditBtnBaseClick = (type: ICrudAction) => {
+const onEditBtnBaseClick = (event: any,type: ICrudAction) => {
+    appPreventDefult(event);
     emit('on-item-click', type)
 }
-const onEditBtnClick = (type: ICrudAction) => {
-    onEditBtnBaseClick(type)
+const onEditBtnClick = (event: any, type: ICrudAction) => {
+    onEditBtnBaseClick(event,type)
+}
+const onCopy = (event: any) => {
+    appPreventDefult(event);
+    emit('on-item-copy');
+}
+const onDelete = (event: any) => {
+    appPreventDefult(event);
+    emit('on-item-delete')
 }
 </script>
 <template>
@@ -39,7 +48,7 @@ const onEditBtnClick = (type: ICrudAction) => {
     <div v-if="isHaveManagePermission || isHaveViewPermission"
         :class="{ 'q-gutter-xs': !button, 'q-gutter-md': button }">
         <BaseButton v-if="editButton && isHaveViewPermission" :loading :icon="biEye" flat dense round :size="size"
-            @click="onEditBtnBaseClick('view')">
+            @click="onEditBtnBaseClick($event,'view')">
             <q-tooltip v-if="!button">
                 {{
                     t('base.view')
@@ -49,7 +58,7 @@ const onEditBtnClick = (type: ICrudAction) => {
         <template v-if="editButton && isHaveManagePermission">
             <template v-if="!button">
                 <BaseButton :icon="biPencil" flat dense round :size="size" type="button"
-                    @click="onEditBtnClick('edit')">
+                    @click="onEditBtnClick($event, 'edit')">
                     <q-tooltip>
                         {{
                             t('base.edit')
@@ -58,9 +67,10 @@ const onEditBtnClick = (type: ICrudAction) => {
                 </BaseButton>
             </template>
             <template v-else>
-                <BaseButton v-if="crudAction === 'view'" :loading :icon="biPencil" :unelevated="button" outline
-                    :size="size" :label="t('base.edit')" type="button" @click="onEditBtnClick('edit')" />
-                <BaseButton v-else :loading :icon="biFloppy" unelevated color="primary" :size="size"
+                <BaseButton v-if="crudAction === 'view'" :loading :icon="biPencil" :unelevated="button" color="primary"
+                    :outline="false" :size="size" :label="t('base.edit')" type="button"
+                    @click="onEditBtnClick($event, 'edit')" />
+                <BaseButton v-else :loading :icon="biFloppy" unelevated color="positive" :size="size"
                     :label="crudAction == 'edit' || crudAction == 'new' || crudAction == 'copy' ? t('base.save') : undefined"
                     type="submit">
                     <q-tooltip v-if="!button">
@@ -73,17 +83,17 @@ const onEditBtnClick = (type: ICrudAction) => {
 
         </template>
 
-        <BaseButton v-if="copyButton && isHaveManagePermission" :loading :icon="biCopy" :flat="!button"
-            :dense="!button" :size="size" :outline="button"
-            :label="!button || crudAction == undefined ? undefined : t('base.copy')" @click="$emit('on-item-copy')">
+        <BaseButton v-if="copyButton && isHaveManagePermission" :loading :icon="biCopy" :flat="!button" :dense="!button"
+            :size="size" :outline="button" :label="!button || crudAction == undefined ? undefined : t('base.copy')"
+            @click="onCopy">
             <q-tooltip v-if="!button">
                 {{ t('base.copy') }}
             </q-tooltip>
         </BaseButton>
-        <BaseButton v-if="deleteButton && isHaveManagePermission && crudAction!=='copy' && crudAction!=='new'" color="negative" :loading :icon="biTrash"
-            :flat="!button" :outline="button" :outline-color="!button ? undefined : 'negative'" :dense="!button"
-            :round="!button" :size="size" :label="!button || crudAction == undefined ? undefined : t('base.delete')"
-            @click="$emit('on-item-delete')">
+        <BaseButton v-if="deleteButton && isHaveManagePermission && crudAction !== 'copy' && crudAction !== 'new'"
+            color="negative" :loading :icon="biTrash" :flat="!button" :outline="false"
+            :outline-color="!button ? undefined : 'negative'" :dense="!button" :round="!button" :size="size"
+            :label="!button || crudAction == undefined ? undefined : t('base.delete')" @click="onDelete">
             <q-tooltip v-if="!button" class="bg-negative">
                 {{ t('base.delete') }}
             </q-tooltip>

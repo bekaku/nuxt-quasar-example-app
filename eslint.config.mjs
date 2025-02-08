@@ -14,7 +14,8 @@ export default withNuxt(
       'vue/require-default-prop': 'off',
       'vue/first-attribute-linebreak': 'off',
       'vue/multi-word-component-names': 'off',
-      "vue/custom-event-name-casing": ["warn","kebab-case"]
+      "vue/custom-event-name-casing": ["warn","kebab-case"],
+      'vue/attributes-order': 'warn',
     }
   },
   // {

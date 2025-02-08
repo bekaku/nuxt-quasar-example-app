@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
         <q-toolbar class="q-py-xs">
             <q-btn v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
                 @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)" />
-            <q-btn v-if="showLogo" flat no-caps no-wrap class="q-mr-xs" :ripple="false" to="/">
+            <q-btn v-if="showLogo && !appStore.leftDrawerOpen" flat no-caps no-wrap round class="q-mr-xs" :ripple="false" to="/">
                 <q-avatar style="height: auto; width: 42px" square>
                     <img :src="!isDark
                         ? '/logo/logo-black.png'
@@ -70,7 +70,7 @@ onBeforeUnmount(() => {
                 </q-avatar>
             </q-btn>
             <q-btn v-if="screen.gt.xs" flat rounded class="text-capitalize" @click="onOpenSearch">
-                <span class="q-mr-sm text-muted">{{t('base.search')}}</span>
+                <span class="q-mr-sm text-muted">{{ t('base.search') }}</span>
                 <q-icon :name="biSearch" />
             </q-btn>
             <q-space />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useConstant } from '~/composables/useConstant';
-import { type ICrudAction, type ICrudListHeader, type IPagination, type ISort, type LabelValue, CrudListDataType, ICrudListHeaderOptionSearchType } from '~/types/common';
+import { type ICrudAction, type ICrudListHeader, type IPagination, type ISort, type ISortModeType, type LabelValue, CrudListDataType, ICrudListHeaderOptionSearchType } from '~/types/common';
 
 
 import {
@@ -38,7 +38,8 @@ const {
     viewPermission,
     managePermission,
     byPassPermission = false,
-    tableSeperator='horizontal'
+    tableSeperator = 'horizontal',
+    rowClickable = true
 } = defineProps<{
     crudName?: string
     viewPermission?: string[]
@@ -61,22 +62,40 @@ const {
     showFilter?: boolean
     showSort?: boolean
     fullWidth?: boolean
-    tableSeperator?: "horizontal" | "vertical" | "cell" | "none" | undefined
+    tableSeperator?: "horizontal" | "vertical" | "cell" | "none" | undefined,
+    rowClickable?: boolean
 }>();
-const emit = defineEmits([
-    'on-page-no-change',
-    'on-items-perpage-change',
-    'update-search',
-    'on-sort',
-    'on-sort-mode',
-    'on-item-copy',
-    'on-item-click',
-    'on-item-delete',
-    'on-new-form',
-    'on-reload',
-    'on-advance-search',
-    'on-keyword-search',
-]);
+// const emit = defineEmits([
+//     'on-page-no-change',
+//     'on-items-perpage-change',
+//     'update-search',
+//     'on-sort',
+//     'on-sort-mode',
+//     'on-item-copy',
+//     'on-item-click',
+//     'on-item-delete',
+//     'on-new-form',
+//     'on-reload',
+//     'on-advance-search',
+//     'on-keyword-search',
+//     'on-row-click',
+// ]);
+
+const emit = defineEmits<{
+    'on-page-no-change': [v: number | undefined]
+    'on-items-perpage-change': [v: number | undefined]
+    'update-search': [v: any]
+    'on-sort': [column: string | undefined]
+    'on-sort-mode': [mode: ISortModeType]
+    'on-item-copy': [index: number]
+    'on-item-click': [index: number, type: ICrudAction]
+    'on-item-delete': [indexOrIds: number | number[], isSingle: boolean]
+    'on-new-form': []
+    'on-reload': []
+    'on-advance-search': [q: string]
+    'on-keyword-search': [q: string]
+    'on-col-click': [event: any, index: number, headerOption: any, colValue: any]
+}>();
 const { t, locale } = useLang();
 const { formatDate, formatDateTime } = useDateFns();
 const { searchOperations } = useConstant();
@@ -117,7 +136,10 @@ const getItemByIndex = (index: number) => {
     }
     return item;
 };
-const getValueByColunm = (column: string, index: number) => {
+const getValueByColunm = (column: string | undefined, index: number) => {
+    if (column == undefined) {
+        return null;
+    }
     const item = getItemByIndex(index);
     if (!column || !item) {
         return null;
@@ -256,6 +278,20 @@ const onPerPageChange = async (v: number | undefined) => {
         emit('on-items-perpage-change', v);
     }
 };
+
+const onRowClick = (event: any, index: number) => {
+    if (!rowClickable && isHaveViewPermission.value) {
+        return;
+    }
+    emit('on-item-click', index, 'view')
+}
+const onColClick = (event: any, index: number, headerOption: ICrudListHeader, colValue: any) => {
+    if (headerOption?.options.clickable) {
+        appPreventDefult(event)
+        // console.log('onColClick', index, 'headerOption',headerOption, 'val', colValue);
+        emit('on-col-click', event, index, headerOption, colValue);
+    }
+}
 </script>
 <template>
     <div class="row" :class="{ 'content-limit': !fullWidth, }">
@@ -410,11 +446,9 @@ const onPerPageChange = async (v: number | undefined) => {
                                 <slot name="belowSearchExtra" />
                                 <q-separator />
                                 <q-card-actions align="center">
-                                    <BaseButton type="submit" outline :icon="biSearch" :label="t('base.okay')" />
-                                    <BaseButton flat :icon="biX" :label="t('base.close')"
-                                        @click="showSearch = false" />
-                                    <BaseButton flat :icon="biEraser" :label="t('base.clear')"
-                                        @click="onClearSearch" />
+                                    <BaseButton type="submit" :icon="biSearch" :label="t('base.okay')" />
+                                    <BaseButton flat :icon="biX" :label="t('base.close')" @click="showSearch = false" />
+                                    <BaseButton flat :icon="biEraser" :label="t('base.clear')" @click="onClearSearch" />
                                 </q-card-actions>
                             </template>
                         </q-form>
@@ -440,7 +474,8 @@ const onPerPageChange = async (v: number | undefined) => {
                                                     }}
                                                 </q-tooltip>
                                             </q-checkbox> -->
-                                            <BaseChekbox v-model="selectedAll" :show-label="false"  @click="onCheckedAll">
+                                            <BaseChekbox v-model="selectedAll" :show-label="false"
+                                                @click="onCheckedAll">
                                                 <q-tooltip>
                                                     {{
                                                         !selectedAll
@@ -490,7 +525,9 @@ const onPerPageChange = async (v: number | undefined) => {
                             </thead>
                             <tbody>
                                 <slot name="tbody" v-bind="{ list, fillableHeaders }">
-                                    <tr v-for="(item, index) in list" :key="`item-tr-${index}`">
+                                    <tr v-for="(item, index) in list" :key="`item-tr-${index}`"
+                                        :class="{ 'cursor-pointer': rowClickable && isHaveViewPermission }"
+                                        @click="onRowClick($event, index)">
                                         <td v-if="isHaveManagePermission && showCheckbox" class="text-center">
                                             <q-checkbox v-model="selected" :val="item.id" />
                                         </td>
@@ -518,150 +555,165 @@ const onPerPageChange = async (v: number | undefined) => {
                                                             v-bind="{ item: item, index: index }" />
                                                     </td>
                                                 </template>
-                                                <td v-else :class="{
-                                                    'text-center':
-                                                        fillable.options &&
-                                                        fillable.options.align == 'center',
-                                                    'text-left':
-                                                        fillable.options &&
-                                                        fillable.options.align == 'left',
-                                                    'text-right':
-                                                        fillable.options &&
-                                                        fillable.options.align == 'right',
-                                                    'long-text-break':
-                                                        fillable.options && fillable.options.maxWidth,
-                                                }" :style="{
+                                                <td v-else :style="{
                                                     maxWidth:
                                                         fillable.options && fillable.options.maxWidth
                                                             ? fillable.options.maxWidth
                                                             : '',
                                                 }">
-                                                    <template v-if="fillable.type === CrudListDataType.TEXT">
-                                                        <template v-if="
-                                                            fillable.options && fillable.options.toolTip
-                                                        ">
-                                                            <span>
-                                                                {{
-                                                                    fillable.column
-                                                                        ? getValueByColunm(fillable.column, index)
-                                                                        : ''
-                                                                }}
-                                                                <q-tooltip>
+
+
+                                                    <div class="row" :class="{
+                                                        'justify-center':
+                                                            fillable.options &&
+                                                            fillable.options.align == 'center',
+                                                        'justify-start':
+                                                            fillable.options &&
+                                                            fillable.options.align == 'left',
+                                                        'justify-end':
+                                                            fillable.options &&
+                                                            fillable.options.align == 'right',
+                                                        'long-text-break':
+                                                            fillable.options && fillable.options.maxWidth,
+                                                    }">
+
+                                                        <div style="width: fit-content;"
+                                                            @click="onColClick($event, index, fillable, getValueByColunm(fillable.column, index))">
+
+                                                            <template v-if="fillable.type === CrudListDataType.TEXT">
+                                                                <template v-if="
+                                                                    fillable.options && fillable.options.toolTip
+                                                                ">
+                                                                    <span>
+                                                                        {{
+                                                                            fillable.column
+                                                                                ? getValueByColunm(fillable.column, index)
+                                                                                : ''
+                                                                        }}
+                                                                        <q-tooltip>
+                                                                            {{
+                                                                                fillable.column
+                                                                                    ? getValueByColunm(fillable.column, index)
+                                                                                    : ''
+                                                                            }}
+                                                                        </q-tooltip>
+                                                                    </span>
+                                                                </template>
+                                                                <template v-else>
                                                                     {{
                                                                         fillable.column
                                                                             ? getValueByColunm(fillable.column, index)
                                                                             : ''
                                                                     }}
-                                                                </q-tooltip>
-                                                            </span>
-                                                        </template>
-                                                        <template v-else>
-                                                            {{
-                                                                fillable.column
-                                                                    ? getValueByColunm(fillable.column, index)
-                                                                    : ''
-                                                            }}
-                                                        </template>
-                                                    </template>
-                                                    <template v-else-if="
-                                                        fillable.type === CrudListDataType.FUNCTION &&
-                                                        fillable.options &&
-                                                        fillable.options.func
-                                                    ">
-                                                        <template v-if="
-                                                            fillable.column &&
-                                                            getValueByColunm(fillable.column, index) !=
-                                                            undefined
-                                                        ">
-                                                            {{
-                                                                fillable.options.func(
-                                                                    getValueByColunm(fillable.column, index),
-                                                                )
-                                                            }}
-                                                        </template>
-                                                    </template>
-                                                    <template v-else-if="
-                                                        fillable.type === CrudListDataType.NUMBER_FORMAT
-                                                    ">
-                                                        {{
-                                                            fillable.column
-                                                                ? getValueByColunm(
-                                                                    fillable.column,
-                                                                    index,
-                                                                ).toLocaleString()
-                                                                : ''
-                                                        }}
-                                                    </template>
-                                                    <template v-else-if="fillable.type === CrudListDataType.DATE">
-                                                        {{
-                                                            fillable.column
-                                                                ? dateForMat(
-                                                                    getValueByColunm(fillable.column, index),
-                                                                )
-                                                                : ''
-                                                        }}
-                                                    </template>
-                                                    <template v-else-if="
-                                                        fillable.type === CrudListDataType.DATE_TIME
-                                                    ">
-                                                        {{
-                                                            fillable.column
-                                                                ? datetimeForMat(
-                                                                    getValueByColunm(fillable.column, index),
-                                                                )
-                                                                : ''
-                                                        }}
-                                                    </template>
-                                                    <template v-else-if="
-                                                        fillable.type === CrudListDataType.STATUS
-                                                    ">
-                                                        <q-icon size="sm" :color="fillable.column &&
-                                                            getValueBoolean(fillable.column, index)
-                                                            ? 'positive'
-                                                            : 'grey-4'
-                                                            " :name="biCheckCircle" />
-                                                    </template>
-                                                    <template v-else-if="
-                                                        fillable.type === CrudListDataType.AVATAR
-                                                    ">
-                                                        <q-avatar v-if="
-                                                            fillable.column &&
-                                                            getValueByColunm(fillable.column, index)
-                                                        " :rounded="fillable.options.rounded"
-                                                            :square="fillable.options.square" :size="fillable.options.size
-                                                                ? fillable.options.size
-                                                                : '36px'
+                                                                </template>
+                                                            </template>
+                                                            <template v-else-if="
+                                                                fillable.type === CrudListDataType.FUNCTION &&
+                                                                fillable.options &&
+                                                                fillable.options.func
+                                                            ">
+                                                                <template v-if="
+                                                                    fillable.column &&
+                                                                    getValueByColunm(fillable.column, index) !=
+                                                                    undefined
                                                                 ">
-                                                            <q-img v-if="
-                                                                fillable.column &&
-                                                                getValueByColunm(fillable.column, index)
-                                                            " :src="getValueByColunm(fillable.column, index)"
-                                                                :alt="'item-img-' + bodyIndex" :ratio="1" />
-                                                            <img v-else src="/images/no_picture_thumb.jpg"
-                                                                :alt="'item-img-' + bodyIndex">
-                                                        </q-avatar>
-                                                    </template>
-                                                    <template v-else-if="fillable.type === CrudListDataType.IMAGE">
-                                                        <q-img v-if="
-                                                            fillable.column &&
-                                                            getValueByColunm(fillable.column, index)
-                                                        " :src="getValueByColunm(fillable.column, index)"
-                                                            spinner-color="white" class="bg-grey-8" :ratio="4 / 3"
-                                                            :style="fillable.options.size
-                                                                ? `width: ${fillable.options.size}; height: ${fillable.options.size}`
-                                                                : 'width:55px;height:55px'
-                                                                " />
-                                                        <q-img v-else src="/images/no_picture_thumb.jpg"
-                                                            spinner-color="white" class="bg-grey-8" :ratio="4 / 3"
-                                                            :style="fillable.options.size
-                                                                ? `width: ${fillable.options.size}; height: ${fillable.options.size}`
-                                                                : 'width:55px;height:55px'
-                                                                " />
-                                                    </template>
-                                                    <template v-else-if="fillable.type === CrudListDataType.ICON">
-                                                        <q-icon v-if="fillable.column"
-                                                            :name="getValueByColunm(fillable.column, index)" />
-                                                    </template>
+                                                                    {{
+                                                                        fillable.options.func(
+                                                                            getValueByColunm(fillable.column, index),
+                                                                        )
+                                                                    }}
+                                                                </template>
+                                                            </template>
+                                                            <template v-else-if="
+                                                                fillable.type === CrudListDataType.NUMBER_FORMAT
+                                                            ">
+                                                                {{
+                                                                    fillable.column
+                                                                        ? getValueByColunm(
+                                                                            fillable.column,
+                                                                            index,
+                                                                        ).toLocaleString()
+                                                                        : ''
+                                                                }}
+                                                            </template>
+                                                            <template
+                                                                v-else-if="fillable.type === CrudListDataType.DATE">
+                                                                {{
+                                                                    fillable.column
+                                                                        ? dateForMat(
+                                                                            getValueByColunm(fillable.column, index),
+                                                                        )
+                                                                        : ''
+                                                                }}
+                                                            </template>
+                                                            <template v-else-if="
+                                                                fillable.type === CrudListDataType.DATE_TIME
+                                                            ">
+                                                                {{
+                                                                    fillable.column
+                                                                        ? datetimeForMat(
+                                                                            getValueByColunm(fillable.column, index),
+                                                                        )
+                                                                        : ''
+                                                                }}
+                                                            </template>
+                                                            <template v-else-if="
+                                                                fillable.type === CrudListDataType.STATUS
+                                                            ">
+                                                                <q-icon size="sm" :color="fillable.column &&
+                                                                    getValueBoolean(fillable.column, index)
+                                                                    ? 'positive'
+                                                                    : 'grey-4'
+                                                                    " :name="biCheckCircle" />
+                                                            </template>
+                                                            <template v-else-if="
+                                                                fillable.type === CrudListDataType.AVATAR
+                                                            ">
+                                                                <q-avatar v-if="
+                                                                    fillable.column &&
+                                                                    getValueByColunm(fillable.column, index)
+                                                                " :rounded="fillable.options.rounded"
+                                                                    :square="fillable.options.square" :size="fillable.options.size
+                                                                        ? fillable.options.size
+                                                                        : '36px'
+                                                                        ">
+                                                                    <q-img v-if="
+                                                                        fillable.column &&
+                                                                        getValueByColunm(fillable.column, index)
+                                                                    " :src="getValueByColunm(fillable.column, index)"
+                                                                        :alt="'item-img-' + bodyIndex" :ratio="1" />
+                                                                    <img v-else src="/images/no_picture_thumb.jpg"
+                                                                        :alt="'item-img-' + bodyIndex">
+                                                                </q-avatar>
+                                                            </template>
+                                                            <template
+                                                                v-else-if="fillable.type === CrudListDataType.IMAGE">
+                                                                <q-img v-if="
+                                                                    fillable.column &&
+                                                                    getValueByColunm(fillable.column, index)
+                                                                " :src="getValueByColunm(fillable.column, index)"
+                                                                    spinner-color="white" class="bg-grey-8"
+                                                                    :ratio="4 / 3" :style="fillable.options.size
+                                                                        ? `width: ${fillable.options.size}; height: ${fillable.options.size}`
+                                                                        : 'width:55px;height:55px'
+                                                                        " />
+                                                                <q-img v-else src="/images/no_picture_thumb.jpg"
+                                                                    spinner-color="white" class="bg-grey-8"
+                                                                    :ratio="4 / 3" :style="fillable.options.size
+                                                                        ? `width: ${fillable.options.size}; height: ${fillable.options.size}`
+                                                                        : 'width:55px;height:55px'
+                                                                        " />
+                                                            </template>
+                                                            <template
+                                                                v-else-if="fillable.type === CrudListDataType.ICON">
+                                                                <q-icon v-if="fillable.column"
+                                                                    :name="getValueByColunm(fillable.column, index)" />
+                                                            </template>
+
+                                                        </div>
+
+                                                    </div>
+
                                                 </td>
                                             </template>
                                         </template>

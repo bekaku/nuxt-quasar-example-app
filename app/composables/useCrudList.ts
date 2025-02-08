@@ -188,10 +188,10 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
             }
         } catch (error: any) {
             console.error('useCrudList', error);
-            if(error.message){
-                appToast(error.message,{type:'negative',});
+            if (error.message) {
+                appToast(error.message, { type: 'negative', });
             }
-            
+
         } finally {
             if (!firstLoaded.value) {
                 firstLoaded.value = true;
@@ -251,21 +251,30 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     //     }
     //     return filters;
     // });
-    const onPageNoChange = (pageNo: number) => {
+    const onPageNoChange = (pageNo: number | undefined) => {
+        if (pageNo == undefined) {
+            return;
+        }
         pages.value.current = pageNo;
         if (!pathParam.value) {
             return;
         }
         onPasteUrlPathParamAndFetchData();
     };
-    const onItemPerPageChange = async (no: number) => {
+    const onItemPerPageChange = async (no: number | undefined) => {
+        if (no == undefined) {
+            return;
+        }
         pages.value.itemsPerPage = no;
         if (!pathParam.value) {
             return;
         }
         onPasteUrlPathParamAndFetchData();
     };
-    const onSort = (column: string) => {
+    const onSort = (column: string | undefined) => {
+        if (column == undefined) {
+            return;
+        }
         if (sort.value.column === column) {
             sort.value.mode = sort.value.mode === 'asc' ? 'desc' : 'asc';
         } else {
@@ -354,12 +363,12 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
             return new Promise((resolve) => {
                 resolve(!!(response && response.status == 'OK'));
             });
-        } catch (error:any) {
-            if(error.message){
-                appToast(error.message,{type:'negative',});
+        } catch (error: any) {
+            if (error.message) {
+                appToast(error.message, { type: 'negative', });
             }
         }
-        
+
         return new Promise((resolve) => {
             resolve(false);
         });

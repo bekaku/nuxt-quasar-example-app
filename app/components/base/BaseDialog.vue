@@ -62,9 +62,10 @@ const onClose = () => {
     <!-- <div v-bind="$attrs" :style="dialogStyle">
         <slot></slot>
       </div> -->
-    <q-card v-bind="$attrs" flat :style="dialogStyle" :class="{ 'bg-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }">
+    <!-- <q-card v-bind="$attrs" flat :style="dialogStyle" :class="{ 'bg-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }"> -->
+    <q-card v-bind="$attrs" flat :style="dialogStyle">
       <slot name="toolBar">
-        <q-bar v-if="showToolbar" class="q-mb-xs" :class="{ 'bg-white': !isDark, 'bg-dark-900': isDark }">
+        <q-bar v-if="showToolbar" class="q-mb-xs" :class="{ 'bg-grey-2': !isDark, 'bg-dark-900': isDark }">
           <slot name="icon">
             <q-icon v-if="icon" :name="icon" />
           </slot>

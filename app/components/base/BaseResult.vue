@@ -24,7 +24,7 @@ import {
   mdiPackageVariant,
   mdiPaperclip,
   mdiRobotConfused,
-} from '@quasar/extras/mdi-v6';
+} from '@quasar/extras/mdi-v7';
 
 const props = withDefaults(
   defineProps<{

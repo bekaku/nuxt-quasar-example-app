@@ -132,6 +132,35 @@ const getOpengraph = async () => {
     ogLoading.value = false;
     console.log('getOpengraph', res);
 }
+/* Example for delete, post, put
+Delete
+await callAxios<ResponseMessage | null>({
+    API: '/api/permission/999',
+    method: 'DELETE',
+});
+// Post
+await callAxios<RefreshTokenResponse | null>({
+    API: '/api/auth/login',
+    method: 'POST',
+    body: {
+        user: {
+            emailOrUsername: 'email@ggg.com',
+            password: 'xxxxxxx',
+        }
+    }
+});
+
+// PUT
+await callAxios<ResponseMessage>({
+    API: '/api/user/updateEmail',
+    method: 'PUT',
+    body: {
+        user: {
+            email: 'edit@email.com'
+        }
+    }
+});
+*/
 </script>
 <template>
     <BasePage class="content-limit">
@@ -152,14 +181,14 @@ const getOpengraph = async () => {
                 <div style="max-height: 250px; overflow: auto" class="bg-black text-light-green-13">
                     <pre>{{ data }}</pre>
                 </div>
-                <BaseButton @click="() => refresh()">Refresh data</BaseButton>
-                <BaseButton @click="() => clear()">clear data</BaseButton>
+                <BaseButton outline label="Refresh data" @click="() => refresh()" />
+                <BaseButton outline label="clear data" @click="() => clear()" />
                 <q-separator />
                 <div class="text-h5">
                     Axios
                 </div>
-                <BaseButton @click="fetchData">Fetch data via $axios</BaseButton>
-                <BaseButton @click="fetchDataViaComposible">Fetch Data Via Composible</BaseButton>
+                <BaseButton outline label="Fetch data via $axios" @click="fetchData" />
+                <BaseButton outline label="Fetch Data Via Composible" @click="fetchDataViaComposible" />
                 <div class="row">
                     <div class="col-12 col-md-6 q-pa-md">
                         <BaseCard flat>

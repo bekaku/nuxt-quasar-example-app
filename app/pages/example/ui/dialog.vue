@@ -55,7 +55,7 @@ const onConfirmToClose = async () => {
                 <div class="text-h6">Popover confirm</div>
                 <q-separator />
                 <BaseButton label="Delete item" color="negative" :icon="biTrash">
-                    <base-pop-confirm :title="t('base.deleteConfirm')" confirm-color="negative"
+                    <BasePopConfirm :title="t('base.deleteConfirm')" confirm-color="negative"
                         @on-change="onPopConfirmChange" />
                 </BaseButton>
 
@@ -114,8 +114,8 @@ const onConfirmToClose = async () => {
                 minima, porro labore.
             </q-card-section>
             <q-card-actions align="right">
-                <q-btn v-close-popup no-caps flat label="Cancel" color="primary" />
-                <q-btn v-close-popup no-caps flat label="Turn on Wifi" color="negative" />
+                <BaseButton v-close-popup flat label="Cancel" color="primary" />
+                <BaseButton v-close-popup flat label="Turn on Wifi" color="negative" />
             </q-card-actions>
         </base-dialog>
 

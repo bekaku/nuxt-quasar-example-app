@@ -63,7 +63,7 @@ const onCropImage = async (f: any) => {
                                 <base-image :src="cropedUrl" :ratio="1" alt="1"
                                     style="height: 250px; max-width: 250px" />
 
-                                <base-image :src="cropedUrl" :ratio="3 / 4" alt="3/4"
+                                <base-image :src="cropedUrl" :ratio="4/3" alt="4/3"
                                     style="height: 250px; max-width: 250px" />
 
                                 <base-image :src="cropedUrl" :ratio="16 / 9" alt="16/9"

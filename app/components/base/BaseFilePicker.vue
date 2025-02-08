@@ -13,7 +13,13 @@ import {
 } from '~/libs/constants';
 import { zipFile, isImageFile, getImgUrlFromFile } from '~/utils/fileUtil';
 
-const props = withDefaults(defineProps<{
+const {
+    multiple = false,
+    showPreview = true,
+    maxFiles = MaxSelectFiles,
+    icon = biPaperclip,
+    accept = FileExtensionAccept
+} = defineProps<{
     multiple: boolean;
     showPreview?: boolean;
     icon?: string;
@@ -21,25 +27,19 @@ const props = withDefaults(defineProps<{
     accept?: string;//* = wildcard all extension
     wildcard?: boolean;
     maxFiles?: number;//0 = unlimited pick
-}>(), {
-    multiple: false,
-    showPreview: true,
-    maxFiles: MaxSelectFiles,
-    icon: biPaperclip,
-    accept: FileExtensionAccept
-});
+}>();
 const { appToast } = useBase();
 const { t } = useLang();
 const modelValue = defineModel<any[]>({ default: () => [] });
 const fileItems = defineModel<FileManagerDto[]>('fileItems', { default: () => [] });
 const modelImageFiles = ref<any[]>([]);
-const emit = defineEmits(['onFileAdd']);
+const emit = defineEmits(['on-file-add']);
 const appFileInputRef = ref();
 //file upload
 const openFilePicker = () => {
 
-    if (props.maxFiles > 0 && modelValue.value && modelValue.value.length == props.maxFiles) {
-        appToast(t('error.limitFile2', { total: props.maxFiles }), {
+    if (maxFiles > 0 && modelValue.value && modelValue.value.length == maxFiles) {
+        appToast(t('error.limitFile2', { total: maxFiles }), {
             type: 'negative'
         });
         return;
@@ -90,8 +90,8 @@ const validateAndZipFile = async (files: File[]): Promise<any[]> => {
 };
 const onFileAdded = async (files: File[]) => {
     const finalFiles = await validateAndZipFile(files);
-    emit('onFileAdd', finalFiles);
-    if (props.multiple) {
+    emit('on-file-add', finalFiles);
+    if (multiple) {
         if (finalFiles && finalFiles.length > 0) {
             for (const f of finalFiles) {
                 await onAddFile(f);
@@ -154,7 +154,7 @@ defineExpose({
         <slot>
             <div class="row">
                 <div class="col-12 q-pa-md" :class="{ 'col-md-4': showPreview }">
-                    <q-list bordered class="app-border-radius">
+                    <q-list bordered dense class="app-border-radius">
                         <q-item clickable @click="openFilePicker">
                             <q-item-section avatar>
                                 <q-icon :name="icon" />

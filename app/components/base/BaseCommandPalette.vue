@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import { biCheck2, biSearch } from '@quasar/extras/bootstrap-icons';
+import { biCheck2, biCheckSquareFill, biSearch, biSquare } from '@quasar/extras/bootstrap-icons';
 import type { AppColor, LabelValue } from '~/types/common';
 
 const {
@@ -9,14 +9,22 @@ const {
     inputDebounce = 100,
     canFilter = true,
     dense = true,
+    denseItem = true,
     icon = biSearch,
-    color = 'primary',
     scrollHeight = '420px',
+    bordered = true,
+    flat = true,
+    readonly = false,
+    color = 'primary',
+    useCheckbox = false,
 } = defineProps<{
     items: LabelValue<T>[];
+    bordered?: boolean;
+    flat?: boolean;
     label?: string;
     readonly?: boolean;
     dense?: boolean;
+    denseItem?: boolean;
     canFilter?: boolean;
     multiple?: boolean;
     icon?: string;
@@ -29,6 +37,7 @@ const {
     iconSize?: string
     avatarSize?: string
     scrollHeight?: string
+    useCheckbox?: boolean
 }>();
 const { t } = useLang();
 const modelValue = defineModel<T | T[] | null>();
@@ -58,6 +67,9 @@ const filterItems = computed(() => {
         .filter(item => item !== null && (!item.children || item.children.length > 0));
 })
 const onClick = (val: T | undefined) => {
+    if (readonly) {
+        return;
+    }
     emit('on-click', val);
     if (val == undefined) {
         return;
@@ -94,24 +106,25 @@ const getSelectedBy = (val: T | undefined) => {
 }
 </script>
 <template>
-    <BaseCard v-bind="$attrs" bordered flat>
-        <BaseInput v-if="canFilter" v-model="filterText" borderless :dense :debounce="inputDebounce"
-            :placeholder="placeholder || t('base.typeForsearch') + '...'">
-            <template #prepend>
-                <template v-if="loading">
-                    <BaseSpinner type="defult" size="24px" class="q-mb-sm" />
+    <BaseCard v-bind="$attrs" :bordered :flat>
+        <template v-if="canFilter && !readonly">
+            <BaseInput v-model="filterText" class="q-px-sm" borderless :dense :debounce="inputDebounce"
+                :placeholder="placeholder || t('base.typeForsearch') + '...'">
+                <template #prepend>
+                    <template v-if="loading">
+                        <BaseSpinner type="defult" size="24px" class="q-mb-sm" />
+                    </template>
+                    <q-icon v-else :name="icon" class="text-muted" size="20px" />
                 </template>
-                <q-icon v-else :name="icon" class="text-muted" size="20px" />
-            </template>
-            <template #append>
-                <slot name="inputAppend" />
-            </template>
-
-        </BaseInput>
-        <q-separator />
+                <template #append>
+                    <slot name="inputAppend" />
+                </template>
+            </BaseInput>
+            <q-separator />
+        </template>
         <q-card-section>
             <LazyBaseSpinner v-if="loading" />
-            <q-list v-else :dense>
+            <q-list v-else :dense="denseItem">
                 <BaseScrollArea :height="scrollHeight">
                     <template v-for="(item, index) in filterItems" :key="`app-commandpalette-${index}`">
                         <template v-if="item && item.children && item.children.length > 0">
@@ -120,11 +133,17 @@ const getSelectedBy = (val: T | undefined) => {
                             <BaseLabelValueItem v-for="(itemLevel2, indexLevel2) in item.children"
                                 :key="`app-submenulevel2-${index}-${indexLevel2}`" :item="itemLevel2"
                                 :avatar-size="iconSize" :icon-size="iconSize" :high-light-text="filterText"
-                                :color="getSelectedBy(itemLevel2.value) ? 'primary' : undefined" :dense
-                                :clickable="item.value != undefined || (item.children && item.children.length > 0)"
+                                :color="getSelectedBy(itemLevel2.value) ? color : undefined" :dense="denseItem"
+                                :clickable="readonly ? false : item.value != undefined || (item.children && item.children.length > 0)"
                                 @on-click="onClick">
-                                <q-item-section v-if="getSelectedBy(itemLevel2.value)" side>
-                                    <q-icon :name="biCheck2" :color />
+                                <q-item-section side>
+                                    <template v-if="useCheckbox">
+                                        <q-icon :name="getSelectedBy(itemLevel2.value) ? biCheckSquareFill : biSquare"
+                                            :color="getSelectedBy(itemLevel2.value) ? color : undefined" size="20px" />
+                                    </template>
+                                    <template v-else-if="getSelectedBy(itemLevel2.value)">
+                                        <q-icon :name="biCheck2" :color size="20px" />
+                                    </template>
                                 </q-item-section>
                             </BaseLabelValueItem>
                         </template>
@@ -133,12 +152,21 @@ const getSelectedBy = (val: T | undefined) => {
                                 :icon-size="iconSize" :high-light-text="filterText"
                                 :clickable="item.value != undefined || (item.children && item.children.length > 0)"
                                 :color="getSelectedBy(item.value) ? 'primary' : undefined" @on-click="onClick">
-                                <q-item-section v-if="getSelectedBy(item.value)" side>
-                                    <q-icon :name="biCheck2" :color />
+
+                                <q-item-section side>
+                                    <template v-if="useCheckbox">
+                                        <q-icon :name="getSelectedBy(item.value) ? biCheckSquareFill : biSquare"
+                                            :color="getSelectedBy(item.value) ? color : undefined" size="20px" />
+                                    </template>
+                                    <template v-else-if="getSelectedBy(item.value)">
+                                        <q-icon :name="biCheck2" :color size="20px" />
+                                    </template>
                                 </q-item-section>
                             </BaseLabelValueItem>
                         </template>
                     </template>
+                    <LazyBaseResult v-if="filterItems.length == 0" status="empty"
+                        :description="t('error.dataNotfound')" />
                 </BaseScrollArea>
             </q-list>
         </q-card-section>

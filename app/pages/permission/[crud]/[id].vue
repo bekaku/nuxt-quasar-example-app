@@ -26,14 +26,14 @@ const entity: Permission = Object.freeze<Permission>({
 });
 const {
     crudAction,
-    onBack,
     loading,
-    onSubmit,
     crudEntity,
-    onDelete,
     crudName,
-    onEnableEditForm,
     isEditMode,
+    onDelete,
+    onBack,
+    onEnableEditForm,
+    onSubmit,
 } = useCrudForm<Permission>(
     {
         crudName: 'permission',
@@ -50,7 +50,7 @@ const radios: LabelValue<number>[] = [
 ]
 </script>
 <template>
-    <q-page padding>
+    <BasePage>
         <BaseCrudForm :crud-action="crudAction" :loading="loading" :crud-entity="crudEntity" :crud-name="crudName"
             :icon="biShieldCheck" :title="t('model_permission')" @on-back="onBack"
             @on-edit-enable="onEnableEditForm" @on-submit="onSubmit" @on-delete="onDelete">
@@ -75,6 +75,6 @@ const radios: LabelValue<number>[] = [
                 </div>
             </template>
         </BaseCrudForm>
-    </q-page>
+    </BasePage>
 
 </template>
