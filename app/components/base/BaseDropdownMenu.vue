@@ -2,7 +2,7 @@
 import { matKeyboardArrowRight } from '@quasar/extras/material-icons';
 import type { LabelValue } from '~/types/common';
 
-const { width = '100px', cover = true, anchor = "top middle", dense = true } = defineProps<{
+const { width = '100px', cover = false, anchor = "bottom left", dense = true } = defineProps<{
   items: LabelValue<T>[];
   icon?: string;
   title?: string;
@@ -12,6 +12,7 @@ const { width = '100px', cover = true, anchor = "top middle", dense = true } = d
   iconSize?: string
   avatarSize?: string
   anchor?: "top middle" | "top left" | "top right" | "top start" | "top end" | "center left" | "center middle" | "center right" | "center start" | "center end" | "bottom left" | "bottom middle" | "bottom right" | "bottom start" | "bottom end" | undefined;
+  self?: any
 }>();
 const open = defineModel<boolean>('open', { default: undefined });
 const menuRef = ref<any>();

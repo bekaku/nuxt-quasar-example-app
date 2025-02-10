@@ -125,7 +125,7 @@ export const useDateFns = () => {
         });
     };
     const formatDate = (
-        dateString: string | undefined,
+        dateString: string | undefined | null,
         forMatString: string,
         locale: string | unknown
     ) => {

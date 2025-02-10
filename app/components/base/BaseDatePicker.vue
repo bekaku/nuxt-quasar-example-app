@@ -2,8 +2,21 @@
 import { biCalendarWeek, biXCircleFill } from '@quasar/extras/bootstrap-icons';
 import type { AppColor } from '~/types/common';
 import { convertDateFormatToThai } from '~/utils/dateUtil';
-const props = withDefaults(
+const {
+  autoClose = true,
+  dateList = [],
+  dense = true,
+  disable = false,
+  required = false,
+  editMode = true,
+  minDate,
+  maxDate,
+  range = false,
+  showFormatDate = false,
+  formatDateText = FORMAT_DATE4,
+} =
   defineProps<{
+    autoClose?: boolean;
     label?: string;
     minDate?: string;//yyy-mm-dd 2022-06-16
     maxDate?: string;//yyy-mm-dd 2022-06-16
@@ -13,69 +26,47 @@ const props = withDefaults(
     required?: boolean
     color?: AppColor;
     editMode?: boolean
-  }>(),
-  {
-    dateList: () => [],
-    dense: true,
-    disable: false,
-    required: false,
-    editMode: true,
-  }
-);
-const modelValue = defineModel<string | undefined | null>();
+    range?: boolean
+    showFormatDate?: boolean
+    formatDateText?: string
+  }>();
+const modelValue = defineModel<string | undefined | null>({ default: null });
+const start = defineModel<string | undefined | null>('start', { default: null });
+const end = defineModel<string | undefined | null>('end', { default: null });
+const modelValueRange = ref<any>({ from: start.value, to: end.value })
+const { formatDate } = useDateFns();
+
+
 const dateProxy = ref<any>(null);
-const emit = defineEmits(['on-update']);
-const limitDates = props.dateList?.map((item: any) => {
-  return item.replaceAll('-', '/');
-});
+const dateRangeProxy = ref<any>(null);
+const emit = defineEmits(['on-update', 'on-update-range']);
 
 const { t, locale } = useLang();
-// const { datePickerLocale } = useDateFns();
 const clear = () => {
   modelValue.value = '';
+  start.value = '';
+  end.value = '';
+  modelValueRange.value = null;
 };
-const datePickerLocale = computed(() =>
-  locale.value
-    ? {
-      days: t('date.days').split('_'),
-      daysShort: t('date.dayShorts').split('_'),
-      months: t('date.months').split('_'),
-      monthsShort: t('date.monthShorts').split('_'),
-      firstDayOfWeek: 1,
-    }
-    : undefined
-
-);
-const options = (date: string) => {
-  if (props.minDate && props.maxDate) {
-    return (
-      date >= props.minDate.replaceAll('-', '/') &&
-      date <= props.maxDate.replaceAll('-', '/')
-    );
-  } else if (props.minDate) {
-    return date >= props.minDate.replaceAll('-', '/');
-  } else if (props.maxDate) {
-    return date <= props.maxDate.replaceAll('-', '/');
-  }
-
-  return true;
-};
-const onClosePicker = (value: any) => {
-  if (dateProxy.value) {
+const onDateSelect = (value: any) => {
+  if (dateProxy.value && autoClose) {
     dateProxy.value.hide();
   }
   emit('on-update', value)
+};
+const onDateRangeSelect = (value: any) => {
+  emit('on-update-range', value)
 };
 // const onOpenPicker = () => {
 //   if (dateProxy.value) {
 //     dateProxy.value.show();
 //   }
 // }
+const getFormarText=(dateString: string | undefined | null,)=>{
+return formatDate(dateString, formatDateText, locale.value)
+}
 </script>
 <template>
-  <!-- :readonly="!required"
-    :rules="required ? [required] : undefined"
-    -->
   <q-field v-bind="$attrs" :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense
     :disable="disable" class="cursor-pointer">
     <template #label>
@@ -83,37 +74,35 @@ const onClosePicker = (value: any) => {
         {{ label }} <template v-if="required"><span class="text-negative">*</span></template>
       </slot>
     </template>
-    <q-popup-proxy v-if="editMode" ref="dateProxy" transition-show="scale" transition-hide="scale">
-      <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
-        :options="dateList.length > 0 ? limitDates : options" @update:model-value="onClosePicker">
-        <div class="row items-center justify-end">
-          <q-btn v-close-popup :label="t('base.close')" color="primary" flat />
-        </div>
-      </q-date>
-    </q-popup-proxy>
+    <template v-if="!range">
+      <q-popup-proxy v-if="editMode" ref="dateProxy" transition-show="scale" transition-hide="scale">
+        <BaseDate v-model="modelValue" :min-date :max-date :date-list :color @on-update="onDateSelect" />
+      </q-popup-proxy>
+    </template>
+    <template v-else>
+      <q-popup-proxy v-if="editMode" ref="dateRangeProxy" transition-show="scale" transition-hide="scale">
+        <BaseDate v-model="modelValueRange" range :color @on-update-range="onDateRangeSelect" />
+      </q-popup-proxy>
+    </template>
     <template #control>
       <div class="self-center full-width no-outline" tabindex="0">
-        {{ convertDateFormatToThai(modelValue) }}
+        <template v-if="!showFormatDate">
+          {{ !range ? convertDateFormatToThai(modelValue) : `${modelValueRange?.from ?
+            convertDateFormatToThai(modelValueRange.from) : ''}-${modelValueRange?.to ?
+              convertDateFormatToThai(modelValueRange.to) : ''}` }}
+        </template>
+        <template v-else>
+          {{ !range ? getFormarText(modelValue) : `${modelValueRange?.from ?
+            getFormarText(modelValueRange.from) : ''} - ${modelValueRange?.to ?
+            getFormarText(modelValueRange.to) : ''}` }}
+        </template>
       </div>
     </template>
-    <!-- <template #append>
-      <q-btn flat round :icon="biCalendarWeek" :disable="disable" :color="color" :dense>
-        <q-tooltip>{{ t('base.chooseDate') }}</q-tooltip>
-        <q-popup-proxy ref="dateProxy" transition-show="scale" transition-hide="scale">
-          <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
-            :options="dateList.length > 0 ? limitDates : options" @update:model-value="onClosePicker">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup :label="t('base.close')" color="primary" flat />
-            </div>
-          </q-date>
-        </q-popup-proxy>
-      </q-btn>
-    </template> -->
     <template #prepend>
       <q-icon :name="biCalendarWeek" :color />
     </template>
     <template #after>
-      <q-btn v-if="modelValue && editMode" flat round :icon="biXCircleFill" @click="clear" />
+      <q-btn v-if="(modelValue || (start && end)) && editMode" flat round :icon="biXCircleFill" @click="clear" />
     </template>
     <template v-if="required && !modelValue && editMode && !disable" #hint>
       <span class="text-negative">
