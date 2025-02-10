@@ -55,7 +55,7 @@ useHead({
                     <BaseButton label="Flat" flat color="primary" />
                     <BaseButton label="Icon Left" color="negative" :icon="biGear" />
                     <BaseButton label="Icon Right" color="warning" :icon-right="biNewspaper" />
-                    <BaseButton label="Icon Both" :unelevated="false" :icon="biPerson" :icon-right="biQuestionCircle" />
+                    <BaseButton label="Icon Both" :icon="biPerson" :icon-right="biQuestionCircle" />
                     <BaseButton :icon="biPhone" label="Stacked" stack color="purple" />
 
                     <BaseButton round color="primary" :icon="biShop" />
@@ -68,10 +68,10 @@ useHead({
                             <img src="https://cdn.quasar.dev/img/avatar2.jpg">
                         </q-avatar>
                     </BaseButton>
-                    <BaseButton no-caps :unelevated="false">
+                    <BaseButton>
                         Multiline<br>Button
                     </BaseButton>
-                    <BaseButton style="width: 200px" :unelevated="false">
+                    <BaseButton style="width: 200px">
                         <div class="ellipsis">
                             This is some very long text that is expected to be truncated
                         </div>
@@ -85,13 +85,13 @@ useHead({
                     <BaseButton align="around" class="btn-fixed-width" color="brown-5" label="Align around"
                         :icon="biLightbulb" />
 
-                    <BaseButton label="Size xs" size="xs" :unelevated="false" />
-                    <BaseButton label="Size sm" size="sm" :unelevated="false" />
-                    <BaseButton label="Size md" size="md" :unelevated="false" />
-                    <BaseButton label="Size lg" size="lg" :unelevated="false" />
-                    <BaseButton label="Size xl" size="xl" :unelevated="false"/>
-                    <BaseButton label="Size PX" size="50px" :unelevated="false"/>
-                    <BaseButton label="Click for Loading" :loading="progress" :unelevated="false" @click="progress = true" />
+                    <BaseButton label="Size xs" size="xs" />
+                    <BaseButton label="Size sm" size="sm" />
+                    <BaseButton label="Size md" size="md" />
+                    <BaseButton label="Size lg" size="lg" />
+                    <BaseButton label="Size xl" size="xl" />
+                    <BaseButton label="Size PX" size="50px" />
+                    <BaseButton label="Click for Loading" :loading="progress" @click="progress = true" />
                     <BaseButton label="Stop loading" color="negative" @click="progress = false" />
 
                     <BaseButton label="Full" full />

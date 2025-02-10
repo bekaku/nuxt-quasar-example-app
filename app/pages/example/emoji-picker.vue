@@ -65,28 +65,28 @@ const onEmojiClick = (emoji: string) => {
                 </div>
 
                 <!-- npm i -D @iconify-json/vscode-icons -->
-                <BaseIcon icon="vscode-icons:file-type-ai" />
+                <BaseIcon icon="vscode-icons:file-type-ai" icon-set="nuxt" />
                 <!-- npm i -D @iconify-json/bi -->
-                <BaseIcon icon="bi:balloon-heart" size="32px" />
+                <BaseIcon icon="bi:balloon-heart" icon-set="nuxt" size="32px" />
                 <!-- npm i -D @iconify-json/ic -->
-                <BaseIcon icon="ic:baseline-attractions" style="color: red" />
+                <BaseIcon icon="ic:baseline-attractions"  icon-set="nuxt" style="color: red" />
                 <!-- npm i -D @iconify-json/hugeicons -->
-                <BaseIcon icon="hugeicons:artificial-intelligence-04" />
-                <BaseIcon icon="ri:aliens-fill" color="deep-purple" />
-                <BaseIcon icon="ri:ancient-gate-line" />
+                <BaseIcon icon="hugeicons:artificial-intelligence-04" icon-set="nuxt" />
+                <BaseIcon icon="ri:aliens-fill" color="deep-purple" icon-set="nuxt" />
+                <BaseIcon icon="ri:ancient-gate-line" icon-set="nuxt" />
                 <!-- npm i -D @iconify-json/uil -->
-                <BaseIcon icon="uil:car-sideview" />
-                <BaseIcon icon="uil:envelope-minus" />
-                <BaseIcon icon="uil:plane-departure" />
-                <BaseIcon icon="uil:vuejs" color="teal" />
-                <BaseIcon icon="uil:youtube" color="red" />
-                <BaseIcon icon="uil:syringe" color="blue" />
-                <BaseIcon icon="uil:shovel" />
+                <BaseIcon icon="uil:car-sideview" icon-set="nuxt"/>
+                <BaseIcon icon="uil:envelope-minus" icon-set="nuxt"/>
+                <BaseIcon icon="uil:plane-departure" icon-set="nuxt"/>
+                <BaseIcon icon="uil:vuejs" color="teal" icon-set="nuxt"/>
+                <BaseIcon icon="uil:youtube" color="red" icon-set="nuxt"/>
+                <BaseIcon icon="uil:syringe" color="blue" icon-set="nuxt"/>
+                <BaseIcon icon="uil:shovel" icon-set="nuxt"/>
                 <BaseButton color="primary">
-                    <BaseIcon icon="uil:trophy" class="q-mr-sm" /> With button
+                    <BaseIcon icon="uil:trophy" class="q-mr-sm" icon-set="nuxt"/> With button
                 </BaseButton>
                 <BaseButton outline>
-                    <BaseIcon icon="uil:utensils-alt" color="pink" class="q-mr-sm" /> With button
+                    <BaseIcon icon="uil:utensils-alt" color="pink" class="q-mr-sm" icon-set="nuxt"/> With button
                 </BaseButton>
 
                 <div class="text-h6">

@@ -40,7 +40,14 @@ export default defineNuxtConfig({
     defaultLocale: 'th',
     vueI18n: './i18n.config.ts' // if you are using custom path, default
   },
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n', 'nuxt-quasar-ui', '@vueuse/nuxt', '@nuxt/eslint', '@nuxt/icon'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/i18n',
+    'nuxt-quasar-ui',
+    '@vueuse/nuxt',
+    '@nuxt/eslint',
+    '@nuxt/icon',
+  ],
   quasar: {
     // Configurable Component Defaults
     appConfigKey: 'nuxtQuasarCustom',

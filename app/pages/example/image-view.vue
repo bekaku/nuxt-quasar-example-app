@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { biInfoCircle } from '@quasar/extras/bootstrap-icons';
 import type { FileManagerDto } from '~/types/models';
 useHead({
     title: 'Image/Pdf View'
@@ -193,96 +194,75 @@ const setImagesFileView = (file: FileManagerDto) => {
 </script>
 <template>
     <BasePage class="content-limit">
-        <!-- <BaseCard class="content-limit"> -->
-            <!-- <q-card-section> -->
-                <q-toolbar>
-                    <q-toolbar-title> Image/Pdf View </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-            <!-- </q-card-section> -->
-            <!-- <q-card-section> -->
-                <BaseCard>
-                    <q-card-section>
-                        <div class="text-h6 q-mb-md">
-                            Image Dialog
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <q-item-label header>Grid</q-item-label>
-                                <div class="row">
-                                    <div v-for="(item, i) in imageItems" :key="`img-${i}-${item.fileName}`"
-                                        class='col-4 col-md-3 q-pa-xs'>
-                                        <base-files-preview-item style="border-radius: 10px" :item="item" :index="i"
-                                            :show-delete="false" show-tooltip :use-thumbnail="false" image-size="100%"
-                                            :show-name="false" :show-size="false" @on-click="onImgPreviewClick" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 q-px-md">
-                                <q-item-label header>List</q-item-label>
-                                <base-scroll-area height="310px">
-                                    <base-files-preview-item-alt v-for="(itemAlt, iAlt) in imageItems"
-                                        :key="`img-${iAlt}-${itemAlt.fileName}`" :item="itemAlt" :index="iAlt" clickable
-                                        dense :show-delete="true" show-name show-size @on-click="onImgPreviewClick" />
-                                </base-scroll-area>
-                            </div>
-                        </div>
-                    </q-card-section>
-                    <q-card-section>
-                        <div class="text-h6 q-mb-md">
-                            Image Slide
-                        </div>
-                        <q-card flat bordered>
-                            <client-only>
-                                <base-image-view :files="imageItems" :selected-index="imageSelectIndex"
-                                    :dark="isDark" :show-delete-image="false" show-arrow height="350px"
-                                    :closeable="false" />
-                            </client-only>
-                        </q-card>
-                    </q-card-section>
-                </BaseCard>
 
-                <BaseCard class="q-my-md">
-                    <q-card-section>
-                        <div class="text-h6 q-mb-md">
-                            Pdf dialog View
-                        </div>
+        <BaseCard title="Image/Pdf View" sub-title="This is subtitle" :icon="biInfoCircle">
+            <BaseTextHeader label="Image Dialog"/>
+            <q-card-section>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <q-item-label header>Grid</q-item-label>
                         <div class="row">
-                            <div v-for="(pdf, pdfIndex) in pdfItems" :key="`impdfg-${pdfIndex}-${pdf.id}`"
-                                class='col-4 col-md-2 q-pa-xs'>
-                                <base-files-preview-item style="border-radius: 10px" :item="pdf" :index="pdfIndex"
-                                    :show-delete="false" show-tooltip show-name show-size
-                                    @on-click="onPdfPreviewClick" />
+                            <div v-for="(item, i) in imageItems" :key="`img-${i}-${item.fileName}`"
+                                class='col-4 col-md-3 q-pa-xs'>
+                                <base-files-preview-item style="border-radius: 10px" :item="item" :index="i"
+                                    :show-delete="false" show-tooltip :use-thumbnail="false" image-size="100%"
+                                    :show-name="false" :show-size="false" @on-click="onImgPreviewClick" />
                             </div>
                         </div>
+                    </div>
+                    <div class="col-12 col-md-6 q-px-md">
+                        <q-item-label header>List</q-item-label>
+                        <base-scroll-area height="310px">
+                            <base-files-preview-item-alt v-for="(itemAlt, iAlt) in imageItems"
+                                :key="`img-${iAlt}-${itemAlt.fileName}`" :item="itemAlt" :index="iAlt" clickable dense
+                                :show-delete="true" show-name show-size @on-click="onImgPreviewClick" />
+                        </base-scroll-area>
+                    </div>
+                </div>
+            </q-card-section>
+            <q-card-section>
+                <BaseTextHeader label="Image Slide"/>
+                <q-card flat bordered>
+                    <client-only>
+                        <base-image-view :files="imageItems" :selected-index="imageSelectIndex" :dark="isDark"
+                            :show-delete-image="false" show-arrow height="350px" :closeable="false" />
+                    </client-only>
+                </q-card>
+            </q-card-section>
+        </BaseCard>
 
-                        <div class="text-h6 q-my-md">
-                            Pdf inline display
-                        </div>
-                        <q-card flat bordered>
-                            <base-pdf-view src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
-                                :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
-                        </q-card>
-                    </q-card-section>
-                </BaseCard>
+        <BaseCard class="q-my-md">
+            <q-card-section>
+                <BaseTextHeader label=" Pdf dialog View"/>
+                <div class="row">
+                    <div v-for="(pdf, pdfIndex) in pdfItems" :key="`impdfg-${pdfIndex}-${pdf.id}`"
+                        class='col-4 col-md-2 q-pa-xs'>
+                        <base-files-preview-item style="border-radius: 10px" :item="pdf" :index="pdfIndex"
+                            :show-delete="false" show-tooltip show-name show-size @on-click="onPdfPreviewClick" />
+                    </div>
+                </div>
 
-                <BaseCard class="q-my-md">
-                    <q-card-section>
-                        <div class="text-h6 q-mb-md">
-                            Mix item View
-                        </div>
-                        <div class="row">
-                            <div v-for="(m, mIndex) in mixItems" :key="`impdfg-${mIndex}-${m.fileName}`"
-                                class='col-4 col-md-2 q-pa-xs'>
-                                <base-files-preview-item style="border-radius: 10px" :item="m" :index="mIndex"
-                                    :show-delete="false" show-tooltip show-name show-size image-size="100%"
-                                    :lines-name="2" @on-click="onMixPreviewClick" />
-                            </div>
-                        </div>
-                    </q-card-section>
-                </BaseCard>
-            <!-- </q-card-section>
-        </BaseCard> -->
+                <BaseTextHeader label="Pdf inline display"/>
+                <q-card flat bordered>
+                    <base-pdf-view src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+                        :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
+                </q-card>
+            </q-card-section>
+        </BaseCard>
+
+        <BaseCard class="q-my-md">
+            <q-card-section>
+                <BaseTextHeader label="Mix item View"/>
+                <div class="row">
+                    <div v-for="(m, mIndex) in mixItems" :key="`impdfg-${mIndex}-${m.fileName}`"
+                        class='col-4 col-md-2 q-pa-xs'>
+                        <base-files-preview-item style="border-radius: 10px" :item="m" :index="mIndex"
+                            :show-delete="false" show-tooltip show-name show-size image-size="100%" :lines-name="2"
+                            @on-click="onMixPreviewClick" />
+                    </div>
+                </div>
+            </q-card-section>
+        </BaseCard>
         <lazy-base-image-view-dialog v-if="showImageView" v-model="showImageView" :files="imageItems"
             :selected-index="imageSelectIndex" :show-delete-image="true" :maximized="false" show-arrow
             @on-delete="onDeleteImage" @on-close="onImgPreviewClose" />

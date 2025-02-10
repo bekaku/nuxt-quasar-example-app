@@ -76,8 +76,13 @@ const onClosePicker = (value: any) => {
   <!-- :readonly="!required"
     :rules="required ? [required] : undefined"
     -->
-  <q-field v-bind="$attrs" :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense :disable="disable" class="cursor-pointer">
-
+  <q-field v-bind="$attrs" :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense
+    :disable="disable" class="cursor-pointer">
+    <template #label>
+      <slot name="label">
+        {{ label }} <template v-if="required"><span class="text-negative">*</span></template>
+      </slot>
+    </template>
     <q-popup-proxy v-if="editMode" ref="dateProxy" transition-show="scale" transition-hide="scale">
       <q-date v-model="modelValue" mask="YYYY-MM-DD" :first-day-of-week="0" :locale="datePickerLocale"
         :options="dateList.length > 0 ? limitDates : options" @update:model-value="onClosePicker">

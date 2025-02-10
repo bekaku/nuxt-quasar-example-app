@@ -19,8 +19,8 @@ if(!import.meta.server){
     <BasePage>
         <BaseCard>
             <q-card-section class="q-gutter-md">
-                <QBtn label="Light" :icon="biBrightnessHigh" @click="onSetTheme('light')" />
-                <QBtn label="Dark" :icon="biMoon" @click="onSetTheme('dark')" />
+                <BaseButton label="Light" color="warning" :icon="biBrightnessHigh" @click="onSetTheme('light')" />
+                <BaseButton label="Dark" color="dark" :icon="biMoon" @click="onSetTheme('dark')" />
             </q-card-section>
             <q-card-section class="q-gutter-md">
                 <BaseLink to="/param/users-admins/123?action=view">To Param page</BaseLink>

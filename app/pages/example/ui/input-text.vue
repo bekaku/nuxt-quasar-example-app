@@ -44,7 +44,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                                     'Viewmode' }}
                             </div>
                             <q-toggle v-model="editMode" label="Toggle mode" />
-                            <BaseInput v-model="name" :edit-mode="editMode" label="Name" :icon="biPerson" bottom-slots
+                            <BaseInput v-model="name" :edit-mode="editMode" label="Name" required :icon="biPerson" bottom-slots
                                 hint="This is a hint" :rules="[required]" @update:model-value="onInputUpdate">
                                 <template #before>
                                     <q-avatar>
@@ -70,7 +70,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                                     <q-icon :name="biPencil" />
                                 </template>
                                 <template #append>
-                                    <BaseIcon icon="uil:vuejs" color="teal" />
+                                    <BaseIcon icon="uil:vuejs" color="teal" icon-set="nuxt" />
                                 </template>
                             </BaseInput>
                             <ClientOnly>
@@ -146,7 +146,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                                 <q-icon :name="biPencil" />
                             </template>
                             <template #append>
-                                <BaseIcon icon="uil:vuejs" color="teal" />
+                                <BaseIcon icon="uil:vuejs" color="teal" icon-set="nuxt"/>
                             </template>
                         </BaseInput>
                         <BaseInput v-model="amount" :edit-mode="false" label="Amount" type="number"

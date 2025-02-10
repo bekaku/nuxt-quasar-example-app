@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AppColor, IconSet } from '~/types/common';
 //https://icones.js.org/ , https://quasar.dev/vue-components/icon
-const { icon, iconSet = 'nuxt', size = '24px' } = defineProps<{
+const { icon, iconSet = 'quasar', size = '24px' } = defineProps<{
     icon: string
     iconSet?: IconSet
     size?: string
