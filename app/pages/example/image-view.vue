@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { biInfoCircle } from '@quasar/extras/bootstrap-icons';
 import type { FileManagerDto } from '~/types/models';
+import FileManagerService from '~/api/FileManagerService';
 useHead({
     title: 'Image/Pdf View'
 })
+const { fethCdnData } = FileManagerService();
 const { isDark } = useTheme();
+const imageFromServer = ref<string>();
+
+const pdfFromServer = ref<string>();
+
+
 const imageSelectIndex = ref<number>(0);
 const showImageView = ref(false);
 const imageItems = ref<FileManagerDto[]>([
@@ -191,12 +198,40 @@ const setImagesFileView = (file: FileManagerDto) => {
         resolve(true);
     });
 };
+
+
+const fetchImageFromServer = async () => {
+    const response = await fethCdnData('/api/fileManager/files/download?path=images/202502/1_1738834032363_35bb20615b61481dbca0a44c401e8d9b.jpg');
+    console.log('response', response);
+    imageFromServer.value=response;
+}
+
+const downloadImageFromServer = async () => {
+    const response = await fethCdnData('/api/fileManager/files/download?path=images/202502/1_1738834032363_35bb20615b61481dbca0a44c401e8d9b.jpg', 'download');
+    console.log('response', response);
+}
+
+
+
+const fetchPdfFromServer = async () => {
+    const response = await fethCdnData('/api/fileManager/files/download?path=images/202502/Product_20210612.pdf');
+    console.log('response', response);
+    pdfFromServer.value=response;
+}
 </script>
 <template>
     <BasePage class="content-limit">
 
         <BaseCard title="Image/Pdf View" sub-title="This is subtitle" :icon="biInfoCircle">
-            <BaseTextHeader label="Image Dialog"/>
+
+
+            <q-card-section class="q-gutter-md">
+                <BaseButton label="Fetch Image from server" @click="fetchImageFromServer" />
+                <BaseButton label="Download Image from server" @click="downloadImageFromServer" />
+                <BaseImage v-if="imageFromServer" :src="imageFromServer" style="width: 250px;"/>
+            </q-card-section>
+            
+           <BaseTextHeader label="Image Dialog" />
             <q-card-section>
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -221,19 +256,19 @@ const setImagesFileView = (file: FileManagerDto) => {
                 </div>
             </q-card-section>
             <q-card-section>
-                <BaseTextHeader label="Image Slide"/>
+                <BaseTextHeader label="Image Slide" />
                 <q-card flat bordered>
                     <client-only>
                         <base-image-view :files="imageItems" :selected-index="imageSelectIndex" :dark="isDark"
                             :show-delete-image="false" show-arrow height="350px" :closeable="false" />
                     </client-only>
                 </q-card>
-            </q-card-section>
+            </q-card-section> 
         </BaseCard>
 
-        <BaseCard class="q-my-md">
+         <BaseCard class="q-my-md">
             <q-card-section>
-                <BaseTextHeader label=" Pdf dialog View"/>
+                <BaseTextHeader label=" Pdf dialog View" />
                 <div class="row">
                     <div v-for="(pdf, pdfIndex) in pdfItems" :key="`impdfg-${pdfIndex}-${pdf.id}`"
                         class='col-4 col-md-2 q-pa-xs'>
@@ -242,17 +277,25 @@ const setImagesFileView = (file: FileManagerDto) => {
                     </div>
                 </div>
 
-                <BaseTextHeader label="Pdf inline display"/>
+                <BaseTextHeader label="Pdf inline display" />
                 <q-card flat bordered>
                     <base-pdf-view src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
                         :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
                 </q-card>
             </q-card-section>
+
+            <q-card-section>
+                <BaseButton label="Fetch pdf from server" @click="fetchPdfFromServer" />
+                <p/>
+                    
+                    <base-pdf-view v-if="pdfFromServer" :src="pdfFromServer"
+                        :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
+            </q-card-section>
         </BaseCard>
 
         <BaseCard class="q-my-md">
             <q-card-section>
-                <BaseTextHeader label="Mix item View"/>
+                <BaseTextHeader label="Mix item View" />
                 <div class="row">
                     <div v-for="(m, mIndex) in mixItems" :key="`impdfg-${mIndex}-${m.fileName}`"
                         class='col-4 col-md-2 q-pa-xs'>

@@ -8,10 +8,10 @@ import {
   getBlobFromAxiosResponse,
   getFileNameFromAxiosResponse,
   getFileExtension,
-  getFileNameFromResponse
 } from '~/utils/fileUtil';
 
 export default () => {
+  const { public: config } = useRuntimeConfig()
   const { callAxios, callAxiosFile } = useAxios();
   const uploadApi = async (
     file: any,
@@ -26,7 +26,7 @@ export default () => {
       API: '/api/fileManager/uploadApi',
       method: 'POST',
       body: postData,
-      baseURL: process.env.cdnBaseUrl,
+      baseURL: config.cdnBase,
       contentType: 'multipart/form-data'
     });
   };
@@ -34,7 +34,7 @@ export default () => {
     return await callAxios<ResponseMessage>({
       API: `/api/fileManager/deleteFileApi/${fileId}`,
       method: 'DELETE',
-      baseURL: process.env.cdnBaseUrl
+      baseURL: config.cdnBase
     });
   };
   const updateUserAvatar = async (
@@ -43,7 +43,7 @@ export default () => {
     return await callAxios<ResponseMessage>({
       API: `/api/fileManager/updateUserAvatar?fileManagerId=${fileManagerId}`,
       method: 'PUT',
-      baseURL: process.env.cdnBaseUrl
+      baseURL: config.cdnBase
     });
   };
   const updateUserCover = async (
@@ -52,17 +52,17 @@ export default () => {
     return await callAxios<ResponseMessage>({
       API: `/api/fileManager/updateUserCover?fileManagerId=${fileManagerId}`,
       method: 'PUT',
-      baseURL: process.env.cdnBaseUrl
+      baseURL: config.cdnBase
     });
   };
   // const fethCdnData = async (
   //   path: string
   // ): Promise<any> => {
-  //   const cdnBase = process.env.cdnBaseUrl;
+  //   const cdnBase = config.public.cdnBase;
   //   const src = cdnBase ? path.replace(cdnBase, '') : path;
   //   return await callAxiosFile<any>({
   //     API: src,
-  //     baseURL: process.env.cdnBaseUrl,
+  //     baseURL: config.public.cdnBase,
   //     method: 'GET',
   //     responseType: 'arraybuffer'
   //   });
@@ -71,11 +71,11 @@ export default () => {
     path: string,
     responseDataType: ResponseDataType = 'blob'
   ): Promise<any> => {
-    const cdnBase = process.env.cdnBaseUrl;
+    const cdnBase = config.cdnBase;
     const src = cdnBase ? path.replace(cdnBase, '') : path;
     const response = await callAxiosFile<any>({
       API: src,
-      baseURL: process.env.cdnBaseUrl,
+      baseURL: config.cdnBase,
       method: 'GET',
       responseType: 'arraybuffer'
     });
@@ -86,10 +86,7 @@ export default () => {
       } else if (responseDataType == 'arraybuffer') {
         return new Promise((resolve) => resolve(response.data));
       } else if (responseDataType == 'download') {
-        const contentType = response.headers['content-type'];
-        const fileName = getFileNameFromResponse(response);
-        downloadFromArrayBuffer(response.data, fileName, contentType);
-        // const name = 'Test.'
+        await downloadProcess(response);
         return new Promise((resolve) => resolve(response.data));
       } else if (responseDataType == 'axiosresponse') {
         return new Promise((resolve) => resolve(response));
@@ -102,10 +99,15 @@ export default () => {
   ): Promise<any> => {
     const response = await fethCdnData(path, 'axiosresponse');
     if (response.data) {
-      const contentType = response.headers['content-type'];
-      // const contentDisposition = response.headers['content-disposition'];
-      let fileName = await getFileNameFromAxiosResponse(response);
+      await downloadProcess(response, downloadFileName);
+    }
+    return new Promise((resolve) => resolve(null));
+  };
 
+  const downloadProcess = async (response: any, downloadFileName?: string) => {
+    if (response.data) {
+      const contentType = response.headers['content-type'];
+      let fileName = await getFileNameFromAxiosResponse(response);
       if (!fileName) {
         const fileExtension = getFileExtension(contentType);
         fileName = generateFileNameByExtesnsion(fileExtension, downloadFileName);
@@ -113,17 +115,17 @@ export default () => {
       if (fileName) {
         downloadFromArrayBuffer(response.data, fileName, contentType);
       }
-      return new Promise((resolve)=>   resolve(response.data));
+      return new Promise((resolve) => resolve(response.data));
+    } else {
+      return new Promise((resolve) => resolve(null));
     }
-
-    return new Promise((resolve)=>   resolve(null));
-  };
+  }
   return {
     uploadApi,
     updateUserAvatar,
     updateUserCover,
     deleteFileApi,
     fethCdnData,
-    downloadCdnData
+    downloadCdnData,
   };
 };

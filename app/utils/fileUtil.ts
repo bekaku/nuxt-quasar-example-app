@@ -3,14 +3,14 @@ import { getCurrentTimestamp } from '@/utils/dateUtil';
 import {
     biFileEarmark,
     biFileEarmarkImage,
-    biFileEarmarkPpt, 
+    biFileEarmarkPpt,
     biFileEarmarkZip,
     biFiletypePdf,
     biFiletypeXlsx,
     biFileWord
 } from '@quasar/extras/bootstrap-icons';
 // import JSZip from 'jszip';
-import type  { FileType } from '~/types/common';
+import type { FileType } from '~/types/common';
 
 export const fileToBlob = (file: File): Promise<any> => {
     return new Promise((resolve) => {
@@ -21,7 +21,7 @@ export const fileToBlob = (file: File): Promise<any> => {
         resolve(fileUrlObject);
     });
 };
-export const fileUrlToBlob = async(url: string): Promise<any> => {
+export const fileUrlToBlob = async (url: string): Promise<any> => {
     const response = await fetch(url);
     const blob = await response.blob();
     const urlBlob = URL.createObjectURL(blob);
@@ -87,9 +87,13 @@ export const getFileNameFromAxiosResponse = (response: any): Promise<string | un
         const contentDisposition = response.headers['content-disposition'];
         let fileName = undefined;
         if (contentDisposition) {
-            const match = contentDisposition.match(/filename="(.+)"/);
-            if (match && match[1]) {
-                fileName = match[1];
+            // const parts = contentDisposition.split('=');
+            // fileName = parts[1];
+            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+            const matches = filenameRegex.exec(contentDisposition);
+            if (matches?.[1]) {
+                // Remove quotes if present
+                fileName = matches[1].replace(/['"]/g, '');
             }
         }
         resolve(fileName);
@@ -171,7 +175,7 @@ export const getFileExtension = (t: string): string | undefined => {
     }
 
     let mimeType = t.split(';')[0];
-    if(!mimeType){
+    if (!mimeType) {
         return undefined;
     }
     mimeType = mimeType.toLowerCase();
