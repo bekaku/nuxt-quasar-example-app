@@ -4,7 +4,6 @@ import {
     biArrowLeftRight,
     biArrowsMove,
     biBack,
-    biBarChart,
     biBrush,
     biBug,
     biCalendar,
@@ -211,17 +210,10 @@ export const additionalMenu: IMenu[] = [
             },
             {
                 icon: biPieChart,
+                permission: '',
                 title: 'Charts',
                 translate: false,
-                items: [
-                    {
-                        icon: biBarChart,
-                        permission: '',
-                        title: 'Bar',
-                        translate: false,
-                        to: '/example/charts/bar'
-                    },
-                ]
+                to: '/example/charts'
             },
             {
                 icon: biChatDots,

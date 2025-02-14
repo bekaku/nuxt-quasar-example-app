@@ -56,6 +56,11 @@ export const useBase = () => {
         }
     };
     /*
+    navigateTo('/about', {
+        replace: true, // Replace current history entry
+        external: false, // Handle external links
+        force: false, // Force navigation even if route is same
+    })
     https://nuxt.com/docs/api/utils/navigate-to
     */
     const appNavigateTo = async (to: RouteLocationRaw | undefined | null, options?: NavigateToOptions) => {
