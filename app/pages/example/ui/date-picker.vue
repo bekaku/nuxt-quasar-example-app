@@ -40,7 +40,7 @@ const onUpdateDateRange = (v: string) => {
                         <BaseDate v-model="d" :auto-close="false" required @on-update="onUpdate" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <BaseTimePicker v-model="pickTime" label="Select Date" required @on-update="onUpdateTime" />
+                        <BaseTimePicker v-model="pickTime" label="Select time" required @on-update="onUpdateTime" />
                     </div>
                 </div>
 

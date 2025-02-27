@@ -152,7 +152,7 @@ const chartSetup = () => {
         // offsetY: semi ? -20 : 0,
       },
       theme: {
-        mode: mode,
+        mode: isDark.value ? "dark" : mode,
         palette: palette,
       },
       plotOptions: {

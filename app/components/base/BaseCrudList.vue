@@ -424,7 +424,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                     searchCol.options?.searchType ==
                                                     ICrudListHeaderOptionSearchType.BOOLEAN
                                                 ">
-                                                    <BaseChekbox v-model="searchCol.options.searchModel" use-checkbox
+                                                    <BaseCheckbox v-model="searchCol.options.searchModel" use-checkbox
                                                         use-label-title :label="t(searchCol.label)" />
                                                 </template>
                                                 <template v-else-if="
@@ -460,7 +460,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 </template>
                 <template v-else>
                     <slot name="table">
-                        <q-markup-table v-if="list.length > 0" :separator="tableSeperator" flat bordered>
+                        <q-markup-table v-if="list.length > 0" :separator="tableSeperator" flat bordered dense>
                             <thead>
                                 <slot name="theader">
                                     <tr>
@@ -474,7 +474,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                     }}
                                                 </q-tooltip>
                                             </q-checkbox> -->
-                                            <BaseChekbox v-model="selectedAll" :show-label="false"
+                                            <BaseCheckbox v-model="selectedAll" :show-label="false"
                                                 @click="onCheckedAll">
                                                 <q-tooltip>
                                                     {{
@@ -483,7 +483,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                             : t('base.deselectAll')
                                                     }}
                                                 </q-tooltip>
-                                            </BaseChekbox>
+                                            </BaseCheckbox>
                                         </th>
                                         <template v-for="(tblHeader, tblIndex) in fillableHeaders"
                                             :key="`tblHeader-${tblIndex}`">

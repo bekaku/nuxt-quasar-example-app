@@ -203,7 +203,7 @@ const setImagesFileView = (file: FileManagerDto) => {
 const fetchImageFromServer = async () => {
     const response = await fethCdnData('/api/fileManager/files/download?path=images/202502/1_1738834032363_35bb20615b61481dbca0a44c401e8d9b.jpg');
     console.log('response', response);
-    imageFromServer.value=response;
+    imageFromServer.value = response;
 }
 
 const downloadImageFromServer = async () => {
@@ -216,7 +216,7 @@ const downloadImageFromServer = async () => {
 const fetchPdfFromServer = async () => {
     const response = await fethCdnData('/api/fileManager/files/download?path=images/202502/Product_20210612.pdf');
     console.log('response', response);
-    pdfFromServer.value=response;
+    pdfFromServer.value = response;
 }
 </script>
 <template>
@@ -228,11 +228,12 @@ const fetchPdfFromServer = async () => {
             <q-card-section class="q-gutter-md">
                 <BaseButton label="Fetch Image from server" @click="fetchImageFromServer" />
                 <BaseButton label="Download Image from server" @click="downloadImageFromServer" />
-                <BaseImage v-if="imageFromServer" :src="imageFromServer" style="width: 250px;"/>
+                <BaseImage v-if="imageFromServer" :src="imageFromServer" style="width: 250px;" />
             </q-card-section>
-            
-           <BaseTextHeader label="Image Dialog" />
+
+
             <q-card-section>
+                <BaseTextHeader label="Image Dialog" />
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <q-item-label header>Grid</q-item-label>
@@ -263,10 +264,10 @@ const fetchPdfFromServer = async () => {
                             :show-delete-image="false" show-arrow height="350px" :closeable="false" />
                     </client-only>
                 </q-card>
-            </q-card-section> 
+            </q-card-section>
         </BaseCard>
 
-         <BaseCard class="q-my-md">
+        <BaseCard class="q-my-md">
             <q-card-section>
                 <BaseTextHeader label=" Pdf dialog View" />
                 <div class="row">
@@ -286,10 +287,10 @@ const fetchPdfFromServer = async () => {
 
             <q-card-section>
                 <BaseButton label="Fetch pdf from server" @click="fetchPdfFromServer" />
-                <p/>
-                    
-                    <base-pdf-view v-if="pdfFromServer" :src="pdfFromServer"
-                        :closeable="false" title="compressed.tracemonkey-pldi-09.pdf" />
+                <p />
+
+                <base-pdf-view v-if="pdfFromServer" :src="pdfFromServer" :closeable="false"
+                    title="compressed.tracemonkey-pldi-09.pdf" />
             </q-card-section>
         </BaseCard>
 

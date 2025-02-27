@@ -20,17 +20,8 @@ useHead({
 </script>
 <template>
     <BasePage>
-        <BaseCard>
+        <BaseCard title="Button">
             <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Button </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
-            <q-card-section>
-
-
 
                 <BaseRippleItem style="width: 150px;padding: 10px;">
                     This is Ripple Item

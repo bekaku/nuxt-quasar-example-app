@@ -65,7 +65,7 @@ const radios: LabelValue<number>[] = [
                             :label="t('model_permission_description')" :maxlength="255" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <BaseChekbox v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
+                        <BaseCheckbox v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
                         <div class="q-px-sm">Permission type</div>

@@ -1,5 +1,16 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
+const {
+    spinnerColor = 'white',
+    ratio = 1,
+    size = '32px',
+    alt = 'avatar',
+    square = false,
+    rounded = false,
+    fetch = false,
+    bordered = false,
+    borderedColor = '#fff',
+    borderedWidth = '2px',
+} = defineProps<{
     src: string;
     spinnerColor?: string;
     color?: string;
@@ -13,21 +24,8 @@ withDefaults(defineProps<{
     borderedColor?: string;
     borderedWidth?: string;
     alt?: string;
-}>(),
-    {
-        spinnerColor: 'white',
-        imgBg: 'bg-grey-8',
-        ratio: 4 / 3,
-        size: '32px',
-        alt: 'avatar',
-        square: false,
-        rounded: false,
-        fetch: false,
-        bordered: false,
-        borderedColor: '#fff',
-        borderedWidth: '2px',
-    }
-);
+}>()
+
 </script>
 <template>
     <q-avatar :size="size" :square="square" :rounded="rounded" v-bind="$attrs" :color="color">
@@ -35,13 +33,12 @@ withDefaults(defineProps<{
             <template v-if="!fetch">
                 <q-img :src="src"
                     :class="{ 'bordered': bordered, 'avatar-rounded': !square && rounded, 'avatar-round': !square && !rounded }"
-                    :alt="alt"
-                    :spinner-color="spinnerColor" no-native-menu />
+                    :alt="alt" :spinner-color="spinnerColor" :ratio no-native-menu />
             </template>
             <template v-else>
                 <base-image v-if="src" :src="src"
                     :class="{ 'bordered': bordered, 'avatar-rounded': !square && rounded, 'avatar-round': !square && !rounded }"
-                    :ratio="1" :fetch="fetch" :alt="alt" />
+                    :ratio :fetch="fetch" :alt="alt" />
             </template>
             <slot name="extra" />
         </slot>

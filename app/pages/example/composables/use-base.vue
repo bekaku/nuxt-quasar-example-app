@@ -57,14 +57,7 @@ const onCopyText = async () => {
 </script>
 <template>
     <BasePage>
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> useBase </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard title="useBase">
             <q-card-section class="q-gutter-md">
                 <BaseButton label="show loading" color="primary" outline unelevated @click="loader" />
                 <BaseButton label="show toast" color="warning" @click="toaster" />

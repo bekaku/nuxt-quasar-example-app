@@ -291,7 +291,7 @@ export const additionalMenu: IMenu[] = [
                 icon: biFile,
                 permission: '',
                 title: 'Result',
-                caption: 'Error, Success, 404',
+                caption: 'Error, Success, 404, Alert',
                 translate: false,
                 to: '/example/result'
             },

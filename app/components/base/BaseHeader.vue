@@ -5,7 +5,7 @@ import {
     biCameraVideo,
     biChatDots,
     biList,
-    biSearch
+    biSearch,
 } from '@quasar/extras/bootstrap-icons';
 import { useQuasar } from 'quasar';
 const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = true, showUserSetting = true, hambergerIcon = biList } = defineProps<{
@@ -16,6 +16,7 @@ const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = tr
     showLogo?: boolean;
     hambergerMenu?: boolean;
     hambergerIcon?: string;
+    hambergerSize?: string;
     hambergerIconOff?: string;
     showUserSetting?: boolean;
 }>();
@@ -31,13 +32,13 @@ const searchTimeout = ref<any>();
 const onOpenSearch = () => {
     showSearch.value = true;
 };
-const onScroll = (info: any) => {
-    if (info && info.position && info.position.top > 100) {
-        showGotTopBtn.value = true;
-    } else {
-        showGotTopBtn.value = false;
-    }
-};
+// const onScroll = (info: any) => {
+//     if (info && info.position && info.position.top > 100) {
+//         showGotTopBtn.value = true;
+//     } else {
+//         showGotTopBtn.value = false;
+//     }
+// };
 const onSearchMenuClick = (to: string) => {
     showSearch.value = false;
     setTimeout(() => {
@@ -57,11 +58,15 @@ onBeforeUnmount(() => {
         'app-second-bg-color-theme-dark text-white': isDark,
         'bg-white text-black': !isDark,
     }">
-        <q-scroll-observer @scroll="onScroll" />
+        <!-- <q-scroll-observer @scroll="onScroll" /> -->
         <q-toolbar class="q-py-xs">
-            <q-btn v-if="showTogleDrawer" dense flat round :icon="hambergerIcon"
-                @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)" />
-            <q-btn v-if="showLogo && !appStore.leftDrawerOpen" flat no-caps no-wrap round class="q-mr-xs" :ripple="false" to="/">
+            <q-btn v-if="showTogleDrawer" dense flat round @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)">
+                <q-icon
+                    :name="appStore.leftDrawerOpen ? hambergerIcon : hambergerIconOff ? hambergerIconOff : hambergerIcon"
+                    :size="hambergerSize" />
+            </q-btn>
+            <q-btn v-if="showLogo && !appStore.leftDrawerOpen" flat no-caps no-wrap round class="q-mr-xs btn--no-hover"
+                :ripple="false" to="/">
                 <q-avatar style="height: auto; width: 42px" square>
                     <img :src="!isDark
                         ? '/logo/logo-black.png'

@@ -16,14 +16,7 @@ const options: LabelValue<number>[] = [
 </script>
 <template>
     <BasePage>
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Toggle </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard title="Toggle, Options , Radios">
             <q-card-section>
                 <div class="text-h6">
                     Toggle/ Checkbox : {{ toggle }}
@@ -37,7 +30,7 @@ const options: LabelValue<number>[] = [
                         <BaseToggle v-model="toggle" label="Toggle" color="negative" size="md" />
                     </div>
                     <div class="col-4 q-pa-md">
-                        <BaseChekbox v-model="toggle" label="Checkbox" color="negative" size="md" />
+                        <BaseCheckbox v-model="toggle" label="Checkbox" color="negative" size="md" />
                     </div>
                 </div>
                 <div class="text-h6">

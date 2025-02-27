@@ -34,15 +34,13 @@ const onConfirmToClose = async () => {
     <BasePage>
         <BaseCard>
             <q-card-section class="q-gutter-md">
-                <div class="text-h6">Dialog</div>
-                <q-separator />
-
+                <BaseTextHeader label="Dialog"/>
 
                 <BaseButton outline label="Dialog" @click="dialog = true" />
                 <BaseButton outline label="Dialog persistent" @click="dialog2 = true" />
                 <BaseButton outline label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
 
-                <p>Size</p>
+                <BaseTextHeader label="Dialog Size"/>
                 <BaseButton outline label="Small" @click="dialogSmall = true" />
                 <BaseButton outline label="Medium" @click="dialogMedium = true" />
                 <BaseButton outline label="Full Width" @click="dialogFullWidth = true" />
@@ -52,8 +50,7 @@ const onConfirmToClose = async () => {
             </q-card-section>
 
             <q-card-section class="q-gutter-md">
-                <div class="text-h6">Popover confirm</div>
-                <q-separator />
+                <BaseTextHeader label="Popover confirm"/>
                 <BaseButton label="Delete item" color="negative" :icon="biTrash">
                     <BasePopConfirm :title="t('base.deleteConfirm')" confirm-color="negative"
                         @on-change="onPopConfirmChange" />
@@ -73,8 +70,7 @@ const onConfirmToClose = async () => {
                 </BaseButton>
             </q-card-section>
             <q-card-section class="q-gutter-md">
-                <div class="text-h6">Popover</div>
-                <q-separator />
+                <BaseTextHeader label="Popover"/>
                 <BaseButton label="Show popover">
                     <BasePopover width="250px">
                         <q-banner>

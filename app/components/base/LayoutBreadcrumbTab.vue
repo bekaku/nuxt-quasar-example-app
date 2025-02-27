@@ -14,7 +14,7 @@ const tabs = computed<Breadcrumb[] | undefined>(() => getPageMetaByKey('tabs') a
             </lazy-q-toolbar>
             <q-separator v-if="tabs && tabs.length > 0 && breadcrumbs && breadcrumbs.length > 0" />
             <lazy-q-toolbar v-if="tabs && tabs.length > 0">
-                <LazyBaseTabs :items="tabs" />
+                <LazyBaseTabsRoute :items="tabs" />
             </lazy-q-toolbar>
         </div>
     </div>

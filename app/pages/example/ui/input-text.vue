@@ -29,11 +29,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
 </script>
 <template>
     <BasePage>
-        <q-toolbar>
-            <q-toolbar-title> Input Text </q-toolbar-title>
-            <q-space />
-        </q-toolbar>
-        <q-separator />
+        <BaseTextHeader label="Input Text"/>
         <div class="row">
             <div class="col-12 col-md-6 q-pa-md q-gutter-md">
                 <q-form class="q-gutter-md" @submit="onSubmit">

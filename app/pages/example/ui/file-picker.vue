@@ -57,20 +57,11 @@ const onCustomRemove2 = (index: number) => {
 </script>
 <template>
     <BasePage>
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> file-picker </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard title="file-picker">
             <q-card-section>
                 <div class="row">
                     <div class="col-12 q-pa-md">
-                        <div class="text-h5">
-                            Simple Picker
-                        </div>
+                        <BaseTextHeader label="Simple Picker"/>
                         <BaseFilePicker v-model="files" v-model:file-items="filesPreview" multiple
                             :icon="biFileArrowUp" show-preview :accept="FileExtensionAccept"
                             :label="t('base.chooseFile')" @on-file-add="onFileAdd" />
@@ -80,9 +71,7 @@ const onCustomRemove2 = (index: number) => {
                         <q-separator />
                     </div>
                     <div class="col-12 q-pa-md">
-                        <div class="text-h5">
-                            Custom Ui
-                        </div>
+                        <BaseTextHeader label="Custom Ui"/>
                         <BaseFilePicker ref="filePickerCustomUiRef" v-model:file-items="customFiles" multiple
                             :accept="FileExtensionAccept" @on-file-add="onCustomFileAdd">
                             <BaseButton class="q-my-md" outline :icon="biUpload" label="Open Picker"
@@ -93,9 +82,7 @@ const onCustomRemove2 = (index: number) => {
                         <q-separator />
                     </div>
                     <div class="col-12 q-pa-md">
-                        <div class="text-h5 q-pb-md">
-                            Custom Ui2
-                        </div>
+                        <BaseTextHeader label="Custom Ui2"/>
                         <div class="row">
                             <div class="col-12 col-md-6 q-pa-md">
                                 <BaseFilePicker ref="filePickerCustomUi2Ref" v-model:file-items="custom2Files"

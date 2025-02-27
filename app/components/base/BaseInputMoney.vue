@@ -2,33 +2,30 @@
 import type { VueMoneyConFig } from '~/types/common';
 
 
-withDefaults(
-    defineProps<{
-        config?: VueMoneyConFig
-        hint?: string
-        label?: string
-        dense?: boolean
-        textAlign?: 'left' | 'right' | 'center'
-        readonly?: boolean
-        outlined?: boolean
-    }>(),
-    {
-        config: () => ({
-            decimal: '.',
-            separator: ',',
-            prefix: '',
-            suffix: '',
-            precision: 2,
-            nullValue: '',
-            masked: false,
-            reverseFill: false
-        }),
-        textAlign: 'left',
-        dense: false,
-        readonly: false,
-        outlined: true,
-    }
-);
+const {
+    config = {
+        decimal: '.',
+        separator: ',',
+        prefix: '',
+        suffix: '',
+        precision: 2,
+        nullValue: '',
+        masked: false,
+        reverseFill: false
+    },
+    textAlign = 'left',
+    dense = false,
+    readonly = false,
+    outlined = true,
+} = defineProps<{
+    config?: VueMoneyConFig | undefined
+    hint?: string | undefined
+    label?: string | undefined
+    dense?: boolean | undefined
+    textAlign?: 'left' | 'right' | 'center' | undefined
+    readonly?: boolean | undefined
+    outlined?: boolean | undefined
+}>()
 
 const emit = defineEmits(['change', 'update']);
 const modelValue = defineModel<number | string | null>();

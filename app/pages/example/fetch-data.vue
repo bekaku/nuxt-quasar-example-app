@@ -163,30 +163,18 @@ await callAxios<ResponseMessage>({
 */
 </script>
 <template>
-    <BasePage class="content-limit">
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Fetch data </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+    <BasePage :full="false">
+        <BaseCard title="Fetch data">
             <q-card-section class="q-gutter-md">
 
-
-                <div class="text-h5">
-                    AsyncData
-                </div>
+                <BaseTextHeader label="AsyncData"/>
                 <div style="max-height: 250px; overflow: auto" class="bg-black text-light-green-13">
                     <pre>{{ data }}</pre>
                 </div>
                 <BaseButton outline label="Refresh data" @click="() => refresh()" />
                 <BaseButton outline label="clear data" @click="() => clear()" />
                 <q-separator />
-                <div class="text-h5">
-                    Axios
-                </div>
+                <BaseTextHeader label="Axios"/>
                 <BaseButton outline label="Fetch data via $axios" @click="fetchData" />
                 <BaseButton outline label="Fetch Data Via Composible" @click="fetchDataViaComposible" />
                 <div class="row">
@@ -247,14 +235,12 @@ await callAxios<ResponseMessage>({
                     </div>
                 </div>
                 <q-separator />
-                <div class="text-h5">
-                    Internal Server API
-                </div>
+                
+                <BaseTextHeader label="Internal Server API"/>
                 <BaseButton @click="() => getDataNowFromServer()">Date now from api</BaseButton>
                 <BaseButton @click="() => getApiFromServer()">getApiFromServer api</BaseButton>
-                <div class="text-h5">
-                    Retrieve og: and other meta attributes from a resource
-                </div>
+
+                <BaseTextHeader label="Retrieve og: and other meta attributes from a resource"/>
                 <BaseButton outline :loading="ogLoading" label="Fetch Opengraph detail" @click="getOpengraph" />
                 <LazyBaseOpenGraphItem v-if="ogItem" style="width: 750px;" :item="ogItem" />
             </q-card-section>

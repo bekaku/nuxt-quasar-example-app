@@ -181,7 +181,7 @@ const onChangePassword = async () => {
                             @click="showChangePasswordForm = true" />
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <BaseChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('base.enable')" />
+                        <BaseCheckbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('base.enable')" />
                     </div>
                 </div>
                 <q-separator />
@@ -190,9 +190,9 @@ const onChangePassword = async () => {
                         <BaseTextHeader :icon="biPeople" :label="t('model_role')" />
                         <q-card-section>
                             <BaseCommandPalette v-model="crudEntity.selectedRoles" :readonly="!isEditMode" multiple
-                                scroll-height="200px" use-checkbox :items="roleItems">
+                                scroll-height="200px" :use-checkbox="isEditMode" :items="roleItems">
                                 <template #inputAppend>
-                                    <BaseChekbox v-if="isEditMode" v-model="selectedAll" :show-label="false"
+                                    <BaseCheckbox v-if="isEditMode" v-model="selectedAll" :show-label="false"
                                         @click="onCheckedAll">
                                         <q-tooltip>
                                             {{
@@ -201,7 +201,7 @@ const onChangePassword = async () => {
                                                     : t('base.deselectAll')
                                             }}
                                         </q-tooltip>
-                                    </BaseChekbox>
+                                    </BaseCheckbox>
                                 </template>
                             </BaseCommandPalette>
                         </q-card-section>

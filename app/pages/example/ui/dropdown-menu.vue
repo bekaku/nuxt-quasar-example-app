@@ -152,10 +152,8 @@ const onItemClick = () => {
 </script>
 <template>
     <BasePage>
-        <BaseCard>
+        <BaseCard title="Menu">
             <q-card-section class="q-gutter-md">
-                <div class="text-h6">Menu</div>
-                <q-separator />
                 <BaseButton :icon="biThreeDots" outline label="Simple menu">
                     <BaseDropdownMenu :items="menus" @on-click="onMenuClick" />
                 </BaseButton>

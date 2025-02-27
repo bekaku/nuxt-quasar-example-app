@@ -1,4 +1,4 @@
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import type { AppException, RequestType, ResponseMessage } from "~/types/common";
 import { biCheckCircle, biExclamationTriangle, biX } from "@quasar/extras/bootstrap-icons";
 import { useQuasar } from "quasar";
@@ -52,6 +52,8 @@ export const useAxios = () => {
                             exeptionNotify(error?.response);
                         }
                     }
+                } else {
+                    notifyError(error as AxiosError);
                 }
                 reject(error);
             }).finally(() => {
@@ -111,7 +113,6 @@ export const useAxios = () => {
         }
     };
     const notifyMessage = (response: AppException | null): void => {
-        console.error(response);
         if (import.meta.server || response == null) {
             return;
         }
@@ -145,6 +146,27 @@ export const useAxios = () => {
                 icon: response.status == 'OK' || response.status == 'CREATED' ? biCheckCircle : biExclamationTriangle,
                 type: response.status == 'OK' || response.status == 'CREATED' ? 'positive' : 'negative',
                 timeout: response.status == 'OK' || response.status == 'CREATED' ? 3 * 1000 : 10 * 1000,
+                progress: true,
+                position: 'bottom-left',
+                multiLine: true,
+                actions: [{ icon: biX, color: 'white' }]
+            },
+        );
+    }
+    const notifyError = (error: AxiosError) => {
+        if (import.meta.server || !error?.message) {
+            return;
+        }
+        if (quasarLoading.isActive) {
+            quasarLoading.hide();
+        }
+        notify(
+            {
+                message: error.message,
+                html: true,
+                icon: biExclamationTriangle,
+                type: 'negative',
+                timeout: 15 * 1000,
                 progress: true,
                 position: 'bottom-left',
                 multiLine: true,

@@ -106,15 +106,8 @@ const onInfiniteVirtual = (index: number, done: any) => {
 }
 </script>
 <template>
-    <BasePage>
-        <BaseCard flat bordered class="content-limit">
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Virtual scroller </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+    <BasePage :full="false">
+        <BaseCard flat bordered title="Virtual scroller">
             <q-card-section class="q-gutter-y-lg">
                 <div class="text-h5">
                     Dynamic Scroller
@@ -188,14 +181,15 @@ const onInfiniteVirtual = (index: number, done: any) => {
                         Slot after
                     </template>
                 </BaseVirtualScrollerRecycle>
-                <q-infinite-scroll ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
+                <!-- <q-infinite-scroll ref="chatInfinityScrollRef" scroll-target="#scroll-chat-target-id"
                     @load="onInfinite">
                     <template #loading>
                         <div class="row justify-center q-my-md">
                             <q-spinner color="primary" name="dots" size="40px" />
                         </div>
                     </template>
-                </q-infinite-scroll>
+                </q-infinite-scroll> -->
+                <BaseInfiniteScroll scroll-target="#scroll-chat-target-id" @on-infinite="onInfinite"/>
             </q-card-section>
 
             <q-card-section class="q-gutter-y-lg">
@@ -239,13 +233,14 @@ const onInfiniteVirtual = (index: number, done: any) => {
                         </div>
                     </q-virtual-scroll>
                     <p>Bottom Area</p>
-                    <q-infinite-scroll :offset="250" scroll-target="#virtual-scroll-target-holder" @load="onInfiniteVirtual">
+                    <!-- <q-infinite-scroll :offset="250" scroll-target="#virtual-scroll-target-holder" @load="onInfiniteVirtual">
                         <template #loading>
                             <div class="row justify-center q-my-md">
-                                <q-spinner-dots color="primary" size="40px" />
+                                <BaseSpinner/>
                             </div>
                         </template>
-                    </q-infinite-scroll>
+                    </q-infinite-scroll> -->
+                    <BaseInfiniteScroll scroll-target="#virtual-scroll-target-holder" @on-infinite="onInfiniteVirtual"/>
                 </div>
             </q-card-section>
 

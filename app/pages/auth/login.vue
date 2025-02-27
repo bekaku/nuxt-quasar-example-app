@@ -24,13 +24,16 @@ const deviceId = ref();
 const onSubmit = async () => {
     loading.value = true;
     deviceId.value = await getDeviceId();
-    await signin({
-        emailOrUsername: email.value,
-        password: password.value,
-        loginFrom: 'WEB',
-        deviceId: deviceId.value ? deviceId.value : null,
-    });
-    loading.value = false;
+    try {
+        await signin({
+            emailOrUsername: email.value,
+            password: password.value,
+            loginFrom: 'WEB',
+            deviceId: deviceId.value ? deviceId.value : null,
+        });
+    } finally{
+        loading.value = false;
+    }
 };
 const onReset = () => {
     email.value = null;
@@ -70,8 +73,8 @@ const onReset = () => {
                     </div>
 
                     <q-form ref="loginForm" class="q-gutter-md" @submit.prevent="onSubmit" @reset="onReset()">
-                        <BaseInput v-model="email" :readonly="loading" :dense="false"
-                            :label="t('base.emailOrUsername')" :rules="[required]">
+                        <BaseInput v-model="email" :readonly="loading" :dense="false" :label="t('base.emailOrUsername')"
+                            :rules="[required]">
                             <template #prepend>
                                 <q-icon :name="biPerson" color="grey-9" />
                             </template>

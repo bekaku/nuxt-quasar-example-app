@@ -81,20 +81,16 @@ return formatDate(dateString, formatDateText, locale.value)
     </template>
     <template v-else>
       <q-popup-proxy v-if="editMode" ref="dateRangeProxy" transition-show="scale" transition-hide="scale">
-        <BaseDate v-model="modelValueRange" range :color @on-update-range="onDateRangeSelect" />
+        <BaseDate  v-model:start="start" v-model:end="end"  range :color @on-update-range="onDateRangeSelect" />
       </q-popup-proxy>
     </template>
     <template #control>
       <div class="self-center full-width no-outline" tabindex="0">
         <template v-if="!showFormatDate">
-          {{ !range ? convertDateFormatToThai(modelValue) : `${modelValueRange?.from ?
-            convertDateFormatToThai(modelValueRange.from) : ''}-${modelValueRange?.to ?
-              convertDateFormatToThai(modelValueRange.to) : ''}` }}
+          {{ !range ? convertDateFormatToThai(modelValue) : `${start ? convertDateFormatToThai(start) : ''}-${end ?convertDateFormatToThai(end) : ''}` }}
         </template>
         <template v-else>
-          {{ !range ? getFormarText(modelValue) : `${modelValueRange?.from ?
-            getFormarText(modelValueRange.from) : ''} - ${modelValueRange?.to ?
-            getFormarText(modelValueRange.to) : ''}` }}
+          {{ !range ? getFormarText(modelValue) : `${start ? getFormarText(start) : ''} - ${end ?getFormarText(end) : ''}` }}
         </template>
       </div>
     </template>

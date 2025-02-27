@@ -19,14 +19,7 @@ const getTooltipBy = (index: number) => {
 </script>
 <template>
     <BasePage>
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Avatar </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard title="Avatar">
             <q-card-section>
 
                 <div class=" row q-pa-md q-gutter-md">

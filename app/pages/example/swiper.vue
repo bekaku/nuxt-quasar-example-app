@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BaseSwiperSlides } from '#components';
+import { biArrowLeft, biArrowRight } from '@quasar/extras/bootstrap-icons';
 import type { SlideOptions } from '~/types/common';
 
 const { t } = useLang();
@@ -194,10 +195,7 @@ const items = [
 
         <div class="row">
             <div class="col col-md-6 q-pa-sm">
-                <BaseCard>
-                    <div class="q-pa-md text-h5">
-                        Horizontal
-                    </div>
+                <BaseCard title="Horizontal">
                     <q-card-section>
                         <base-swiper-slides ref="testSwiperRef" :params="slideOpts">
                             <swiper-slide v-for="(item, i) in items" :key="i">
@@ -222,24 +220,17 @@ const items = [
                                 Slot start
                             </template>
                             <template #end>
-                                <q-card-section v-if="testSwiperRef">
-                                    <q-btn @click="testSwiperRef.onPrev()">
-                                        Prev
-                                    </q-btn>
-                                    <q-btn @click="testSwiperRef.onNext()">
-                                        Next
-                                    </q-btn>
-                                </q-card-section>
+                                <q-card-actions  v-if="testSwiperRef"  align="around">
+                                    <BaseButton label="Prev" light :icon="biArrowLeft" @click="testSwiperRef.onPrev()" />
+                                    <BaseButton label="Next" light :icon="biArrowRight" @click="testSwiperRef.onNext()" />
+                                </q-card-actions>
                             </template>
                         </base-swiper-slides>
                     </q-card-section>
                 </BaseCard>
             </div>
             <div class="col col-md-6 q-pa-sm">
-                <BaseCard>
-                    <div class="q-pa-md text-h5">
-                        Virtical
-                    </div>
+                <BaseCard title="Virtical">
                     <q-card-section>
                         <base-swiper-slides :params="slideOptsVertical" style="height: 400px;">
                             <swiper-slide v-for="(item, i) in items" :key="`virtical-${i}`">
@@ -264,10 +255,7 @@ const items = [
                 </BaseCard>
             </div>
             <div class="col col-md-6 q-pa-sm">
-                <BaseCard>
-                    <div class="q-pa-md text-h5">
-                        Card
-                    </div>
+                <BaseCard title="Card">
                     <q-card-section>
                         <base-swiper-slides :params="{
                             slidesPerView: 1,
@@ -301,10 +289,7 @@ const items = [
                 </BaseCard>
             </div>
             <div class="col-12 q-pa-sm">
-                <BaseCard>
-                    <div class="q-pa-md text-h5">
-                        Grid
-                    </div>
+                <BaseCard title="Grid">
                     <q-card-section>
                         <ClientOnly>
                             <base-swiper-slides :params="{

@@ -4,7 +4,7 @@
   import { mdiChevronDown, mdiChevronRight } from '@quasar/extras/mdi-v7';
   import { computed } from 'vue';
 
-  const { menuItems, dense = false, iconSize = '20px' } = defineProps<{
+  const { menuItems, iconSize = '20px', dense = true } = defineProps<{
     menuItems: IMenu[];
     darkText?: string;
     lightText?: string;
@@ -35,7 +35,7 @@
               <template v-else>
                 <q-expansion-item :icon="page.icon" :label="page?.translate !== false ? t(`${page.title}`) : page.title"
                   :default-opened="checkExpansionChildActive(currentUrlPath, page.items)" :expand-icon="mdiChevronRight"
-                  :expanded-icon="mdiChevronDown" expand-icon-class="text-muted" :dense >
+                  :expanded-icon="mdiChevronDown" expand-icon-class="text-muted" :dense>
                   <template #header>
                     <q-item-section avatar>
                       <q-icon :name="page.icon" :size="iconSize" />
@@ -47,9 +47,9 @@
                   </template>
                   <q-list class="q-pl-sm">
                     <div class="parent-menu-border">
-                    <BaseMenuItem v-for="(pageItem, pageItemIndex) in page.items"
-                      :key="`parent-${index}-page-${pageIndex}-sub-${pageItemIndex}`" :light-text="lightText"
-                      :dark-text="darkText" :dense :item="pageItem" icon-size="18px" />
+                      <BaseMenuItem v-for="(pageItem, pageItemIndex) in page.items"
+                        :key="`parent-${index}-page-${pageIndex}-sub-${pageItemIndex}`" :light-text="lightText"
+                        :dark-text="darkText" :dense :item="pageItem" icon-size="18px" />
                     </div>
                   </q-list>
 
@@ -63,7 +63,11 @@
     </q-list>
   </template>
 <style lang="scss">
-.parent-menu-border{
+.parent-menu-border {
   border-left: 1px solid var(--app-main-border-color);
+}
+.default-nav {
+  padding: 10px;
+  border-radius: 10px;
 }
 </style>

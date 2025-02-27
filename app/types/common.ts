@@ -137,6 +137,7 @@ export interface Breadcrumb {
     to?: string;
     params?: string[];
     queries?: string[];
+    value?: any
     permissions?: string[];
     frontend?: boolean;
 }

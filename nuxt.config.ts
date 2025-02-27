@@ -2,21 +2,17 @@
 // https://nuxt.com/modules/quasar
 import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
 export default defineNuxtConfig({
-  app: {
-    head: {
-      title: 'Quasar + Nuxt 3',
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'keywords', content: 'Nuxt Quasar Example, Vue Quasar Example' },
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'ElementPlus + Nuxt3',
-        },
-      ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    }
-  },
+  // app: {
+  //   head: {
+  //     title: 'Quasar + Nuxt 3',
+  //     meta: [
+  //       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  //       { name: 'keywords', content: 'Nuxt Quasar Example, Vue Quasar Example' },
+  //       { hid: 'description', name: 'description',content: 'ElementPlus + Nuxt3',},
+  //     ],
+  //     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  //   }
+  // },
   compatibilityDate: '2024-12-14',
   css: [
     '~/assets/scss/color.scss',

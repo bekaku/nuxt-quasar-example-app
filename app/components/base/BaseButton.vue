@@ -15,7 +15,9 @@ import type { AppColor, IHrefTarget } from '~/types/common';
     disable = false,
     dense = false,
     full = false,
-    color='primary'
+    color='primary',
+    light= false,
+    textCapitalize = true,
   } = defineProps<{
     align?: 'left' | 'right' | 'center' | 'around' | 'between' | 'evenly';
     color?: AppColor;
@@ -29,6 +31,7 @@ import type { AppColor, IHrefTarget } from '~/types/common';
     icon?: string;
     iconRight?: string;
     label?: string;
+    light?: boolean
     loading?: boolean;
     noCaps?: boolean;
     outline?: boolean;
@@ -44,6 +47,7 @@ import type { AppColor, IHrefTarget } from '~/types/common';
     target?: IHrefTarget;
     type?: 'button' | 'a'| 'submit'| 'reset';
     unelevated?: boolean;
+    textCapitalize?: boolean
   }>();
   const { isDark } = useTheme();
 </script>
@@ -51,8 +55,8 @@ import type { AppColor, IHrefTarget } from '~/types/common';
     <q-btn v-bind="$attrs" 
       :outline 
       :label="!outline ? label : undefined" 
-      :color="flat && label==undefined ? undefined : outline && outlineColor==undefined ? undefined : outlineColor ||color"
-      :text-color="textColor" 
+      :color="light ? (isDark ? 'blue-grey-9' : 'grey-2') : flat && label==undefined ? undefined : outline && outlineColor==undefined ? undefined : outlineColor ||color"
+      :text-color="light ? (isDark ? 'white' : 'black') : textColor" 
       :no-caps="noCaps" 
       :unelevated 
       :glossy 
@@ -63,7 +67,7 @@ import type { AppColor, IHrefTarget } from '~/types/common';
       :square :push :rounded :align :size :loading :to :disable :dense
       :target
       :type
-      :class="{ 'defult-outline': label && !outlineColor && outline, 'full-width': full }"
+      :class="{ 'defult-outline': label && !outlineColor && outline, 'full-width': full, 'text-capitalize': textCapitalize }"
       >
       <!-- 'default-button': !outline && !unelevated && !flat && !glossy && !stack && !push -->
       <template v-if="outline">

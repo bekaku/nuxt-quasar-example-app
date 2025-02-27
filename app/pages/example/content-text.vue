@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { biPencil } from '@quasar/extras/bootstrap-icons';
 import { extractHashtagsFromString } from '~/utils/appUtil';
 const { required } = useValidation();
 useHead({
@@ -49,14 +50,7 @@ const testExtractHashTag = () => {
 </script>
 <template>
     <BasePage class="content-limit">
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Content Text </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard title="Content Text">
             <q-card-section>
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -76,19 +70,12 @@ const testExtractHashTag = () => {
 
                     </div>
                     <div class="col-12 col-md-6 q-pa-md">
-                        <div class="text-h5 q-pb-sm">
-                            Ellipsis
-                        </div>
-
+                        <BaseTextHeader :icon="biPencil" label="Ellipsis"/>
                         <base-ellipsis class="q-mb-lg" :lines="4" clickable>
                             {{ content }}
                         </base-ellipsis>
 
-
-
-                        <div class="text-h5 q-pb-sm">
-                            Preview with sanitize html
-                        </div>
+                        <BaseTextHeader label="Preview with sanitize html"/>
                         <template v-if="showContent">
                             <base-content-item wrap-text :content="content" :content-id="contentUniqeId"
                                 :is-escape-html="false" hashtag-urlify show-more />
@@ -96,9 +83,7 @@ const testExtractHashTag = () => {
                         </template>
                         <q-separator class="q-my-md" />
 
-                        <div class="text-h5 q-pb-sm">
-                            Preview with escape html
-                        </div>
+                        <BaseTextHeader label="Preview with escape html"/>
                         <template v-if="showContent">
                             <base-content-item wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
                                 :limit="10" hashtag-urlify show-more />

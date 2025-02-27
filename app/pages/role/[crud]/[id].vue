@@ -133,7 +133,7 @@ const updateSelectedAll = (val: boolean) => {
               :label="t('model.role.name')" type="text" :rules="[required]" :maxlength="125" counter />
           </div>
           <div class="col-12 col-md-4  q-px-md q-gutter-md">
-            <BaseChekbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
+            <BaseCheckbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
           </div>
         </div>
         <q-separator />
@@ -142,9 +142,9 @@ const updateSelectedAll = (val: boolean) => {
             <BaseTextHeader :icon="biShieldLock" :label="t('model_permission')" />
             <q-card-section>
               <BaseCommandPalette v-model="crudEntity.selectdPermissions" :readonly="!isEditMode" multiple
-                :items="permissionItems" use-checkbox>
+                :items="permissionItems" :use-checkbox="isEditMode">
                 <template #inputAppend>
-                  <BaseChekbox v-if="isEditMode" v-model="selectedAll" :show-label="false" @click="onCheckedAll">
+                  <BaseCheckbox v-if="isEditMode" v-model="selectedAll" :show-label="false" @click="onCheckedAll">
                     <q-tooltip>
                       {{
                         !selectedAll
@@ -152,7 +152,7 @@ const updateSelectedAll = (val: boolean) => {
                           : t('base.deselectAll')
                       }}
                     </q-tooltip>
-                  </BaseChekbox>
+                  </BaseCheckbox>
                 </template>
               </BaseCommandPalette>
             </q-card-section>

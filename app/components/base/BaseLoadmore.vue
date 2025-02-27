@@ -42,11 +42,12 @@ withDefaults(
         fill: 'solid'
     }
 );
+const { t } = useLang();
 defineEmits(['on-next-page']);
 </script>
 <template>
     <div class="row justify-center">
-        <q-btn :disable="isInfiniteDisabled" :label="label" class="text-capitalize q-ma-sm"
+        <q-btn :disable="isInfiniteDisabled" :label="label || t('base.loadMore')" class="text-capitalize q-ma-sm"
             :class="color + ' ' + (fullWidth ? 'full-width' : '')" :icon="showIcon ? icon : undefined" flat
             :loading="loading" @click="$emit('on-next-page')" />
     </div>

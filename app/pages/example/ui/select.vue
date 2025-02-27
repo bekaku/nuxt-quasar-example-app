@@ -231,53 +231,35 @@ watch(districtSeleted, () => {
 </script>
 <template>
     <BasePage>
-        <BaseCard>
+        <BaseCard title="Select">
             <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Select </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
-            <q-card-section>
-
                 <div class="row">
                     <div class="col-12 col-md-4 q-pa-md">
-                        <div class="text-h5 q-my-sm">
-                            Single Select
-                        </div>
+                        <BaseTextHeader label="Single Select"/>
                         <BaseSelect v-model="singleModel" required can-filter clearable :items="simpleItems" dense
                             :multiple="false" label="Select Single" />
                         <p>simpleModel : {{ singleModel }}</p>
                     </div>
                     <div class="col-12 col-md-4 q-pa-md">
-                        <div class="text-h5 q-my-sm">
-                            Single Avatar Select
-                        </div>
+                        <BaseTextHeader label="Single Avatar Select"/>
                         <BaseSelect v-model="singleModel2" can-filter clearable :items="simpleItems2" dense
                             :multiple="false" label="Select Multiple" />
                         <p>singleModel2 : {{ singleModel2 }}</p>
                     </div>
                     <div class="col-12 col-md-4 q-pa-md">
-                        <div class="text-h5 q-my-sm">
-                            Multiple Select
-                        </div>
+                        <BaseTextHeader label="Multiple Select"/>
                         <BaseSelect v-model="multipleModel" can-filter clearable :items="simpleItems2" dense
                             use-chips multiple label="Select Multiple" />
                         <p>multipleModel : {{ multipleModel }}</p>
                     </div>
                     <div class="col-12 col-md-4 q-pa-md">
-                        <div class="text-h5 q-my-sm">
-                            Select Alt
-                        </div>
+                        <BaseTextHeader label="Select Alt"/>
                         <BaseSelectAlt v-model="multipleAnyModel" :items="simpleItems3" multiple dense
                             label="Select Any" option-label="name" option-value="id" />
                         <p>multipleAnyModel : {{ multipleAnyModel }}</p>
                     </div>
                     <div class="col-12 col-md-4 q-pa-md">
-                        <div class="text-h5 q-my-sm">
-                            Lazy loading, Virtual Scroller
-                        </div>
+                        <BaseTextHeader label="Lazy loading, Virtual Scroller"/>
                         <BaseSelect v-model="singleLazyModel" can-filter clearable :items="lazyItems" dense
                             :multiple="false" lazy :input-debounce="300" :lazy-loading="lazyLoading"
                             label="Select lazy Single" :no-options-text="t('base.typeForsearch')"
@@ -287,9 +269,7 @@ watch(districtSeleted, () => {
                 </div>
 
 
-                <div class="text-h5 q-my-sm">
-                    Cascade
-                </div>
+                <BaseTextHeader label="Cascade"/>
                 <div class="row">
                     <div class="col-12 col-md-4 q-pa-md">
                         <BaseSelect v-model="provinceSeleted" can-filter :items="provinceItems" dense

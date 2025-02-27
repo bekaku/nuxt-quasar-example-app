@@ -19,18 +19,8 @@ const onEmojiClick = (emoji: string) => {
 </script>
 <template>
     <BasePage class="content-limit">
-        <BaseCard>
+        <BaseCard title="Emoji picker">
             <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Emoji picker </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
-            <q-card-section>
-                <div class="text-h5">
-                    Emoji picker
-                </div>
                 <q-input v-model="message" outlined type="textarea" autogrow label="Type message">
                     <template v-if="authenStore?.auth?.avatar?.thumbnail" #prepend>
                         <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
@@ -57,9 +47,7 @@ const onEmojiClick = (emoji: string) => {
             </q-card-section>
             <q-separator />
             <q-card-section class="q-gutter-md">
-                <div class="text-h5">
-                    Icon
-                </div>
+                <BaseTextHeader label="Icon"/>
                 <div class="text-h6">
                     Nuxt Icon
                 </div>

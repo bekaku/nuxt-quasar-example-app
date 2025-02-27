@@ -26,14 +26,7 @@ const onCropImage = async (f: any) => {
 </script>
 <template>
     <BasePage class="content-limit">
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Image Cropper </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard title="Image Cropper">
             <q-card-section>
                 <div class="row">
                     <div class="col-12 col-md-4">

@@ -40,11 +40,11 @@ onBeforeUnmount(() => {
 <template>
     <q-drawer v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
         :mini-to-overlay="miniToOverlay && !appStore.leftDrawerOpen" :mini="miniState && !appStore.leftDrawerOpen"
-        class="drawer-bg" @mouseover="miniState = false" @mouseout="miniState = true">
+        class="drawer-bg q-px-xs" @mouseover="miniState = false" @mouseout="miniState = true">
         <q-scroll-area class="fit">
             <div v-show="!miniState || appStore.leftDrawerOpen">
                 <div class="row justify-center q-pa-sm">
-                    <q-btn flat round no-caps :ripple="false" to="/">
+                    <q-btn flat dense round to="/" class="btn--no-hover">
                         <q-avatar style="height: auto; width: 45px" square>
                             <img alt="logo" :src="!isDark
                                 ? '/logo/logo-black.png'
@@ -55,18 +55,17 @@ onBeforeUnmount(() => {
                 </div>
 
                 <q-item clickable dense class="search-item"
-                    :class="{ 'bg-blue-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }"
                     @click="onOpenSearch">
                     <q-item-section side>
-                        <q-icon :name="biSearch" size="xs" />
+                        <q-icon :name="biSearch" size="xs" class="text-muted" />
                     </q-item-section>
                     <q-item-section>
-                        <q-item-label caption>
+                        <q-item-label class="text-muted">
                             {{ t('base.searchMenu') }}
                         </q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                        <q-icon :name="biCommand" size="xs" />
+                        <q-icon :name="biCommand" size="xs" class="text-muted" />
                     </q-item-section>
                 </q-item>
             </div>
@@ -108,5 +107,6 @@ onBeforeUnmount(() => {
     padding: 10px;
     margin: 10px 10px 0 10px;
     border-radius: 10px;
+    border: var(--app-main-border-color) 1px solid;
 }
 </style>

@@ -87,11 +87,7 @@ note、abstract、info、tip、success、question、warning、failure、danger�
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-y-lg"> -->
-        <q-toolbar>
-            <q-toolbar-title> Markdown </q-toolbar-title>
-            <q-space />
-        </q-toolbar>
-        <q-separator />
+        <BaseTextHeader label="Markdown" />
         <BaseCard flat class="q-my-lg q-pa-md">
             <div class="text-h5 q-mb-md">
                 <q-icon :name="biPencil" /> Editor

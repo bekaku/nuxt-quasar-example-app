@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common';
 
-const { flat = false, bordered = true, separator = false } = defineProps<{
+const { flat = false, bordered = true, separator = false, bgTransparent=false } = defineProps<{
     flat?: boolean
     bordered?: boolean
     title?: string
@@ -9,28 +9,23 @@ const { flat = false, bordered = true, separator = false } = defineProps<{
     icon?: string
     iconSet?: IconSet
     separator?: boolean
+    bgTransparent?: boolean
 }>();
 </script>
 <template>
-    <q-card v-bind="$attrs" :flat :bordered="bordered" :class="{ 'default-card': !flat }">
-        <q-card-section v-if="icon || title">
-            <!-- <q-toolbar>
-                <slot name="toolBarStart">
-                    <BaseIcon v-if="icon" :icon="icon" :icon-set="iconSet" />
-                </slot>
-                <q-toolbar-title class="text-weight-bold"> {{ title }}
-                    <div v-if="subTitle" class="text-muted text-caption">{{ subTitle }}</div>
-                </q-toolbar-title>
-                <q-space />
-                <slot name="toolBarEnd" />
-            </q-toolbar> -->
-            <div v-if="title" class="text-h6 text-weight-bold"> 
-                <BaseIcon v-if="icon" :icon="icon" :icon-set="iconSet" class="q-mr-xs" /> {{ title }}
-            </div>
-            <div v-if="subTitle" class="text-body1 text-muted">{{subTitle}}</div>
-
-            <q-separator v-if="separator" />
-        </q-card-section>
+    <q-card v-bind="$attrs" :flat :bordered="bordered" :class="{ 'default-card': !flat, 'bg-transparent': bgTransparent  }" class="q-mb-md">
+      <q-toolbar v-if="icon || title" class="q-pa-md">
+            <slot name="toolbarStart">
+                <q-icon v-if="icon" :name="icon" size="24px" class="q-mr-xs" />
+            </slot>
+            <q-toolbar-title>
+                <div v-if="title" class="text-h6 text-weight-bold">{{ title }} </div>
+                <div v-if="subTitle" class="text-body1 text-muted">{{ subTitle }}</div>
+            </q-toolbar-title>
+            <q-space />
+            <slot name="toolbarEnd" />
+        </q-toolbar>
+        <q-separator v-if="separator" />
         <slot />
     </q-card>
 </template>

@@ -40,27 +40,18 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <BasePage>
-        <BaseCard>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> usePageFetch </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+    <BasePage :full="false">
+        <BaseCard title="usePageFetch">
             <q-card-section class="q-gutter-md">
-                <BaseCard flat bordered>
+                <BaseCard flat bordered title="Paging">
+                    <template #toolbarEnd>
+                        <BaseButton flat round :icon="biArrowClockwise" @click="onReload">
+                            <q-tooltip>
+                                Reload data
+                            </q-tooltip>
+                        </BaseButton>
+                    </template>
                     <q-card-section>
-                        <q-toolbar>
-                            <q-toolbar-title> Paging </q-toolbar-title>
-                            <q-space />
-                            <BaseButton  flat round :icon="biArrowClockwise" @click="onReload">
-                                <q-tooltip>
-                                    Reload data
-                                </q-tooltip>
-                                </BaseButton>
-                        </q-toolbar>
                         <template v-if="!firstLoaded">
                             <base-spinner />
                         </template>
@@ -87,17 +78,15 @@ onMounted(async () => {
                     </q-card-section>
                 </BaseCard>
 
-                <BaseCard class="q-my-md" flat bordered>
+                <BaseCard flat bordered title="Loadmore">
+                    <template #toolbarEnd>
+                        <BaseButton flat round :icon="biArrowClockwise" @click="onReload2">
+                            <q-tooltip>
+                                Reload data
+                            </q-tooltip>
+                        </BaseButton>
+                    </template>
                     <q-card-section>
-                        <q-toolbar>
-                            <q-toolbar-title> Loadmore </q-toolbar-title>
-                            <q-space />
-                            <BaseButton  flat round :icon="biArrowClockwise" @click="onReload2">
-                                <q-tooltip>
-                                    Reload data
-                                </q-tooltip>
-                                </BaseButton>
-                        </q-toolbar>
                         <template v-if="!firstLoaded2">
                             <base-spinner />
                         </template>

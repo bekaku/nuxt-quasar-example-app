@@ -218,7 +218,19 @@ export const useBase = () => {
             statusMessage: param.statusMessage
         })
     }
-
+  /**
+   * <div ref="bottomSection"></div>
+   * scrollToTop(bottomSection.value);
+   * @param el
+   */
+  const scrollToTop = (el: Element) => {
+    // window.scrollTo(0, 0);
+    if (el) {
+      // el.scrollIntoView({ behavior: 'smooth' });
+      // el.scrollIntoView({ block: 'end', behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
     return {
         getPageMeta,
         getPageMetaByKey,
@@ -237,6 +249,7 @@ export const useBase = () => {
         appNavigateTo,
         inputSanitizeHtml,
         writeToClipboard,
-        appThrowError
+        appThrowError,
+        scrollToTop
     }
 };

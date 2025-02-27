@@ -133,7 +133,7 @@ const chartSetup = () => {
         },
       },
       theme: {
-        mode: mode,
+        mode: isDark.value ? "dark" : mode,
         palette: palette,
       },
       plotOptions: {

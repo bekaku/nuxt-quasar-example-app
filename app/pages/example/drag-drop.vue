@@ -46,20 +46,13 @@ const onEndDrag = () => {
 </script>
 <template>
     <BasePage>
-        <BaseCard flat bordered>
-            <q-card-section>
-                <q-toolbar>
-                    <q-toolbar-title> Darg drop </q-toolbar-title>
-                    <q-space />
-                </q-toolbar>
-                <q-separator />
-            </q-card-section>
+        <BaseCard flat bordered title="Darg drop">
             <q-card-section class="q-gutter-y-lg">
                 <client-only>
                     <div class="row">
                         <div class="col-6 q-pa-sm">
                             <q-card-section>
-                                <div class="text-h6">Draggable 1 {{ draging1 ? 'under drag...' : '' }}</div>
+                                <BaseTextHeader :label="`Draggable 1 ${draging1 ? 'under drag...' : ''}`"/>
                                 <div class="row">
                                     <div class="col-12 col-md-8">
                                         <draggable v-model="list1" class="drag-area" item-key="name"
@@ -93,7 +86,7 @@ const onEndDrag = () => {
                         <div class="col-6 q-pa-sm">
                             <q-card-section>
 
-                                <div class="text-h6">Draggable 2 {{ draging2 ? 'under drag...' : '' }}</div>
+                                <BaseTextHeader :label="`Draggable 2 ${draging2 ? 'under drag...' : ''}`"/>
                                 <div class="row">
                                     <div class="col-12 col-md-8">
                                         <draggable v-model="list2" class="drag-area" item-key="name"
@@ -124,7 +117,7 @@ const onEndDrag = () => {
                             </q-card-section>
                         </div>
                         <div class="col-6 q-pa-sm">
-                            <div class="text-h6">Draggable 3 {{ draging3 ? 'under drag...' : '' }}</div>
+                            <BaseTextHeader :label="`Draggable 3 ${draging3 ? 'under drag...' : ''}`"/>
                             <div class="row">
                                 <div class="col-12 col-md-8">
                                     <draggable v-model="list3" class="drag-area-2" item-key="name" v-bind="dragOptions"

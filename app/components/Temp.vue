@@ -72,6 +72,15 @@ To disable all rules on a specific line
        <template #additionalBaseTool="{ item, index }">
        </template>
 -->
+
+      <Suspense>
+        <template #default>
+          Content
+        </template>
+        <template #fallback>
+          Loading...
+        </template>
+      </Suspense>
   </q-card>
 </template>
 <style scoped lang="scss">
