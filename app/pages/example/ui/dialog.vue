@@ -34,13 +34,13 @@ const onConfirmToClose = async () => {
     <BasePage>
         <BaseCard>
             <q-card-section class="q-gutter-md">
-                <BaseTextHeader label="Dialog"/>
+                <BaseTextHeader label="Dialog" />
 
                 <BaseButton outline label="Dialog" @click="dialog = true" />
                 <BaseButton outline label="Dialog persistent" @click="dialog2 = true" />
                 <BaseButton outline label="Dialog Confirm to close" @click="dialogConfirmToClose = true" />
 
-                <BaseTextHeader label="Dialog Size"/>
+                <BaseTextHeader label="Dialog Size" />
                 <BaseButton outline label="Small" @click="dialogSmall = true" />
                 <BaseButton outline label="Medium" @click="dialogMedium = true" />
                 <BaseButton outline label="Full Width" @click="dialogFullWidth = true" />
@@ -50,7 +50,7 @@ const onConfirmToClose = async () => {
             </q-card-section>
 
             <q-card-section class="q-gutter-md">
-                <BaseTextHeader label="Popover confirm"/>
+                <BaseTextHeader label="Popover confirm" />
                 <BaseButton label="Delete item" color="negative" :icon="biTrash">
                     <BasePopConfirm :title="t('base.deleteConfirm')" confirm-color="negative"
                         @on-change="onPopConfirmChange" />
@@ -70,7 +70,7 @@ const onConfirmToClose = async () => {
                 </BaseButton>
             </q-card-section>
             <q-card-section class="q-gutter-md">
-                <BaseTextHeader label="Popover"/>
+                <BaseTextHeader label="Popover" />
                 <BaseButton label="Show popover">
                     <BasePopover width="250px">
                         <q-banner>
@@ -82,7 +82,7 @@ const onConfirmToClose = async () => {
                     </BasePopover>
                 </BaseButton>
                 <BaseButton label="Handles right-click" color="red-4">
-                    <BasePopover width="450px" context-menu >
+                    <BasePopover width="450px" context-menu>
                         <q-banner>
                             <template #avatar>
                                 <q-icon :name="biPencil" color="primary" />
@@ -96,77 +96,59 @@ const onConfirmToClose = async () => {
         </BaseCard>
 
         <base-dialog v-if="dialog" v-model="dialog" title="Dialog title" :icon="biPencil">
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
 
         <base-dialog v-if="dialog2" v-model="dialog2" title="Dialog persistent" :persistent="true">
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
             <q-card-actions align="right">
-                <BaseButton v-close-popup flat label="Cancel" color="primary" />
-                <BaseButton v-close-popup flat label="Turn on Wifi" color="negative" />
+                <BaseButton flat label="Cancel" color="primary" @click="dialog2 = false" />
+                <BaseButton flat label="Turn on Wifi" color="negative" @click="dialog2 = false" />
             </q-card-actions>
         </base-dialog>
 
         <base-dialog v-if="dialogSmall" v-model="dialogSmall" title="Dialog Small" dialog-style="width: 300px;">
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
         <base-dialog v-if="dialogMedium" v-model="dialogMedium" title="Dialog Medium"
             dialog-style="width: 700px; max-width: 80vw;">
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
         <base-dialog v-if="dialogFullWidth" v-model="dialogFullWidth" title="Dialog fullWidth" full-width>
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
         <base-dialog v-if="dialogFullHeight" v-model="dialogFullHeight" title="Dialog fullHeight" full-height>
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
         <base-dialog v-if="dialogFullWidthHeight" v-model="dialogFullWidthHeight" title="Dialog Full Width Height"
             full-height full-width>
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
         <base-dialog v-if="dialogMaximize" v-model="dialogMaximize" title="Dialog Maximize" maximized can-maximized>
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
 
         <base-dialog v-if="dialogConfirmToClose" v-model="dialogConfirmToClose" title="Confirm to close title"
             :icon="biPencil" :auto-close="false" persistent @on-close="onConfirmToClose">
-            <q-card-section class="q-pt-none">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
-                eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-                minima, porro labore.
-            </q-card-section>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas
+            eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+            minima, porro labore.
         </base-dialog>
     </BasePage>
 </template>

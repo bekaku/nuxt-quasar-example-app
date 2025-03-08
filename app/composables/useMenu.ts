@@ -1,63 +1,62 @@
 import { appNavs } from '~/libs/navs';
-import type { IMenu, IMenuPage, IMenuPageItem } from "~/types/common";
+import type { LabelValue } from "~/types/common";
 export const useMenu = () => {
     const appStore = useAppStore();
     const initialAppNav = async (): Promise<boolean> => {
-        const aclFinal: IMenu[] = [];
-        let menu: IMenu | null = {};
+        const aclFinal: LabelValue<any>[] = [];
+        let menu: LabelValue<any> | null = {};
         for (const menuLevel1 of appNavs) {
             menu = {};
             //Level 1
             if (menuLevel1) {
-                if (menuLevel1?.header) {
-                    menu.header = menuLevel1.header;
+                if (menuLevel1?.label) {
+                    menu.label = menuLevel1.label;
                 }
                 if (menuLevel1?.border) {
                     menu.border = menuLevel1.border;
                 }
-                if (menuLevel1?.translate != undefined) {
-                    menu.translate = menuLevel1.translate;
+                if (menuLevel1?.translateLabel != undefined) {
+                    menu.translateLabel = menuLevel1.translateLabel;
                 }
                 //child pages
-                const filterPages: IMenuPage[] = [];
-                if (menuLevel1?.pages && menuLevel1.pages.length > 0) {
-                    for (const p of menuLevel1.pages) {
+                const filterPages: LabelValue<any>[] = [];
+                if (menuLevel1?.children && menuLevel1.children.length > 0) {
+                    for (const p of menuLevel1.children) {
                         if (p) {
                             //if have child pages
-                            if (p?.items && p.items.length > 0) {
-                                const childs = await getFilterItems(p.items);
+                            if (p?.children && p.children.length > 0) {
+                                const childs = await getFilterItems(p.children);
                                 if (childs.length > 0) {
                                     const menuHaveChild = await setMenuPage(p);
-
-                                    menuHaveChild.items = childs;
+                                    menuHaveChild.children = childs;
                                     filterPages.push(menuHaveChild);
                                 }
                             } else {
-                                const isPermised = !p.permission || await isPermited(p.permission);
+                                const isPermised = !p.permissions || p.permissions.length == 0 || await isPermited(p.permissions);
                                 if (isPermised) {
                                     filterPages.push(p);
                                 }
                             }
                         }
                     }
-                    menu.pages = [...filterPages];
+                    menu.children = [...filterPages];
                 }
-                if (menu.pages && menu.pages.length > 0) {
+                if (menu.children && menu.children.length > 0) {
                     aclFinal.push(menu);
                 }
             }
         }
-        if(aclFinal && aclFinal.length>0){
+        if (aclFinal && aclFinal.length > 0) {
             appStore.setDrawers(aclFinal);
         }
-        
-        return new Promise((resolve) =>  resolve(true) );
+
+        return new Promise((resolve) => resolve(true));
     }
-    const getFilterItems = async (pageItems: IMenuPageItem[]): Promise<IMenuPageItem[]> => {
-        const childs: IMenuPageItem[] = [];
+    const getFilterItems = async (pageItems: LabelValue<any>[]): Promise<LabelValue<any>[]> => {
+        const childs: LabelValue<any>[] = [];
         for (const item of pageItems) {
             if (item) {
-                const isPermised = !item.permission || await isPermited(item.permission);
+                const isPermised = !item.permissions || item.permissions.length == 0 || await isPermited(item.permissions);
                 if (isPermised) {
                     childs.push(item);
                 }
@@ -67,11 +66,11 @@ export const useMenu = () => {
             resolve(childs)
         });
     }
-    const setMenuPage = (p: IMenuPage): Promise<IMenuPage> => {
-        const menuHaveChild: IMenuPage = {};
+    const setMenuPage = (p: LabelValue<any>): Promise<LabelValue<any>> => {
+        const menuHaveChild: LabelValue<any> = {};
 
-        if (p?.title) {
-            menuHaveChild.title = p.title;
+        if (p?.label) {
+            menuHaveChild.label = p.label;
         }
         if (p?.icon) {
             menuHaveChild.icon = p.icon;
@@ -79,9 +78,9 @@ export const useMenu = () => {
         if (p?.color) {
             menuHaveChild.color = p.color;
         }
-        if (p?.iconText) {
-            menuHaveChild.iconText = p.iconText;
-        }
+        // if (p?.iconText) {
+        //     menuHaveChild.iconText = p.iconText;
+        // }
         if (p?.noActiveLink != undefined) {
             menuHaveChild.noActiveLink = p.noActiveLink;
         }
@@ -91,8 +90,8 @@ export const useMenu = () => {
         if (p?.border != undefined) {
             menuHaveChild.border = p.border;
         }
-        if (p?.translate != undefined) {
-            menuHaveChild.translate = p.translate;
+        if (p?.translateLabel != undefined) {
+            menuHaveChild.translateLabel = p.translateLabel;
         }
         return new Promise((resolve) => {
             resolve(menuHaveChild)
@@ -100,8 +99,8 @@ export const useMenu = () => {
 
     }
 
-    const isPermited = async (permission: string): Promise<boolean> => {
-        return await appStore.isHavePermissionLazy([permission]);
+    const isPermited = async (permissions: string[]): Promise<boolean> => {
+        return await appStore.isHavePermissionLazy(permissions);
     }
     return {
         initialAppNav

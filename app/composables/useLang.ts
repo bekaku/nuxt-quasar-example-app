@@ -1,6 +1,7 @@
 import type { ILanguge, ILocales } from "~/types/common";
 
 export const useLang = () => {
+    const { t, locale, setLocale } = useI18n({ useScope: 'global' });
     const timeout = ref<any>();
     const availableLocales: ILocales[] = [
         {
@@ -20,7 +21,7 @@ export const useLang = () => {
         path: '/',
         sameSite: 'lax'
     })
-    const { t, locale } = useI18n({ useScope: 'global' });
+
     const currentLangugeName = computed(() => {
         const l = availableLocales.find(t => t.iso == locale.value);
         return l != undefined && l?.name ? l?.name : 'unknown'
@@ -33,8 +34,9 @@ export const useLang = () => {
         if (!l) {
             return;
         }
-        localeCookie.value = l;
-        locale.value = l;
+        // localeCookie.value = l;
+        // locale.value = l;
+        setLocale(l);
     }
     const onSwitchLocale = (l: ILanguge) => {
         onSetLocale(l);

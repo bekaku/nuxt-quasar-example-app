@@ -1,8 +1,8 @@
 import { biHouseDoor, biPencil, biPeople, biPerson, biShieldCheck } from "@quasar/extras/bootstrap-icons";
-import type { Breadcrumb } from "~/types/common";
+import type { LabelValue } from "~/types/common";
 import { PageIdParamiter } from "./constants";
 
-export const crudDetailFn = (crud: string): Breadcrumb[] => {
+export const crudDetailFn = (crud: string): LabelValue<any>[] => {
     return [{
         label: 'base.detail',
         to: `/${crud}/:crud/:${PageIdParamiter}`,
@@ -11,7 +11,7 @@ export const crudDetailFn = (crud: string): Breadcrumb[] => {
         params: ['crud', PageIdParamiter],
     }];
 }
-export const ExampleHomeBreadcrumb: Breadcrumb[] = [
+export const ExampleHomeBreadcrumb: LabelValue<any>[] = [
     {
         label: 'base.home',
         to: '/',
@@ -25,7 +25,7 @@ export const ExampleHomeBreadcrumb: Breadcrumb[] = [
         translateLabel: false,
     },
 ];
-export const PermissionFormBreadcrumb: Breadcrumb[] = [
+export const PermissionFormBreadcrumb: LabelValue<any>[] = [
     {
         label: 'model_permission',
         to: '/permission',
@@ -37,7 +37,7 @@ export const PermissionFormBreadcrumb: Breadcrumb[] = [
     },
     ...crudDetailFn('permission')
 ];
-export const RoleFormBreadcrumb: Breadcrumb[] = [
+export const RoleFormBreadcrumb: LabelValue<any>[] = [
     {
         label: 'model.role.table',
         to: '/role',
@@ -46,7 +46,7 @@ export const RoleFormBreadcrumb: Breadcrumb[] = [
     },
     ...crudDetailFn('role')
 ];
-export const UserFormBreadcrumb: Breadcrumb[] = [
+export const UserFormBreadcrumb: LabelValue<any>[] = [
     {
         label: 'model_user',
         to: '/user',

@@ -197,7 +197,7 @@ v-if="content" style="overflow: hidden" :class="{
         @on-press="onOpenPage($event)"/>
     </div>
     <base-link
-v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="text-primary"
+v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="primary"
       @click="onShowMoreText"/>
     <slot name="bottom"/>
   </div>
@@ -214,7 +214,7 @@ v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="text-prima
 
 .text-holder-fitcontent {
   width: fit-content;
-  background-color: var(--gray-100);
+  background-color: var(--color-gray-100);
   padding: 10px;
   border-radius: 8px;
   margin-top: 5px;

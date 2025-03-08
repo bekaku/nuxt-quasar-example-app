@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { biX } from '@quasar/extras/bootstrap-icons';
 import { additionalMenu } from '~/libs/navs';
-import type { IMenu, LabelValue } from '~/types/common';
+import type { LabelValue } from '~/types/common';
 const { drawers } = useAppStore()
 const { t } = useLang();
 
@@ -19,24 +19,24 @@ onMounted(async () => {
 })
 
 const onSetMenu = (): Promise<boolean> => {
-    const initialMenuItems: IMenu[] = drawers.concat(additionalMenu);
+    const initialMenuItems: LabelValue<any>[] = drawers.concat(additionalMenu);
     return new Promise((resolve) => {
         for (const menuLevel1 of initialMenuItems) {
-            if (menuLevel1.pages != undefined && menuLevel1.pages.length > 0) {
-                for (const p of menuLevel1.pages) {
-                    if (p.items != undefined && p.items.length > 0) {
+            if (menuLevel1.children != undefined && menuLevel1.children.length > 0) {
+                for (const p of menuLevel1.children) {
+                    if (p.children != undefined && p.children.length > 0) {
                         const parentItem: LabelValue<string> =
                         {
-                            label: p.title && p.translate !== false ? t(p.title) : p.title || '',
-                            description: p.caption,
+                            label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
+                            description: p.description,
                             icon: p.icon,
                             children: []
                         }
                         const childs: LabelValue<string>[] = [];
-                        for (const item of p.items) {
+                        for (const item of p.children) {
                             childs.push({
-                                label: item.title && item.translate !== false ? t(item.title) : item.title || '',
-                                description: item.caption,
+                                label: item.label && item.translateLabel !== false ? t(item.label) : item.label || '',
+                                description: item.description,
                                 icon: item.icon,
                                 value: item.to
                             })
@@ -45,8 +45,8 @@ const onSetMenu = (): Promise<boolean> => {
                         menuItems.value.push(parentItem);
                     } else {
                         menuItems.value.push({
-                            label: p.title && p.translate !== false ? t(p.title) : p.title || '',
-                            description: p.caption,
+                            label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
+                            description: p.description,
                             icon: p.icon,
                             value: p.to
                         })
@@ -66,8 +66,8 @@ const onClickItem = (val: string | undefined) => {
 }
 </script>
 <template>
-    <BaseDialog v-model="modelValue" :show-toolbar="false" dialog-style="width: 756px; max-width: 80vw;">
-        <BaseCommandPalette v-model="commandPaletteModel" :loading="loading" class="q-pt-sm" :multiple="false"
+    <BaseDialog v-model="modelValue" :show-toolbar="false" :padding="false" dialog-style="width: 756px; max-width: 80vw;">
+        <BaseCommandPalette v-model="commandPaletteModel" :loading="loading" :bordered="false" class="q-pt-sm" :multiple="false"
             :items="menuItems" @on-click="onClickItem">
             <template #inputAppend>
                 <BaseButton round flat :icon="biX" @click="modelValue = false" />

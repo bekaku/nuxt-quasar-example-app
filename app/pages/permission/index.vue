@@ -105,13 +105,24 @@ const {
 const {t}=useLang();
 
 const onColClick = (event: any, index: number, headerOption: ICrudListHeader, colValue: any) => {
-    console.log('pages/permission/index.vue : onColClick');
-    console.log({
+    console.log('pages/permission/index.vue : onColClick',{
       index,
       event,
       headerOption,
       colValue,
     });
+    if(headerOption && headerOption.column && headerOption.column=='frontEnd'){
+      const rowItem = dataList.value[index];
+      if(rowItem){
+          console.log('rowItem.frontEnd',rowItem.frontEnd);
+          dataList.value.map((item) => {
+              if(item.id==rowItem.id){
+                  item.frontEnd = !item.frontEnd;
+              }
+          })
+      }
+
+    }
 }
 </script>
 <template>

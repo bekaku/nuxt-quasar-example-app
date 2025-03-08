@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { IMenu } from "~/types/common";
+import type { LabelValue } from "~/types/common";
 
 export const useAppStore = defineStore('appStore', () => {
 
     const permissions = ref<string[]>([]);
-    const drawers = ref<IMenu[]>([]);
+    const drawers = ref<LabelValue<any>[]>([]);
     const leftDrawerOpen = ref<boolean>(true);
 
     const setPermissions = (items: string[]) => {
@@ -36,7 +36,7 @@ export const useAppStore = defineStore('appStore', () => {
         })
     }
 
-    const setDrawers = (items: IMenu[]) => {
+    const setDrawers = (items: LabelValue<any>[]) => {
         drawers.value = items;
     }
     const setLeftDrawer = (open: boolean) => {

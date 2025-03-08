@@ -33,8 +33,6 @@ useHead({
                             <BaseAlert type="is-danger" :icon="biImage" icon-set="bootstrap-icons"
                                 message="This is danger!!" secondary />
                             <BaseAlert type="is-info" :icon="ionLockClosedOutline" message="This is info!!" secondary />
-                            <BaseAlert type="is-light" :icon="ionBatteryHalfOutline" message="This is light!!"
-                                secondary />
                             <BaseAlert type="is-link" :icon="ionShieldOutline" message="This is link!!" secondary />
                             <BaseAlert type="is-success" :icon="ionCheckmarkOutline" message="This is success!!"
                                 secondary />

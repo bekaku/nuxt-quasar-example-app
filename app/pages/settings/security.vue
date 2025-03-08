@@ -31,6 +31,7 @@ const {
     apiEndpoint: '/api/user/currentAuthSession',
     sortAble: false,
     itemsPerPage: 10,
+    concatList: true
 });
 onMounted(() => {
     loadData();

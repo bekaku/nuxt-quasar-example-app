@@ -13,7 +13,8 @@ const {
   maxDate,
   range = false,
   showFormatDate = false,
-  formatDateText = FORMAT_DATE4,
+  clearable = false,
+  formatDateText = FORMAT_DATE5,
 } =
   defineProps<{
     autoClose?: boolean;
@@ -28,6 +29,7 @@ const {
     editMode?: boolean
     range?: boolean
     showFormatDate?: boolean
+    clearable?: boolean
     formatDateText?: string
   }>();
 const modelValue = defineModel<string | undefined | null>({ default: null });
@@ -62,8 +64,8 @@ const onDateRangeSelect = (value: any) => {
 //     dateProxy.value.show();
 //   }
 // }
-const getFormarText=(dateString: string | undefined | null,)=>{
-return formatDate(dateString, formatDateText, locale.value)
+const getFormarText = (dateString: string | undefined | null,) => {
+  return formatDate(dateString, formatDateText, locale.value)
 }
 </script>
 <template>
@@ -81,16 +83,18 @@ return formatDate(dateString, formatDateText, locale.value)
     </template>
     <template v-else>
       <q-popup-proxy v-if="editMode" ref="dateRangeProxy" transition-show="scale" transition-hide="scale">
-        <BaseDate  v-model:start="start" v-model:end="end"  range :color @on-update-range="onDateRangeSelect" />
+        <BaseDate v-model:start="start" v-model:end="end" range :color @on-update-range="onDateRangeSelect" />
       </q-popup-proxy>
     </template>
     <template #control>
       <div class="self-center full-width no-outline" tabindex="0">
         <template v-if="!showFormatDate">
-          {{ !range ? convertDateFormatToThai(modelValue) : `${start ? convertDateFormatToThai(start) : ''}-${end ?convertDateFormatToThai(end) : ''}` }}
+          {{ !range ? convertDateFormatToThai(modelValue) : `${start ? convertDateFormatToThai(start) : ''}-${end
+            ? convertDateFormatToThai(end) : ''}` }}
         </template>
         <template v-else>
-          {{ !range ? getFormarText(modelValue) : `${start ? getFormarText(start) : ''} - ${end ?getFormarText(end) : ''}` }}
+          {{ !range ? getFormarText(modelValue) : `${start ? getFormarText(start) : ''} - ${end ? getFormarText(end) :
+          ''}` }}
         </template>
       </div>
     </template>
@@ -98,7 +102,10 @@ return formatDate(dateString, formatDateText, locale.value)
       <q-icon :name="biCalendarWeek" :color />
     </template>
     <template #after>
-      <q-btn v-if="(modelValue || (start && end)) && editMode" flat round :icon="biXCircleFill" @click="clear" />
+      <slot name="after">
+        <q-btn v-if="clearable && (modelValue || (start && end)) && editMode" flat round :icon="biXCircleFill"
+          @click="clear" />
+      </slot>
     </template>
     <template v-if="required && !modelValue && editMode && !disable" #hint>
       <span class="text-negative">

@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import type { Breadcrumb } from '~/types/common';
+import type { LabelValue, AppColor } from '~/types/common';
 
-const { items, showSeparator = true } = defineProps<{
-    items: Breadcrumb[]
+const { items, showSeparator = true, activeColor='primary' } = defineProps<{
+    items: LabelValue<any>[]
     showSeparator?: boolean
     separatorIcon?: string
+    activeColor?: string
+    textColor?: AppColor
 }>();
 const appStore = useAppStore();
 const { t } = useLang();
 const { getParam, getQuery } = useBase();
-const canShow = (item: Breadcrumb) => {
+const canShow = (item: LabelValue<any>) => {
     if (item.permissions == undefined) {
         return true;
     }
     return appStore.isHavePermission(item.permissions);
 };
-const getItems = computed<Breadcrumb[]>(() => {
+const getItems = computed<LabelValue<any>[]>(() => {
     return items.filter(t => canShow(t) === true);
 })
-const getLink = (item: Breadcrumb) => {
+const getLink = (item: LabelValue<any>) => {
     let link = item.to;
     if (link) {
         const params = item.params;
@@ -45,7 +47,7 @@ const getLink = (item: Breadcrumb) => {
 </script>
 <template>
     <div v-if="getItems.length > 0" class="q-pa-md q-gutter-sm">
-        <q-breadcrumbs>
+        <q-breadcrumbs :class="`text-${textColor}`" :active-color="activeColor">
             <template #separator>
                 <template v-if="showSeparator">
                     <q-icon v-if="separatorIcon" class="text-muted" :name="separatorIcon" />
@@ -53,7 +55,7 @@ const getLink = (item: Breadcrumb) => {
                 </template>
             </template>
             <template v-for="(item, index) in getItems" :key="`breadcrumb-${index}-${item.to}`">
-                <q-breadcrumbs-el :label="item.translateLabel ? t(item.label) : item.label" :icon="item.icon"
+                <q-breadcrumbs-el :label="item.translateLabel ? item.label ?t(item.label): undefined : item.label" :icon="item.icon"
                     :to="getLink(item)" exact />
             </template>
             <slot name="extra" />

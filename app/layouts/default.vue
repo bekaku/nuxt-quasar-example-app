@@ -7,7 +7,7 @@ import { biLayoutSidebar, biLayoutSidebarReverse } from '@quasar/extras/bootstra
     <q-layout view="lHh Lpr lff">
         <BaseHeader :show-togle-drawer="true" :show-logo="true" bordered :hamberger-icon="biLayoutSidebar"
             :hamberger-icon-off="biLayoutSidebarReverse" hamberger-size="18px" />
-        <BaseDrawer bordered />
+        <BaseSidebar bordered />
         <q-page-container>
             <BaseLayoutBreadcrumbTab />
             <slot />

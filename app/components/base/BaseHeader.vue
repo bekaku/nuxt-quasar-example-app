@@ -4,11 +4,11 @@ import {
     biBell,
     biCameraVideo,
     biChatDots,
-    biList,
+    biLayoutSidebar,
     biSearch,
 } from '@quasar/extras/bootstrap-icons';
 import { useQuasar } from 'quasar';
-const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = true, showUserSetting = true, hambergerIcon = biList } = defineProps<{
+const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = true, showUserSetting = true, hambergerIcon = biLayoutSidebar } = defineProps<{
     bordered?: boolean;
     reveal?: boolean;
     showTogleDrawer?: boolean;

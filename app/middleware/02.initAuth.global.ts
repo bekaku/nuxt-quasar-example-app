@@ -36,19 +36,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
         });
         if (response && response?.status == 200 && response.data && !isAppException(response.data)) {
             authenStore.setAuthen(response.data);
-
-            // const aclResponse = await callAxiosProcess<IAcl>({
-            //     API: '/api/permission/userAcl?getMenuList=0',
-            //     method: 'GET',
-            // });
-            // if (aclResponse && aclResponse?.status == 200 && aclResponse.data) {
-            //     const acl: IAcl = aclResponse.data;
-            //     if (acl.permissions && acl.permissions.length > 0) {
-            //         appStore.setPermissions(acl.permissions);
-            //     }
-            //     await initialAppNav();
-            // }
-
             if (response.data.permissions && response.data.permissions.length > 0) {
                 appStore.setPermissions(response.data.permissions);
             }

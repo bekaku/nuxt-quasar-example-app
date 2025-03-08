@@ -1,4 +1,4 @@
-import type { AppException, IApiListResponse, IHrefTarget, IMenuPageItem, ISortModeType, ResponseMessage, ServerException } from "~/types/common";
+import type { AppException, IApiListResponse, IHrefTarget, IMenuPageItem, ISortModeType, LabelValue, ResponseMessage, ServerException } from "~/types/common";
 
 export const isAppException = (obj: any): obj is AppException => {
     return (
@@ -80,6 +80,20 @@ export const openUrlInNewTab = (
 export const checkExpansionChildActive = (
     currentUrlPath: string,
     items: IMenuPageItem[]
+) => {
+    let active = false;
+    for (const page of items) {
+        if (page.to == currentUrlPath) {
+            active = true;
+            break;
+        }
+    }
+
+    return active;
+};
+export const checkExpansionChildActiveAlt = (
+    currentUrlPath: string,
+    items: LabelValue<any>[]
 ) => {
     let active = false;
     for (const page of items) {
@@ -300,12 +314,12 @@ export const getValFromObjectByPath = (obj: any, path: string) => {
 };
 export const cloneObject = <T>(obj: T) => {
     return Object.assign({}, obj) as T;
-  };
+};
 
-  export const appPreventDefult = async (event: any) => {
-  if (event) {
-    event.stopPropagation();
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  }
+export const appPreventDefult = async (event: any) => {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }
 };

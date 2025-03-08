@@ -10,6 +10,8 @@ useHead({
 })
 const files = ref<File[]>([]);
 const filesPreview = ref<FileManagerDto[]>([]);
+    const filesSingle = ref<File[]>([]);
+const filesSinglePreview = ref<FileManagerDto[]>([]);
 
 const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef');
 const customFiles = ref<FileManagerDto[]>([]);
@@ -64,10 +66,17 @@ const onCustomRemove2 = (index: number) => {
                         <BaseTextHeader label="Simple Picker"/>
                         <BaseFilePicker v-model="files" v-model:file-items="filesPreview" multiple
                             :icon="biFileArrowUp" show-preview :accept="FileExtensionAccept"
-                            :label="t('base.chooseFile')" @on-file-add="onFileAdd" />
+                            :label="t('base.chooseFile')"  @on-file-add="onFileAdd" />
                         <BaseButton class="q-my-md" @click="onSubmit">
                             Submit
                         </BaseButton>
+                        <q-separator />
+                    </div>
+                    <div class="col-12 q-pa-md">
+                        <BaseTextHeader label="Single"/>
+                        <BaseFilePicker v-model="filesSingle" v-model:file-items="filesSinglePreview" :multiple="false"
+                            :icon="biFileArrowUp" show-preview :accept="FileExtensionAccept"
+                            :label="t('base.chooseFile')"  @on-file-add="onFileAdd" />
                         <q-separator />
                     </div>
                     <div class="col-12 q-pa-md">

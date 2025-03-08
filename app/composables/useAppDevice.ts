@@ -2,7 +2,9 @@ import { getCurrentTimestamp } from "~/utils/dateUtil";
 import { useCache } from "./useCache";
 import { useDateFns } from "./useDateFns";
 import { Device } from '@capacitor/device';
-export const useDevice = () => {
+
+export const useAppDevice = () => {
+  const { isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows } = useDevice();
   const deviceId = ref();
   const { getDateDiffMinutes } = useDateFns()
   const { latestSyncActiveStatus } = useCache();
@@ -55,6 +57,7 @@ export const useDevice = () => {
     getDeviceId,
     deviceId,
     canSyncActiveStatusToServer,
-    setSysncActiveStatus
+    setSysncActiveStatus,
+    isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows
   };
 };

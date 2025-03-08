@@ -8,7 +8,7 @@ export const useAxios = () => {
     const { $axios } = useNuxtApp()
     const config = useRuntimeConfig()
     // const jwtToken = useCookie(config.public.jwtKeyName);
-    const { canSyncActiveStatusToServer } = useDevice();
+    const { canSyncActiveStatusToServer } = useAppDevice();
     const { notify, loading: quasarLoading } = useQuasar();
     const loading = ref<boolean>(false);
     const callAxiosProcess = async <T>(req: RequestType, devLog: boolean = true): Promise<AxiosResponse<T>> => {

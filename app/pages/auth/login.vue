@@ -12,7 +12,7 @@ useInitPage();
 const { signin } = useAuth();
 const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
-const { getDeviceId } = useDevice();
+const { getDeviceId } = useAppDevice();
 const { required } = useValidation();
 const email = ref<string | null>('admin@mydomain.com');
 const password = ref<string | null>('P@ssw0rd');
@@ -46,7 +46,7 @@ const onReset = () => {
     <BasePage :padding="false" :class="{ 'bg-white': !isDark, 'app-second-bg-color-theme-dark': isDark }">
         <div class="row items-center q-pa-md" style="height: 100vh;">
             <!-- Left Column - Fantasy Background -->
-            <div class="col-12 col-md-6 fantasy-bg shadow-5">
+            <div class="col-12 col-md-6 fantasy-bg">
                 <div class="overlay flex flex-center text-white">
                     <div class="q-pa-xl text-center">
                         <h2 class="text-h2 text-weight-bold q-mb-md">Welcome to Our {{ t('app.monogram') }}</h2>

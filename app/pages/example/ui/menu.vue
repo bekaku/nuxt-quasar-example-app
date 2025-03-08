@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import {
     biChat,
+    biChevronRight,
     biCopy,
     biCreditCard,
     biDisplay,
     biEnvelope,
-    biGear,
+    biHouseDoor,
     biPencil,
     biPeople,
     biPerson,
     biPersonPlus,
     biPlusCircle,
+    biShieldCheck,
     biThreeDots,
     biTrash
 } from '@quasar/extras/bootstrap-icons';
 import { ref } from 'vue';
+import { additionalMenu } from '~/libs/navs';
 import type { LabelValue } from '~/types/common';
 useHead({
     title: 'Dropdown menu'
@@ -135,7 +138,27 @@ const submenus: LabelValue<string>[] = [
         ]
     },
 ];
-const onMenuClick = (value: number |string | undefined) => {
+
+const exampleHomeBreadcrumb: LabelValue<any>[] = [
+    {
+        label: 'base.home',
+        to: '/',
+        icon: biHouseDoor,
+        translateLabel: true,
+    },
+    {
+        label: 'About',
+    },
+    {
+        label: 'Review',
+    },
+    {
+        label: 'Permission list',
+        to: '/permission',
+        icon: biShieldCheck,
+    },
+];
+const onMenuClick = (value: number | string | undefined) => {
     console.log('onMenuClick', value);
     showMenu.value = false;
 }
@@ -151,8 +174,8 @@ const onItemClick = () => {
 
 </script>
 <template>
-    <BasePage>
-        <BaseCard title="Menu">
+    <BasePage :full="false">
+        <BaseCard flat :bordered="false" title="Dropdown menu">
             <q-card-section class="q-gutter-md">
                 <BaseButton :icon="biThreeDots" outline label="Simple menu">
                     <BaseDropdownMenu :items="menus" @on-click="onMenuClick" />
@@ -177,5 +200,31 @@ const onItemClick = () => {
                 </q-item>
             </q-card-section>
         </BaseCard>
+        <BaseCard flat :bordered="false" title="Breadcrumb">
+            <q-card-section>
+                <BaseBreadcrumbs :items="exampleHomeBreadcrumb"  />
+                <BaseBreadcrumbs :items="exampleHomeBreadcrumb" :separator-icon="biChevronRight" text-color="orange" active-color="secondary" />
+            </q-card-section>
+        </BaseCard>
+
+        <BaseCard flat :bordered="false" title="Menu">
+            <div class="row">
+                <div class="col-12 col-md-4 q-pa-sm">
+                    <BaseScrollArea>
+                        <BaseMenuItems :items="additionalMenu">
+                            <template #end="{ menuItem }">
+                                <q-item-section side>
+                                    <q-chip>
+                                        {{ menuItem.label?.charAt(0).toUpperCase() }}
+                                    </q-chip>
+                                </q-item-section>
+                            </template>
+                        </BaseMenuItems>
+                    </BaseScrollArea>
+                </div>
+            </div>
+        </BaseCard>
+
+
     </BasePage>
 </template>

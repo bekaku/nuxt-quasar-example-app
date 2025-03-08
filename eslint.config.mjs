@@ -3,6 +3,9 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 export default withNuxt(
   // your custom flat configs go here, for example:
   {
+    plugins: [
+      'prettier'
+    ],
     files: ['**/*.ts', '**/*.tsx','**/*.vue',],
     rules: {
       'no-console': 'off', // allow console.log in TypeScript files

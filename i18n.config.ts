@@ -1,10 +1,15 @@
-import en from '~/i18n/en';
-import th from '~/i18n/th';
-export default defineI18nConfig(() => ({
-    legacy: false,
-    locale: 'th',
-    messages: {
-        en,
-        th
-    }
-}))
+// import en from '~/i18n/en';
+// import th from '~/i18n/th';
+// export default defineI18nConfig(() => ({
+//     legacy: false,
+//     locale: 'th',
+//     messages: {
+//         en,
+//         th
+//     }
+// }))
+export default defineI18nConfig(() => {
+  return {
+    fallbackLocale: 'en',
+  }
+})

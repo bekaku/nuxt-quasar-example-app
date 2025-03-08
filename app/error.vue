@@ -7,7 +7,7 @@ const props = defineProps({
     error: Object as () => NuxtError
 })
 const { t } = useLang();
-const { isDevMode } = useDevice();
+const { isDevMode } = useAppDevice();
 const { onPageBack } = useBase()
 // const message = computed(() => String(props.error?.message || ''))
 // const is404 = computed(() => props.error?.statusCode === 404 || message.value?.includes('404'))

@@ -12,7 +12,7 @@ useInitPage();
 const { signin } = useAuth();
 const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
-const { getDeviceId } = useDevice();
+const { getDeviceId } = useAppDevice();
 const { required } = useValidation();
 const { screen } = useQuasar();
 const cardHeight = ref('700px');
@@ -163,9 +163,9 @@ const onReset = () => {
 </template>
 <style lang="scss" scoped>
 .bg-fansy {
-    background: #de6161;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #2657eb, #de6161);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #2657eb, #de6161); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #8D6E63;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #bdc3c7, #8D6E63);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #bdc3c7, #8D6E63); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 </style>

@@ -2,7 +2,7 @@
 import { useLang } from '~/composables/useLang';
 const { initialLocale, t } = useLang();
 const { initialQuasarDark, isDark } = useTheme();
-const { isServer } = useDevice();
+const { isServer } = useAppDevice();
 
 const color = computed(() => isDark.value ? '#111827' : 'white')
 useHead({
@@ -13,7 +13,7 @@ useHead({
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { name: 'keywords', content: 'Nuxt Quasar Example, Vue Quasar Example' },
-    { hid: 'description', name: 'description', content: 'Quasar + Nuxt3',},
+    // { hid: 'description', name: 'description', content: 'Quasar + Nuxt3',},
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

@@ -20,7 +20,7 @@ const {
   closeable?: boolean;
   secondary?: boolean;
 }>();
-
+const {isDark} = useTheme();
 const show = ref(true);
 </script>
 <template>
@@ -101,10 +101,10 @@ const show = ref(true);
   color: rgba(0, 0, 0, 0.7);
 }
 
-body.body--dark .v-notification.is-light {
-  background-color: var(--app-main-bg-color-theme-dark);
-  color: white;
-}
+/* body.body--dark .v-notification.is-light {
+  background-color: var(--color-zinc-800);
+  color: #fff;
+} */
 
 .v-notification.is-dark {
   background-color: #363636;

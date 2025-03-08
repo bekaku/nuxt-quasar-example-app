@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common';
 
-const { flat = false, bordered = true, separator = false, bgTransparent=false } = defineProps<{
+const { flat = true, bordered = true, separator = false, bgTransparent=false } = defineProps<{
     flat?: boolean
     bordered?: boolean
     title?: string
@@ -19,7 +19,7 @@ const { flat = false, bordered = true, separator = false, bgTransparent=false } 
                 <q-icon v-if="icon" :name="icon" size="24px" class="q-mr-xs" />
             </slot>
             <q-toolbar-title>
-                <div v-if="title" class="text-h6 text-weight-bold">{{ title }} </div>
+                <div v-if="title" class="text-h5 text-weight-bold">{{ title }} </div>
                 <div v-if="subTitle" class="text-body1 text-muted">{{ subTitle }}</div>
             </q-toolbar-title>
             <q-space />

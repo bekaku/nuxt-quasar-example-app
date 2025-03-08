@@ -1,6 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // https://nuxt.com/modules/quasar
+// import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
 import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
+const fileNames = [
+  'app',
+  'base',
+  'helper',
+  'model',
+  'error',
+]
+
+function getFileList(locale: string) {
+  return fileNames.map(name => `${locale}/${name}.ts`)
+}
 export default defineNuxtConfig({
   // app: {
   //   head: {
@@ -13,6 +25,15 @@ export default defineNuxtConfig({
   //     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   //   }
   // },
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/i18n',
+    'nuxt-quasar-ui',
+    '@vueuse/nuxt',
+    '@nuxt/eslint',
+    '@nuxt/icon',
+    '@nuxtjs/device'
+  ],
   compatibilityDate: '2024-12-14',
   css: [
     '~/assets/scss/color.scss',
@@ -29,21 +50,31 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   i18n: {
+    strategy: 'no_prefix',
     locales: [
-      { code: 'en', iso: 'en-US', name: 'English' },
-      { code: 'th', iso: 'th', name: 'ไทย' }
+      {
+        code: 'en',
+        iso: 'en',
+        // file: 'en/index.ts',
+        files: getFileList('en'),
+      },
+      {
+        code: 'th',
+        iso: 'th',
+        // file: 'th/index.ts',
+        files: getFileList('th'),
+      },
     ],
+    // vueI18n: 'i18n.config.ts',
+    lazy: true,
+    langDir: 'locales',
     defaultLocale: 'th',
-    vueI18n: './i18n.config.ts' // if you are using custom path, default
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'locale',
+      fallbackLocale: 'th',
+    },
   },
-  modules: [
-    '@pinia/nuxt',
-    '@nuxtjs/i18n',
-    'nuxt-quasar-ui',
-    '@vueuse/nuxt',
-    '@nuxt/eslint',
-    '@nuxt/icon',
-  ],
   quasar: {
     // Configurable Component Defaults
     appConfigKey: 'nuxtQuasarCustom',
@@ -140,8 +171,10 @@ export default defineNuxtConfig({
   vue: {
     compilerOptions: {
       // isCustomElement: (tag) => tag.startsWith('swiper-'),
-      isCustomElement: (tag) =>
-        ['swiper-container', 'swiper-slide'].includes(tag)
+      isCustomElement: (tag) => [
+        'swiper-container', 'swiper-slide',
+        'cropper-canvas', 'cropper-image', 'cropper-shade', 'cropper-handle', 'cropper-selection', 'cropper-grid', 'cropper-crosshair', 'cropper-viewer'
+      ].includes(tag)
     }
   },
 })

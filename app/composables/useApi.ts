@@ -6,7 +6,7 @@
 
 //     const { $axios } = useNuxtApp()
 //     const config = useRuntimeConfig()
-//     const { canSyncActiveStatusToServer } = useDevice();
+//     const { canSyncActiveStatusToServer } = useAppDevice();
 //     const { notify, loading: quasarLoading } = useQuasar();
 //     const loading = ref<boolean>(false);
 //     const data = ref<T | null>(null);

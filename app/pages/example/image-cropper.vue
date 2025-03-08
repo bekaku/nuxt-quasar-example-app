@@ -1,13 +1,20 @@
 <script setup lang="ts">
+import type { LabelValue } from '~/types/common';
 import { getImgUrlFromFile } from '~/utils/fileUtil';
-import { biPencilFill, biTrash } from '@quasar/extras/bootstrap-icons'
 const { t } = useLang();
 useHead({
     title: 'Image Cropper'
 })
 const showImageCroper = ref(false);
-const cropedUrl = ref<string>();
+const cropedUrl = ref<string | undefined>('/images/no_picture.jpg');
 const cropedFile = ref<any>();
+
+const ratioSelected = ref<number>(1);
+const ratioOptions: LabelValue<number>[] = [
+    { label: '1', value: 1 },
+    { label: '4/3', value: 4 / 3 },
+    { label: '16/9', value: 16 / 9 },
+]
 const onCloseImageCropper = () => {
     showImageCroper.value = false;
 };
@@ -23,10 +30,14 @@ const onCropImage = async (f: any) => {
     }
     cropedFile.value = f;
 };
+
+const onCropImageEnd = (imageUrl: string) => {
+    console.log('onCropImageEnd');
+}
 </script>
 <template>
-    <BasePage class="content-limit">
-        <BaseCard title="Image Cropper">
+    <BasePage>
+        <!-- <BaseCard title="Image Cropper">
             <q-card-section>
                 <div class="row">
                     <div class="col-12 col-md-4">
@@ -71,13 +82,55 @@ const onCropImage = async (f: any) => {
                                 <p>scale-down</p>
                                 <base-image :src="cropedUrl" fit="scale-down" image-bg />
                             </template>
+</div>
+</div>
+</div>
+</q-card-section>
+</BaseCard> -->
+        <!-- <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper" @on-okay="onCropImage"/> -->
+
+        <BaseCard title="Image Cropper" sub-title="Ratio">
+            <BaseRadio v-model="ratioSelected" :items="ratioOptions" />
+            <ClientOnly>
+                <BaseImageCropper initial-src="/images/no_picture.jpg" :ratio="ratioSelected" @on-close="onCloseImageCropper"
+                    @on-submit="onCropImage" />
+            </ClientOnly>
+        </BaseCard>
+        <BaseCard title="Image Cropper dialog">
+            <q-card-section>
+                <BaseButton :label="t('cropAvatar')" @click="showImageCroper = true" />
+            </q-card-section>
+            <q-card-section>
+                <div v-if="cropedUrl" class="row q-gutter-md">
+                    <base-image :src="cropedUrl" :ratio="1" alt="1" style="height: 250px; max-width: 250px" />
+
+                    <base-image :src="cropedUrl" :ratio="4 / 3" alt="4/3" style="height: 250px; max-width: 250px" />
+
+                    <base-image :src="cropedUrl" :ratio="16 / 9" alt="16/9" style="height: 250px; max-width: 250px" />
+
+                    <base-image :src="cropedUrl" fit="cover" alt="contain">
+                        <div class="full-width">
+                            cover
                         </div>
-                    </div>
+                    </base-image>
+
+                    <base-image :src="cropedUrl" fit="contain" alt="contain">
+                        <div>contain</div>
+                    </base-image>
+
+                    <base-image :src="cropedUrl" fit="fill" alt="fill">
+                        <div>fill</div>
+                    </base-image>
+
+                    <base-image :src="cropedUrl" fit="scale-down" image-bg>
+                        <div>scale-down</div>
+                    </base-image>
                 </div>
             </q-card-section>
-        </BaseCard>
 
-        <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper" @on-okay="onCropImage"/>
+        </BaseCard>
+        <LazyBaseImageCropperDialog v-if="showImageCroper" v-model="showImageCroper" :title="t('cropAvatar')"
+            @on-close="onCloseImageCropper" @on-submit="onCropImage" @on-cropend="onCropImageEnd" />
     </BasePage>
 </template>
 <style lang="scss" scoped></style>

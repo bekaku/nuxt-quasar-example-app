@@ -55,7 +55,7 @@ import type { AppColor, IHrefTarget } from '~/types/common';
     <q-btn v-bind="$attrs" 
       :outline 
       :label="!outline ? label : undefined" 
-      :color="light ? (isDark ? 'blue-grey-9' : 'grey-2') : flat && label==undefined ? undefined : outline && outlineColor==undefined ? undefined : outlineColor ||color"
+      :color="light ? (isDark ? 'grey-9' : 'grey-3') : flat && label==undefined ? undefined : outline && outlineColor==undefined ? undefined : outlineColor ||color"
       :text-color="light ? (isDark ? 'white' : 'black') : textColor" 
       :no-caps="noCaps" 
       :unelevated 

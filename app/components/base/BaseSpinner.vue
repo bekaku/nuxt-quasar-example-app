@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { type = 'dots', color = 'primary', size = '3em' } = defineProps<{
+const { type = 'dots', color = 'primary', size = '2em' } = defineProps<{
   type?: 'dots' | 'clock' | 'ios' | 'rings' | 'tail' | 'defult',
   color?: string,
   size?: string,

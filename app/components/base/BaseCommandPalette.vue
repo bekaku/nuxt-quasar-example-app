@@ -57,11 +57,11 @@ const filterItems = computed(() => {
         .map(item => {
             if (item.children) {
                 // If the item has children, filter them
-                const filteredChildren = item.children.filter(child => child.label.toLowerCase().includes(filterText.value.toLowerCase()) || (child.description != undefined && child.description.toLowerCase().includes(filterText.value.toLowerCase())));
+                const filteredChildren = item.children.filter(child => child.label &&child.label.toLowerCase().includes(filterText.value.toLowerCase()) || (child.description != undefined && child.description.toLowerCase().includes(filterText.value.toLowerCase())));
                 return { ...item, children: filteredChildren };
             } else {
                 // If no children, filter by the item's own label
-                return item.label.toLowerCase().includes(filterText.value.toLowerCase()) || (item.description != undefined && item.description.toLowerCase().includes(filterText.value.toLowerCase())) ? item : null;
+                return item.label && item.label.toLowerCase().includes(filterText.value.toLowerCase()) || (item.description != undefined && item.description.toLowerCase().includes(filterText.value.toLowerCase())) ? item : null;
             }
         })
         .filter(item => item !== null && (!item.children || item.children.length > 0));

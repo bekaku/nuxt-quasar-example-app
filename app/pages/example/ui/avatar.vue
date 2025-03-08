@@ -23,16 +23,16 @@ const getTooltipBy = (index: number) => {
             <q-card-section>
 
                 <div class=" row q-pa-md q-gutter-md">
-                    <base-avatar v-if="authenStore.auth?.avatar?.image" :src="authenStore.auth?.avatar?.image"
-                        fetch-image size="120px" />
+                    <LazyBaseSuspense>
+                        <LazyBaseAvatar v-if="authenStore.auth?.avatar?.image" :src="authenStore.auth?.avatar?.image"
+                            fetch-image size="120px" />
+                        <template #fallback>
+                            Loading...
+                        </template>
+                    </LazyBaseSuspense>
                     <base-avatar src="https://cdn.quasar.dev/img/avatar2.jpg" size="120px" />
-
                     <base-avatar rounded src="https://cdn.quasar.dev/img/avatar1.jpg" size="120px" />
-
                     <base-avatar square src="https://cdn.quasar.dev/img/avatar3.jpg" size="120px" />
-                    <!-- <div style="border: 4px solid #23d160;border-radius: 50%;">
-                        <base-avatar src="https://cdn.quasar.dev/img/avatar6.jpg" size="120px" />
-                    </div> -->
                     <base-avatar src="https://cdn.quasar.dev/img/avatar6.jpg" bordered bordered-color="#23d160"
                         bordered-width="4px" size="120px" class="shadow-10" />
                     <base-avatar src="https://cdn.quasar.dev/img/avatar4.jpg" size="120px">

@@ -8,6 +8,7 @@ import {
     biBug,
     biCalendar,
     biChatDots,
+    biChevronBarDown,
     biChevronExpand,
     biChevronRight,
     biCrop,
@@ -20,11 +21,13 @@ import {
     biFolder,
     biGear, biHouseDoor,
     biInputCursorText,
+    biLayoutSidebar,
     biList,
     biMarkdown,
     biPeople, biPerson, biPersonBadge,
     biPersonCircle,
     biPieChart,
+    biSegmentedNav,
     biShieldCheck,
     biToggleOff,
     biUpload,
@@ -32,311 +35,290 @@ import {
     biWindowSidebar
 } from '@quasar/extras/bootstrap-icons';
 import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
-import type { IMenu } from '~/types/common';
-
-export const appNavs: IMenu[] = [
+import type { LabelValue } from '~/types/common';
+export const appNavs: LabelValue<any>[] = [
     {
-        header: '',
-        pages: [
+        children: [
             {
                 icon: biHouseDoor,
-                color: 'info',
-                iconText: '',
-                translate: true,
-                title: 'nav.dashboard',
+                label: 'nav.dashboard',
                 to: '/',
-                permission: 'backend_login',
-                noActiveLink: true
+                permissions: ['backend_login'],
             }
         ]
     },
     {
-        header: 'nav.developers',
-        pages: [
+        label: 'nav.developers',
+        children: [
             {
-                color: 'red',
-                title: 'nav.systemData',
+                label: 'nav.systemData',
                 icon: biGear,
-                iconText: '',
-                items: [
+                children: [
                     {
-                        'title': 'model_permission',
-                        'icon': biShieldCheck,
-                        'to': '/permission',
-                        'permission': 'permission_list'
+                        label: 'model_permission',
+                        icon: biShieldCheck,
+                        to: '/permission',
+                        permissions: ['permission_list']
                     }
                 ]
             }
         ]
     },
     {
-        header: 'nav.forAdmin',
-        pages: [
+        label: 'nav.forAdmin',
+        children: [
             {
-                title: 'nav.userData',
+                label: 'nav.userData',
                 icon: biPersonBadge,
-                color: 'yellow darken-4',
-                items: [
+                children: [
                     {
-                        title: 'nav.userRole',
+                        label: 'nav.userRole',
                         icon: biPeople,
                         to: '/role',
-                        permission: 'role_list'
+                        permissions: ['role_list']
                     },
                     {
-                        title: 'nav.appUser',
+                        label: 'nav.appUser',
                         icon: biPerson,
                         to: '/user',
-                        permission: 'user_list'
+                        permissions: ['user_list']
                     }
                 ]
             }
         ]
     },
     {
-        border: false,
-        header: 'nav.more',
-        pages: [
+        label: 'nav.more',
+        children: [
             {
-                title: 'model_files_manager',
+                label: 'model_files_manager',
                 icon: biFolder,
                 to: '/myFiles?_id=root',
-                permission: 'file_manager_manage'
+                permissions: ['file_manager_manage']
             }
         ]
     }
 ];
 
-export const additionalMenu: IMenu[] = [
+export const additionalMenu: LabelValue<any>[] = [
+    {
+        avatar:'https://cdn.quasar.dev/img/avatar3.jpg',
+        label: 'My profile',
+        translateLabel: false,
+    },
     {
         border: true,
-        translate: false,
-        header: 'Example',
-        pages: [
+        translateLabel: false,
+        label: 'Example',
+        children: [
             {
                 icon: biList,
-                title: 'Composables',
-                translate: false,
-                items: [
+                label: 'Composables',
+                translateLabel: false,
+                children: [
                     {
                         icon: biChevronRight,
-                        permission: '',
-                        title: 'useBase',
-                        translate: false,
+                        label: 'useBase',
+                        translateLabel: false,
                         to: '/example/composables/use-base'
                     },
                     {
                         icon: biFileEarmark,
-                        permission: '',
-                        title: 'usePageFetch',
-                        translate: false,
+                        label: 'usePageFetch',
+                        translateLabel: false,
                         to: '/example/composables/use-pagefecth'
                     },
                 ]
             },
             {
                 icon: biBrush,
-                title: 'Quasar UI',
-                translate: false,
-                items: [
+                label: 'Quasar UI',
+                translateLabel: false,
+                children: [
                     {
                         icon: biPersonCircle,
-                        permission: '',
-                        title: 'Avatar',
-                        translate: false,
+                        label: 'Avatar',
+                        translateLabel: false,
                         to: '/example/ui/avatar'
                     },
                     {
                         icon: biApp,
-                        permission: '',
-                        title: 'Button',
-                        translate: false,
+                        label: 'Button',
+                        translateLabel: false,
                         to: '/example/ui/button'
                     },
                     {
                         icon: biCalendar,
-                        permission: '',
-                        title: 'Date-time picker',
-                        translate: false,
+                        label: 'Date-time picker',
+                        translateLabel: false,
                         to: '/example/ui/date-picker'
                     },
                     {
                         icon: biBack,
-                        permission: '',
-                        title: 'Dialog',
-                        caption: 'dialog, popconfirm, menu',
-                        translate: false,
+                        label: 'Dialog',
+                        description: 'dialog, popconfirm, menu',
+                        translateLabel: false,
                         to: '/example/ui/dialog'
                     },
                     {
-                        icon: biList,
-                        permission: '',
-                        title: 'Dropdown menu',
-                        translate: false,
-                        to: '/example/ui/dropdown-menu'
-                    },
-                    {
                         icon: biUpload,
-                        permission: '',
-                        title: 'File picker',
-                        translate: false,
+                        label: 'File picker',
+                        translateLabel: false,
                         to: '/example/ui/file-picker'
                     },
                     {
                         icon: biInputCursorText,
-                        permission: '',
-                        title: 'Form Input',
-                        caption:'Form, Input, Textarea',
-                        translate: false,
+                        label: 'Form Input',
+                        description: 'Form, Input, Textarea',
+                        translateLabel: false,
                         to: '/example/ui/input-text'
                     },
                     {
+                        icon: biLayoutSidebar,
+                        label: 'Menu',
+                        description: 'Dropdown, Menu, Breadcrumb',
+                        translateLabel: false,
+                        to: '/example/ui/menu'
+                    },
+                    {
                         icon: biChevronExpand,
-                        permission: '',
-                        title: 'Select',
-                        caption : 'Select, Command palette',
-                        translate: false,
+                        label: 'Select',
+                        description: 'Select, Command palette',
+                        translateLabel: false,
                         to: '/example/ui/select'
                     },
                     {
+                        icon: biSegmentedNav,
+                        label: 'Tabs',
+                        translateLabel: false,
+                        to: '/example/ui/tabs'
+                    },
+                    {
                         icon: biToggleOff,
-                        permission: '',
-                        caption:'Toggle,Options,Radios',
-                        title: 'Options group',
-                        translate: false,
+                        description: 'Toggle,Options,Radios',
+                        label: 'Options group',
+                        translateLabel: false,
                         to: '/example/ui/toggle'
                     },
                 ],
             },
             {
                 icon: biPieChart,
-                permission: '',
-                title: 'Charts',
-                translate: false,
+                label: 'Charts',
+                translateLabel: false,
                 to: '/example/charts'
             },
             {
                 icon: biChatDots,
-                permission: '',
-                title: 'Chat',
-                translate: false,
+                label: 'Chat',
+                translateLabel: false,
                 to: '/chats'
             },
             {
                 icon: biCursorText,
-                permission: '',
-                title: 'Content text',
-                caption: 'Display user input',
-                translate: false,
+                label: 'Content text',
+                description: 'Display user input',
+                translateLabel: false,
                 to: '/example/content-text'
             },
             {
                 icon: biArrowsMove,
-                permission: '',
-                title: 'Darg and Drop',
-                translate: false,
+                label: 'Darg and Drop',
+                translateLabel: false,
                 to: '/example/drag-drop'
             },
             {
                 icon: biEmojiSmile,
-                permission: '',
-                title: 'Icon/Emoji picker',
-                caption:'Emoji and Icon',
-                translate: false,
+                label: 'Icon/Emoji picker',
+                description: 'Emoji and Icon',
+                translateLabel: false,
                 to: '/example/emoji-picker'
             },
             {
                 icon: biDatabase,
-                permission: '',
-                title: 'Fetch data',
-                translate: false,
+                label: 'Fetch data',
+                translateLabel: false,
                 to: '/example/fetch-data'
             },
             {
                 icon: biCrop,
-                permission: '',
-                title: 'Image cropper',
-                translate: false,
+                label: 'Image cropper',
+                translateLabel: false,
                 to: '/example/image-cropper'
             },
             {
                 icon: biFileImage,
-                permission: '',
-                title: 'Image/Pdf View',
-                translate: false,
+                label: 'Image/Pdf View',
+                translateLabel: false,
                 to: '/example/image-view'
             },
             {
+                icon: biChevronBarDown,
+                label: 'Infinite scroll',
+                translateLabel: false,
+                to: '/example/infinite-scroll'
+            },
+            {
                 icon: biWindowFullscreen,
-                permission: '',
-                title: 'Login 2',
-                translate: false,
+                label: 'Login 2',
+                translateLabel: false,
                 to: '/auth/login-v1'
             },
             {
                 icon: biWindowFullscreen,
-                permission: '',
-                title: 'Login 3',
-                translate: false,
+                label: 'Login 3',
+                translateLabel: false,
                 to: '/auth/login-v2'
             },
             {
                 icon: biMarkdown,
-                permission: '',
-                title: 'Markdown editor',
-                translate: false,
+                label: 'Markdown editor',
+                translateLabel: false,
                 to: '/example/markdown-editor'
             },
             {
                 icon: biFile,
-                permission: '',
-                title: 'Result',
-                caption: 'Error, Success, 404, Alert',
-                translate: false,
+                label: 'Result',
+                description: 'Error, Success, 404, Alert',
+                translateLabel: false,
                 to: '/example/result'
             },
             {
                 icon: biArrowLeftRight,
-                permission: '',
-                title: 'Swiper',
-                translate: false,
+                label: 'Swiper',
+                translateLabel: false,
                 to: '/example/swiper'
             },
             {
                 icon: biWindowSidebar,
-                permission: '',
-                title: 'Social feed',
-                translate: false,
+                label: 'Social feed',
+                translateLabel: false,
                 to: '/feed'
             },
             {
                 icon: biArrowDownUp,
-                permission: '',
-                title: 'Virtual scroller',
-                translate: false,
+                label: 'Virtual scroller',
+                translateLabel: false,
                 to: '/example/virtual-scroller'
             },
             {
                 icon: biBug,
-                permission: '',
-                title: 'Test page',
-                translate: false,
+                label: 'Test page',
+                translateLabel: false,
                 to: '/test'
             },
             {
                 icon: mdiRobotConfused,
-                permission: '',
-                title: 'Error page',
-                translate: false,
+                label: 'Error page',
+                translateLabel: false,
                 to: '/permission/duplicate/0'
             },
             {
                 icon: mdiRobotConfused,
-                permission: '',
-                title: '404 page',
-                translate: false,
+                label: '404 page',
+                translateLabel: false,
                 to: '/notfound'
             },
         ]
-    }
+    },
 ];

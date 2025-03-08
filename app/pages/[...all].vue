@@ -3,7 +3,6 @@ import { biArrowLeft } from '@quasar/extras/bootstrap-icons';
 definePageMeta({
     layout: 'empty'
 })
-
 const { onPageBack } = useBase()
 const { t } = useLang();
 useHead({
@@ -20,6 +19,5 @@ useHead({
                 </template>
             </base-result>
         </div>
-
     </BasePage>
 </template>

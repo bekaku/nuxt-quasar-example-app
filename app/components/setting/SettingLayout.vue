@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import type { IMenu } from '~/types/common';
 import {
     biEnvelope,
     biPerson,
     biShieldLock,
 } from '@quasar/extras/bootstrap-icons';
-const navs: IMenu[] = [
+import type { LabelValue } from '~/types/common';
+const navs: LabelValue<any>[] = [
     {
-        header: '',
-        pages: [
+        label: '',
+        children: [
             {
                 icon: biPerson,
-                translate: true,
-                title: 'page.settingsPublicProfile',
+                translateLabel: true,
+                label: 'page.settingsPublicProfile',
                 to: '/settings',
                 noActiveLink: true
             }
         ]
     },
     {
-        header: 'Access',
-        translate: false,
-        border:true,
-        pages: [
+        label: 'Access',
+        translateLabel: false,
+        border: true,
+        children: [
             {
                 icon: biShieldLock,
-                translate: true,
-                title: 'page.settingsSecurity',
+                translateLabel: true,
+                label: 'page.settingsSecurity',
                 to: '/settings/security',
                 noActiveLink: true
             },
             {
                 icon: biEnvelope,
-                translate: true,
-                title: 'contactInfo',
+                translateLabel: true,
+                label: 'contactInfo',
                 to: '/settings/emails',
                 noActiveLink: true
             }
@@ -45,13 +45,13 @@ const navs: IMenu[] = [
     <BasePage v-bind="$attrs" padding>
         <div class="row">
             <div class="col-12 col-md-3 q-px-md">
-                <BaseMenuItems :menu-items="navs"/>
+                <BaseMenuItems :items="navs" />
             </div>
 
             <div class="col-12 col-md-9">
                 <slot name="content" />
             </div>
         </div>
-        <slot/>
+        <slot />
     </BasePage>
 </template>

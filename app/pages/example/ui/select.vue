@@ -306,9 +306,9 @@ watch(districtSeleted, () => {
             </q-card-section>
         </BaseCard>
 
-        <BaseDialog v-model="showCommandPaletteDialog" :show-toolbar="false"
+        <BaseDialog v-model="showCommandPaletteDialog" :padding="false" :show-toolbar="false"
             dialog-style="width: 756px; max-width: 80vw;">
-            <BaseCommandPalette v-model="commandPaletteModel" class="q-pt-sm" multiple :items="items3">
+            <BaseCommandPalette v-model="commandPaletteModel" :bordered="false" class="q-pt-sm" multiple :items="items3">
                 <template #inputAppend>
                     <BaseButton flat round :icon="biX" @click="showCommandPaletteDialog=false" />
                 </template>

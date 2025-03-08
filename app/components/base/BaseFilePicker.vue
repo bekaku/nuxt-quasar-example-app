@@ -33,12 +33,15 @@ const { t } = useLang();
 const modelValue = defineModel<any[]>({ default: () => [] });
 const fileItems = defineModel<FileManagerDto[]>('fileItems', { default: () => [] });
 const modelImageFiles = ref<any[]>([]);
-const emit = defineEmits(['on-file-add']);
+const emit = defineEmits<{
+    'on-file-add': [files: File[]]
+}>();
 const appFileInputRef = ref();
 //file upload
+
 const openFilePicker = () => {
 
-    if (maxFiles > 0 && modelValue.value && modelValue.value.length == maxFiles) {
+    if (multiple && maxFiles > 0 && modelValue.value && modelValue.value.length == maxFiles) {
         appToast(t('error.limitFile2', { total: maxFiles }), {
             type: 'negative'
         });
@@ -54,9 +57,13 @@ const onClear = (event: any) => {
     if (event) {
         event.stopPropagation();
     }
+    onClearProcess();
+};
+const onClearProcess = () => {
     modelValue.value = [];
     modelImageFiles.value = [];
-};
+    fileItems.value = [];
+}
 const onRejected = (rejectedEntries: any) => {
     appToast(t('error.filesValidationFmt', { total: rejectedEntries.length }), {
         type: 'negative'
@@ -88,8 +95,9 @@ const validateAndZipFile = async (files: File[]): Promise<any[]> => {
         resolve(list);
     });
 };
-const onFileAdded = async (files: File[]) => {
-    const finalFiles = await validateAndZipFile(files);
+const onFileAdded = async (files: File[] | File) => {
+    const fileList = Array.isArray(files) ? files : [files];
+    const finalFiles = await validateAndZipFile(fileList);
     emit('on-file-add', finalFiles);
     if (multiple) {
         if (finalFiles && finalFiles.length > 0) {
@@ -100,7 +108,7 @@ const onFileAdded = async (files: File[]) => {
     } else if (finalFiles) {
         modelValue.value = [];
         fileItems.value = [];
-        await onAddFile(finalFiles);
+        await onAddFile(finalFiles[0]);
     }
     modelImageFiles.value = [];
 };
@@ -133,17 +141,22 @@ const onAddFilePreview = (
     }
 };
 const onRemoveNewImage = (index: number) => {
-    if (!modelValue.value) {
+    if (!modelValue.value || modelValue.value.length == 0) {
         return;
     }
-    modelValue.value.splice(index, 1);
-    fileItems.value.splice(index, 1);
+    if (multiple) {
+        onRemoveProcess(index);
+    } else {
+        onClearProcess();
+    }
 };
-
+const onRemoveProcess = (index: number) => {
+    modelValue.value = modelValue.value.filter((v: any, i: number) => i != index);
+    fileItems.value = fileItems.value.filter((v: any, i: number) => i != index);
+    modelImageFiles.value = modelImageFiles.value.filter((v: any, i: number) => i != index);
+}
 onBeforeUnmount(() => {
-    modelValue.value = [];
-    fileItems.value = [];
-    modelImageFiles.value = [];
+    onClearProcess();
 });
 defineExpose({
     openFilePicker
@@ -154,25 +167,36 @@ defineExpose({
         <slot>
             <div class="row">
                 <div class="col-12 q-pa-md" :class="{ 'col-md-4': showPreview }">
-                    <q-list bordered dense class="app-border-radius">
+                    <q-list bordered class="app-border-radius">
                         <q-item clickable @click="openFilePicker">
-                            <q-item-section avatar>
+                            <q-item-section side>
                                 <q-icon :name="icon" />
                             </q-item-section>
                             <q-item-section>
                                 <q-item-label>
                                     {{ label ? label : t('base.chooseFile') }}
                                 </q-item-label>
+                                <q-item-label v-if="fileItems && fileItems.length > 0">
+                                    <div class="q-gutter-xs row" style="max-height: 150px; overflow-y: auto;">
+                                        <q-chip v-for="(item, index) in fileItems" :key="`fi-${index}`" removable
+                                            class="truncate-chip-labels" @remove="onRemoveNewImage(index)">
+                                            <div class="ellipsis">
+                                                {{ item.fileName }}
+                                            </div>
+                                        </q-chip>
+                                    </div>
+                                </q-item-label>
                             </q-item-section>
-                            <q-item-section side>
+                            <q-item-section v-if="modelValue && modelValue.length > 0" side>
                                 <q-btn round flat :icon="biX" @click="onClear" />
                             </q-item-section>
                         </q-item>
                     </q-list>
+                    <!-- <BaseInput class="cursor-pointer" :icon="icon" :label="label ? label : t('base.chooseFile')" /> -->
                 </div>
                 <div v-if="showPreview" class="col-12 col-md-8 q-pa-md">
                     <template v-if="fileItems.length > 0 && modelValue && modelValue.length > 0">
-                        <BaseFilesPreview :items="fileItems" format-size @on-remove="onRemoveNewImage" />
+                        <LazyBaseFilesPreview :items="fileItems" format-size @on-remove="onRemoveNewImage" />
                     </template>
                 </div>
             </div>
@@ -183,3 +207,7 @@ defineExpose({
             :accept="!wildcard ? accept : undefined" @rejected="onRejected" @update:model-value="onFileAdded" />
     </div>
 </template>
+<style lang="sass" scoped>
+.truncate-chip-labels
+  max-width: 140px
+</style>

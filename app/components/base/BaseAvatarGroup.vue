@@ -73,7 +73,7 @@
   width: v-bind(size);
   height: v-bind(size);
   border-radius: 50%;
-  background-color: var(--gray-200);
+  background-color: var(--color-gray-200);
   color: #000;
   display: flex;
   align-items: center;

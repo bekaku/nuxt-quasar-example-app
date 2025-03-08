@@ -25,6 +25,7 @@ const {
   canMaximized = false,
   autoClose = true,
   showToolbar = true,
+  padding = true,
 } =
   defineProps<{
     persistent?: boolean;
@@ -41,31 +42,35 @@ const {
     dialogStyle?: string;
     autoClose?: boolean;
     showToolbar?: boolean;
+    padding?: boolean;
   }>();
 
 const modelValue = defineModel<boolean>({ default: false });
-const emit = defineEmits(['on-close', 'on-before-hide']);
+const emit = defineEmits(['on-close', 'on-hide', 'on-before-hide']);
 const { t } = useLang();
 const { isDark } = useTheme();
 const maximizeModel = ref(maximized);
 const onClose = () => {
   emit('on-close');
+  onCloseModel();
+};
+const onHide = () => {
+  emit('on-hide')
+  onCloseModel();
+}
+const onCloseModel = () => {
   if (autoClose) {
     modelValue.value = false;
   }
-};
+}
 </script>
 <template>
   <q-dialog :model-value="modelValue" :persistent="persistent" :maximized="maximizeModel"
     :transition-show="transitionShow" :transition-hide="transitionHide" :full-width="fullWidth"
-    :full-height="fullHeight" @hide="onClose" @before-hide="$emit('on-before-hide')">
-    <!-- <div v-bind="$attrs" :style="dialogStyle">
-        <slot></slot>
-      </div> -->
-    <!-- <q-card v-bind="$attrs" flat :style="dialogStyle" :class="{ 'bg-grey-1': !isDark, 'app-second-bg-color-theme-dark': isDark }"> -->
-    <q-card v-bind="$attrs" flat :style="dialogStyle">
+    :full-height="fullHeight" @hide="onHide" @before-hide="$emit('on-before-hide')">
+    <BaseCard v-bind="$attrs" :style="dialogStyle">
       <slot name="toolBar">
-        <q-bar v-if="showToolbar" class="q-mb-xs" :class="{ 'bg-grey-2': !isDark, 'bg-dark-900': isDark }">
+        <q-bar v-if="showToolbar" class="q-py-md" :class="{ 'bg-grey-2': !isDark, 'bg-dark-900': isDark }">
           <slot name="icon">
             <q-icon v-if="icon" :name="icon" />
           </slot>
@@ -87,7 +92,9 @@ const onClose = () => {
           </slot>
         </q-bar>
       </slot>
-      <slot />
-    </q-card>
+      <div :class="{'q-pa-sm': padding}">
+        <slot />
+      </div>
+    </BaseCard>
   </q-dialog>
 </template>

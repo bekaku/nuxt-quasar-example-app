@@ -727,7 +727,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                     </slot>
                 </template>
                 <slot name="paging">
-                    <base-paging v-if="crudPages && showPaging && crudPages.totalPages > 0" v-model="crudPages"
+                    <BasePaging v-if="crudPages && showPaging && crudPages.totalPages > 0" v-model="crudPages"
                         :boundary-numbers="false" @update-current="onPageChange" @update-perpage="onPerPageChange" />
                 </slot>
             </BaseCard>

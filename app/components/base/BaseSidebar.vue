@@ -6,7 +6,7 @@ import {
     biSearch
 } from '@quasar/extras/bootstrap-icons';
 import { additionalMenu } from '~/libs/navs';
-const { overlay = false, bordered = false, miniToOverlay = true, width = 250 } = defineProps<{
+const { overlay = false, bordered = false, miniToOverlay = true, width = 270 } = defineProps<{
     overlay?: boolean;
     miniToOverlay?: boolean;
     bordered?: boolean;
@@ -40,12 +40,12 @@ onBeforeUnmount(() => {
 <template>
     <q-drawer v-model="drawerModel" show-if-above :width="width" :overlay="overlay" :bordered="bordered"
         :mini-to-overlay="miniToOverlay && !appStore.leftDrawerOpen" :mini="miniState && !appStore.leftDrawerOpen"
-        class="drawer-bg q-px-xs" @mouseover="miniState = false" @mouseout="miniState = true">
+        class="base-sidebar" @mouseover="miniState = false" @mouseout="miniState = true">
         <q-scroll-area class="fit">
             <div v-show="!miniState || appStore.leftDrawerOpen">
                 <div class="row justify-center q-pa-sm">
                     <q-btn flat dense round to="/" class="btn--no-hover">
-                        <q-avatar style="height: auto; width: 45px" square>
+                        <q-avatar style="height: auto; width: 44px" square>
                             <img alt="logo" :src="!isDark
                                 ? '/logo/logo-black.png'
                                 : '/logo/logo-white.png'
@@ -53,9 +53,9 @@ onBeforeUnmount(() => {
                         </q-avatar>
                     </q-btn>
                 </div>
+                <q-separator />
 
-                <q-item clickable dense class="search-item"
-                    @click="onOpenSearch">
+                <q-item clickable dense class="search-item" @click="onOpenSearch">
                     <q-item-section side>
                         <q-icon :name="biSearch" size="xs" class="text-muted" />
                     </q-item-section>
@@ -69,8 +69,8 @@ onBeforeUnmount(() => {
                     </q-item-section>
                 </q-item>
             </div>
-            <BaseMenuItems :menu-items="appStore.drawers" />
-            <BaseMenuItems :menu-items="additionalMenu">
+            <BaseMenuItems :items="appStore.drawers" />
+            <BaseMenuItems :items="additionalMenu">
                 <template #after>
                     <q-separator />
                     <q-item clickable>

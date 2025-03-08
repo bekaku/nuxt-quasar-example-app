@@ -10,6 +10,6 @@ useSeoMeta({
 </script>
 <template>
   <BasePage>
-    <div>Test</div>
+    <div>{{t('app.name')}}</div>
   </BasePage>
 </template>

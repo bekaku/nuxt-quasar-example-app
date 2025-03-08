@@ -130,17 +130,7 @@ export interface ApiListResponse {
     totalElements: number;
     last: boolean;
 }
-export interface Breadcrumb {
-    label: string;
-    translateLabel?: boolean;
-    icon?: string;
-    to?: string;
-    params?: string[];
-    queries?: string[];
-    value?: any
-    permissions?: string[];
-    frontend?: boolean;
-}
+
 export interface CacheDateAndKey {
     key: string;
     date: string | number;
@@ -349,14 +339,23 @@ export interface IFile {
     filePath?: string | null;
 }
 export interface LabelValue<Type> {
-    label: string;
+    label?: string;
     description?: string;
     avatar?: string;
+    avatarSize?: string;
     icon?: string;
+    iconSize?: string;
     fetch?: boolean;
     color?: string;
     value?: Type;
     border?: boolean;
+    to?: string;
+    translateLabel?: boolean;
+    params?: string[];
+    queries?: string[];
+    permissions?: string[];
+    permission?: string;
+    noActiveLink?: boolean;
     children?: LabelValue<Type>[]
 }
 export interface LoginRequest {

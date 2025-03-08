@@ -5,9 +5,9 @@ import {
     biArrowsCollapse,
     biDiagram3,
 } from '@quasar/extras/bootstrap-icons';
-import type { Breadcrumb } from '~/types/common';
+import type { LabelValue } from '~/types/common';
 import { PageIdParamiter } from './constants';
-export const TabTest: Breadcrumb[] = [
+export const TabTest: LabelValue<any>[] = [
     {
         label: 'Point',
         to: `/test-config/:${PageIdParamiter}/point`,

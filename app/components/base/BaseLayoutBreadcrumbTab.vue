@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Breadcrumb } from '~/types/common';
 import { biChevronRight } from '@quasar/extras/bootstrap-icons';
+import type { LabelValue } from '~/types/common';
 const { getPageMetaByKey } = useBase();
-const breadcrumbs = computed<Breadcrumb[] | undefined>(() => getPageMetaByKey('breadcrumbs') as Breadcrumb[]);
-const tabs = computed<Breadcrumb[] | undefined>(() => getPageMetaByKey('tabs') as Breadcrumb[]);
+const breadcrumbs = computed<LabelValue<any>[] | undefined>(() => getPageMetaByKey('breadcrumbs') as LabelValue<any>[]);
+const tabs = computed<LabelValue<any>[] | undefined>(() => getPageMetaByKey('tabs') as LabelValue<any>[]);
 </script>
 <template>
     <div v-if="(breadcrumbs &&breadcrumbs.length > 0) || (tabs &&tabs.length > 0)" class="row q-mt-lg">

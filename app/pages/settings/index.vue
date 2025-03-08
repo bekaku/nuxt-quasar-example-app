@@ -53,6 +53,11 @@ const onCoverCropend = (imgPreview: string) => {
     }
 
 }
+const onCoverCropClose = () => {
+    console.log('onCoverCropClose');
+    coverPreviewImage.value = undefined
+    showCoverCroper.value = false
+}
 const onUploadCover = async (f: any) => {
     console.log('onUploadCover', f);
     appLoading();
@@ -71,16 +76,6 @@ const onUploadCover = async (f: any) => {
     showCoverCroper.value = false;
     coverPreviewImage.value = undefined;
 };
-// const coverStyle = computed(() => {
-//     return `height: 175px;
-//             background: url(${authenStore.loginedCover ? authenStore.loginedCover : '/cover.jpg'}), linear-gradient(to right, #000, #000);
-//             background-position: center;
-//             -webkit-background-size: cover;
-//             -moz-background-size: cover;
-//             -o-background-size: cover;
-//             background-size: cover;`;
-// });
-
 const canSubmitUdatePrivateData = computed(() => {
     return entityPersonal.value.fullName && entityPersonal.value.fullName.length >= 4;
 });
@@ -96,26 +91,6 @@ const onUpdatePrivateData = () => {
                     <div class="text-h6">{{ t('base.editPhoto') }}</div>
                 </q-card-section>
                 <q-card-section>
-                    <!-- <q-card v-if="authenStore.auth" class="shadow-up-5">
-                        <div :style="coverStyle" />
-                        <div class="text-white absolute-right q-pa-md">
-                            <BaseButton round unelevated color="pink" :icon="biPencilFill"
-                                @click="onOpenCropperCover">
-                                <q-tooltip>{{ t('base.changeCover') }}</q-tooltip>
-                            </BaseButton>
-                        </div>
-
-                        <div class="text-white absolute-center">
-                            <q-avatar size="120px" style="top: 75px" class="shadow-5">
-                                <q-img spinner-color="white" :src="authenStore.loginedAvatar" />
-                                <div class="absolute-bottom" style="top: 55px">
-                                    <BaseButton round :icon="biPencilFill" color="pink" @click="onOpenCropper">
-                                        <q-tooltip>{{ t('base.changeAvatar') }}</q-tooltip>
-                                    </BaseButton>
-                                </div>
-                            </q-avatar>
-                        </div>
-                    </q-card> -->
                     <LazyUserCard v-if="authenStore.auth" :avatar-image="authenStore.auth?.avatar?.image"
                         :cover-image="authenStore.loginedCover" :name="authenStore.loginedDisplay"
                         :description="t('app.name')" height="250px" avatar-top="110px"
@@ -162,26 +137,16 @@ const onUpdatePrivateData = () => {
                 </q-card-section>
             </BaseCard>
         </template>
-        <BaseImageCropper :title="t('cropAvatar')" :dialog="showAvatarCroper" @on-okay="onUpdateAvatar"
+        <BaseImageCropperDialog v-model="showAvatarCroper" :title="t('cropAvatar')" @on-submit="onUpdateAvatar"
             @on-close="showAvatarCroper = false" />
-        <BaseImageCropper :title="t('base.changeCover')" :dialog="showCoverCroper" :ratio="16 / 9"
-            @on-close="showCoverCroper = false" @on-cropend="onCoverCropend" @on-okay="onUploadCover">
+        <BaseImageCropperDialog v-model="showCoverCroper" :title="t('base.changeCover')" :ratio="16 / 9"
+            @on-close="onCoverCropClose" @on-cropend="onCoverCropend" @on-submit="onUploadCover">
             <template #preview>
-                <!-- <q-card-section style="min-height: 450px;">
-                    <q-card v-if="authenStore.auth" class="shadow-up-5">
-                        <div :style="coverPreviewStyle" />
-                        <div class="text-white absolute-center">
-                            <q-avatar size="120px" style="top: 75px" class="shadow-5">
-                                <q-img spinner-color="white" :src="authenStore.loginedAvatar" />
-                            </q-avatar>
-                        </div>
-                    </q-card>
-                </q-card-section> -->
                 <LazyUserCard v-if="authenStore.auth && coverPreviewImage"
                     :avatar-image="authenStore.auth?.avatar?.image" :cover-image="coverPreviewImage"
                     :name="authenStore.loginedDisplay" :description="t('app.name')" height="250px" avatar-top="110px"
                     avatar-flat flat description-style="margin-top:35px" />
             </template>
-        </BaseImageCropper>
+        </BaseImageCropperDialog>
     </SettingLayout>
 </template>

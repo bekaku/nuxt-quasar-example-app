@@ -2,7 +2,7 @@
 import type { AppColor, LabelValue } from '~/types/common';
 
 
-const { item, iconSize = '20px', avatarSize = '24px', dense = true, seperator=false } = defineProps<{
+const { item, iconSize = '20px', avatarSize = '24px', dense = true, seperator = false } = defineProps<{
   item?: LabelValue<T>
   iconSize?: string
   avatarSize?: string
@@ -25,10 +25,11 @@ const onClick = () => {
     <slot name="start">
       <q-item-section v-if="item.avatar || item.icon" side>
         <template v-if="item.avatar">
-          <base-avatar v-if="item.avatar" :size="avatarSize" :fetch-image="!!item.fetch" :src="item.avatar" />
+          <base-avatar v-if="item.avatar" :size="item.avatarSize || avatarSize" :fetch-image="!!item.fetch"
+            :src="item.avatar" />
         </template>
         <template v-else>
-          <q-icon :name="item.icon" :size="iconSize" :color="item.color" />
+          <q-icon :name="item.icon" :size="item.iconSize || iconSize" :color="item.color" />
         </template>
       </q-item-section>
     </slot>
@@ -43,6 +44,6 @@ const onClick = () => {
     <slot name="end" />
     <slot />
   </q-item>
-  <q-separator v-if="seperator"/>
+  <q-separator v-if="seperator" />
 </template>
 <style scoped></style>

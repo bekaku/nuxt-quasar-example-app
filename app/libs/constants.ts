@@ -30,6 +30,7 @@ export const CrudAction = {
 };
 export const FileExtensionAccept =
   '.jpg,.png,.gif,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar';
+export const FileExtensionImageAccept ='.jpg,.png';
 
 export const FileTypeAcceptList = [
   'application/msword',
