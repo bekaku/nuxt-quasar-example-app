@@ -3,10 +3,8 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 export default withNuxt(
   // your custom flat configs go here, for example:
   {
-    plugins: [
-      'prettier'
-    ],
-    files: ['**/*.ts', '**/*.tsx','**/*.vue',],
+    plugins: ['prettier'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.vue'],
     rules: {
       'no-console': 'off', // allow console.log in TypeScript files
       'no-unused-vars': ['warn'],
@@ -17,10 +15,11 @@ export default withNuxt(
       'vue/require-default-prop': 'off',
       'vue/first-attribute-linebreak': 'off',
       'vue/multi-word-component-names': 'off',
-      "vue/custom-event-name-casing": ["warn","kebab-case"],
+      'vue/custom-event-name-casing': ['warn', 'kebab-case'],
       'vue/attributes-order': 'warn',
+      'vue/html-self-closing': 'warn'
     }
-  },
+  }
   // {
   //   ...
   // }
