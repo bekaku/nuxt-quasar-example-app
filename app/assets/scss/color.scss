@@ -166,16 +166,9 @@
   background-color: var(--main-bg-color);
 }
 
-.base-sidebar {
-  // background-color: #fafafa;
-  background-color: var(--color-zinc-50);
-}
+
 
 body.body--dark {
-  .base-sidebar {
-    background-color: var(--color-zinc-950);
-  }
-
   .text-message-received {
     color: var(--color-dark-900) !important;
   }

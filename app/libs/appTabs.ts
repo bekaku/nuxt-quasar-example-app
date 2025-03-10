@@ -10,35 +10,36 @@ import { PageIdParamiter } from './constants';
 export const TabTest: LabelValue<any>[] = [
     {
         label: 'Point',
-        to: `/test-config/:${PageIdParamiter}/point`,
+        to: `/tab-page/:${PageIdParamiter}/point`,
         icon: biPeople,
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Photo',
-        to: `/test-config/:${PageIdParamiter}/photo`,
+        to: `/tab-page/:${PageIdParamiter}/photo`,
         icon: biUiChecks,
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Video',
-        to: `/test-config/:${PageIdParamiter}/video`,
+        to: `/tab-page/:${PageIdParamiter}/video`,
         icon: biCalculator,
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Tags',
-        to: `/test-config/:${PageIdParamiter}/tags`,
+        to: `/tab-page/:${PageIdParamiter}/tags`,
         icon: biArrowsCollapse,
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Message',
-        to: `/test-config/:${PageIdParamiter}/message`,
+        // to: `/tab-page/:${PageIdParamiter}/message`,
+        to: '/example/ui/tabs',
         icon: biDiagram3,
         translateLabel: false,
         params: [PageIdParamiter]

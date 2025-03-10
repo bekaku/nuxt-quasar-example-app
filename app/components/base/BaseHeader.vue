@@ -1,37 +1,48 @@
 <script setup lang="ts">
 import {
-    biAppIndicator,
-    biBell,
-    biCameraVideo,
-    biChatDots,
-    biLayoutSidebar,
-    biSearch,
-} from '@quasar/extras/bootstrap-icons';
-import { useQuasar } from 'quasar';
-const { bordered = false, reveal = false, showTogleDrawer = false, showLogo = true, showUserSetting = true, hambergerIcon = biLayoutSidebar } = defineProps<{
-    bordered?: boolean;
-    reveal?: boolean;
-    showTogleDrawer?: boolean;
-    frontend?: boolean;
-    showLogo?: boolean;
-    hambergerMenu?: boolean;
-    hambergerIcon?: string;
-    hambergerSize?: string;
-    hambergerIconOff?: string;
-    showUserSetting?: boolean;
-}>();
-const { t } = useLang();
-const { screen } = useQuasar();
-const { isDark } = useTheme();
-const { appNavigateTo } = useBase();
-const appStore = useAppStore();
-const showGotTopBtn = ref(false);
-const showSearch = ref(false);
+  biAppIndicator,
+  biBell,
+  biCameraVideo,
+  biChatDots,
+  biLayoutSidebar,
+  biSearch
+} from '@quasar/extras/bootstrap-icons'
+import { useQuasar } from 'quasar'
+import type { IconSet } from '~/types/common'
+const {
+  bordered = false,
+  reveal = false,
+  showTogleDrawer = false,
+  showLogo = true,
+  showUserSetting = true,
+  hambergerIcon = 'lucide:panel-left-close',
+  hambergerIconOff = 'lucide:panel-left-open',
+  hambergerIconSet = 'nuxt'
+} = defineProps<{
+  bordered?: boolean
+  reveal?: boolean
+  showTogleDrawer?: boolean
+  frontend?: boolean
+  showLogo?: boolean
+  hambergerMenu?: boolean
+  hambergerIcon?: string
+  hambergerSize?: string
+  hambergerIconOff?: string
+  hambergerIconSet?: IconSet
+  showUserSetting?: boolean
+}>()
+const { t } = useLang()
+const { screen } = useQuasar()
+const { isDark } = useTheme()
+const { appNavigateTo } = useBase()
+const appStore = useAppStore()
+const showGotTopBtn = ref(false)
+const showSearch = ref(false)
 
-const searchTimeout = ref<any>();
+const searchTimeout = ref<any>()
 const onOpenSearch = () => {
-    showSearch.value = true;
-};
+  showSearch.value = true
+}
 // const onScroll = (info: any) => {
 //     if (info && info.position && info.position.top > 100) {
 //         showGotTopBtn.value = true;
@@ -40,69 +51,101 @@ const onOpenSearch = () => {
 //     }
 // };
 const onSearchMenuClick = (to: string) => {
-    showSearch.value = false;
-    setTimeout(() => {
-        appNavigateTo(to);
-    }, 500)
+  showSearch.value = false
+  setTimeout(() => {
+    appNavigateTo(to)
+  }, 500)
 }
 onBeforeUnmount(() => {
-    if (searchTimeout.value) {
-        clearTimeout(searchTimeout.value);
-    }
-    searchTimeout.value = null;
+  if (searchTimeout.value) {
+    clearTimeout(searchTimeout.value)
+  }
+  searchTimeout.value = null
 })
 </script>
 
 <template>
-    <q-header :reveal="reveal" height-hint="58" :bordered="bordered" :elevated="showGotTopBtn" :class="{
-        'app-second-bg-color-theme-dark text-white': isDark,
-        'bg-white text-black': !isDark,
-    }">
-        <!-- <q-scroll-observer @scroll="onScroll" /> -->
-        <q-toolbar class="q-py-xs">
-            <q-btn v-if="showTogleDrawer" dense flat round @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)">
-                <q-icon
-                    :name="appStore.leftDrawerOpen ? hambergerIcon : hambergerIconOff ? hambergerIconOff : hambergerIcon"
-                    :size="hambergerSize" />
-            </q-btn>
-            <q-btn v-if="showLogo && !appStore.leftDrawerOpen" flat no-caps no-wrap round class="q-mr-xs btn--no-hover"
-                :ripple="false" to="/">
-                <q-avatar style="height: auto; width: 42px" square>
-                    <img :src="!isDark
-                        ? '/logo/logo-black.png'
-                        : '/logo/logo-white.png'
-                        ">
-                </q-avatar>
-            </q-btn>
-            <q-btn v-if="screen.gt.xs" flat rounded class="text-capitalize" @click="onOpenSearch">
-                <span class="q-mr-sm text-muted">{{ t('base.search') }}</span>
-                <q-icon :name="biSearch" />
-            </q-btn>
-            <q-space />
+  <q-header
+    :reveal="reveal"
+    height-hint="58"
+    :bordered="bordered"
+    :elevated="showGotTopBtn"
+    :class="{
+      'app-second-bg-color-theme-dark text-white': isDark,
+      'bg-white text-black': !isDark
+    }"
+  >
+    <!-- <q-scroll-observer @scroll="onScroll" /> -->
+    <q-toolbar class="q-py-xs">
+      <q-btn
+        v-if="showTogleDrawer"
+        dense
+        flat
+        round
+        @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)"
+      >
+        <BaseIcon
+          :icon="
+            appStore.leftDrawerOpen
+              ? hambergerIcon
+              : hambergerIconOff
+                ? hambergerIconOff
+                : hambergerIcon
+          "
+          :icon-set="hambergerIconSet"
+          :size="hambergerSize"
+        />
+        <!-- <q-icon
+          :name="
+            appStore.leftDrawerOpen
+              ? hambergerIcon
+              : hambergerIconOff
+                ? hambergerIconOff
+                : hambergerIcon
+          "
+          :size="hambergerSize"
+        /> -->
+      </q-btn>
+      <q-btn
+        v-if="showLogo && !appStore.leftDrawerOpen"
+        flat
+        no-caps
+        no-wrap
+        round
+        class="q-mr-xs btn--no-hover"
+        :ripple="false"
+        to="/"
+      >
+        <q-avatar style="height: auto; width: 42px" square>
+          <img :src="!isDark ? '/logo/logo-black.png' : '/logo/logo-white.png'" />
+        </q-avatar>
+      </q-btn>
+      <q-btn v-if="screen.gt.xs" flat rounded class="text-capitalize" @click="onOpenSearch">
+        <span class="q-mr-sm text-muted">{{ t('base.search') }}</span>
+        <q-icon :name="biSearch" />
+      </q-btn>
+      <q-space />
 
-            <div class="q-gutter-md row items-center no-wrap">
-                <q-btn v-if="screen.gt.sm" round dense flat :icon="biCameraVideo">
-                    <q-tooltip>Create a video or post</q-tooltip>
-                </q-btn>
-                <q-btn v-if="screen.gt.sm" round dense flat :icon="biAppIndicator">
-                    <q-tooltip>Apps</q-tooltip>
-                </q-btn>
-                <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
-                    <q-tooltip>Messages</q-tooltip>
-                </q-btn>
-                <q-btn v-if="!screen.gt.xs" round dense flat @click="onOpenSearch">
-                    <q-icon :name="biSearch" />
-                </q-btn>
-                <q-btn round dense flat :icon="biBell">
-                    <q-badge color="negative" rounded text-color="white" floating>
-                        99+
-                    </q-badge>
-                    <q-tooltip>{{ t('base.notifications') }}</q-tooltip>
-                </q-btn>
-                <LazyBaseHeaderMenu v-if="showUserSetting" style="max-width: 225px" />
-            </div>
-        </q-toolbar>
-        <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
-    </q-header>
-
+      <div class="q-gutter-md row items-center no-wrap">
+        <q-btn v-if="screen.gt.sm" round dense flat :icon="biCameraVideo">
+          <q-tooltip>Create a video or post</q-tooltip>
+        </q-btn>
+        <q-btn v-if="screen.gt.sm" round dense flat :icon="biAppIndicator">
+          <q-tooltip>Apps</q-tooltip>
+        </q-btn>
+        <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
+          <q-tooltip>Messages</q-tooltip>
+        </q-btn>
+        <q-btn v-if="!screen.gt.xs" round dense flat @click="onOpenSearch">
+          <q-icon :name="biSearch" />
+        </q-btn>
+        <q-btn round dense flat :icon="biBell">
+          <q-badge color="negative" rounded text-color="white" floating> 99+ </q-badge>
+          <q-tooltip>{{ t('base.notifications') }}</q-tooltip>
+        </q-btn>
+        <LazyBaseHeaderMenu v-if="showUserSetting" style="max-width: 225px" />
+      </div>
+    </q-toolbar>
+    <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
+  </q-header>
 </template>

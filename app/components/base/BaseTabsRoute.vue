@@ -4,11 +4,13 @@ import type { LabelValue } from '~/types/common'
 const {
   dense = true,
   items,
-  align = 'left'
+  align = 'left',
+  defaultTab = false
 } = defineProps<{
   items: LabelValue<any>[]
   dense?: boolean
   align?: 'left' | 'center' | 'right' | 'justify'
+  defaultTab?: boolean
 }>()
 const { screen } = useQuasar()
 const { t } = useLang()
@@ -38,20 +40,18 @@ const getItems = computed<LabelValue<any>[]>(() => {
 })
 </script>
 <template>
-  <div
-    v-if="getItems.length > 0"
-    class="q-pa-md q-gutter-sm"
-    :class="{ 'limit-tabs': !screen.gt.xs }"
-  >
-    <q-tabs :align :dense="dense" inline-label outside-arrows mobile-arrows active-color="primary">
+  <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !screen.gt.xs }">
+    <BaseTabs :items="items" :dense="dense" :filter-acl="false" :align :default-tab="defaultTab">
       <template v-for="(item, index) in getItems" :key="`${index}-${item.label}`">
         <q-route-tab
           :icon="item.icon"
           :label="item.translateLabel ? (item.label ? t(item.label) : undefined) : item.label"
           :to="getLink(item)"
+          :disable="item.disable"
+          class="tab-content-wrapper"
         />
       </template>
-    </q-tabs>
+    </BaseTabs>
   </div>
 </template>
 <style scoped lang="scss">

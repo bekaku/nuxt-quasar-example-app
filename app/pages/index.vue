@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { biCreditCard, biCurrencyDollar, biGraphUp, biPeople } from '@quasar/extras/bootstrap-icons'
+import {
+  biCreditCard,
+  biCurrencyDollar,
+  biGraphUp,
+  biMusicNote,
+  biPeople,
+  biPerson
+} from '@quasar/extras/bootstrap-icons'
 import type { ISeriresCategories } from '~/types/chart'
 import type { LabelValue } from '~/types/common'
 
@@ -10,6 +17,7 @@ definePageMeta({
 })
 useInitPage()
 const { getPageMeta, getPageMetaByKey } = useBase()
+const { isDark } = useTheme()
 if (!import.meta.server) {
   console.log('getPageMeta', getPageMeta())
   console.log(
@@ -139,33 +147,37 @@ const chartData: ISeriresCategories = {
 </script>
 <template>
   <BasePage scroll-event show-to-top>
-    <BaseCard title="Dashboard">
-      <template #toolbarEnd>
-        <div class="row items-center">
-          <BaseDatePicker
-            v-model:start="dateRangeStart"
-            v-model:end="dateRangeEnd"
-            :clearable="false"
-            show-format-date
-            label="Range"
-            range
-          >
-            <template #after>
-              <BaseButton label="Download" light />
-            </template>
-          </BaseDatePicker>
-        </div>
-      </template>
+    <BaseCard title="Dashboard" sub-title="Top picks for you. Updated daily." :icon="biMusicNote">
       <q-card-section>
-        <BaseButtonToggle
-          v-model="toggleModel"
-          :options="[
-            { label: 'Overview', value: 'overview' },
-            { label: 'Analytics', value: 'analytics' },
-            { label: 'Reports', value: 'reports' },
-            { label: 'Notifications', value: 'notifications' }
-          ]"
-        />
+        <div class="q-pa-md">
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <BaseButtonToggle
+                v-model="toggleModel"
+                :options="[
+                  { label: 'Overview', value: 'overview' },
+                  { label: 'Analytics', value: 'analytics' },
+                  { label: 'Reports', value: 'reports' },
+                  { label: 'Notifications', value: 'notifications' }
+                ]"
+              />
+            </div>
+            <div class="col-12 col-md-4">
+              <BaseDatePicker
+                v-model:start="dateRangeStart"
+                v-model:end="dateRangeEnd"
+                :clearable="false"
+                show-format-date
+                label="Range"
+                range
+              >
+                <template #after>
+                  <BaseButton label="Download" :color="isDark ? 'grey-9' : 'dark'" />
+                </template>
+              </BaseDatePicker>
+            </div>
+          </div>
+        </div>
 
         <div class="row">
           <div v-for="(item, index) in statisticItems" :key="index" class="col-12 col-md-3 q-pa-md">

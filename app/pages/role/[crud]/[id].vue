@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { biPeople, biShieldCheck, biShieldLock, biTrash } from '@quasar/extras/bootstrap-icons';
-import PermissionService from '~/api/PermissionService';
-import { RoleFormBreadcrumb } from '~/libs/appBreadcrumbs';
-import { RolePermission } from '~/libs/appPermissions';
-import type { LabelValue } from '~/types/common';
-import type { Permission, Role } from '~/types/models';
-const { t } = useLang();
-const { required } = useValidation();
+import { biPeople, biShieldCheck, biShieldLock, biTrash } from '@quasar/extras/bootstrap-icons'
+import PermissionService from '~/api/PermissionService'
+import { RoleFormBreadcrumb } from '~/libs/appBreadcrumbs'
+import { RolePermission } from '~/libs/appPermissions'
+import type { LabelValue } from '~/types/common'
+import type { Permission, Role } from '~/types/models'
+const { t } = useLang()
+const { required } = useValidation()
 definePageMeta({
   pageName: 'model.role.table',
   requiresPermission: [RolePermission.view],
-  breadcrumbs: RoleFormBreadcrumb,
+  breadcrumbs: RoleFormBreadcrumb
 })
-useInitPage();
-const { appLoading } = useBase();
-const { findAllBackendPermission } = PermissionService();
+useInitPage()
+const { appLoading } = useBase()
+const { findAllBackendPermission } = PermissionService()
 const entity: Role = Object.freeze<Role>({
   id: null,
   name: '',
   nameEn: null,
   active: true,
   frontEnd: false,
-  selectdPermissions: [],
-});
+  selectdPermissions: []
+})
 const {
   crudAction,
   crudEntity,
@@ -41,21 +41,22 @@ const {
     fectchDataOnLoad: false
   },
   entity
-);
-const permissions = ref<Permission[]>([]);
-const selectedAll = ref(false);
-const permissionItems = ref<LabelValue<number>[]>([]);
+)
+const permissions = ref<Permission[]>([])
+const selectedAll = ref(false)
+const permissionItems = ref<LabelValue<number>[]>([])
 onMounted(() => {
-  onLoadData();
-});
+  onLoadData()
+})
 const onLoadData = async () => {
-  appLoading(true);
-  const response = await findAllBackendPermission();
+  appLoading(true)
+  const response = await findAllBackendPermission()
   if (response) {
-    permissions.value = response;
+    permissions.value = response
     permissionItems.value.push({
       label: t('crudPermission'),
-      children: response.filter(c => c.operationType === 1)
+      children: response
+        .filter(c => c.operationType === 1)
         .map(c => {
           return {
             label: c.description || 'unknow',
@@ -93,64 +94,96 @@ const onLoadData = async () => {
   //   permissions.value.push(...frontends);
   // }
 
-  await preFectData();
-  appLoading(false);
-};
+  await preFectData()
+  appLoading(false)
+}
 const getPermissionById = (id: number): LabelValue<number> | undefined => {
-  return permissionItems.value.find((p) => p.children?.find(r => r.value === id))?.children?.find(t => t.value == id);
-};
+  return permissionItems.value
+    .find(p => p.children?.find(r => r.value === id))
+    ?.children?.find(t => t.value == id)
+}
 const removePermission = (index: number) => {
   if (crudEntity.value && crudEntity.value.selectdPermissions) {
-    crudEntity.value.selectdPermissions.splice(index, 1);
+    crudEntity.value.selectdPermissions.splice(index, 1)
   }
-};
+}
 const onCheckedAll = () => {
-  updateSelectedAll(selectedAll.value);
-};
+  updateSelectedAll(selectedAll.value)
+}
 const updateSelectedAll = (val: boolean) => {
-  crudEntity.value.selectdPermissions = [];
+  crudEntity.value.selectdPermissions = []
   if (val) {
     for (let i = 0; i < permissions.value.length; i++) {
-      const item = permissions.value[i];
+      const item = permissions.value[i]
       if (item && item.id) {
-        crudEntity.value.selectdPermissions.push(item.id);
+        crudEntity.value.selectdPermissions.push(item.id)
       }
     }
   }
-};
+}
 </script>
 
 <template>
   <BasePage>
-    <BaseCrudForm :icon="biPeople" :title="t('model.role.table')" :crud-name="crudName" :crud-action="crudAction"
-      :crud-entity="crudEntity" :full-width="true" :list-permission="[RolePermission.list]"
-      :manage-permission="[RolePermission.manage]" :loading="loading" @on-back="onBack" @on-submit="onSubmit"
-      @on-delete="onDelete" @on-edit-enable="onEnableEditForm">
+    <BaseCrudForm
+      :icon="biPeople"
+      :title="t('model.role.table')"
+      :crud-name="crudName"
+      :crud-action="crudAction"
+      :crud-entity="crudEntity"
+      :full-width="true"
+      :list-permission="[RolePermission.list]"
+      :manage-permission="[RolePermission.manage]"
+      :loading="loading"
+      @on-back="onBack"
+      @on-submit="onSubmit"
+      @on-delete="onDelete"
+      @on-edit-enable="onEnableEditForm"
+    >
       <template #crudFromContent>
         <div class="row">
           <div class="col-12 q-pa-md">
-            <BaseInput v-model="crudEntity.name" required :readonly="loading" :edit-mode="isEditMode"
-              :label="t('model.role.name')" type="text" :rules="[required]" :maxlength="125" counter />
+            <BaseInput
+              v-model="crudEntity.name"
+              required
+              :readonly="loading"
+              :edit-mode="isEditMode"
+              :label="t('model.role.name')"
+              type="text"
+              :rules="[required]"
+              :maxlength="125"
+              counter
+            />
           </div>
-          <div class="col-12 col-md-4  q-px-md q-gutter-md">
-            <BaseCheckbox v-model="crudEntity.active" :edit-mode="isEditMode" :label="t('model.role.active')" />
+          <div class="col-12 col-md-4 q-px-md q-gutter-md">
+            <BaseCheckbox
+              v-model="crudEntity.active"
+              :edit-mode="isEditMode"
+              :label="t('model.role.active')"
+            />
           </div>
         </div>
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="biShieldLock" :label="t('model_permission')" />
+            <BaseTextHeader :icon="biShieldLock" :title="t('model_permission')" />
             <q-card-section>
-              <BaseCommandPalette v-model="crudEntity.selectdPermissions" :readonly="!isEditMode" multiple
-                :items="permissionItems" :use-checkbox="isEditMode">
+              <BaseCommandPalette
+                v-model="crudEntity.selectdPermissions"
+                :readonly="!isEditMode"
+                multiple
+                :items="permissionItems"
+                :use-checkbox="isEditMode"
+              >
                 <template #inputAppend>
-                  <BaseCheckbox v-if="isEditMode" v-model="selectedAll" :show-label="false" @click="onCheckedAll">
+                  <BaseCheckbox
+                    v-if="isEditMode"
+                    v-model="selectedAll"
+                    :show-label="false"
+                    @click="onCheckedAll"
+                  >
                     <q-tooltip>
-                      {{
-                        !selectedAll
-                          ? t('base.selectAll')
-                          : t('base.deselectAll')
-                      }}
+                      {{ !selectedAll ? t('base.selectAll') : t('base.deselectAll') }}
                     </q-tooltip>
                   </BaseCheckbox>
                 </template>
@@ -158,14 +191,23 @@ const updateSelectedAll = (val: boolean) => {
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="biShieldCheck" :label="t('permissionGrant')" />
+            <BaseTextHeader :icon="biShieldCheck" :title="t('permissionGrant')" />
             <q-card-section>
               <BaseScrollArea height="450px">
                 <q-list v-if="crudEntity.selectdPermissions.length > 0">
-                  <template v-for="(s, index) in crudEntity.selectdPermissions" :key="`${index}-${s}`">
+                  <template
+                    v-for="(s, index) in crudEntity.selectdPermissions"
+                    :key="`${index}-${s}`"
+                  >
                     <BaseLabelValueItem v-if="getPermissionById(s)" :item="getPermissionById(s)">
                       <template v-if="isEditMode" #end>
-                        <BaseButton flat :icon="biTrash" round text-color="negative" @click="removePermission(index)" />
+                        <BaseButton
+                          flat
+                          :icon="biTrash"
+                          round
+                          text-color="negative"
+                          @click="removePermission(index)"
+                        />
                       </template>
                     </BaseLabelValueItem>
                   </template>

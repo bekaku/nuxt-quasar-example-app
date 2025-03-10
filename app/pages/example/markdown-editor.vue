@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { biPencil, biEye, biQuestion } from '@quasar/extras/bootstrap-icons';
+import { biPencil, biEye, biQuestion } from '@quasar/extras/bootstrap-icons'
 // import md from 'src/assets/data.md';
-const { t } = useLang();
+const { t } = useLang()
 useHead({
-    title: 'Markdown'
+  title: 'Markdown'
 })
-const contentId = useId();
-const contentPreviewId = useId();
+const contentId = useId()
+const contentPreviewId = useId()
 
 const content = ref<string>(`
 ## 😲 md-editor-v3
@@ -74,11 +74,11 @@ note、abstract、info、tip、success、question、warning、failure、danger�
 !!!
 
 ## ☘️ em...
-`);
+`)
 </script>
 <template>
-    <BasePage class="content-limit">
-        <!-- <BaseCard flat :bordered="false" class="content-limit">
+  <BasePage class="content-limit">
+    <!-- <BaseCard flat :bordered="false" class="content-limit">
             <q-card-section>
                 <q-toolbar>
                     <q-toolbar-title> Markdown </q-toolbar-title>
@@ -87,30 +87,33 @@ note、abstract、info、tip、success、question、warning、failure、danger�
                 <q-separator />
             </q-card-section>
             <q-card-section class="q-gutter-y-lg"> -->
-        <BaseTextHeader label="Markdown" />
-        <BaseCard flat class="q-my-lg q-pa-md">
-            <div class="text-h5 q-mb-md">
-                <q-icon :name="biPencil" /> Editor
-                <q-btn flat :icon="biQuestion" class="text-capitalize text-muted" dense
-                    :label="`(${t('base.canUseMarkdown')})`">
-                    <q-tooltip>
-                        {{ t('base.canUseMarkdownHelp') }}
-                    </q-tooltip>
-                    <q-menu style="width: 450px">
-                        <base-markdown-help />
-                    </q-menu>
-                </q-btn>
-            </div>
-            <base-markdown-editor v-model="content" :editor-id="contentId" />
-        </BaseCard>
+    <BaseTextHeader title="Markdown" />
+    <BaseCard flat class="q-my-lg q-pa-md">
+      <div class="text-h5 q-mb-md">
+        <q-icon :name="biPencil" /> Editor
+        <q-btn
+          flat
+          :icon="biQuestion"
+          class="text-capitalize text-muted"
+          dense
+          :label="`(${t('base.canUseMarkdown')})`"
+        >
+          <q-tooltip>
+            {{ t('base.canUseMarkdownHelp') }}
+          </q-tooltip>
+          <q-menu style="width: 450px">
+            <base-markdown-help />
+          </q-menu>
+        </q-btn>
+      </div>
+      <base-markdown-editor v-model="content" :editor-id="contentId" />
+    </BaseCard>
 
-        <BaseCard flat class="q-my-lg q-pa-md">
-            <div class="text-h5 q-mb-md">
-                <q-icon :name="biEye" /> Preview
-            </div>
-            <base-markdown-preview :content="content" :editor-id="contentPreviewId" />
-        </BaseCard>
-        <!-- </q-card-section>
+    <BaseCard flat class="q-my-lg q-pa-md">
+      <div class="text-h5 q-mb-md"><q-icon :name="biEye" /> Preview</div>
+      <base-markdown-preview :content="content" :editor-id="contentPreviewId" />
+    </BaseCard>
+    <!-- </q-card-section>
         </BaseCard> -->
-    </BasePage>
+  </BasePage>
 </template>

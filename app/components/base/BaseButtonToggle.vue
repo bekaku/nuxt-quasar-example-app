@@ -1,20 +1,35 @@
 <script setup lang="ts" generic="T">
 // import type { LabelValue } from '~/types/common'
-const {} = defineProps<{
+const {
+  options,
+  disable = false,
+  readonly = false
+} = defineProps<{
   options: any[]
+  disable?: boolean
+  readonly?: boolean
 }>()
 const modelValue = defineModel<T>()
 const { isDark } = useTheme()
+const mapOptions = (model: any) => {
+  return (option: any) => {
+    return {
+      ...option,
+      class: model === option.value ? 'btn-toggle-on-class' : 'btn-toggle-off-class'
+    }
+  }
+}
+const filterOptions = computed(() => options.map(mapOptions(modelValue.value)))
 </script>
 <template>
   <q-btn-toggle
-    class="shadow-0 default"
+    v-bind="$attrs"
+    class="shadow-0 q-gutter-x-xs default"
     v-model="modelValue"
-    :toggle-color="!isDark ? 'white' : 'grey-9'"
-    :text-color="!isDark ? 'grey-8' : 'grey-4                                                  '"
-    :toggle-text-color="!isDark ? 'black' : 'white'"
     no-caps
-    :options
+    :options="filterOptions"
+    :disable
+    :readonly
   />
 </template>
 <style lang="scss" scoped>
@@ -24,7 +39,7 @@ const { isDark } = useTheme()
 }
 body.body--dark {
   .default {
-    background-color: var(--color-zinc-950);
+    background-color: var(--color-zinc-800);
   }
 }
 </style>

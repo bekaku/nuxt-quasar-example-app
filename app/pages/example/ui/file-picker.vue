@@ -109,7 +109,7 @@ const onCustomRemove2 = (index: number) => {
     <BaseCard title="Custom Ui">
       <div class="row">
         <div class="col-12 col-md-6 q-pa-md">
-          <BaseTextHeader :header="false" label="Custom Ui1" />
+          <BaseTextHeader :header="false" title="Custom Ui1" />
           <BaseFilePicker
             ref="filePickerCustomUiRef"
             v-model:file-items="customFiles"
@@ -132,7 +132,7 @@ const onCustomRemove2 = (index: number) => {
           />
         </div>
         <div class="col-12 col-md-6 q-pa-md">
-          <BaseTextHeader :header="false" label="Custom Ui2" />
+          <BaseTextHeader :header="false" title="Custom Ui2" />
           <BaseFilePicker
             ref="filePickerCustomUi2Ref"
             v-model:file-items="custom2Files"

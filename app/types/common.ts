@@ -339,24 +339,25 @@ export interface IFile {
     filePath?: string | null;
 }
 export interface LabelValue<Type> {
-    label?: string;
-    description?: string;
     avatar?: string;
     avatarSize?: string;
+    border?: boolean;
+    children?: LabelValue<Type>[]
+    color?: string;
+    disable?: boolean;
+    description?: string;
+    fetch?: boolean;
     icon?: string;
     iconSize?: string;
-    fetch?: boolean;
-    color?: string;
-    value?: Type;
-    border?: boolean;
-    to?: string;
-    translateLabel?: boolean;
-    params?: string[];
-    queries?: string[];
+    label?: string;
+    noActiveLink?: boolean;
     permissions?: string[];
     permission?: string;
-    noActiveLink?: boolean;
-    children?: LabelValue<Type>[]
+    params?: string[];
+    queries?: string[];
+    to?: string;
+    translateLabel?: boolean;
+    value?: Type;
 }
 export interface LoginRequest {
     emailOrUsername: string | null;

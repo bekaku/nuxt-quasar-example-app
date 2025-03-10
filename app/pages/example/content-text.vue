@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { biPencil } from '@quasar/extras/bootstrap-icons';
-import { extractHashtagsFromString } from '~/utils/appUtil';
-const { required } = useValidation();
+import { biPencil } from '@quasar/extras/bootstrap-icons'
+import { extractHashtagsFromString } from '~/utils/appUtil'
+const { required } = useValidation()
 useHead({
-    title: 'Content Text'
+  title: 'Content Text'
 })
-const contentUniqeId = useId();
-const contentUniqeId2 = useId();
-const content = ref<string>(`TypeScript has become the go-to language for many developers, providing the benefits of static typing while maintaining the flexibility of JavaScript. However, as TypeScript continues to evolve, some practices that were once considered best may now be outdated or suboptimal. In this article, we’ll cover 10 bad TypeScript habits you should break in 2024 to write cleaner, more efficient, and maintainable code.
+const contentUniqeId = useId()
+const contentUniqeId2 = useId()
+const content =
+  ref<string>(`TypeScript has become the go-to language for many developers, providing the benefits of static typing while maintaining the flexibility of JavaScript. However, as TypeScript continues to evolve, some practices that were once considered best may now be outdated or suboptimal. In this article, we’ll cover 10 bad TypeScript habits you should break in 2024 to write cleaner, more efficient, and maintainable code.
 
 1. Not Using strict Mode
 The Problem:
@@ -29,71 +30,88 @@ Example
 <p>abc<iframe//src=jAva&Tab;script:alert(3)>def</p>
 <TABLE><tr><td>HELLO</tr></TABL>
 
-#dev_tips #ทดสอบเท็ก`);
-const showContent = ref(true);
+#dev_tips #ทดสอบเท็ก`)
+const showContent = ref(true)
 const onPreview = () => {
-    showContent.value = false;
-    setTimeout(() => {
-        showContent.value = true;
-    }, 500);
+  showContent.value = false
+  setTimeout(() => {
+    showContent.value = true
+  }, 500)
 }
 
 const testExtractHashTag = () => {
-    const contentHashTags = extractHashtagsFromString(content.value);
-    console.log('contentHashTags', contentHashTags);
-    // const finalText = content.value.replace(
-    //     /#([a-zA-Z\p{L}\p{N}_\u0E00-\u0E7F]+)/gu,
-    //     '<a class="hashtag-href">#$1</a>'
-    // );
-    // console.log('contentHashTags', finalText)
+  const contentHashTags = extractHashtagsFromString(content.value)
+  console.log('contentHashTags', contentHashTags)
+  // const finalText = content.value.replace(
+  //     /#([a-zA-Z\p{L}\p{N}_\u0E00-\u0E7F]+)/gu,
+  //     '<a class="hashtag-href">#$1</a>'
+  // );
+  // console.log('contentHashTags', finalText)
 }
 </script>
 <template>
-    <BasePage class="content-limit">
-        <BaseCard title="Content Text">
-            <q-card-section>
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <q-input v-model="content" outlined bottom-slots label="Content" type="textarea"
-                            :rules="[required]" autogrow class="limited-autogrow">
-                            <template #hint>
-                                <span class="text-negative">*</span>
-                            </template>
-                        </q-input>
+  <BasePage class="content-limit">
+    <BaseCard title="Content Text">
+      <q-card-section>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <q-input
+              v-model="content"
+              outlined
+              bottom-slots
+              label="Content"
+              type="textarea"
+              :rules="[required]"
+              autogrow
+              class="limited-autogrow"
+            >
+              <template #hint>
+                <span class="text-negative">*</span>
+              </template>
+            </q-input>
 
-                        <BaseButton @click="onPreview">
-                            Reload Preview
-                        </BaseButton>
-                        <BaseButton class="q-ml-md" color="negative" @click="testExtractHashTag">
-                            Extract HashTag from content
-                        </BaseButton>
+            <BaseButton @click="onPreview"> Reload Preview </BaseButton>
+            <BaseButton class="q-ml-md" color="negative" @click="testExtractHashTag">
+              Extract HashTag from content
+            </BaseButton>
+          </div>
+          <div class="col-12 col-md-6 q-pa-md">
+            <BaseTextHeader :icon="biPencil" title="Ellipsis" />
+            <base-ellipsis class="q-mb-lg" :lines="4" clickable>
+              {{ content }}
+            </base-ellipsis>
 
-                    </div>
-                    <div class="col-12 col-md-6 q-pa-md">
-                        <BaseTextHeader :icon="biPencil" label="Ellipsis"/>
-                        <base-ellipsis class="q-mb-lg" :lines="4" clickable>
-                            {{ content }}
-                        </base-ellipsis>
+            <BaseTextHeader title="Preview with sanitize html" />
+            <template v-if="showContent">
+              <base-content-item
+                wrap-text
+                :content="content"
+                :content-id="contentUniqeId"
+                :is-escape-html="false"
+                hashtag-urlify
+                show-more
+              />
+              <base-open-graph-item-alt :content="content" short image-size="150px" />
+            </template>
+            <q-separator class="q-my-md" />
 
-                        <BaseTextHeader label="Preview with sanitize html"/>
-                        <template v-if="showContent">
-                            <base-content-item wrap-text :content="content" :content-id="contentUniqeId"
-                                :is-escape-html="false" hashtag-urlify show-more />
-                            <base-open-graph-item-alt :content="content" short image-size="150px" />
-                        </template>
-                        <q-separator class="q-my-md" />
-
-                        <BaseTextHeader label="Preview with escape html"/>
-                        <template v-if="showContent">
-                            <base-content-item wrap-text :content="content" :content-id="contentUniqeId2" is-escape-html
-                                :limit="10" hashtag-urlify show-more />
-                            <base-open-graph-item-alt :content="content" />
-                        </template>
-
-                    </div>
-                </div>
-            </q-card-section>
-        </BaseCard>
-    </BasePage>
+            <BaseTextHeader title="Preview with escape html" />
+            <template v-if="showContent">
+              <base-content-item
+                wrap-text
+                :content="content"
+                :content-id="contentUniqeId2"
+                is-escape-html
+                :limit="10"
+                hashtag-urlify
+                show-more
+              />
+              <base-open-graph-item-alt :content="content" />
+            </template>
+          </div>
+        </div>
+      </q-card-section>
+    </BaseCard>
+  </BasePage>
 </template>
 <style lang="scss" scoped></style>

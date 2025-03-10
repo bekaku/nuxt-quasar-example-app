@@ -21,21 +21,11 @@ const progress = ref(false)
 useHead({
   title: 'Button'
 })
-const toggleModel = ref<string>('music')
-const toggleOptions: LabelValue<string>[] = [
-  { label: 'Music', value: 'music', icon: biMusicNote },
-  { label: 'Podcasts', value: 'podcasts', icon: biMic },
-  { label: 'Live', value: 'live', icon: biPlay }
-]
 </script>
 <template>
   <BasePage>
     <BaseCard title="Button">
       <q-card-section>
-        <div class="q-pa-md">
-          <p>toggleModel: {{ toggleModel }}</p>
-          <BaseButtonToggle v-model="toggleModel" :options="toggleOptions" />
-        </div>
         <BaseRippleItem style="width: 150px; padding: 10px"> This is Ripple Item </BaseRippleItem>
 
         <div class="q-pa-md q-gutter-sm">

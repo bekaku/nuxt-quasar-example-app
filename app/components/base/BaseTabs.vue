@@ -8,7 +8,9 @@ const {
   activeColor = 'primary',
   textColor,
   bgColor,
-  useTabPanels = false
+  useTabPanels = false,
+  defaultTab = false,
+  filterAcl = true
 } = defineProps<{
   activeColor?: AppColor
   align?: 'left' | 'center' | 'right' | 'justify'
@@ -18,6 +20,8 @@ const {
   items: LabelValue<any>[]
   textColor?: AppColor
   useTabPanels?: boolean
+  defaultTab?: boolean
+  filterAcl?: boolean
 }>()
 const { screen } = useQuasar()
 const { t } = useLang()
@@ -31,7 +35,7 @@ const canShow = (item: LabelValue<any>) => {
   return appStore.isHavePermission(item.permissions)
 }
 const getItems = computed<LabelValue<any>[]>(() => {
-  return items.filter(t => canShow(t) === true)
+  return filterAcl ? items.filter(t => canShow(t) === true) : items
 })
 const getCssClass = computed<string>(() => {
   if (!textColor && !bgColor) {
@@ -42,11 +46,7 @@ const getCssClass = computed<string>(() => {
 })
 </script>
 <template>
-  <div
-    v-if="getItems.length > 0"
-    class="q-pa-md q-gutter-sm"
-    :class="{ 'limit-tabs': !screen.gt.xs }"
-  >
+  <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !screen.gt.xs }">
     <q-tabs
       v-bind="$attrs"
       v-model="modelValue"
@@ -55,18 +55,25 @@ const getCssClass = computed<string>(() => {
       inline-label
       outside-arrows
       mobile-arrows
-      :active-color="!textColor ? activeColor : undefined"
+      :active-color="defaultTab ? (!textColor ? activeColor : undefined) : undefined"
       :class="getCssClass"
+      :active-class="!defaultTab ? 'btn-toggle-on-class' : undefined"
+      :indicator-color="!defaultTab ? 'transparent' : undefined"
+      :content-class="!defaultTab ? 'tabs-content-wrapper q-gutter-x-xs' : undefined"
     >
-      <template v-for="(item, index) in getItems" :key="`${index}-${item.value}`">
-        <q-tab
-          :icon="item.icon"
-          :label="item.translateLabel ? (item.label ? t(item.label) : undefined) : item.label"
-          :name="item.value"
-        >
-          <slot name="app-tab" v-bind="{ item }" />
-        </q-tab>
-      </template>
+      <slot>
+        <template v-for="(item, index) in getItems" :key="`${index}-${item.value}`">
+          <q-tab
+            :icon="item.icon"
+            :label="item.translateLabel ? (item.label ? t(item.label) : undefined) : item.label"
+            :name="item.value"
+            :disable="item.disable"
+            class="tab-content-wrapper"
+          >
+            <slot name="app-tab" v-bind="{ item }" />
+          </q-tab>
+        </template>
+      </slot>
     </q-tabs>
     <slot name="tabPanels">
       <q-tab-panels v-if="useTabPanels" v-model="modelValue" :animated>

@@ -15,7 +15,7 @@
   --app-main-bg-color: #fff;
   // --app-main-bg-color:  hsl(210 40% 96.1% / .4);
 
-  --app-main-bg-color-theme-dark: var(--color-zinc-900); 
+  --app-main-bg-color-theme-dark: var(--color-zinc-900);
   --app-second-bg-color-theme-dark: var(--color-zinc-900);
   --third-bg-color-theme-dark: #18191d;
   // --app-main-bg-color-theme-dark: #1d1e22; 
@@ -27,8 +27,8 @@
 
   --app-main-border-color: #dcdcdc;
   --app-main-border-color-theme-dark: #687782;
- 
-  
+
+
   --app-main-border-light-color: #ededed;
   --app-main-border-lighter-color: #f8f8f8;
   --border-lighter-color: #f8f8f8;
@@ -103,42 +103,6 @@ body {
   }
 }
 
-body.body--dark {
-  color: #fff;
-  --v-main-text-head: #fff;
-  --main-bg-color: var(--app-main-bg-color-theme-dark);
-  --second-bg-color: var(--app-second-bg-color-theme-dark);
-  --v-text-black: #fff;
-  --app-text-muted: var(--v-main-text-muted-theme-dark);
-  --app-text-muted2: #6b7982;
-  --app-main-border-color: var(--app-main-border-color-theme-dark);
-  --app-main-border-light-color: var(--app-main-border-light-color-theme-dark);
-  --border-lighter-color: var(--app-main-border-light-color-theme-dark);
-  --emoji-icon-bg: var(--emoji-icon-bg-black);
-
-  .chip-color {
-    background-color: var(--color-dark-900);
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--color-dark-500);
-  }
-}
-
-body.body--light {
-  // color: #2d2e30;
-  background-color: var(--app-main-bg-color) !important;
-
-  .chip-color {
-    background-color: var(--color-dark-100);
-  }
-
-}
-
-// .body--dark {
-// background-color: var(--app-second-bg-color-theme-dark) !important
-// }
-
 .app-bg-white {
   background-color: #fff;
 }
@@ -146,7 +110,6 @@ body.body--light {
 .body--dark .app-bg-white {
   background-color: var(--app-second-bg-color-theme-dark) !important;
 }
-
 
 // .body--dark .wee-text-muted {
 //   color: var(--v-main-text-muted-theme-dark) !important;
@@ -170,15 +133,6 @@ body.body--light {
 .defaultFontFamily {
   font-family: var(--wee-default-font) !important;
 }
-
-// .cropper-crop-box,
-// .cropper-view-box {
-//   border-radius: 50%;
-// }
-// .cropper-view-box {
-//   box-shadow: 0 0 0 1px #39f;
-//   outline: 0;
-// }
 
 .wee-container-responsive-center,
 .content-limit {
@@ -281,7 +235,6 @@ body.body--light {
 // emoji-mart
 body.body--dark .emoji-mart {
   background: none;
-
 }
 
 body.body--dark .emoji-mart-category-label {
@@ -353,11 +306,87 @@ body.body--dark .emoji-mart-anchor {
 .rounded {
   border-radius: 10px !important;
 }
+
 .rounded-full {
   border-radius: 20px !important;
 }
 
-
 .border-radius-inherit {
   border-radius: inherit;
+}
+
+.btn-toggle-off-class {
+  border-radius: 10px !important;
+  color: var(--color-zinc-800) !important;
+}
+
+.btn-toggle-on-class {
+  background-color: #fff !important;
+  color: var(--color-black) !important;
+  border-radius: 10px !important;
+  box-shadow: $elevation-ambient 0px 1px 4px !important;
+  font-weight: 600 !important;
+}
+
+.tabs-content-wrapper {
+  padding: 5px !important;
+  border-radius: 10px !important;
+  background-color: var(--color-zinc-100);
+}
+
+.tab-content-wrapper {
+  border-radius: 10px !important;
+}
+
+.base-sidebar {
+  background-color: var(--color-zinc-50);
+}
+
+body.body--light {
+  background-color: var(--app-main-bg-color) !important;
+
+  .chip-color {
+    background-color: var(--color-dark-100);
+  }
+}
+
+body.body--dark {
+  color: #fff;
+  --v-main-text-head: #fff;
+  --main-bg-color: var(--app-main-bg-color-theme-dark);
+  --second-bg-color: var(--app-second-bg-color-theme-dark);
+  --v-text-black: #fff;
+  --app-text-muted: var(--v-main-text-muted-theme-dark);
+  --app-text-muted2: #6b7982;
+  --app-main-border-color: var(--app-main-border-color-theme-dark);
+  --app-main-border-light-color: var(--app-main-border-light-color-theme-dark);
+  --border-lighter-color: var(--app-main-border-light-color-theme-dark);
+  --emoji-icon-bg: var(--emoji-icon-bg-black);
+
+  .chip-color {
+    background-color: var(--color-dark-900);
+  }
+
+  .base-sidebar {
+    background-color: var(--color-zinc-950);
+  }
+
+  .btn-toggle-off-class {
+    color: var(--color-zinc-400) !important;
+  }
+
+  .btn-toggle-on-class {
+    color: var(--color-white) !important;
+    background-color: var(--color-zinc-950) !important;
+    box-shadow: $elevation-dark-ambient 0px 1px 4px !important;
+  }
+
+  .tabs-content-wrapper {
+    border-radius: 10px !important;
+    background-color: var(--color-zinc-800);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-dark-500);
+  }
 }

@@ -27,7 +27,8 @@ const groupTabs = ref<LabelValue<string>[]>([
   },
   {
     label: 'Videos',
-    value: 'videos'
+    value: 'videos',
+    disable: true
   }
 ])
 const toggleModel = ref<string>('music')
@@ -47,11 +48,10 @@ const toggleOptions: LabelValue<string>[] = [
     <BaseCard flat :bordered="false" :title="`Tab '${tabModel}'`">
       <q-card-section>
         <div class="row">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 q-pa-sm">
             <BaseTabs
               v-model="tabModel"
               :items="groupTabs"
-              align="left"
               use-tab-panels
               active-color="deep-orange"
               class="q-ml-xs"
@@ -67,8 +67,6 @@ const toggleOptions: LabelValue<string>[] = [
                 </BaseCard>
               </template>
               <template #about>
-                <!-- <div class="text-h6">About</div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. -->
                 <BaseCard title="About">
                   <q-card-section>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -76,8 +74,6 @@ const toggleOptions: LabelValue<string>[] = [
                 </BaseCard>
               </template>
               <template #review>
-                <!-- <div class="text-h6">Review</div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. -->
                 <BaseCard title="Review">
                   <q-card-section>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -100,13 +96,20 @@ const toggleOptions: LabelValue<string>[] = [
               </template>
             </BaseTabs>
           </div>
-          <div class="col-12 col-md-4">
-            <BaseTabs v-model="tabModel" :items="groupTabs" align="left" text-color="pink" />
-          </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 q-pa-sm">
             <BaseTabs
               v-model="tabModel"
               :items="groupTabs"
+              default-tab
+              align="left"
+              text-color="pink"
+            />
+          </div>
+          <div class="col-12 col-md-4 q-pa-sm">
+            <BaseTabs
+              v-model="tabModel"
+              :items="groupTabs"
+              default-tab
               align="left"
               text-color="white"
               bg-color="primary"

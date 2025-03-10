@@ -25,19 +25,25 @@ const {
     :class="{ 'default-card': !flat, 'bg-transparent': bgTransparent }"
     class="q-mb-md"
   >
-    <q-toolbar v-if="icon || title" class="q-pa-md">
-      <slot name="toolbarStart">
-        <q-icon v-if="icon" :name="icon" size="24px" class="q-mr-xs" />
-      </slot>
-      <q-toolbar-title>
-        <div v-if="title" class="text-h5 text-weight-bold">{{ title }}</div>
-        <div v-if="subTitle" class="text-body1 text-muted">{{ subTitle }}</div>
-      </q-toolbar-title>
-      <q-space />
-      <slot name="toolbarEnd" />
-    </q-toolbar>
-    <q-separator v-if="separator" />
+    <slot name="header">
+      <BaseTextHeader
+        v-if="icon || title"
+        class="q-py-md q-px-lg"
+        :title="title"
+        :sub-title="subTitle"
+        :icon
+      >
+        <template #start>
+          <slot name="start" />
+        </template>
+        <template #end>
+          <slot name="end" />
+        </template>
+      </BaseTextHeader>
+      <q-separator v-if="separator" />
+    </slot>
     <slot />
+    <slot name="footer" />
   </q-card>
 </template>
 <style scoped lang="scss">

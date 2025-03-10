@@ -58,13 +58,13 @@ const onClick = (event: any, index: number) => {
 </script>
 <template>
   <template v-if="item?.isImage || item?.image">
-    <div class="row justify-center">
+    <div class="text-center">
+      <!-- :style="{ maxHeight: imageHeight || imageSize, maxWidth: imageSize }" -->
       <base-image
         v-bind="$attrs"
         :src="getImagePath"
         :fetch="fetch"
         :ratio="ratio"
-        :style="{ maxHeight: imageHeight || imageSize, maxWidth: imageSize }"
         class="cursor-pointer"
         @click="onClick($event, index)"
       >
