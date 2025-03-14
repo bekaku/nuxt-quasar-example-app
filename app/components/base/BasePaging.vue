@@ -39,7 +39,16 @@ watch(
 <template>
     <div v-if="modelValue" class="row justify-between items-center" :style="{ background: !isDark ? 'var( --color-zinc-50)': 'var( --color-zinc-800)' }">
         <div class="flex q-pa-md text-muted">
-            {{ t('base.total') }} {{ modelValue.totalElements }}
+             {{ t('paging.totalRecord', { total: numberFormat(modelValue.totalElements) }) }}
+              <BaseSeparatorDot class="q-mx-sm" />
+              <span>
+                {{
+                  t('paging.noFmt', {
+                    current: numberFormat(modelValue.current),
+                    total: numberFormat(modelValue.totalPages),
+                  })
+                }}
+              </span>
         </div>
         <div class="flex q-pa-md">
             <q-select v-if="canChangePerpage" v-model="modelValue.itemsPerPage" dense outlined

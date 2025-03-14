@@ -158,12 +158,8 @@
   color: transparent !important;
 }
 
-.feed-page-bg {
-  background-color: #fff;
-}
-
-.feed-section-bg {
-  background-color: var(--main-bg-color);
+.bg-app-content-item{
+  background-color: var(--color-zinc-100);
 }
 
 
@@ -177,7 +173,7 @@ body.body--dark {
     color: var(--color-dark-500) !important;
   }
 
-  .feed-page-bg {
-    background-color: var(--wee-second-bg-color-theme-dark);
+   .bg-app-content-item{
+    background-color: var(--color-zinc-800);
   }
 }

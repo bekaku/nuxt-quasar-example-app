@@ -302,7 +302,9 @@ export default {
         frist: 'Frist',
         last: 'Last',
         backPreviousPage: 'Return to previous page.',
-        rowsPerPage: 'Records per page'
+        rowsPerPage: 'Records per page',
+        noFmt: 'Page {current}/{total}',
+        totalRecord: 'Total items {total}',
     },
     readableNum: {
         k: 'k',
@@ -441,6 +443,7 @@ export default {
         '510': 'Not Extended',
         '511': 'Network Authentication Required',
         'ECONNREFUSED': 'Server Offline',
+         'ERR_NETWORK': 'Server Offline',
     },
     sort: {
         sort: 'Sort order',

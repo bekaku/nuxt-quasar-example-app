@@ -14,54 +14,55 @@ const pdfFromServer = ref<string>()
 const imageSelectIndex = ref<number>(0)
 const showImageView = ref(false)
 const imageItems = ref<FileManagerDto[]>([
-  {
+   {
     id: 1,
     fileMime: 'image/jpeg',
     fileName: 'Img001.jpg',
     filePath:
-      'https://images.pexels.com/photos/29009130/pexels-photo-29009130/free-photo-of-misty-mountain-road-in-madeira-portugal.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.unsplash.com/photo-1741540420894-46bc55554fc3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true
+    isImage: true,
   },
   {
     id: 2,
     fileMime: 'image/jpeg',
     fileName: 'Img002.jpg',
     filePath:
-      'https://images.pexels.com/photos/14775022/pexels-photo-14775022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.unsplash.com/photo-1734983234384-5a3edcec48ce?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true
+    isImage: true,
   },
   {
     id: 3,
     fileMime: 'image/jpeg',
     fileName: 'Img003.jpg',
-    filePath: 'https://images.pexels.com/photos/8140820/pexels-photo-8140820.jpeg',
+    filePath:
+      'https://images.unsplash.com/photo-1741531472824-b3fc55e2ff9c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true
+    isImage: true,
   },
   {
     id: 4,
     fileMime: 'image/jpeg',
     fileName: 'Img004.jpg',
     filePath:
-      'https://images.pexels.com/photos/27796242/pexels-photo-27796242/free-photo-of-people-standing-outside-a-store-with-the-words-good-luck.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.unsplash.com/photo-1741509541812-5d8f3e96df23?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true
+    isImage: true,
   },
   {
     id: 5,
     fileMime: 'image/jpeg',
     fileName: 'Img005.jpg',
     filePath:
-      'https://images.pexels.com/photos/28637782/pexels-photo-28637782/free-photo-of-vintage-desert-gas-station-with-cafe-sign.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.unsplash.com/photo-1734630378523-c6735d798820?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true
+    isImage: true,
   },
   {
     id: 6,

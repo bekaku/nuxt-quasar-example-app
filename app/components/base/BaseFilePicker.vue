@@ -21,7 +21,7 @@ const {
   maxFiles = MaxSelectFiles,
   icon = biPlus,
   accept = FileExtensionAccept,
-  gallery = true,
+  gallery = false,
   previewHieight = '250px'
 } = defineProps<{
   multiple?: boolean

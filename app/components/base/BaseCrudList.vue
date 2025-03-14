@@ -168,7 +168,7 @@ const sortableHeaders = computed<LabelValue<string>[]>(() => {
         if (sortVal != undefined) {
             listHeaders.push({
                 value: sortVal,
-                label: t(item.label),
+                label: item.translateLabel==undefined || item.translateLabel? t(item.label) : item.label,
             });
         }
     }
@@ -406,13 +406,14 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                             ICrudListHeaderOptionSearchType.TEXT
                                                             ? 'text'
                                                             : 'number'
-                                                            " :label="t(searchCol.label)" clearable
+                                                            "   :label="searchCol.translateLabel == undefined || searchCol.translateLabel ? t(searchCol.label): searchCol.label"
+                                                            clearable
                                                         style="width: 100%">
                                                         <template #before>
                                                             <q-select v-if="
                                                                 !searchCol.options.searchOperationReadonly
                                                             " v-model="searchCol.options.searchOperation" dense filled
-                                                                :label="t(searchCol.label)" class="q-mx-lg"
+                                                                  :label="searchCol.translateLabel == undefined || searchCol.translateLabel ? t(searchCol.label): searchCol.label" class="q-mx-lg"
                                                                 :options="searchOperations" option-value="value"
                                                                 option-label="text" emit-value map-options :readonly="searchCol.options.searchOperationReadonly
                                                                     " style="min-width: 150px"
@@ -425,7 +426,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                     ICrudListHeaderOptionSearchType.BOOLEAN
                                                 ">
                                                     <BaseCheckbox v-model="searchCol.options.searchModel" use-checkbox
-                                                        use-label-title :label="t(searchCol.label)" />
+                                                        use-label-title   :label="searchCol.translateLabel == undefined || searchCol.translateLabel ? t(searchCol.label): searchCol.label" />
                                                 </template>
                                                 <template v-else-if="
                                                     searchCol.options?.searchType ==
@@ -433,7 +434,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                 ">
                                                     <template v-if="searchCol.options.searchModel != undefined">
                                                         <BaseDatePicker v-model="searchCol.options.searchModel" dense
-                                                            :title="t(searchCol.label)" />
+                                                              :label="searchCol.translateLabel == undefined || searchCol.translateLabel ? t(searchCol.label): searchCol.label" />
                                                     </template>
                                                 </template>
                                             </div>
@@ -489,7 +490,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                             :key="`tblHeader-${tblIndex}`">
                                             <template v-if="tblHeader.type === CrudListDataType.BASE_TOOL">
                                                 <th v-if="isHaveManagePermission || isHaveViewPermission">
-                                                    {{ t(tblHeader.label) }}
+                                                     {{ tblHeader.translateLabel==undefined || tblHeader.translateLabel ? t(tblHeader.label) : tblHeader.label }}
                                                 </th>
                                             </template>
                                             <th v-else>
@@ -512,11 +513,11 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                                                 " />
                                                         </template>
 
-                                                        {{ t(tblHeader.label) }}
+                                                        {{ tblHeader.translateLabel==undefined || tblHeader.translateLabel ? t(tblHeader.label) : tblHeader.label }}
                                                     </q-btn>
                                                 </template>
                                                 <template v-else>
-                                                    {{ t(tblHeader.label) }}
+                                                   {{ tblHeader.translateLabel==undefined || tblHeader.translateLabel ? t(tblHeader.label) : tblHeader.label }}
                                                 </template>
                                             </th>
                                         </template>

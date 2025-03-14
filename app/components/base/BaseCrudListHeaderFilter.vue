@@ -27,7 +27,7 @@ const fillableHeaders = computed(() => {
                         <q-checkbox v-model="f.options.fillable" size="sm" />
                     </q-item-section>
                     <q-item-section>
-                        {{ t(f.label) }}
+                        {{ f.translateLabel==undefined || f.translateLabel? t(f.label) : f.label }}
                     </q-item-section>
                 </q-item>
             </q-list>
