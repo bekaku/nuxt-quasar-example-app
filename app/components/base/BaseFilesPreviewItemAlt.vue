@@ -2,7 +2,7 @@
 import { formatBytes } from '~/utils/appUtil'
 import { getFileTypeIcon } from '~/utils/fileUtil'
 import type { FileManagerDto } from '~/types/models'
-import { biTrashFill } from '@quasar/extras/bootstrap-icons'
+import { biX } from '@quasar/extras/bootstrap-icons'
 import BaseButton from './BaseButton.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
@@ -79,7 +79,7 @@ const onClick = (event: any, index: number) => {
       <slot name="end">
         <BaseButton
           v-if="showDelete"
-          :icon="biTrashFill"
+          :icon="biX"
           flat
           round
           @click="onRemove($event, index)"

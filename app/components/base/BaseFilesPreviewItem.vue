@@ -2,7 +2,7 @@
 import type { FileManagerDto } from '@/types/models'
 import { formatBytes } from '@/utils/appUtil'
 import { getFileTypeIcon } from '~/utils/fileUtil'
-import { biTrashFill } from '@quasar/extras/bootstrap-icons'
+import { biX } from '@quasar/extras/bootstrap-icons'
 import { computed } from 'vue'
 
 const {
@@ -74,8 +74,8 @@ const onClick = (event: any, index: number) => {
           name="info"
           style="top: 8px; left: 8px"
           round
-          size="sm"
-          :icon="biTrashFill"
+         flat
+          :icon="biX"
           color="negative"
           @click="onRemove($event, index)"
         />
@@ -113,8 +113,8 @@ const onClick = (event: any, index: number) => {
           name="info"
           style="top: 8px; left: 8px"
           round
-          size="sm"
-          :icon="biTrashFill"
+          flat
+         :icon="biX"
           color="negative"
           @click="onRemove($event, index)"
         />

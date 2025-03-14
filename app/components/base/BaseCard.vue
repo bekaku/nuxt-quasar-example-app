@@ -2,7 +2,7 @@
 import type { IconSet } from '~/types/common'
 
 const {
-  flat = true,
+  flat = false,
   bordered = true,
   separator = false,
   bgTransparent = false
@@ -22,8 +22,8 @@ const {
     v-bind="$attrs"
     :flat
     :bordered="bordered"
-    :class="{ 'default-card': !flat, 'bg-transparent': bgTransparent }"
-    class="q-mb-md"
+    :class="{ 'default-card-shadow': !flat, 'bg-transparent': bgTransparent }"
+    class="default-card q-mb-md"
   >
     <slot name="header">
       <BaseTextHeader
@@ -48,10 +48,20 @@ const {
 </template>
 <style scoped lang="scss">
 .default-card {
+  border-radius: 1rem !important;
+}
+.default-card-shadow {
   box-shadow:
     0 0 #0000,
     0 0 #0000,
     0 1px 2px 0 rgb(0 0 0 / 0.05);
-  border-radius: 1rem;
+}
+body.body--dark {
+  .default-card-shadow {
+    box-shadow:
+      0 0 $elevation-dark-ambient,
+      0 0 $elevation-dark-ambient,
+      0 1px 2px 0 $elevation-dark-ambient;
+  }
 }
 </style>

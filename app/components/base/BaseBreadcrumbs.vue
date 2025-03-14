@@ -5,7 +5,7 @@ const {
   items,
   showSeparator = true,
   textColor = 'primary',
-  activeColor = 'grey'
+  activeColor = 'grey-8'
 } = defineProps<{
   items: LabelValue<any>[]
   showSeparator?: boolean
@@ -15,6 +15,7 @@ const {
 }>()
 const appStore = useAppStore()
 const { t } = useLang()
+const { isDark } = useTheme()
 const { getParam, getQuery } = useBase()
 const canShow = (item: LabelValue<any>) => {
   if (item.permissions == undefined) {
@@ -52,7 +53,7 @@ const getLink = (item: LabelValue<any>) => {
 </script>
 <template>
   <div v-if="getItems.length > 0" class="q-pa-md q-gutter-sm">
-    <q-breadcrumbs :class="`text-${textColor}`" :active-color="activeColor">
+    <q-breadcrumbs :class="`text-${textColor}`" :active-color="isDark ? 'white' : activeColor">
       <template #separator>
         <template v-if="showSeparator">
           <q-icon v-if="separatorIcon" class="text-muted" :name="separatorIcon" />
@@ -65,9 +66,15 @@ const getLink = (item: LabelValue<any>) => {
           :icon="item.icon"
           :to="getLink(item)"
           exact
+          :class="{ 'under-line': item.to != undefined }"
         />
       </template>
       <slot name="extra" />
     </q-breadcrumbs>
   </div>
 </template>
+<style scoped lang="css">
+.under-line:hover {
+  text-decoration: underline;
+}
+</style>

@@ -10,7 +10,9 @@ const {
   bgColor,
   useTabPanels = false,
   defaultTab = false,
-  filterAcl = true
+  filterAcl = true,
+  rounded = true,
+  keepAlive = false,
 } = defineProps<{
   activeColor?: AppColor
   align?: 'left' | 'center' | 'right' | 'justify'
@@ -22,6 +24,8 @@ const {
   useTabPanels?: boolean
   defaultTab?: boolean
   filterAcl?: boolean
+  rounded?: boolean
+  keepAlive?: boolean;
 }>()
 const { screen } = useQuasar()
 const { t } = useLang()
@@ -52,6 +56,7 @@ const getCssClass = computed<string>(() => {
       v-model="modelValue"
       :align
       :dense="dense"
+      no-caps
       inline-label
       outside-arrows
       mobile-arrows
@@ -59,7 +64,9 @@ const getCssClass = computed<string>(() => {
       :class="getCssClass"
       :active-class="!defaultTab ? 'btn-toggle-on-class' : undefined"
       :indicator-color="!defaultTab ? 'transparent' : undefined"
-      :content-class="!defaultTab ? 'tabs-content-wrapper q-gutter-x-xs' : undefined"
+      :content-class="
+        !defaultTab ? `${rounded ? 'rounded' : ''} tabs-content-wrapper q-gutter-x-xs` : undefined
+      "
     >
       <slot>
         <template v-for="(item, index) in getItems" :key="`${index}-${item.value}`">
@@ -76,7 +83,7 @@ const getCssClass = computed<string>(() => {
       </slot>
     </q-tabs>
     <slot name="tabPanels">
-      <q-tab-panels v-if="useTabPanels" v-model="modelValue" :animated>
+      <q-tab-panels v-if="useTabPanels" v-model="modelValue" :animated :keep-alive>
         <q-tab-panel
           v-for="(itemPanel, index) in getItems"
           :key="`tab-panel-${index}-${itemPanel.value}`"

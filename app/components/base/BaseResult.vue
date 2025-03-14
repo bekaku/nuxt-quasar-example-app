@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /*
-          <app-result
+          <base-result
             text-color="text-muted"
             :description="t('commentNotFoundThisPost')"
             :show-icon="false"
@@ -26,29 +26,26 @@ import {
   mdiRobotConfused,
 } from '@quasar/extras/mdi-v7';
 
-const props = withDefaults(
-  defineProps<{
-    status?: IResult;
-    title?: string;
-    description?: string;
-    icon?: string;
-    iconSize?: string;
-    hideBg?: boolean;
-    showIcon?: boolean;
-  }>(),
-  {
-    status: 'info',
-    iconSize: '120px',
-    hideBg: false,
-    showIcon: true,
-  }
-);
+const {
+  status = 'info',
+  iconSize = '120px',
+  hideBg = false,
+  showIcon = true,
+} = defineProps<{
+  status?: IResult;
+  title?: string;
+  description?: string;
+  icon?: string;
+  iconSize?: string;
+  hideBg?: boolean;
+  showIcon?: boolean;
+}>();
 const { isDark } = useTheme();
 const getIcon = (): string => {
   let icon: string | undefined = undefined;
 
   //404, 403, 500, 418, info, success, error, warning
-  switch (props.status) {
+  switch (status) {
     case '404':
       icon = mdiInboxRemoveOutline;
       break;
@@ -83,7 +80,7 @@ const getIcon = (): string => {
 };
 const getIconColor = () => {
   let color = '';
-  switch (props.status) {
+  switch (status) {
     case '400':
     case '404':
     case '403':
@@ -111,7 +108,7 @@ const getIconColor = () => {
 };
 const getBgColor = () => {
   let color = '';
-  switch (props.status) {
+  switch (status) {
     case '400':
     case '404':
     case '403':
@@ -150,8 +147,8 @@ const getBgColor = () => {
               src="/icons/warning.png"
               :style="`width: ${iconSize} ; height: auto`"
             /> -->
-          <q-avatar v-if="status == '404'" square style="width: 100%; height: auto">
-            <img src="/icons/404.png">
+          <q-avatar v-if="status == '404'" square style="width: 256px; height: auto">
+            <img src="/icons/sad-man.png">
           </q-avatar>
           <q-avatar v-else-if="showIcon" :size="iconSize" :color="!hideBg ? getBgColor() : undefined"
             :icon="icon ? icon : getIcon()" :class="getIconColor()" />

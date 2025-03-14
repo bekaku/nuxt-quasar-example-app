@@ -18,12 +18,12 @@ const modelValue = defineModel<boolean>({ default: true })
 defineEmits<{
   mouseover: []
   mouseout: []
+  hide: []
 }>()
 </script>
 <template>
   <q-drawer
     v-model="modelValue"
-    show-if-above
     :width="width"
     :overlay="overlay"
     :bordered="bordered"
@@ -32,6 +32,7 @@ defineEmits<{
     :class="{ 'base-sidebar': !tranparent }"
     @mouseover="$emit('mouseover')"
     @mouseout="$emit('mouseout')"
+    @hide="$emit('hide')"
   >
     <slot />
   </q-drawer>

@@ -144,6 +144,64 @@ const chartData: ISeriresCategories = {
     }
   ]
 }
+const sparkLineItems = [
+  {
+    label: 'Revenue Status',
+    description: '12.030',
+    value: '27%',
+    color: '#23d160',
+    bg: 'green-1',
+    series: [
+      {
+        name: 'status',
+        data: [10000, 14000, 20000, 16000, 18000, 20000, 16000, 14500, 18000],
+      },
+    ],
+    categories: ['status'],
+  },
+  {
+    label: 'Page View',
+    description: '5592',
+    value: '12%',
+    color: '#fb923c',
+    bg: 'orange-1',
+    series: [
+      {
+        name: 'view',
+        data: [5000, 7500, 9000, 8500, 7000, 6000, 8000, 9500, 7200],
+      },
+    ],
+    categories: ['view'],
+  },
+  {
+    label: 'Bounce Rate',
+    description: '55.56%',
+    value: '22%',
+    color: '#f87171',
+    bg: 'red-1',
+    series: [
+      {
+        name: 'rate',
+        data: [28000, 25000, 27000, 24000, 23000, 26000, 25000, 22000, 20000],
+      },
+    ],
+    categories: ['rate'],
+  },
+  {
+    label: 'Product Sale Rate',
+    description: '12.56%',
+    value: '17%',
+    color: '#8b5cf6',
+    bg: 'purple-2',
+    series: [
+      {
+        name: 'sale',
+        data: [15000, 12000, 18000, 22000, 14000, 11000, 25000, 20000, 17000],
+      },
+    ],
+    categories: ['sale'],
+  },
+];
 </script>
 <template>
   <BasePage scroll-event show-to-top>
@@ -196,6 +254,40 @@ const chartData: ISeriresCategories = {
               </q-item>
             </BaseCard>
           </div>
+        </div>
+         <div class="q-px-md">
+          <BaseCard>
+            <div class="row">
+              <div
+                v-for="(item, index) in sparkLineItems"
+                :key="index"
+                class="col-12 col-md-3"
+                :style="{ borderRight: index<(sparkLineItems.length-1)? '1px solid #ccc':'none' }"
+              >
+                <q-item>
+                  <q-item-section>
+                    <q-item-label> {{ item.label }} </q-item-label>
+                    <q-item-label>
+                      {{ item.description }}
+                     <q-badge :color="item.bg" :style="{ color: item.color }">{{ item.value }}</q-badge>
+                    </q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                      <ChartSparklines
+                        style="width: 155px"
+                        height="75"
+                        :chart-id="`sparkline-area-${index}`"
+                        :stroke-width="1"
+                        strokestyle="smooth"
+                        :colors="[item.color]"
+                        :series="item.series"
+                        :categories="item.categories"
+                      />
+                  </q-item-section>
+                </q-item>
+              </div>
+            </div>
+          </BaseCard>
         </div>
         <div class="row">
           <div class="col-12 col-md-8 q-px-md">

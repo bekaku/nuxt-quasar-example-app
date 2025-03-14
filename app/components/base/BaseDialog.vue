@@ -12,7 +12,12 @@
   >
   </base-dialog>
 */
-import { biArrowsAngleContract, biArrowsAngleExpand, biFile, biX } from '@quasar/extras/bootstrap-icons';
+import {
+  biArrowsAngleContract,
+  biArrowsAngleExpand,
+  biFile,
+  biX
+} from '@quasar/extras/bootstrap-icons'
 
 const {
   persistent = false,
@@ -20,57 +25,68 @@ const {
   fullHeight = false,
   maximized = false,
   icon = biFile,
-  transitionShow = 'fade',//fade, slide-down
+  transitionShow = 'fade', //fade, slide-down
   transitionHide = 'fade',
   canMaximized = false,
   autoClose = true,
   showToolbar = true,
-  padding = true,
-} =
-  defineProps<{
-    persistent?: boolean;
-    fullWidth?: boolean;
-    fullHeight?: boolean;
-    maximized?: boolean;
-    canMaximized?: boolean;
-    icon?: string;
-    title?: string;
-    transitionShow?: string;
-    transitionHide?: string;
-    width?: string;
-    maxWidth?: string;
-    dialogStyle?: string;
-    autoClose?: boolean;
-    showToolbar?: boolean;
-    padding?: boolean;
-  }>();
+  padding = true
+} = defineProps<{
+  persistent?: boolean
+  fullWidth?: boolean
+  fullHeight?: boolean
+  maximized?: boolean
+  canMaximized?: boolean
+  icon?: string
+  title?: string
+  transitionShow?: string
+  transitionHide?: string
+  width?: string
+  maxWidth?: string
+  dialogStyle?: string
+  autoClose?: boolean
+  showToolbar?: boolean
+  padding?: boolean
+}>()
 
-const modelValue = defineModel<boolean>({ default: false });
-const emit = defineEmits(['on-close', 'on-hide', 'on-before-hide']);
-const { t } = useLang();
-const { isDark } = useTheme();
-const maximizeModel = ref(maximized);
+const modelValue = defineModel<boolean>({ default: false })
+const emit = defineEmits(['on-close', 'on-hide', 'on-before-hide'])
+const { t } = useLang()
+const { isDark } = useTheme()
+const maximizeModel = ref(maximized)
 const onClose = () => {
-  emit('on-close');
-  onCloseModel();
-};
+  emit('on-close')
+  onCloseModel()
+}
 const onHide = () => {
   emit('on-hide')
-  onCloseModel();
+  onCloseModel()
 }
 const onCloseModel = () => {
   if (autoClose) {
-    modelValue.value = false;
+    modelValue.value = false
   }
 }
 </script>
 <template>
-  <q-dialog :model-value="modelValue" :persistent="persistent" :maximized="maximizeModel"
-    :transition-show="transitionShow" :transition-hide="transitionHide" :full-width="fullWidth"
-    :full-height="fullHeight" @hide="onHide" @before-hide="$emit('on-before-hide')">
-    <BaseCard v-bind="$attrs" :style="dialogStyle">
+  <q-dialog
+    :model-value="modelValue"
+    :persistent="persistent"
+    :maximized="maximizeModel"
+    :transition-show="transitionShow"
+    :transition-hide="transitionHide"
+    :full-width="fullWidth"
+    :full-height="fullHeight"
+    @hide="onHide"
+    @before-hide="$emit('on-before-hide')"
+  >
+    <q-card v-bind="$attrs" :style="dialogStyle">
       <slot name="toolBar">
-        <q-bar v-if="showToolbar" class="q-py-md" :class="{ 'bg-grey-2': !isDark, 'bg-dark-900': isDark }">
+        <q-bar
+          v-if="showToolbar"
+          class="q-py-md"
+          :class="{ 'bg-grey-2': !isDark, 'bg-dark-900': isDark }"
+        >
           <slot name="icon">
             <q-icon v-if="icon" :name="icon" />
           </slot>
@@ -82,8 +98,13 @@ const onCloseModel = () => {
           </div>
           <q-space />
           <slot name="toolbarAction">
-            <q-btn v-if="canMaximized" round flat :icon="!maximizeModel ? biArrowsAngleExpand : biArrowsAngleContract"
-              @click="maximizeModel = !maximizeModel">
+            <q-btn
+              v-if="canMaximized"
+              round
+              flat
+              :icon="!maximizeModel ? biArrowsAngleExpand : biArrowsAngleContract"
+              @click="maximizeModel = !maximizeModel"
+            >
               <q-tooltip>{{ !maximizeModel ? t('base.maximize') : t('base.minimize') }}</q-tooltip>
             </q-btn>
             <q-btn round flat :icon="biX" @click="onClose">
@@ -92,9 +113,9 @@ const onCloseModel = () => {
           </slot>
         </q-bar>
       </slot>
-      <div :class="{'q-pa-sm': padding}">
+      <div :class="{ 'q-pa-md': padding }">
         <slot />
       </div>
-    </BaseCard>
+    </q-card>
   </q-dialog>
 </template>

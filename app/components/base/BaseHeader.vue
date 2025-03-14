@@ -36,6 +36,7 @@ const { screen } = useQuasar()
 const { isDark } = useTheme()
 const { appNavigateTo } = useBase()
 const appStore = useAppStore()
+const { isMobileOrTablet } = useAppDevice()
 const showGotTopBtn = ref(false)
 const showSearch = ref(false)
 
@@ -43,13 +44,6 @@ const searchTimeout = ref<any>()
 const onOpenSearch = () => {
   showSearch.value = true
 }
-// const onScroll = (info: any) => {
-//     if (info && info.position && info.position.top > 100) {
-//         showGotTopBtn.value = true;
-//     } else {
-//         showGotTopBtn.value = false;
-//     }
-// };
 const onSearchMenuClick = (to: string) => {
   showSearch.value = false
   setTimeout(() => {
@@ -82,11 +76,15 @@ onBeforeUnmount(() => {
         dense
         flat
         round
-        @click="appStore.setLeftDrawer(!appStore.leftDrawerOpen)"
+        @click="
+          !isMobileOrTablet
+            ? appStore.setExpandDrawer(!appStore.expandDrawer)
+            : appStore.setDrawerOpen(!appStore.drawerOpen)
+        "
       >
         <BaseIcon
           :icon="
-            appStore.leftDrawerOpen
+            appStore.expandDrawer
               ? hambergerIcon
               : hambergerIconOff
                 ? hambergerIconOff
@@ -95,19 +93,9 @@ onBeforeUnmount(() => {
           :icon-set="hambergerIconSet"
           :size="hambergerSize"
         />
-        <!-- <q-icon
-          :name="
-            appStore.leftDrawerOpen
-              ? hambergerIcon
-              : hambergerIconOff
-                ? hambergerIconOff
-                : hambergerIcon
-          "
-          :size="hambergerSize"
-        /> -->
       </q-btn>
       <q-btn
-        v-if="showLogo && !appStore.leftDrawerOpen"
+        v-if="showLogo && !appStore.expandDrawer"
         flat
         no-caps
         no-wrap

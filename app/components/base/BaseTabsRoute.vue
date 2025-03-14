@@ -5,12 +5,14 @@ const {
   dense = true,
   items,
   align = 'left',
-  defaultTab = false
+  defaultTab = false,
+  rounded = false
 } = defineProps<{
   items: LabelValue<any>[]
   dense?: boolean
   align?: 'left' | 'center' | 'right' | 'justify'
   defaultTab?: boolean
+  rounded?: boolean
 }>()
 const { screen } = useQuasar()
 const { t } = useLang()
@@ -41,7 +43,14 @@ const getItems = computed<LabelValue<any>[]>(() => {
 </script>
 <template>
   <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !screen.gt.xs }">
-    <BaseTabs :items="items" :dense="dense" :filter-acl="false" :align :default-tab="defaultTab">
+    <BaseTabs
+      :items="items"
+      :dense="dense"
+      :filter-acl="false"
+      :align
+      :rounded
+      :default-tab="defaultTab"
+    >
       <template v-for="(item, index) in getItems" :key="`${index}-${item.label}`">
         <q-route-tab
           :icon="item.icon"

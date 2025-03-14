@@ -8,7 +8,7 @@ import {
     biBug,
     biCalendar,
     biChatDots,
-    biChevronBarDown,
+    biArrowDownCircle,
     biChevronExpand,
     biChevronRight,
     biCrop,
@@ -102,7 +102,7 @@ export const appNavs: LabelValue<any>[] = [
 
 export const additionalMenu: LabelValue<any>[] = [
     {
-        avatar:'https://cdn.quasar.dev/img/avatar3.jpg',
+        avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
         label: 'My profile',
         translateLabel: false,
     },
@@ -132,7 +132,7 @@ export const additionalMenu: LabelValue<any>[] = [
             },
             {
                 icon: biBrush,
-                label: 'Quasar UI',
+                label: 'UI',
                 translateLabel: false,
                 children: [
                     {
@@ -253,7 +253,7 @@ export const additionalMenu: LabelValue<any>[] = [
                 to: '/example/image-view'
             },
             {
-                icon: biChevronBarDown,
+                icon: biArrowDownCircle,
                 label: 'Infinite scroll',
                 translateLabel: false,
                 to: '/example/infinite-scroll'

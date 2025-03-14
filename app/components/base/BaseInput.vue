@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { biX } from '@quasar/extras/bootstrap-icons'
 import type { VueMoneyConFig } from '~/types/common'
 
 const {
@@ -110,6 +111,7 @@ defineEmits<{
         :dense="type == 'textarea' ? false : dense"
         :rounded
         :clearable
+        :clear-icon="clearable ? biX : undefined"
         :hint
         :borderless="borderless"
         :input-style="{ minHeight: type == 'textarea' && autogrow ? textareaHeight : undefined }"
@@ -213,4 +215,3 @@ defineEmits<{
     </template>
   </q-field>
 </template>
-<style lang="scss" scoped></style>

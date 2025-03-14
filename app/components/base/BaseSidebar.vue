@@ -14,13 +14,14 @@ const {
   width?: number
   tranparent?: boolean
 }>()
+const { isMobileOrTablet } = useAppDevice()
 const { version: quasarVersion } = useQuasar()
 const { t } = useLang()
 const { appNavigateTo } = useBase()
 const { isDark } = useTheme()
 const appStore = useAppStore()
-const drawerModel = ref(true)
-const miniState = ref(false)
+const modelValue = defineModel<boolean>({ default: true })
+const miniState = ref(!isMobileOrTablet)
 const searchTimeout = ref<any>()
 const showSearch = ref(false)
 const onOpenSearch = () => {
@@ -32,6 +33,19 @@ const onSearchMenuClick = (to: string) => {
     appNavigateTo(to)
   }, 500)
 }
+const onDrawerHide = () => {
+  console.log('onDrawerHide', modelValue.value)
+}
+const onMounseover = () => {
+  if (!isMobileOrTablet) {
+    miniState.value = false
+  }
+}
+const onMounseout = () => {
+  if (!isMobileOrTablet) {
+    miniState.value = true
+  }
+}
 onBeforeUnmount(() => {
   if (searchTimeout.value) {
     clearTimeout(searchTimeout.value)
@@ -40,31 +54,20 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
-  <!-- <q-drawer
-    v-model="drawerModel"
-    show-if-above
-    :width="width"
-    :overlay="overlay"
-    :bordered="bordered"
-    :mini-to-overlay="miniToOverlay && !appStore.leftDrawerOpen"
-    :mini="miniState && !appStore.leftDrawerOpen"
-    :class="{ 'base-sidebar': !tranparent }"
-    @mouseover="miniState = false"
-    @mouseout="miniState = true"
-  > -->
   <BaseDrawer
-    v-model="drawerModel"
-    :mini="miniState && !appStore.leftDrawerOpen"
-    :mini-to-overlay="miniToOverlay && !appStore.leftDrawerOpen"
+    v-model="modelValue"
+    :mini="miniState && !appStore.expandDrawer"
+    :mini-to-overlay="miniToOverlay && !appStore.expandDrawer"
     :width="width"
     :overlay="overlay"
     :bordered="bordered"
     :tranparent
-    @mouseover="miniState = false"
-    @mouseout="miniState = true"
+    @mouseover="onMounseover"
+    @mouseout="onMounseout"
+    @hide="onDrawerHide"
   >
     <q-scroll-area class="fit">
-      <div v-show="!miniState || appStore.leftDrawerOpen">
+      <div v-show="!miniState || appStore.expandDrawer">
         <div class="row justify-center q-pa-sm">
           <q-btn flat dense round to="/" class="btn--no-hover">
             <q-avatar style="height: auto; width: 44px" square>
@@ -120,7 +123,6 @@ onBeforeUnmount(() => {
     </q-scroll-area>
     <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
   </BaseDrawer>
-  <!-- </q-drawer> -->
 </template>
 <style lang="scss" scoped>
 .search-item {
