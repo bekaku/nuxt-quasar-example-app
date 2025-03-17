@@ -16,6 +16,7 @@ definePageMeta({
   // requiresPermission: ['role_manage'],//custom meta
 })
 useInitPage()
+const { isSmallScreen } = useAppDevice()
 const { getPageMeta, getPageMetaByKey } = useBase()
 const { isDark } = useTheme()
 if (!import.meta.server) {
@@ -28,8 +29,8 @@ if (!import.meta.server) {
     getPageMetaByKey('requiresPermission')
   )
 }
-const dateRangeStart = ref<string>('2025-01-01')
-const dateRangeEnd = ref<string>('2025-02-15')
+const dateRangeStart = ref<string>('')
+const dateRangeEnd = ref<string>('')
 const toggleModel = ref<string>('overview')
 
 const statisticItems = ref<LabelValue<string>[]>([
@@ -154,10 +155,10 @@ const sparkLineItems = [
     series: [
       {
         name: 'status',
-        data: [10000, 14000, 20000, 16000, 18000, 20000, 16000, 14500, 18000],
-      },
+        data: [10000, 14000, 20000, 16000, 18000, 20000, 16000, 14500, 18000]
+      }
     ],
-    categories: ['status'],
+    categories: ['status']
   },
   {
     label: 'Page View',
@@ -168,10 +169,10 @@ const sparkLineItems = [
     series: [
       {
         name: 'view',
-        data: [5000, 7500, 9000, 8500, 7000, 6000, 8000, 9500, 7200],
-      },
+        data: [5000, 7500, 9000, 8500, 7000, 6000, 8000, 9500, 7200]
+      }
     ],
-    categories: ['view'],
+    categories: ['view']
   },
   {
     label: 'Bounce Rate',
@@ -182,10 +183,10 @@ const sparkLineItems = [
     series: [
       {
         name: 'rate',
-        data: [28000, 25000, 27000, 24000, 23000, 26000, 25000, 22000, 20000],
-      },
+        data: [28000, 25000, 27000, 24000, 23000, 26000, 25000, 22000, 20000]
+      }
     ],
-    categories: ['rate'],
+    categories: ['rate']
   },
   {
     label: 'Product Sale Rate',
@@ -196,104 +197,135 @@ const sparkLineItems = [
     series: [
       {
         name: 'sale',
-        data: [15000, 12000, 18000, 22000, 14000, 11000, 25000, 20000, 17000],
-      },
+        data: [15000, 12000, 18000, 22000, 14000, 11000, 25000, 20000, 17000]
+      }
     ],
-    categories: ['sale'],
-  },
-];
+    categories: ['sale']
+  }
+]
+const showChart = ref<boolean>(false)
+onMounted(() => {
+  setTimeout(() => {
+    showChart.value = true
+  }, 1000)
+})
 </script>
 <template>
   <BasePage scroll-event show-to-top>
-    <BaseCard title="Dashboard" sub-title="Top picks for you. Updated daily." :icon="biMusicNote">
+    <BaseCard
+      title="Dashboard"
+      :bordered="false"
+      flat
+      sub-title="Top picks for you. Updated daily."
+      :icon="biMusicNote"
+    >
       <q-card-section>
-        <div class="q-pa-md">
-          <div class="row">
-            <div class="col-12 col-md-8">
-              <BaseButtonToggle
-                v-model="toggleModel"
-                :options="[
-                  { label: 'Overview', value: 'overview' },
-                  { label: 'Analytics', value: 'analytics' },
-                  { label: 'Reports', value: 'reports' },
-                  { label: 'Notifications', value: 'notifications' }
-                ]"
-              />
-            </div>
-            <div class="col-12 col-md-4">
-              <BaseDatePicker
-                v-model:start="dateRangeStart"
-                v-model:end="dateRangeEnd"
-                :clearable="false"
-                show-format-date
-                label="Range"
-                range
-              >
-                <template #after>
-                  <BaseButton label="Download" :color="isDark ? 'grey-9' : 'dark'" />
-                </template>
-              </BaseDatePicker>
-            </div>
-          </div>
-        </div>
-
         <div class="row">
-          <div v-for="(item, index) in statisticItems" :key="index" class="col-12 col-md-3 q-pa-md">
-            <BaseCard :flat="false">
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="text-subtitle1"> {{ item.label }} </q-item-label>
-                  <q-item-label class="text-h5 text-weight-bold"> {{ item.value }} </q-item-label>
-                  <q-item-label caption class="text-caption">
-                    {{ item.description }}
-                  </q-item-label>
-                </q-item-section>
-                <q-item-section side top>
-                  <q-icon :name="item.icon" size="18px" />
-                </q-item-section>
-              </q-item>
-            </BaseCard>
+          <div class="col-12 col-md-8" :class="{ 'q-pr-md': !isSmallScreen }">
+            <BaseTabs
+              v-model="toggleModel"
+              :full-width="isSmallScreen"
+              :items="[
+                { label: 'Overview', value: 'overview' },
+                { label: 'Analytics', value: 'analytics' },
+                { label: 'Reports', value: 'reports' }
+              ]"
+              align="left"
+            />
+          </div>
+          <div class="col-12 col-md-4" :class="{ 'q-pt-md': isSmallScreen }">
+            <BaseDatePicker
+              v-model:start="dateRangeStart"
+              v-model:end="dateRangeEnd"
+              :clearable="false"
+              show-format-date
+              label="Range"
+              range
+            >
+              <template #after>
+                <BaseButton label="Download" :color="isDark ? 'grey-9' : 'dark'" />
+              </template>
+            </BaseDatePicker>
           </div>
         </div>
-         <div class="q-px-md">
-          <BaseCard>
-            <div class="row">
-              <div
-                v-for="(item, index) in sparkLineItems"
-                :key="index"
-                class="col-12 col-md-3"
-                :style="{ borderRight: index<(sparkLineItems.length-1)? '1px solid #ccc':'none' }"
-              >
-                <q-item>
-                  <q-item-section>
-                    <q-item-label> {{ item.label }} </q-item-label>
-                    <q-item-label>
-                      {{ item.description }}
-                     <q-badge :color="item.bg" :style="{ color: item.color }">{{ item.value }}</q-badge>
-                    </q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                      <ChartSparklines
-                        style="width: 155px"
-                        height="75"
-                        :chart-id="`sparkline-area-${index}`"
-                        :stroke-width="1"
-                        strokestyle="smooth"
-                        :colors="[item.color]"
-                        :series="item.series"
-                        :categories="item.categories"
-                      />
-                  </q-item-section>
-                </q-item>
-              </div>
-            </div>
+      </q-card-section>
+
+      <div class="row" :class="{ 'q-mb-md': isSmallScreen }">
+        <div
+          v-for="(item, index) in statisticItems"
+          :key="index"
+          class="col-12 col-md-3"
+          :class="{ 'q-pa-md': !isSmallScreen, 'q-px-md ': isSmallScreen }"
+        >
+          <BaseCard :flat="false" :margin="false">
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-subtitle1"> {{ item.label }} </q-item-label>
+                <q-item-label class="text-h5 text-weight-bold"> {{ item.value }} </q-item-label>
+                <q-item-label caption class="text-caption">
+                  {{ item.description }}
+                </q-item-label>
+              </q-item-section>
+              <q-item-section side top>
+                <q-icon :name="item.icon" size="18px" />
+              </q-item-section>
+            </q-item>
           </BaseCard>
         </div>
-        <div class="row">
-          <div class="col-12 col-md-8 q-px-md">
-            <BaseCard title="Overview" :flat="false">
-              <q-card-section>
+      </div>
+      <div class="q-px-md">
+        <BaseCard>
+          <div class="row">
+            <!-- index < sparkLineItems.length - 1 ? '1px solid var(--color-zinc-200)' : 'none', -->
+            <div
+              v-for="(item, index) in sparkLineItems"
+              :key="index"
+              class="col-12 col-md-3"
+              :style="{
+                borderRight:
+                  !isSmallScreen && index < sparkLineItems.length - 1
+                    ? '1px solid var(--color-zinc-200)'
+                    : 'none'
+              }"
+            >
+              <q-item>
+                <q-item-section>
+                  <q-item-label> {{ item.label }} </q-item-label>
+                  <q-item-label>
+                    {{ item.description }}
+                    <q-badge :color="item.bg" :style="{ color: item.color }">{{
+                      item.value
+                    }}</q-badge>
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-no-ssr>
+                    <ChartSparklines
+                      style="width: 155px"
+                      height="75"
+                      :chart-id="`sparkline-area-${index}`"
+                      :stroke-width="1"
+                      strokestyle="smooth"
+                      :colors="[item.color]"
+                      :series="item.series"
+                      :categories="item.categories"
+                      :dark="isDark"
+                    />
+                  </q-no-ssr>
+                </q-item-section>
+              </q-item>
+            </div>
+          </div>
+        </BaseCard>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-8 q-px-md">
+          <BaseCard title="Overview" :flat="false">
+            <q-card-section>
+              <SkeletonCard height="200px" v-if="!showChart" />
+              <q-no-ssr>
                 <ChartArea
+                  v-if="showChart"
                   class="q-my-sm"
                   chart-id="chart-bar"
                   height="350"
@@ -302,38 +334,51 @@ const sparkLineItems = [
                   :series="chartData.series.slice(3, 6)"
                   :categories="chartData.categories"
                   strokestyle="smooth"
-                  :label-rotate="-45"
+                  :label-rotate="!isSmallScreen ? 0 : -45"
+                  :xaxis-tickamount="4"
+                  :dark="isDark"
                 />
-              </q-card-section>
-            </BaseCard>
-          </div>
-          <div class="col-12 col-md-4 q-px-md">
-            <BaseCard
-              title="Recent Sales"
-              sub-title="You made 265 sales this month."
-              :flat="false"
-              style="min-height: 480px"
-            >
-              <q-list>
-                <q-item v-for="(item, index) in recentSalseItems" :key="index">
-                  <q-item-section avatar>
-                    <BaseAvatar :src="item.avatar || '/images/no_picture_thumb.jpg'" size="40px" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label> {{ item.label }} </q-item-label>
-                    <q-item-label caption>
-                      {{ item.description }}
-                    </q-item-label>
-                  </q-item-section>
-                  <q-item-section side top class="text-h6 q-text-black text-weight-bold">
-                    {{ item.value }}
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </BaseCard>
-          </div>
+              </q-no-ssr>
+            </q-card-section>
+          </BaseCard>
         </div>
-      </q-card-section>
+        <div class="col-12 col-md-4 q-px-md">
+          <BaseCard
+            title="Recent Sales"
+            sub-title="You made 265 sales this month."
+            :flat="false"
+            style="min-height: 480px"
+          >
+            <q-list>
+              <q-item v-for="(item, index) in recentSalseItems" :key="index">
+                <q-item-section avatar>
+                  <BaseAvatar :src="item.avatar || '/images/no_picture_thumb.jpg'" size="40px" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label> {{ item.label }} </q-item-label>
+                  <q-item-label caption>
+                    {{ item.description }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side top class="text-h6 q-text-black text-weight-bold">
+                  {{ item.value }}
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </BaseCard>
+        </div>
+      </div>
     </BaseCard>
   </BasePage>
 </template>
+<style lang="css" scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.7s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

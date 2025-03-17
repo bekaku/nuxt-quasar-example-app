@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import data from '@emoji-mart/data';
+import { ref, onMounted } from 'vue'
+import data from '@emoji-mart/data'
 // import { Picker } from 'emoji-mart';
-import type { EmojiSet } from '~/types/common';
+import type { EmojiSet } from '~/types/common'
 const { theme = 'light', pickerId = 'emoji-id' } = defineProps<{
-  pickerId?: string;
-  theme?: 'light' | 'dark';
-}>();
-const pickerEmoji = ref();
-const iconSet = ref<EmojiSet>('native'); //native, apple, facebook, google, twitter
+  pickerId?: string
+  theme?: 'light' | 'dark'
+}>()
+const pickerEmoji = ref()
+const iconSet = ref<EmojiSet>('native') //native, apple, facebook, google, twitter
+const loading = ref(true)
 onMounted(() => {
-  init();
-});
+  init()
+})
 const init = async () => {
   if (process.env.SERVER) {
-    return;
+    return
   }
-  const EmojiMart = await import('emoji-mart');
+  const EmojiMart = await import('emoji-mart')
   pickerEmoji.value = new EmojiMart.Picker({
     // data: data,
     theme: theme,
@@ -34,9 +35,9 @@ const init = async () => {
             keywords: ['github'],
             skins: [
               {
-                src: 'https://missiveapp.com/open/emoji-mart/octocat.5d6e1891.png',
-              },
-            ],
+                src: 'https://missiveapp.com/open/emoji-mart/octocat.5d6e1891.png'
+              }
+            ]
           },
           {
             id: 'shipit',
@@ -44,9 +45,9 @@ const init = async () => {
             keywords: ['github'],
             skins: [
               {
-                src: 'https://missiveapp.com/open/emoji-mart/shipit.3a3eb70f.png',
-              },
-            ],
+                src: 'https://missiveapp.com/open/emoji-mart/shipit.3a3eb70f.png'
+              }
+            ]
           },
           {
             id: 'party_parrot',
@@ -54,14 +55,15 @@ const init = async () => {
             keywords: ['dance', 'dancing'],
             skins: [
               {
-                src: 'https://missiveapp.com/open/emoji-mart/parrot.6a845cb2.gif',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  });
+                src: 'https://missiveapp.com/open/emoji-mart/parrot.6a845cb2.gif'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  })
+  loading.value = false
 }
 const emit = defineEmits<{
   'on-close': []
@@ -69,12 +71,13 @@ const emit = defineEmits<{
 }>()
 const onSelectEmoji = (event: any) => {
   if (event.native) {
-    emit('on-click', event.native);
+    emit('on-click', event.native)
   }
-};
+}
 </script>
 <template>
-  <q-card flat>
+  <q-card flat style="min-width: 250px">
+    <BaseSpinner v-if="loading"></BaseSpinner>
     <ClientOnly>
       <div :id="pickerId" />
     </ClientOnly>

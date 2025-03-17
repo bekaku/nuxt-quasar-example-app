@@ -13,6 +13,7 @@ const {
   filterAcl = true,
   rounded = true,
   keepAlive = false,
+  fullWidth = true
 } = defineProps<{
   activeColor?: AppColor
   align?: 'left' | 'center' | 'right' | 'justify'
@@ -25,7 +26,8 @@ const {
   defaultTab?: boolean
   filterAcl?: boolean
   rounded?: boolean
-  keepAlive?: boolean;
+  keepAlive?: boolean
+  fullWidth?: boolean
 }>()
 const { screen } = useQuasar()
 const { t } = useLang()
@@ -42,11 +44,11 @@ const getItems = computed<LabelValue<any>[]>(() => {
   return filterAcl ? items.filter(t => canShow(t) === true) : items
 })
 const getCssClass = computed<string>(() => {
-  if (!textColor && !bgColor) {
-    return ''
-  }
+  // if (!textColor && !bgColor) {
+  //   return ''
+  // }
 
-  return `${textColor ? 'text-' + textColor : ''} ${bgColor ? 'bg-' + bgColor : ''}`
+  return `${textColor ? 'text-' + textColor : ''} ${bgColor ? 'bg-' + bgColor : ''} ${!fullWidth ? 'limit-width' : ''}`
 })
 </script>
 <template>
@@ -98,5 +100,8 @@ const getCssClass = computed<string>(() => {
 <style scoped lang="scss">
 .limit-tabs {
   max-width: 100vw;
+}
+.limit-width {
+  width: fit-content !important;
 }
 </style>

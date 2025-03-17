@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import type {
-    ChartMode,
-    ChartThemePalete,
-    IChartSeries,
-    Strokestyle,
-} from "~/types/chart";
+import type { ChartMode, ChartThemePalete, IChartSeries, Strokestyle } from '~/types/chart'
 interface GridPadding {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
+  top: number
+  right: number
+  bottom: number
+  left: number
 }
 const {
-  chartId = "chart-radar-id",
-  height = "160",
-  width = "auto",
-  mode = "light",
-  palette = "palette1",
+  chartId = 'chart-radar-id',
+  height = '160',
+  width = 'auto',
+  mode = 'light',
+  palette = 'palette1',
   series,
   colors,
   categories,
@@ -24,131 +19,135 @@ const {
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0,
+    left: 0
   },
   strokeWidth = 1.5,
   opacity = 0.3,
   tooltipEnable = true,
-  type = "area",
-  strokestyle = "straight",
+  type = 'area',
+  strokestyle = 'straight',
+  dark = false
 } = defineProps<{
-  chartId?: string;
-  height?: string;
-  width?: string;
-  labelunit?: string;
-  mode?: ChartMode;
-  palette?: ChartThemePalete;
-  series: IChartSeries[];
-  colors?: string[];
-  tooltipEnable?: boolean;
-  categories: string[];
-  gridPadding?: GridPadding;
-  strokeWidth?: number;
-  strokestyle?: Strokestyle;
-  opacity?: number;
-  type?: "area" | "line" | "bar";
-}>();
-const chartSeries = ref(series);
-const options = ref<any>();
-const { isDark } = useTheme();
+  chartId?: string
+  height?: string
+  width?: string
+  labelunit?: string
+  mode?: ChartMode
+  palette?: ChartThemePalete
+  series: IChartSeries[]
+  colors?: string[]
+  tooltipEnable?: boolean
+  categories: string[]
+  gridPadding?: GridPadding
+  strokeWidth?: number
+  strokestyle?: Strokestyle
+  opacity?: number
+  dark?: boolean
+  type?: 'area' | 'line' | 'bar'
+}>()
+const chartSeries = ref(series)
+const options = ref<any>()
+// const { isDark } = useBase();
+// const { dark } = useQuasar();
 
-const chartSparkLinesRef = useTemplateRef<any>("chartSparkLinesRef");
-watchEffect(() => {
-  if (series && series.length > 0) {
-    chartSeries.value = series;
-  }
-});
+const chartSparkLinesRef = useTemplateRef<any>('chartSparkLinesRef')
+
+// watchEffect(() => {
+//   if (series && series.length > 0) {
+//     chartSeries.value = series;
+//   }
+// });
 onUnmounted(() => {
-  options.value = undefined;
-  chartSeries.value = [];
-});
+  options.value = undefined
+  chartSeries.value = []
+})
 
 onMounted(() => {
-  chartSetup();
-});
-const updateTheme = (dark: boolean) => {
+  chartSetup()
+})
+
+const updateTheme = (darkMode: boolean) => {
   if (chartSparkLinesRef.value) {
     chartSparkLinesRef.value.updateOptions({
       theme: {
-        mode: dark ? "dark" : "light",
-      },
-    });
+        mode: darkMode ? 'dark' : 'light'
+      }
+    })
   }
-};
-watch(isDark, (state) => {
-  updateTheme(state);
-});
-const getCateByIndex = (index: number) =>
-  categories?.length > 0 ? categories[index] : "-";
+}
+// watch(() => dark.isActive, (state) => {
+//   updateTheme(state);
+// });
+const getCateByIndex = (index: number) => (categories?.length > 0 ? categories[index] : '-')
 const chartSetup = () => {
   if (series && series.length > 0) {
     options.value = {
       // series: series.value,
       // series: series,
       chart: {
-        background: "transparent",
+        background: 'transparent',
         id: chartId,
-        width: width,
-        height: height,
-        type: type,
+        width,
+        height,
+        type,
         toolbar: {
-          show: false,
+          show: false
         },
         animations: {
           enabled: true,
-          easing: "easein", // linear, easeout, easein, easeinout, swing, bounce, elastic
-          speed: 800,
+          easing: 'easein', // linear, easeout, easein, easeinout, swing, bounce, elastic
+          speed: 800
         },
         sparkline: {
-          enabled: true,
-        },
+          enabled: true
+        }
       },
       theme: {
-        mode: isDark.value ? "dark" : mode,
-        palette: palette,
+        mode: dark ? 'dark' : mode,
+        palette
       },
       plotOptions: {},
       colors: colors && colors.length > 0 ? colors : undefined,
       stroke: {
-        width: type == "bar" ? 0 : strokeWidth,
-        curve: strokestyle,
+        width: type == 'bar' ? 0 : strokeWidth,
+        curve: strokestyle
       },
       fill: {
         // opacity: type == "bar" ? 1 : 0.3,
-        opacity: opacity,
+        opacity
       },
       xaxis: {
         crosshairs: {
-          width: 1,
-        },
+          width: 1
+        }
       },
       yaxis: {
-        min: 0,
+        min: 0
       },
       grid: {
-        padding: gridPadding,
+        padding: gridPadding
       },
       tooltip: {
         enabled: tooltipEnable,
         fixed: {
-          enabled: false,
+          enabled: false
         },
         x: {
-          show: true,
-          formatter(value: any, options: any) {
-            return getCateByIndex(options.dataPointIndex) || "-";
-          },
-        },
-        y: {
-          title: {
-            formatter(seriesName: any) {
-              return seriesName || "-";
-            },
-          },
-        },
-        marker: {
           show: false,
+          formatter(value: any, options: any) {
+            return getCateByIndex(options.dataPointIndex) || '-'
+          }
         },
+        // y: {
+        //   title: {
+        //     formatter(seriesName: any) {
+        //       return seriesName || '-';
+        //     },
+        //   },
+        // },
+        marker: {
+          show: false
+        }
       },
       responsive: [
         // {
@@ -162,15 +161,15 @@ const chartSetup = () => {
         //     },
         //   },
         // },
-      ],
-    };
+      ]
+    }
     // chart.value = new ApexCharts(
     //   document.querySelector('#' + chartId),
     //   options
     // );
     // chart.value.render();
   }
-};
+}
 </script>
 <template>
   <ClientOnly>

@@ -19,8 +19,9 @@ export const useTheme = () => {
 
     const currentTheme = computed(() => themeCookie.value)
     const onSetTheme = (theme: ITheme) => {
+        dark.set(theme === 'dark');
         themeCookie.value = theme;
-        initialQuasarDark();
+        // initialQuasarDark();
     }
     const initialQuasarDark = () => {
         dark.set(themeCookie.value == 'dark');

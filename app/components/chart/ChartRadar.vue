@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import type {
-  ChartMode,
-  ChartPosition,
-  ChartThemePalete,
-  IChartSeries,
-} from "~/types/chart";
+import type { ChartMode, ChartPosition, ChartThemePalete, IChartSeries } from '~/types/chart'
 interface GridPadding {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
+  top: number
+  right: number
+  bottom: number
+  left: number
 }
 const {
-  chartId = "chart-radar-id",
-  height = "350",
-  width = "auto",
+  chartId = 'chart-radar-id',
+  height = '350',
+  width = 'auto',
   showLegend = true,
-  mode = "light",
-  palette = "palette1",
+  mode = 'light',
+  palette = 'palette1',
   series,
   colors,
   showDataLabels = false,
@@ -29,7 +24,7 @@ const {
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0,
+    left: 0
   },
   labelRotate,
   gridColors,
@@ -38,73 +33,75 @@ const {
   markers = 0,
   strokeWidth = 2,
   opacity = 0.2,
+  dark = false
 } = defineProps<{
-  chartId?: string;
-  height?: string;
-  width?: string;
-  labelunit?: string;
-  showLegend?: boolean;
-  legendUseSeriesColors?: boolean;
-  legendPosition?: ChartPosition;
-  mode?: ChartMode;
-  palette?: ChartThemePalete;
-  series: IChartSeries[];
-  colors?: string[];
-  showDataLabels?: boolean;
-  labelRotate?: number;
-  categories: string[];
-  yaxisShow?: boolean;
-  yaxisTickamount?: number;
-  xaxisTickamount?: number;
-  gridPadding?: GridPadding;
-  yaxisMax?: number;
-  yaxisMin?: number;
-  markers?: number;
-  strokeWidth?: number;
-  gridColors?: string[];
-  opacity?: number;
-}>();
-const chartSeries = ref(series);
-const options = ref<any>();
-const { isDark } = useTheme();
+  chartId?: string
+  height?: string
+  width?: string
+  labelunit?: string
+  showLegend?: boolean
+  legendUseSeriesColors?: boolean
+  legendPosition?: ChartPosition
+  mode?: ChartMode
+  palette?: ChartThemePalete
+  series: IChartSeries[]
+  colors?: string[]
+  showDataLabels?: boolean
+  labelRotate?: number
+  categories: string[]
+  yaxisShow?: boolean
+  yaxisTickamount?: number
+  xaxisTickamount?: number
+  gridPadding?: GridPadding
+  yaxisMax?: number
+  yaxisMin?: number
+  markers?: number
+  strokeWidth?: number
+  gridColors?: string[]
+  opacity?: number
+  dark?: boolean
+}>()
+const chartSeries = ref(series)
+const options = ref<any>()
+// const { dark: isDark } = useQuasar();
 
-const chartRadarRef = useTemplateRef<any>("chartRadarRef");
-watchEffect(() => {
-  if (series && series.length > 0) {
-    chartSeries.value = series;
-  }
-});
+const chartRadarRef = useTemplateRef<any>('chartRadarRef')
+// watchEffect(() => {
+//   if (series && series.length > 0) {
+//     chartSeries.value = series;
+//   }
+// });
 onUnmounted(() => {
-  options.value = undefined;
-  chartSeries.value = [];
-});
+  options.value = undefined
+  chartSeries.value = []
+})
 
 onMounted(() => {
-  chartSetup();
-});
-const updateTheme = (dark: boolean) => {
+  chartSetup()
+})
+const updateTheme = (darkMode: boolean) => {
   if (options.value) {
     if (chartRadarRef.value) {
       chartRadarRef.value.updateOptions({
         theme: {
-          mode: dark ? "dark" : "light",
+          mode: darkMode ? 'dark' : 'light'
         },
         plotOptions: {
           radar: {
             polygons: {
               fill: {
-                colors: gridColors,
-              },
-            },
-          },
-        },
-      });
+                colors: gridColors
+              }
+            }
+          }
+        }
+      })
     }
   }
-};
-watch(isDark, (state) => {
-  updateTheme(state);
-});
+}
+// watch(() => isDark.isActive, (state) => {
+//   updateTheme(state);
+// });
 const chartSetup = () => {
   if (series.length > 0) {
     options.value = {
@@ -112,63 +109,63 @@ const chartSetup = () => {
       // series: series,
       chart: {
         id: chartId,
-        background: "transparent",
-        width: width,
-        height: height,
-        type: "radar",
+        background: 'transparent',
+        width,
+        height,
+        type: 'radar',
         parentHeightOffset: 0,
         toolbar: {
-          show: false,
-        },
+          show: false
+        }
       },
       theme: {
-        mode: isDark.value ? "dark" : mode,
-        palette: palette,
+        mode: dark ? 'dark' : mode,
+        palette
       },
       plotOptions: {
         radar: {
           polygons: {
             fill: {
-              colors: gridColors,
-            },
-          },
-        },
+              colors: gridColors
+            }
+          }
+        }
       },
       colors: colors && colors.length > 0 ? colors : undefined,
       xaxis: {
         labels: {
-          rotate: labelRotate,
+          rotate: labelRotate
         },
-        categories: categories,
-        tickAmount: xaxisTickamount > 0 ? xaxisTickamount : undefined,
+        categories,
+        tickAmount: xaxisTickamount > 0 ? xaxisTickamount : undefined
       },
       yaxis: {
         show: yaxisShow,
         tickAmount: yaxisTickamount,
         max: yaxisMax,
-        min: yaxisMin,
+        min: yaxisMin
       },
       dataLabels: {
-        enabled: showDataLabels,
+        enabled: showDataLabels
       },
       stroke: {
-        width: strokeWidth,
+        width: strokeWidth
       },
       fill: {
-        opacity: opacity,
+        opacity
       },
       markers: {
-        size: markers,
+        size: markers
       },
       legend: {
-        show: showLegend,
+        show: showLegend
       },
       grid: {
-        padding: gridPadding,
-      },
-    };
+        padding: gridPadding
+      }
+    }
   }
-};
+}
 </script>
 <template>
   <ClientOnly>

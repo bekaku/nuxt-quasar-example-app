@@ -1,74 +1,72 @@
 <script lang="ts" setup>
-import type {
-  ChartMode,
-  ChartPosition,
-  ChartThemePalete,
-  Strokestyle,
-} from "~/types/chart";
+import type { ChartMode, ChartPosition, ChartThemePalete, Strokestyle } from '~/types/chart'
 const {
-  chartId = "chart-pie-id",
-  height = "auto",
-  width = "auto",
+  chartId = 'chart-pie-id',
+  height = 'auto',
+  width = 'auto',
   showLegend = true,
   legendUseSeriesColors = true,
-  legendPosition = "bottom",
-  type = "pie",
-  mode = "light",
-  palette = "palette1",
+  legendPosition = 'bottom',
+  type = 'pie',
+  mode = 'light',
+  palette = 'palette1',
   series,
   colors,
   showDataLabels = true,
   categories,
-  strokestyle = "smooth",
+  strokestyle = 'smooth',
   strokeWidth = 1,
+  dark = false
 } = defineProps<{
-  chartId?: string;
-  height?: string;
-  width?: string;
-  labelunit?: string;
-  showLegend?: boolean;
-  legendUseSeriesColors?: boolean;
-  legendPosition?: ChartPosition;
-  type?: "pie" | "donut";
-  mode?: ChartMode;
-  palette?: ChartThemePalete;
-  series: number[];
-  colors?: string[];
-  dark?: boolean;
-  showDataLabels?: boolean;
-  labelRotate?: number;
-  categories: string[];
-  strokestyle?: Strokestyle;
-  strokeWidth?: number;
-}>();
+  chartId?: string
+  height?: string
+  width?: string
+  labelunit?: string
+  showLegend?: boolean
+  legendUseSeriesColors?: boolean
+  legendPosition?: ChartPosition
+  type?: 'pie' | 'donut'
+  mode?: ChartMode
+  palette?: ChartThemePalete
+  series: number[]
+  colors?: string[]
+  dark?: boolean
+  showDataLabels?: boolean
+  labelRotate?: number
+  categories: string[]
+  strokestyle?: Strokestyle
+  strokeWidth?: number
+}>()
 
-const { isDark } = useTheme();
-const chartSeries = ref(series);
-const options = ref<any>();
-const chartPieRef = useTemplateRef<any>("chartPieRef");
-watchEffect(() => {
-  if (series && series.length > 0) {
-    chartSeries.value = series;
-  }
-});
+// const { dark: isDark } = useQuasar();
+const chartSeries = ref(series)
+const options = ref<any>()
+const chartPieRef = useTemplateRef<any>('chartPieRef')
+// watchEffect(() => {
+//   if (series && series.length > 0) {
+//     chartSeries.value = series;
+//   }
+// });
 onUnmounted(() => {
-  options.value = undefined;
-  chartSeries.value = [];
-});
+  options.value = undefined
+  chartSeries.value = []
+})
 
 onMounted(() => {
-  chartSetup();
-});
-const updateTheme = (dark: boolean) => {
+  chartSetup()
+})
+const updateTheme = (darkMode: boolean) => {
   if (chartPieRef.value) {
     chartPieRef.value.updateOptions({
       theme: {
-        mode: dark ? "dark" : "light",
-      },
-    });
+        mode: darkMode ? 'dark' : 'light'
+      }
+    })
   }
-};
-
+}
+// watch(() => isDark.isActive, (state) => {
+//   updateTheme(state);
+// });
 const chartSetup = () => {
   if (series.length > 0) {
     options.value = {
@@ -76,63 +74,60 @@ const chartSetup = () => {
       // series: series,
       chart: {
         id: chartId,
-        background: "transparent",
-        width: width,
-        height: height,
-        type: type,
+        background: 'transparent',
+        width,
+        height,
+        type,
         toolbar: {
-          show: false,
+          show: false
         },
         animations: {
           enabled: true,
-          easing: "easein", // linear, easeout, easein, easeinout, swing, bounce, elastic
-          speed: 800,
-        },
+          easing: 'easein', // linear, easeout, easein, easeinout, swing, bounce, elastic
+          speed: 800
+        }
       },
       theme: {
-        mode: isDark.value ? "dark" : mode,
-        palette: palette,
+        mode: dark ? 'dark' : mode,
+        palette
       },
       plotOptions: {},
       colors: colors && colors.length > 0 ? colors : undefined,
       labels: categories,
       stroke: {
         width: strokeWidth,
-        curve: strokestyle,
+        curve: strokestyle
       },
       fill: {
         opacity: 1,
-        type: "gradient",
+        type: 'gradient'
       },
       legend: {
         show: showLegend,
         position: legendPosition, // whether to position legends in 1 of 4
         // direction - top, bottom, left, right
-        horizontalAlign: "center", // when position top/bottom, you can
+        horizontalAlign: 'center', // when position top/bottom, you can
         // specify whether to align legends
         // left, right or center
-        verticalAlign: "middle",
+        verticalAlign: 'middle',
         labels: {
-          colors: "#8E8E93",
-          useSeriesColors: legendUseSeriesColors,
-        },
+          colors: '#8E8E93',
+          useSeriesColors: legendUseSeriesColors
+        }
       },
       dataLabels: {
-        enabled: showDataLabels,
+        enabled: showDataLabels
       },
-      responsive: [],
-    };
+      responsive: []
+    }
   }
-};
-watch(isDark, (state) => {
-  updateTheme(state);
-});
+}
 </script>
 <template>
   <ClientOnly>
     <apexchart
       v-if="options"
-       v-bind="$attrs"
+      v-bind="$attrs"
       ref="chartPieRef"
       :height="height"
       :type="type"

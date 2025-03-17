@@ -36,7 +36,7 @@ const { screen } = useQuasar()
 const { isDark } = useTheme()
 const { appNavigateTo } = useBase()
 const appStore = useAppStore()
-const { isMobileOrTablet } = useAppDevice()
+const { isMobileOrTablet, isSmallScreen } = useAppDevice()
 const showGotTopBtn = ref(false)
 const showSearch = ref(false)
 
@@ -114,13 +114,7 @@ onBeforeUnmount(() => {
       </q-btn>
       <q-space />
 
-      <div class="q-gutter-md row items-center no-wrap">
-        <q-btn v-if="screen.gt.sm" round dense flat :icon="biCameraVideo">
-          <q-tooltip>Create a video or post</q-tooltip>
-        </q-btn>
-        <q-btn v-if="screen.gt.sm" round dense flat :icon="biAppIndicator">
-          <q-tooltip>Apps</q-tooltip>
-        </q-btn>
+      <div class="q-gutter-sm row items-center no-wrap">
         <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
           <q-tooltip>Messages</q-tooltip>
         </q-btn>
@@ -131,6 +125,8 @@ onBeforeUnmount(() => {
           <q-badge color="negative" rounded text-color="white" floating> 99+ </q-badge>
           <q-tooltip>{{ t('base.notifications') }}</q-tooltip>
         </q-btn>
+        <LazyBaseLangugeSwitcherButton v-if="!isMobileOrTablet" />
+        <LazyBaseThemeSwitcher v-if="!isMobileOrTablet" toggle />
         <LazyBaseHeaderMenu v-if="showUserSetting" style="max-width: 225px" />
       </div>
     </q-toolbar>

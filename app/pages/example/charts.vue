@@ -103,6 +103,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :series="simpleSeries.slice(0, 3)"
               :categories="simpleCategories.slice(0, 3)"
               legend-position="right"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-3 q-pa-sm">
@@ -113,6 +114,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :colors="['#8D6E63']"
               :series="simpleSeries.slice(0, 1)"
               :categories="simpleCategories.slice(0, 1)"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-3 q-pa-sm">
@@ -126,6 +128,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :series="simpleSeries.slice(1, 2)"
               :categories="simpleCategories.slice(1, 2)"
               :show-legend="false"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-3 q-pa-sm">
@@ -141,6 +144,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               }"
               :series="simpleSeries.slice(2, 3)"
               :categories="simpleCategories.slice(2, 3)"
+              :dark="isDark"
             />
           </div>
         </div>
@@ -158,6 +162,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :colors="['#9E9E9E']"
               :series="appleStockPrices.series"
               :categories="appleStockPrices.categories"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-3 q-pa-sm">
@@ -169,6 +174,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :colors="['#607D8B']"
               :series="appleStockPrices.series"
               :categories="appleStockPrices.categories"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-3 q-pa-sm">
@@ -180,6 +186,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :colors="['#607D8B']"
               :series="appleStockPrices.series"
               :categories="appleStockPrices.categories"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-3 q-pa-sm">
@@ -191,6 +198,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :colors="['#8D6E63']"
               :series="appleStockPrices.series"
               :categories="appleStockPrices.categories"
+              :dark="isDark"
             />
           </div>
         </div>
@@ -207,6 +215,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :colors="['#8D6E63', '#9E9E9E', '#607D8B']"
               :series="chartData2.series"
               :categories="chartData2.categories"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-6">
@@ -219,6 +228,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :grid-colors="!isDark ? ['#f8f8f8', '#fff'] : ['#383a42', '#717886']"
               :series="chartData2.series.slice(0, 1)"
               :categories="chartData2.categories"
+              :dark="isDark"
             />
           </div>
         </div>
@@ -241,6 +251,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
             :label-rotate="-45"
             show-toolbar
             zoom
+            :dark="isDark"
           />
         </div>
         <div class="col-12 col-md-6 q-pa-sm">
@@ -255,6 +266,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
             :categories="chartData.categories"
             strokestyle="straight"
             :xaxis-tickamount="3"
+            :dark="isDark"
           />
         </div>
       </div>
@@ -273,6 +285,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
             strokestyle="straight"
             :label-rotate="-45"
             :stroke-width="3"
+            :dark="isDark"
           />
         </div>
         <div class="col-12 col-md-6 q-pa-sm">
@@ -287,6 +300,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
             strokestyle="smooth"
             :xaxis-tickamount="3"
             :stroke-width="3"
+            :dark="isDark"
           />
         </div>
       </div>
@@ -304,6 +318,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
           :categories="chartData.categories"
           strokestyle="smooth"
           :label-rotate="-45"
+          :dark="isDark"
         />
         <div class="row">
           <div class="col-12 col-md-6">
@@ -318,6 +333,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :categories="chartData.categories"
               strokestyle="smooth"
               :label-rotate="-90"
+              :dark="isDark"
             />
           </div>
           <div class="col-12 col-md-6">
@@ -331,6 +347,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
               :series="chartData.series.slice(0, 1)"
               :categories="chartData.categories"
               strokestyle="smooth"
+              :dark="isDark"
             />
           </div>
         </div>
@@ -348,6 +365,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
             type="pie"
             :series="simpleSeries"
             :categories="simpleCategories"
+            :dark="isDark"
           />
         </div>
         <div class="col-12 col-md-6">
@@ -360,6 +378,7 @@ const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'J
             :colors="['#FFB900', '#E74856', '#0078D7', '#0099BC', '#7A7574', '#00CC6A', '#8E8CD8']"
             :series="simpleSeries"
             :categories="simpleCategories"
+            :dark="isDark"
           />
         </div>
       </div>

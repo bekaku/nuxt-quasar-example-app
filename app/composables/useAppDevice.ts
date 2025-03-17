@@ -8,6 +8,11 @@ export const useAppDevice = () => {
   const deviceId = ref();
   const { getDateDiffMinutes } = useDateFns()
   const { latestSyncActiveStatus } = useCache();
+
+  const { screen } = useQuasar();
+  const isSmallScreen = computed(() => {
+    return screen.sm || screen.xs;
+  })
   const isDevMode = () => {
     return import.meta.dev;
   };
@@ -58,6 +63,6 @@ export const useAppDevice = () => {
     deviceId,
     canSyncActiveStatusToServer,
     setSysncActiveStatus,
-    isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows
+    isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows, isSmallScreen
   };
 };

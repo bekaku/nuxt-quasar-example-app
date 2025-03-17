@@ -4,19 +4,19 @@ import type {
   ChartPosition,
   ChartThemePalete,
   IChartSeries,
-  Strokestyle,
-} from "~/types/chart";
+  Strokestyle
+} from '~/types/chart'
 
 const {
-  chartId = "chartId",
-  height = "auto",
-  width = "auto",
+  chartId = 'chartId',
+  height = 'auto',
+  width = 'auto',
   showLegend = true,
   legendUseSeriesColors = true,
-  legendPosition = "bottom",
-  type = "area",
-  mode = "light",
-  palette = "palette1",
+  legendPosition = 'bottom',
+  type = 'area',
+  mode = 'light',
+  palette = 'palette1',
   series = [],
   colors = [],
   dark = false,
@@ -28,7 +28,7 @@ const {
   xaxisDecimalsInFloat = 0,
   yaxisDecimalsInFloat = 0,
   categories,
-  strokestyle = "smooth",
+  strokestyle = 'smooth',
   strokeWidth = 1,
   sparkline = false,
   annotationsYaxis = [],
@@ -38,76 +38,93 @@ const {
   showToolbar = false,
   zoom = false,
   horizontal = false,
-  opacity = 1,
+  opacity = 1
 } = defineProps<{
-  chartId?: string;
-  height?: string;
-  width?: string;
-  labelunit?: string;
-  showLegend?: boolean;
-  legendUseSeriesColors?: boolean;
-  legendPosition?: ChartPosition;
-  type?: "area" | "bar" | "line";
-  mode?: ChartMode;
-  palette?: ChartThemePalete;
-  series: IChartSeries[];
-  colors?: string[];
-  dark?: boolean;
-  showDataLabels?: boolean;
-  labelRotate?: number;
-  yaxisShow?: boolean;
-  yaxisTickamount?: number;
-  xaxisTickamount?: number;
-  xaxisDecimalsInFloat?: number;
-  yaxisDecimalsInFloat?: number;
-  categories: string[];
-  strokestyle?: Strokestyle;
-  strokeWidth?: number;
-  sparkline?: boolean;
-  annotationsYaxis?: any[];
-  annotationsXaxis?: any[];
-  minYVal?: number;
-  maxYVal?: number;
-  showToolbar?: boolean;
-  zoom?: boolean;
-  horizontal?: boolean;
-  opacity?: number;
-}>();
-const { isDark } = useTheme();
-const chartSeries = ref(series);
-const options = ref<any>();
-const chartAreaRef = useTemplateRef<any>("chartAreaRef");
-watchEffect(() => {
-  if (series && series.length > 0) {
-    chartSeries.value = series;
-  }
-});
+  chartId?: string
+  height?: string
+  width?: string
+  labelunit?: string
+  showLegend?: boolean
+  legendUseSeriesColors?: boolean
+  legendPosition?: ChartPosition
+  type?: 'area' | 'bar' | 'line'
+  mode?: ChartMode
+  palette?: ChartThemePalete
+  series?: IChartSeries[]
+  colors?: string[]
+  dark?: boolean
+  showDataLabels?: boolean
+  labelRotate?: number
+  yaxisShow?: boolean
+  yaxisTickamount?: number
+  xaxisTickamount?: number
+  xaxisDecimalsInFloat?: number
+  yaxisDecimalsInFloat?: number
+  categories: string[]
+  strokestyle?: Strokestyle
+  strokeWidth?: number
+  sparkline?: boolean
+  annotationsYaxis?: any[]
+  annotationsXaxis?: any[]
+  minYVal?: number
+  maxYVal?: number
+  showToolbar?: boolean
+  zoom?: boolean
+  horizontal?: boolean
+  opacity?: number
+}>()
+// const { isDark } = useBase();
+// const { dark: isDark } = useQuasar();
+const chartSeries = ref(series)
+const options = ref<any>()
+const chartAreaRef = useTemplateRef<any>('chartAreaRef')
+const initial = ref(false)
+// watchEffect(() => {
+// if (series && series.length > 0) {
+//   chartSeries.value = series;
+// }
+// if (initial.value && options.value !=undefined && chartSeries.value.length>0) {
+//   updateTheme(dark)
+// }
+// });
 onUnmounted(() => {
-  options.value = undefined;
-  chartSeries.value = [];
-});
+  options.value = undefined
+  chartSeries.value = []
+})
 
-onMounted(() => {
-  chartSetup();
-});
-const updateTheme = (dark: boolean) => {
-  if (chartAreaRef.value) {
-    chartAreaRef.value.updateOptions({
-      theme: {
-        mode: dark ? "dark" : "light",
-      },
-    });
+onMounted(async () => {
+  await chartSetup()
+  initial.value = true
+})
+const updateTheme = (darkMode: boolean) => {
+  options.value = {
+    theme: {
+      mode: darkMode ? 'dark' : 'light'
+    }
   }
-};
+  // if (chartAreaRef.value) {
+  //   chartAreaRef.value.updateOptions({
+  //     theme: {
+  //       mode: darkMode ? 'dark' : 'light',
+  //     },
+  //   });
+  // }
+}
+// watch(
+//   () => isDark.isActive,
+//   (state) => {
+//     updateTheme(state);
+//   },
+// );
 const chartSetup = () => {
   if (series.length > 0) {
     options.value = {
       chart: {
         id: chartId,
-        background: "transparent",
-        width: width,
-        height: height,
-        type: type,
+        background: 'transparent',
+        width,
+        height,
+        type,
         toolbar: {
           show: showToolbar,
           tools: {
@@ -117,77 +134,77 @@ const chartSetup = () => {
             zoomin: true,
             zoomout: true,
             pan: true,
-            customIcons: [],
-          },
+            customIcons: []
+          }
         },
         zoom: {
-          enabled: zoom,
+          enabled: zoom
         },
         animations: {
           enabled: true,
-          easing: "easein", // linear, easeout, easein, easeinout, swing, bounce, elastic
-          speed: 800,
+          easing: 'easein', // linear, easeout, easein, easeinout, swing, bounce, elastic
+          speed: 800
         },
         sparkline: {
-          enabled: sparkline,
-        },
+          enabled: sparkline
+        }
       },
       theme: {
-        mode: isDark.value ? "dark" : mode,
-        palette: palette,
+        mode: dark ? 'dark' : mode,
+        palette
       },
       plotOptions: {
         bar: {
           //   borderRadius: 4,
           //   borderRadiusApplication: "end",
-          horizontal: horizontal,
+          horizontal,
           // columnWidth: "55%",
           borderRadius: 3,
-          borderRadiusApplication: "end",
-        },
+          borderRadiusApplication: 'end'
+        }
       },
       colors: colors && colors.length > 0 ? colors : undefined,
       xaxis: {
         labels: {
-          rotate: labelRotate,
+          rotate: labelRotate
         },
-        categories: categories,
+        categories,
         decimalsInFloat: xaxisDecimalsInFloat,
-        tickAmount: xaxisTickamount > 0 ? xaxisTickamount : undefined,
+        tickAmount: xaxisTickamount > 0 ? xaxisTickamount : undefined
       },
       yaxis: {
         show: yaxisShow,
         tickAmount: yaxisTickamount,
         decimalsInFloat: yaxisDecimalsInFloat,
-        min: minYVal,
+        min: minYVal
         // max: maxYVal != undefined ? maxYVal : undefined
       },
       annotations: {
         yaxis: annotationsYaxis,
-        xaxis: annotationsXaxis,
+        xaxis: annotationsXaxis
       },
       stroke: {
         width: strokeWidth,
-        curve: strokestyle,
+        curve: strokestyle
       },
       fill: {
-        opacity: opacity,
+        opacity
       },
       legend: {
         show: showLegend,
         position: legendPosition, // whether to position legends in 1 of 4
         // direction - top, bottom, left, right
-        horizontalAlign: "center", // when position top/bottom, you can
+        horizontalAlign: 'center', // when position top/bottom, you can
         // specify whether to align legends
         // left, right or center
-        verticalAlign: "middle",
+        verticalAlign: 'middle',
         labels: {
-          colors: "#8E8E93",
-          useSeriesColors: legendUseSeriesColors,
-        },
+          colors: '#8E8E93',
+          useSeriesColors: legendUseSeriesColors
+        }
       },
       grid: {
-        borderColor: dark ? "#282829" : "#f0f0f0", // transparent
+        borderColor: dark ? '#282829' : '#f0f0f0' // transparent
         // row: {
         //   colors: [dark ? '#353537' : '#e9ebec', 'transparent'], // takes an array which will be repeated on columns
         //   opacity: 0.2,
@@ -196,12 +213,12 @@ const chartSetup = () => {
       tooltip: {
         y: {
           formatter(val: any) {
-            return val;
-          },
-        },
+            return val
+          }
+        }
       },
       dataLabels: {
-        enabled: showDataLabels,
+        enabled: showDataLabels
       },
       responsive: [
         // {
@@ -215,10 +232,10 @@ const chartSetup = () => {
         //     },
         //   },
         // },
-      ],
-    };
+      ]
+    }
     if (maxYVal != undefined) {
-      options.value.yaxis.max = maxYVal;
+      options.value.yaxis.max = maxYVal
     }
 
     // chart.value = new ApexCharts(
@@ -227,16 +244,16 @@ const chartSetup = () => {
     // );
     // chart.value.render();
   }
-};
-watch(isDark, (state) => {
-  updateTheme(state);
-});
+  return new Promise(resolve => {
+    resolve(true)
+  })
+}
 </script>
 <template>
   <ClientOnly>
     <apexchart
       v-if="options"
-       v-bind="$attrs"
+      v-bind="$attrs"
       ref="chartAreaRef"
       :height="height"
       :type="type"
