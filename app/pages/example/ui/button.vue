@@ -29,6 +29,8 @@ useHead({
         <BaseRippleItem style="width: 150px; padding: 10px"> This is Ripple Item </BaseRippleItem>
 
         <div class="q-pa-md q-gutter-sm">
+          <BaseButton label="Light" light />
+          <BaseButton label="Dark" dark />
           <BaseButton round flat :icon="biWrench" />
           <BaseButton label="Standard" />
           <BaseButton label="Elevated" :unelevated="false" />

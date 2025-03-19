@@ -1,8 +1,6 @@
 <script setup lang="ts" generic="T">
 import { biCheck, biChevronExpand, biX } from '@quasar/extras/bootstrap-icons'
 import type { LabelValue } from '~/types/common'
-const { isDark } = useTheme()
-const { requiredSelect } = useValidation()
 const {
   optionValue = 'value',
   optionLabel = 'label',
@@ -46,6 +44,8 @@ const emit = defineEmits<{
   'on-filter': [value: string, update: any]
   'on-scroll': [to: number, ref: any]
 }>()
+const { requiredSelect } = useValidation()
+const { isDark } = useTheme()
 const { t } = useLang()
 const modelValue = defineModel<T | T[] | null>()
 
@@ -151,7 +151,7 @@ const onScroll = ({ to, ref }: any) => {
         :icon-remove="biX"
         :removable="clearable"
         @remove="scope.removeAtIndex(scope.index)"
-        :color="isDark ? 'grey-9' : 'grey-3'"
+        :style="{ backgroundColor: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-700)' }"
       >
         <base-avatar
           v-if="scope.opt?.avatar"
