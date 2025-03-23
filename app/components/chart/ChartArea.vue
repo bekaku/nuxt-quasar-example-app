@@ -73,12 +73,16 @@ const {
   horizontal?: boolean
   opacity?: number
 }>()
-// const { isDark } = useBase();
-// const { dark: isDark } = useQuasar();
+const { isDark } = useTheme()
 const chartSeries = ref(series)
 const options = ref<any>()
+const watchTimeout = ref<any>()
 const chartAreaRef = useTemplateRef<any>('chartAreaRef')
 const initial = ref(false)
+const gridBorder = {
+  dark: '#3f3f46',
+  light: '#e4e4e7'
+}
 // watchEffect(() => {
 // if (series && series.length > 0) {
 //   chartSeries.value = series;
@@ -90,6 +94,10 @@ const initial = ref(false)
 onUnmounted(() => {
   options.value = undefined
   chartSeries.value = []
+  if (watchTimeout.value) {
+    clearTimeout(watchTimeout.value)
+    watchTimeout.value = undefined
+  }
 })
 
 onMounted(async () => {
@@ -100,6 +108,9 @@ const updateTheme = (darkMode: boolean) => {
   options.value = {
     theme: {
       mode: darkMode ? 'dark' : 'light'
+    },
+    grid: {
+      borderColor: darkMode ? gridBorder.dark : gridBorder.light // transparent
     }
   }
   // if (chartAreaRef.value) {
@@ -110,12 +121,11 @@ const updateTheme = (darkMode: boolean) => {
   //   });
   // }
 }
-// watch(
-//   () => isDark.isActive,
-//   (state) => {
-//     updateTheme(state);
-//   },
-// );
+watch(isDark, state => {
+  watchTimeout.value = setTimeout(() => {
+    updateTheme(state)
+  }, 50)
+})
 const chartSetup = () => {
   if (series.length > 0) {
     options.value = {
@@ -204,7 +214,7 @@ const chartSetup = () => {
         }
       },
       grid: {
-        borderColor: dark ? '#282829' : '#f0f0f0' // transparent
+        borderColor: dark ? gridBorder.dark : gridBorder.light // transparent
         // row: {
         //   colors: [dark ? '#353537' : '#e9ebec', 'transparent'], // takes an array which will be repeated on columns
         //   opacity: 0.2,

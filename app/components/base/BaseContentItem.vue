@@ -12,26 +12,26 @@
         >
         </content-item>
  */
-import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { escapeHtml, isEmpty, openUrlInNewTab, roundDecimal } from '@/utils/appUtil';
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { escapeHtml, isEmpty, openUrlInNewTab, roundDecimal } from '@/utils/appUtil'
 const props = withDefaults(
   defineProps<{
-    contentId?: string;
-    content?: string;
-    wrapText?: boolean;
-    to?: string;
-    openPage?: boolean;
-    showCopyText?: boolean;
-    showMore?: boolean;
-    showBackground?: boolean;
-    canUrlify?: boolean;
-    hashtagUrlify?: boolean;
-    limit?: number;
-    fitContent?: boolean;
-    linkStyle?: string;
-    textStyle?: string;
-    isEscapeHtml?: boolean;
-    highLightText?: string;
+    contentId?: string
+    content?: string
+    wrapText?: boolean
+    to?: string
+    openPage?: boolean
+    showCopyText?: boolean
+    showMore?: boolean
+    showBackground?: boolean
+    canUrlify?: boolean
+    hashtagUrlify?: boolean
+    limit?: number
+    fitContent?: boolean
+    linkStyle?: string
+    textStyle?: string
+    isEscapeHtml?: boolean
+    highLightText?: string
   }>(),
   {
     contentId: 'content-id',
@@ -48,158 +48,166 @@ const props = withDefaults(
     isEscapeHtml: false,
     hashtagUrlify: false
   }
-);
-const { appNavigateTo } = useBase();
-const { t } = useLang();
-const lineHeight = ref(0);
-const showMoreBtn = ref(false);
-const showMoreText = ref(false);
-const contentTimeOut = ref();
-const canShow = ref(false);
+)
+const { appNavigateTo } = useBase()
+const { t } = useLang()
+const lineHeight = ref(0)
+const showMoreBtn = ref(false)
+const showMoreText = ref(false)
+const contentTimeOut = ref()
+const canShow = ref(false)
 onMounted(() => {
-  setLimitText();
-});
+  setLimitText()
+})
 const setLimitText = () => {
   contentTimeOut.value = setTimeout(() => {
-    setDescHeight();
+    setDescHeight()
     if (props.canUrlify) {
-      setEvenListener();
+      setEvenListener()
     }
     // const el = document.getElementById(contentId.value);
     // if (el) {
     //   el.addEventListener('click', onHtmlClick);
     // }
-    canShow.value=true;
-  }, 50);
-};
+    canShow.value = true
+  }, 50)
+}
 const setEvenListener = () => {
-  const links = document.querySelectorAll(`.content-href-${props.contentId}`);
-  links.forEach((l) => {
-    l.addEventListener('click', onHtmlClick);
-  });
+  const links = document.querySelectorAll(`.content-href-${props.contentId}`)
+  links.forEach(l => {
+    l.addEventListener('click', onHtmlClick)
+  })
   if (props.hashtagUrlify) {
-    const hashtags = document.querySelectorAll(`.hashtag-href-${props.contentId}`);
-    hashtags.forEach((h) => {
-      h.addEventListener('click', onHashtagClick);
-    });
+    const hashtags = document.querySelectorAll(`.hashtag-href-${props.contentId}`)
+    hashtags.forEach(h => {
+      h.addEventListener('click', onHashtagClick)
+    })
   }
-
-};
+}
 const removeEvenListener = () => {
-  const links = document.querySelectorAll(`.content-href-${props.contentId}`);
-  links.forEach((l) => {
-    l.removeEventListener('click', onHtmlClick);
-  });
-  const tagsLinks = document.querySelectorAll(
-    `.hashtag-href-${props.contentId}`
-  );
-  tagsLinks.forEach((l) => {
-    l.removeEventListener('click', onHashtagClick);
-  });
-};
+  const links = document.querySelectorAll(`.content-href-${props.contentId}`)
+  links.forEach(l => {
+    l.removeEventListener('click', onHtmlClick)
+  })
+  const tagsLinks = document.querySelectorAll(`.hashtag-href-${props.contentId}`)
+  tagsLinks.forEach(l => {
+    l.removeEventListener('click', onHashtagClick)
+  })
+}
 onBeforeUnmount(() => {
   if (contentTimeOut.value) {
-    clearTimeout(contentTimeOut.value);
-    contentTimeOut.value = null;
+    clearTimeout(contentTimeOut.value)
+    contentTimeOut.value = null
   }
-  removeEvenListener();
-  showMoreText.value = false;
-});
+  removeEvenListener()
+  showMoreText.value = false
+})
 const onHtmlClick = (event: any) => {
-  if (!event.target.classList.contains(`content-href-${props.contentId}`)) return;
+  if (!event.target.classList.contains(`content-href-${props.contentId}`)) return
   if (event.srcElement && event.srcElement.href) {
-    const link = event.srcElement.href;
-    openUrlInNewTab(link, event);
+    const link = event.srcElement.href
+    openUrlInNewTab(link, event)
   }
-  event.stopPropagation();
-  event.preventDefault();
-};
+  event.stopPropagation()
+  event.preventDefault()
+}
 const onHashtagClick = (event: any) => {
-  if (!event.target.classList.contains(`hashtag-href-${props.contentId}`)) return;
+  if (!event.target.classList.contains(`hashtag-href-${props.contentId}`)) return
   if (event.srcElement && event.srcElement.innerText) {
-    const hashtag = event.srcElement.innerText;
+    const hashtag = event.srcElement.innerText
     if (hashtag) {
-      appNavigateTo(`/hashtag/${hashtag.replace('#', '')}`);
+      appNavigateTo(`/hashtag/${hashtag.replace('#', '')}`)
     }
   }
 
-  event.stopPropagation();
-  event.preventDefault();
-};
+  event.stopPropagation()
+  event.preventDefault()
+}
 const setDescHeight = () => {
   if (props.wrapText) {
-    const el = document.getElementById(props.contentId);
+    const el = document.getElementById(props.contentId)
     if (el) {
-      const divHeight = el.offsetHeight;
-      const lh = divHeight / 20;
-      lineHeight.value = roundDecimal(lh, 0);
+      const divHeight = el.offsetHeight
+      const lh = divHeight / 20
+      lineHeight.value = roundDecimal(lh, 0)
       if (lineHeight.value > props.limit) {
-        showMoreBtn.value = true;
+        showMoreBtn.value = true
       }
     }
   }
-};
-const urlify = (
-  rawText: string,
-  linkColor: string | undefined = undefined
-) => {
-  const inputText = props.isEscapeHtml ? escapeHtml(rawText) : rawText;
+}
+const urlify = (rawText: string, linkColor: string | undefined = undefined) => {
+  const inputText = props.isEscapeHtml ? escapeHtml(rawText) : rawText
   if (props.canUrlify) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const textLink = inputText.replace(urlRegex, (url) => {
-      return `<a class="content-href-${props.contentId} ${props.linkStyle} ${linkColor ? linkColor : ''
-        }" href="${url}">${url}</a>`;
-    });
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const textLink = inputText.replace(urlRegex, url => {
+      return `<a class="content-href-${props.contentId} ${props.linkStyle} ${
+        linkColor ? linkColor : ''
+      }" href="${url}">${url}</a>`
+    })
     /*
     en only /#(\w+)/g
     /#([\p{L}\p{N}]+)/gu
      */
     if (!props.hashtagUrlify) {
-      return textLink;
+      return textLink
     }
 
     return textLink.replace(
-    /#([a-zA-Z\p{L}\p{N}_\u0E00-\u0E7F]+)/gu,
-      `<a class="hashtag-href-${props.contentId} ${props.linkStyle} ${linkColor ? linkColor : ''
+      /#([a-zA-Z\p{L}\p{N}_\u0E00-\u0E7F]+)/gu,
+      `<a class="hashtag-href-${props.contentId} ${props.linkStyle} ${
+        linkColor ? linkColor : ''
       }">#$1</a>`
-    );
+    )
   }
-  return inputText;
-};
+  return inputText
+}
 const onOpenPage = (event: any) => {
   if (props.to) {
-    appNavigateTo(props.to);
+    appNavigateTo(props.to)
   }
 
-  event.stopImmediatePropagation();
-};
+  event.stopImmediatePropagation()
+}
 const onShowMoreText = async () => {
-  showMoreText.value = true;
+  showMoreText.value = true
   // if (!props.postId) {
   //   return;
   // }
   // await updateReadCount(props.postId);
-};
+}
 </script>
 <template>
   <div
-v-if="content" style="overflow: hidden" :class="{
-    'text-holder-fitcontent': !isEmpty(content) && fitContent,
-  }">
-    <slot name="top"/>
+    v-if="content"
+    style="overflow: hidden"
+    :class="{
+      'text-holder-fitcontent': !isEmpty(content) && fitContent
+    }"
+  >
+    <slot name="top" />
     <div
-:id="contentId" v-ripple :class="{
-      'word-limit': showMoreBtn && !showMoreText,
-      'cursor-pointer': to,
-    }" class="app-auto-newline dont-break-out text-holder">
+      :id="contentId"
+      v-ripple
+      :class="{
+        'word-limit': showMoreBtn && !showMoreText,
+        'cursor-pointer': to
+      }"
+      class="app-auto-newline dont-break-out text-holder"
+    >
       <BaseContentHtml
-:content="urlify(content, 'text-primary')" :high-light-text="highLightText"
-        @on-press="onOpenPage($event)"/>
+        :content="urlify(content, 'text-primary')"
+        :high-light-text="highLightText"
+        @on-press="onOpenPage($event)"
+      />
     </div>
     <base-link
-v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="primary"
-      @click="onShowMoreText"/>
-    <slot name="bottom"/>
+      v-if="showMoreBtn && !showMoreText"
+      :label="t('base.seeMore')"
+      color="primary"
+      @click="onShowMoreText"
+    />
+    <slot name="bottom" />
   </div>
 </template>
 <style scoped lang="scss">
@@ -214,7 +222,7 @@ v-if="showMoreBtn && !showMoreText" :label="t('base.seeMore')" color="primary"
 
 .text-holder-fitcontent {
   width: fit-content;
-  background-color: var(--color-gray-100);
+  background-color: var(--color-zinc-100);
   padding: 10px;
   border-radius: 8px;
   margin-top: 5px;

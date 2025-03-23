@@ -218,15 +218,17 @@ const items = [
 
               <template #start> Slot start </template>
               <template #end>
-                <div v-if="testSwiperRef" class="row justify-between">
+                <div v-if="testSwiperRef" class="row justify-center q-gutter-md">
                   <BaseButton
                     flat
+                    light
                     label="Prev"
                     :icon="biArrowLeft"
                     @click="testSwiperRef.onPrev()"
                   />
                   <BaseButton
                     flat
+                    light
                     label="Next"
                     :icon="biArrowRight"
                     @click="testSwiperRef.onNext()"

@@ -47,9 +47,8 @@ const {
 }>()
 const chartSeries = ref(series)
 const options = ref<any>()
-// const { isDark } = useBase();
-// const { dark } = useQuasar();
-
+const { isDark } = useTheme()
+const watchTimeout = ref<any>()
 const chartSparkLinesRef = useTemplateRef<any>('chartSparkLinesRef')
 
 // watchEffect(() => {
@@ -60,6 +59,10 @@ const chartSparkLinesRef = useTemplateRef<any>('chartSparkLinesRef')
 onUnmounted(() => {
   options.value = undefined
   chartSeries.value = []
+  if (watchTimeout.value) {
+    clearTimeout(watchTimeout.value)
+    watchTimeout.value = undefined
+  }
 })
 
 onMounted(() => {
@@ -75,9 +78,11 @@ const updateTheme = (darkMode: boolean) => {
     })
   }
 }
-// watch(() => dark.isActive, (state) => {
-//   updateTheme(state);
-// });
+watch(isDark, state => {
+  watchTimeout.value = setTimeout(() => {
+    updateTheme(state)
+  }, 50)
+})
 const getCateByIndex = (index: number) => (categories?.length > 0 ? categories[index] : '-')
 const chartSetup = () => {
   if (series && series.length > 0) {

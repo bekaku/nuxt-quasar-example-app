@@ -17,7 +17,8 @@ export default withNuxt(
       'vue/multi-word-component-names': 'off',
       'vue/custom-event-name-casing': ['warn', 'kebab-case'],
       'vue/attributes-order': 'warn',
-      'vue/html-self-closing': 'warn'
+      'vue/html-self-closing': 'warn',
+      'vue/require-explicit-emits': 'warn'
     }
   }
   // {

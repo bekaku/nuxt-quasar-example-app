@@ -359,6 +359,7 @@ export interface LabelValue<Type> {
     to?: string;
     translateLabel?: boolean;
     value?: Type;
+    onHandle?: (...params: any[] | []) => void;
 }
 export interface LoginRequest {
     emailOrUsername: string | null;

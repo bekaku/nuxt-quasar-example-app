@@ -38,9 +38,10 @@ const {
   strokeWidth?: number
 }>()
 
-// const { dark: isDark } = useQuasar();
+const { isDark } = useTheme()
 const chartSeries = ref(series)
 const options = ref<any>()
+const watchTimeout = ref<any>()
 const chartPieRef = useTemplateRef<any>('chartPieRef')
 // watchEffect(() => {
 //   if (series && series.length > 0) {
@@ -50,6 +51,10 @@ const chartPieRef = useTemplateRef<any>('chartPieRef')
 onUnmounted(() => {
   options.value = undefined
   chartSeries.value = []
+  if (watchTimeout.value) {
+    clearTimeout(watchTimeout.value)
+    watchTimeout.value = undefined
+  }
 })
 
 onMounted(() => {
@@ -64,9 +69,11 @@ const updateTheme = (darkMode: boolean) => {
     })
   }
 }
-// watch(() => isDark.isActive, (state) => {
-//   updateTheme(state);
-// });
+watch(isDark, state => {
+  watchTimeout.value = setTimeout(() => {
+    updateTheme(state)
+  }, 50)
+})
 const chartSetup = () => {
   if (series.length > 0) {
     options.value = {

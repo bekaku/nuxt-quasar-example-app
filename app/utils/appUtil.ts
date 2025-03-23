@@ -165,7 +165,7 @@ export const formatBytes = (bytes: any, decimals = 2) => {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
-export const readableNumber = (num: number, digits: number) => {
+export const readableNumber = (num: number, digits: number=1) => {
     if (num < 1000) {
         return num;
     }
@@ -185,9 +185,12 @@ export const readableNumber = (num: number, digits: number) => {
         .find(function (item) {
             return num >= item.value;
         });
-    return item
-        ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol
-        : '0';
+    // return item
+    //     ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol
+    //     : '0';
+     return item
+  ? (Math.floor((num / item.value) * 10**digits) / 10**digits) + item.symbol
+  : '0';
 };
 export const percentage = (val: number, total: number, decimal = 2): number => {
     if (total === 0) {
@@ -291,7 +294,7 @@ export const escapeHtml = (unsafe: string | undefined) => {
         '\'': '&#039;'
     };
 
-    return unsafe.replace(/[&<>"']/g, (char) => map[char]);
+    return unsafe.replace(/[&<>"']/g, (char) => map[char] || '');
 };
 export const unescapeHtml = (safe: string | undefined) => {
     if (!safe) {
@@ -304,7 +307,7 @@ export const unescapeHtml = (safe: string | undefined) => {
         '&quot;': '"',
         '&#039;': '\''
     };
-    return safe.replace(/&(amp|lt|gt|quot|#039);/g, (entity) => map[entity]);
+    return safe.replace(/&(amp|lt|gt|quot|#039);/g, (entity) => map[entity] ||'');
 };
 
 export const getValFromObjectByPath = (obj: any, path: string) => {

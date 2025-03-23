@@ -14,7 +14,8 @@ import {
   biPlusCircle,
   biShieldCheck,
   biThreeDots,
-  biTrash
+  biTrash,
+  biThreeDotsVertical
 } from '@quasar/extras/bootstrap-icons'
 import { ref } from 'vue'
 import { additionalMenu } from '~/libs/navs'
@@ -24,29 +25,55 @@ useHead({
 })
 const { isDark } = useTheme()
 const showMenu = ref(false)
-const menus = ref<LabelValue<number>[]>([
+const menus = ref<LabelValue<string>[]>([
   {
     label: 'Edit',
     description: 'edit this item',
     icon: biPencil,
-    fetch: false,
-    value: 1
+    value: 'edit',
   },
   {
     label: 'Delete',
     icon: biTrash,
     color: 'negative',
-    fetch: false,
-    value: 2
+    value: 'delete',
   },
   {
     label: 'Copy',
     description: 'Copy this item',
     icon: biCopy,
-    fetch: false,
-    value: 3
-  }
-])
+    value: 'copy',
+  },
+]);
+const functionHandler = ref<LabelValue<string>[]>([
+  {
+    label: 'Edit',
+    description: 'edit this item',
+    icon: biPencil,
+    value: 'edit',
+    onHandle() {
+      console.log('onEdit');
+    },
+  },
+  {
+    label: 'Delete',
+    icon: biTrash,
+    color: 'negative',
+    value: 'delete',
+    onHandle() {
+      console.log('onDelete');
+    },
+  },
+  {
+    label: 'Copy',
+    description: 'Copy this item',
+    icon: biCopy,
+    value: 'copy',
+    onHandle() {
+      console.log('onCopy');
+    },
+  },
+]);
 const menus2: LabelValue<number>[] = [
   {
     label: 'Cody Fisher',
@@ -177,22 +204,18 @@ const onItemClick = () => {
   <BasePage :full="false">
     <BaseCard flat :bordered="false" title="Dropdown menu">
       <q-card-section class="q-gutter-md">
-        <BaseButton :icon="biThreeDots" outline label="Simple menu">
-          <BaseDropdownMenu :items="menus" @on-click="onMenuClick" />
-        </BaseButton>
-        <BaseButton :icon="biThreeDots" outline label="Submenus">
-          <BaseDropdownMenu :items="submenus" @on-click="onMenuClick" />
-        </BaseButton>
+         <BaseDropdownMenu :items="menus" label="Simple menu" @on-click="onMenuClick" />
+        <BaseDropdownMenu :items="submenus" :icon="biDiagram2" label="Submenus" @on-click="onMenuClick" />
+        <BaseDropdownMenu :items="submenus" @on-click="onMenuClick">
+          <BaseAvatar src="https://cdn.quasar.dev/img/avatar5.jpg" />
+          <BaseTooltip> Click here </BaseTooltip>
+        </BaseDropdownMenu>
+        <BaseDropdownMenu :items="functionHandler" label="Function handler" />
         <q-item clickable @click="onItemClick">
           <q-item-section> Q-item open state </q-item-section>
           <q-item-section side>
-            <!-- <BaseButton dense :icon="biThreeDots" round flat @click="openMenu($event)" />
-                        <q-menu v-model="showMenu" cover anchor="top middle">
-                            <BaseDropdownMenuItem v-for="(item, index) in menus2" :key="`app-menu-${item.value}-${index}`"
-                                v-close-popup :item="item" @click="onMenuClick(item.value)" />
-                        </q-menu> -->
-            <BaseButton :icon="biThreeDots" outline label="Click here" @click="openMenu($event)">
-              <BaseDropdownMenu v-model:open="showMenu" :items="menus2" @on-click="onMenuClick" />
+            <BaseButton :icon="biThreeDotsVertical" outline label="Click here" @click="openMenu($event)">
+              <BaseDropdownMenu v-model:open="showMenu" empty-body :items="menus2" @on-click="onMenuClick" />
             </BaseButton>
           </q-item-section>
         </q-item>
