@@ -4,9 +4,16 @@ import type {
   UserPersonalEditRequest,
   UserChangePasswordRequest
 } from '@/types/models';
-import type { AppLocale, ResponseMessage } from '~/types/common';
+import type { AppLocale, IApiListResponse, ResponseMessage } from '~/types/common';
 export default () => {
   const { callAxios } = useAxios();
+
+  const findAll = async (q: string): Promise<IApiListResponse<UserDto> | null> => {
+    return await callAxios<IApiListResponse<UserDto>>({
+      API: `/api/user${q}`,
+      method: 'GET',
+    });
+  };
   const findCurrentUserData = async (): Promise<UserDto | null> => {
     return await callAxios<UserDto>({
       API: '/api/user/currentUserData',
@@ -115,5 +122,6 @@ export default () => {
     updateDefaultLocale,
     updatePersonalData,
     updateEmail,
+    findAll
   };
 };

@@ -31,7 +31,7 @@ const {
   href?: string
   icon?: string
   iconRight?: string
-  label?: string
+  label?: string | undefined
   light?: boolean
   loading?: boolean
   noCaps?: boolean

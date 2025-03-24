@@ -116,14 +116,14 @@ onBeforeUnmount(() => {
 
       <div class="q-gutter-sm row items-center no-wrap">
         <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
-          <q-tooltip>Messages</q-tooltip>
+          <BaseTooltip>Messages</BaseTooltip>
         </q-btn>
         <q-btn v-if="!screen.gt.xs" round dense flat @click="onOpenSearch">
           <q-icon :name="biSearch" />
         </q-btn>
         <q-btn round dense flat :icon="biBell">
           <q-badge color="negative" rounded text-color="white" floating> 99+ </q-badge>
-          <q-tooltip>{{ t('base.notifications') }}</q-tooltip>
+          <BaseTooltip>{{ t('base.notifications') }}</BaseTooltip>
         </q-btn>
         <LazyBaseLangugeSwitcherButton v-if="!isMobileOrTablet" />
         <LazyBaseThemeSwitcher v-if="!isMobileOrTablet" toggle />

@@ -58,9 +58,9 @@ const onDelete = (event: any) => {
       :size="size"
       @click="onEditBtnBaseClick($event, 'view')"
     >
-      <q-tooltip v-if="!button">
+      <BaseTooltip v-if="!button">
         {{ t('base.view') }}
-      </q-tooltip>
+      </BaseTooltip>
     </BaseButton>
     <template v-if="editButton && isHaveManagePermission">
       <template v-if="!button">
@@ -73,9 +73,9 @@ const onDelete = (event: any) => {
           type="button"
           @click="onEditBtnClick($event, 'edit')"
         >
-          <q-tooltip>
+          <BaseTooltip>
             {{ t('base.edit') }}
-          </q-tooltip>
+          </BaseTooltip>
         </BaseButton>
       </template>
       <template v-else>
@@ -105,9 +105,9 @@ const onDelete = (event: any) => {
           "
           type="submit"
         >
-          <q-tooltip v-if="!button">
+          <BaseTooltip v-if="!button">
             {{ t('base.edit') }}
-          </q-tooltip>
+          </BaseTooltip>
         </BaseButton>
       </template>
     </template>
@@ -123,9 +123,9 @@ const onDelete = (event: any) => {
       :label="!button || crudAction == undefined ? undefined : t('base.copy')"
       @click="onCopy"
     >
-      <q-tooltip v-if="!button">
+      <BaseTooltip v-if="!button">
         {{ t('base.copy') }}
-      </q-tooltip>
+      </BaseTooltip>
     </BaseButton>
     <BaseButton
       v-if="deleteButton && isHaveManagePermission && crudAction !== 'copy' && crudAction !== 'new'"
@@ -141,9 +141,9 @@ const onDelete = (event: any) => {
       :label="!button || crudAction == undefined ? undefined : t('base.delete')"
       @click="onDelete"
     >
-      <q-tooltip v-if="!button" class="bg-negative">
+      <BaseTooltip v-if="!button" class="bg-negative">
         {{ t('base.delete') }}
-      </q-tooltip>
+      </BaseTooltip>
     </BaseButton>
     <slot name="additionalBtn" />
   </div>

@@ -98,9 +98,9 @@ note、abstract、info、tip、success、question、warning、failure、danger�
           dense
           :label="`(${t('base.canUseMarkdown')})`"
         >
-          <q-tooltip>
+          <BaseTooltip>
             {{ t('base.canUseMarkdownHelp') }}
-          </q-tooltip>
+          </BaseTooltip>
           <q-menu style="width: 450px">
             <base-markdown-help />
           </q-menu>

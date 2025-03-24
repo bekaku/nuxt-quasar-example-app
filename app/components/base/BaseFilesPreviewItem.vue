@@ -74,7 +74,7 @@ const onClick = (event: any, index: number) => {
           name="info"
           style="top: 8px; left: 8px"
           round
-         flat
+          flat
           :icon="biX"
           color="negative"
           @click="onRemove($event, index)"
@@ -114,13 +114,13 @@ const onClick = (event: any, index: number) => {
           style="top: 8px; left: 8px"
           round
           flat
-         :icon="biX"
+          :icon="biX"
           color="negative"
           @click="onRemove($event, index)"
         />
-        <q-tooltip v-if="showTooltip && item.fileName">
+        <BaseTooltip v-if="showTooltip && item.fileName">
           {{ item.fileName }}
-        </q-tooltip>
+        </BaseTooltip>
       </q-icon>
       <q-item v-if="showName || showSize" :dense="dense" class="q-pa-none">
         <q-item-section>

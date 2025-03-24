@@ -47,7 +47,7 @@ const onEmojiClick = (emoji: string) => {
           </template>
           <template #after>
             <BaseButton flat round :icon="biSend" color="primary">
-              <q-tooltip> Send </q-tooltip>
+              <BaseTooltip> Send </BaseTooltip>
             </BaseButton>
           </template>
         </q-input>

@@ -167,7 +167,7 @@ const onScroll = ({ to, ref }: any) => {
       </q-chip>
     </template>
     <template #option="{ itemProps, opt, selected }">
-      <q-item v-bind="itemProps">
+      <q-item v-bind="itemProps" dense>
         <q-item-section v-if="opt.avatar || opt.icon" avatar>
           <base-avatar v-if="opt.avatar" :fetch-image="fetchImage" :src="opt.avatar" />
           <q-icon v-else-if="opt.icon" :name="opt.icon" />

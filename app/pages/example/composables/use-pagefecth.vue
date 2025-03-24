@@ -39,7 +39,7 @@ onMounted(async () => {
         <BaseCard flat bordered title="Paging">
           <template #end>
             <BaseButton flat round :icon="biArrowClockwise" @click="onReload">
-              <q-tooltip> Reload data </q-tooltip>
+              <BaseTooltip> Reload data </BaseTooltip>
             </BaseButton>
           </template>
           <q-card-section>
@@ -78,7 +78,7 @@ onMounted(async () => {
         <BaseCard flat bordered title="Loadmore">
           <template #end>
             <BaseButton flat round :icon="biArrowClockwise" @click="onReload2">
-              <q-tooltip> Reload data </q-tooltip>
+              <BaseTooltip> Reload data </BaseTooltip>
             </BaseButton>
           </template>
           <q-card-section>

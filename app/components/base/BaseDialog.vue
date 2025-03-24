@@ -105,10 +105,12 @@ const onCloseModel = () => {
               :icon="!maximizeModel ? biArrowsAngleExpand : biArrowsAngleContract"
               @click="maximizeModel = !maximizeModel"
             >
-              <q-tooltip>{{ !maximizeModel ? t('base.maximize') : t('base.minimize') }}</q-tooltip>
+              <BaseTooltip>{{
+                !maximizeModel ? t('base.maximize') : t('base.minimize')
+              }}</BaseTooltip>
             </q-btn>
             <q-btn round flat :icon="biX" @click="onClose">
-              <q-tooltip>{{ t('base.close') }}</q-tooltip>
+              <BaseTooltip>{{ t('base.close') }}</BaseTooltip>
             </q-btn>
           </slot>
         </q-bar>

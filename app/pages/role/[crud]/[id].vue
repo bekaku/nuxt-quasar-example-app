@@ -182,9 +182,9 @@ const updateSelectedAll = (val: boolean) => {
                     :show-label="false"
                     @click="onCheckedAll"
                   >
-                    <q-tooltip>
+                    <BaseTooltip>
                       {{ !selectedAll ? t('base.selectAll') : t('base.deselectAll') }}
-                    </q-tooltip>
+                    </BaseTooltip>
                   </BaseCheckbox>
                 </template>
               </BaseCommandPalette>

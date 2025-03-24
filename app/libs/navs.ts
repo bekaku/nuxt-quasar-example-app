@@ -32,7 +32,8 @@ import {
     biToggleOff,
     biUpload,
     biWindowFullscreen,
-    biWindowSidebar
+    biWindowSidebar,
+    biTable
 } from '@quasar/extras/bootstrap-icons';
 import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
 import type { LabelValue } from '~/types/common';
@@ -213,6 +214,12 @@ export const additionalMenu: LabelValue<any>[] = [
                 label: 'Chat',
                 translateLabel: false,
                 to: '/chats'
+            },
+            {
+                icon: biTable,
+                label: 'Crud table',
+                translateLabel: false,
+                to: '/example/crud-table'
             },
             {
                 icon: biCursorText,

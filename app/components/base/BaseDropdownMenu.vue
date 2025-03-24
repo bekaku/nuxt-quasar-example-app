@@ -1,50 +1,84 @@
 <script setup lang="ts" generic="T">
-import { matKeyboardArrowRight } from '@quasar/extras/material-icons';
-import type { LabelValue } from '~/types/common';
+import { matKeyboardArrowRight } from '@quasar/extras/material-icons'
+import { biThreeDots } from '@quasar/extras/bootstrap-icons'
+import type { AppColor, LabelValue } from '~/types/common'
 
-const { width = '100px', cover = false, anchor = "bottom left", dense = true } = defineProps<{
-  items: LabelValue<T>[];
-  icon?: string;
-  title?: string;
-  width?: string;
-  cover?: boolean;
+const {
+  width = '100px',
+  cover = false,
+  anchor = 'bottom left',
+  dense = true,
+  icon = biThreeDots,
+  emptyBody = false,
+  flat = true,
+  round = false,
+  color = 'light',
+  light = false
+} = defineProps<{
+  items: LabelValue<T>[]
+  icon?: string
+  label?: string
+  width?: string
+  cover?: boolean
   dense?: boolean
   iconSize?: string
   avatarSize?: string
-  anchor?: "top middle" | "top left" | "top right" | "top start" | "top end" | "center left" | "center middle" | "center right" | "center start" | "center end" | "bottom left" | "bottom middle" | "bottom right" | "bottom start" | "bottom end" | undefined;
+  anchor?:
+    | 'top middle'
+    | 'top left'
+    | 'top right'
+    | 'top start'
+    | 'top end'
+    | 'center left'
+    | 'center middle'
+    | 'center right'
+    | 'center start'
+    | 'center end'
+    | 'bottom left'
+    | 'bottom middle'
+    | 'bottom right'
+    | 'bottom start'
+    | 'bottom end'
+    | undefined
   self?: any
-}>();
-const open = defineModel<boolean>('open', { default: undefined });
-const menuRef = ref<any>();
+  emptyBody?: boolean
+  flat?: boolean
+  round?: boolean
+  tooltip?: string
+  color?: AppColor
+  light?: boolean
+}>()
+const open = defineModel<boolean>('open', { default: undefined })
+const menuRef = ref<any>()
 const emit = defineEmits<{
   'on-click': [val: T | undefined]
-   'on-hide': [];
+  'on-hide': []
 }>()
 const onClick = (calbackItem: LabelValue<T> | undefined) => {
   if (calbackItem?.onHandle != undefined) {
-    calbackItem.onHandle();
+    calbackItem.onHandle()
   }
-  const value = calbackItem?.value;
-  emit('on-click', value);
+  const value = calbackItem?.value
+  emit('on-click', value)
   if (menuRef.value) {
-    menuRef.value.hide();
+    menuRef.value.hide()
   }
-};
+}
 const onHide = () => {
-  emit('on-hide');
+  emit('on-hide')
   if (open.value !== undefined) {
-    open.value = false;
+    open.value = false
   }
 }
 </script>
 <template>
   <div v-bind="$attrs" class="cursor-pointer holder inline-block">
     <slot>
-      <BaseButton v-if="!emptyBody" :icon="icon" :flat :round :label>
-         <BaseTooltip v-if="tooltip">
+      <BaseButton v-if="!emptyBody" :icon="icon" :flat :round :label :color :light>
+        <BaseTooltip v-if="tooltip">
           {{ tooltip }}
         </BaseTooltip>
-        </BaseButton>
+      </BaseButton>
     </slot>
     <q-menu
       ref="menuRef"
@@ -120,4 +154,3 @@ const onHide = () => {
   width: fit-content;
 }
 </style>
-

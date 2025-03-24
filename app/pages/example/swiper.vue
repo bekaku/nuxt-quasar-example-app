@@ -195,7 +195,7 @@ const items = [
   <BasePage>
     <div class="row">
       <div class="col-12 col-md-6 q-pa-sm">
-        <BaseCard title="Horizontal">
+        <BaseCard title="Horizontal" style="min-height: 450px">
           <q-card-section>
             <base-swiper-slides ref="testSwiperRef" :params="slideOpts">
               <swiper-slide v-for="(item, i) in items" :key="i">
@@ -299,8 +299,8 @@ const items = [
           </div>
         </BaseCard>
       </div>
-      <div class="col-12 q-pa-sm">
-        <BaseCard title="Grid">
+      <div class="col-12 col-md-6 q-pa-sm">
+        <BaseCard title="Grid" style="min-height: 440px">
           <q-card-section>
             <q-no-ssr>
               <base-swiper-slides

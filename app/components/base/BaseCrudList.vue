@@ -341,7 +341,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 :icon="biPlusCircle"
                 @click="$emit('on-new-form')"
               >
-                <q-tooltip>{{ t('base.addNew') }}</q-tooltip>
+                <BaseTooltip>{{ t('base.addNew') }}</BaseTooltip>
               </BaseButton>
               <BaseButton
                 v-if="showSearchBtn"
@@ -351,7 +351,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 :icon="biSearch"
                 @click="showSearch = !showSearch"
               >
-                <q-tooltip>{{ t('base.search') }}</q-tooltip>
+                <BaseTooltip>{{ t('base.search') }}</BaseTooltip>
               </BaseButton>
               <base-sort
                 v-if="showSort"
@@ -556,18 +556,18 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                   <tr>
                     <th v-if="isHaveManagePermission && showCheckbox">
                       <!-- <q-checkbox v-model="selectedAll" keep-color color="grey-6" @click="onCheckedAll">
-                                                <q-tooltip>
+                                                <BaseTooltip>
                                                     {{
                                                         !selectedAll
                                                             ? t('base.selectAll')
                                                             : t('base.deselectAll')
                                                     }}
-                                                </q-tooltip>
+                                                </BaseTooltip>
                                             </q-checkbox> -->
                       <BaseCheckbox v-model="selectedAll" :show-label="false" @click="onCheckedAll">
-                        <q-tooltip>
+                        <BaseTooltip>
                           {{ !selectedAll ? t('base.selectAll') : t('base.deselectAll') }}
-                        </q-tooltip>
+                        </BaseTooltip>
                       </BaseCheckbox>
                     </th>
                     <template
@@ -709,13 +709,13 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                         ? getValueByColunm(fillable.column, index)
                                         : ''
                                     }}
-                                    <q-tooltip>
+                                    <BaseTooltip>
                                       {{
                                         fillable.column
                                           ? getValueByColunm(fillable.column, index)
                                           : ''
                                       }}
-                                    </q-tooltip>
+                                    </BaseTooltip>
                                   </span>
                                 </template>
                                 <template v-else>

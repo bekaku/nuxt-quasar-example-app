@@ -1,15 +1,12 @@
 <script setup lang="ts">
+import { biMusicNote } from '@quasar/extras/bootstrap-icons'
 import {
-  biCreditCard,
-  biCurrencyDollar,
-  biGraphUp,
-  biMusicNote,
-  biPeople,
-  biPerson
-} from '@quasar/extras/bootstrap-icons'
-import type { ISeriresCategories } from '~/types/chart'
-import type { LabelValue } from '~/types/common'
-
+  dashBaordRecentSalseItems,
+  dashBaordStatisticItems,
+  dashboardChartData,
+  dashboardHeroItems,
+  dashboardSparkLineItems
+} from '~/libs/data'
 definePageMeta({
   // middleware: ["auth"]
   pageName: 'base.home' //custom meta
@@ -33,176 +30,6 @@ const dateRangeStart = ref<string>('')
 const dateRangeEnd = ref<string>('')
 const toggleModel = ref<string>('overview')
 
-const statisticItems = ref<LabelValue<string>[]>([
-  {
-    label: 'Total Revenue',
-    value: '$45,231.89',
-    description: '+20.1% from last month',
-    icon: biCurrencyDollar
-  },
-  {
-    label: 'Subscriptions',
-    value: '+2350',
-    description: '+180.1% from last month',
-    icon: biPeople
-  },
-  {
-    label: 'Sales',
-    value: '+12,234',
-    description: '+19% from last month',
-    icon: biCreditCard
-  },
-  {
-    label: 'Active Now',
-    value: '+573',
-    description: '+201 since last hour',
-    icon: biGraphUp
-  }
-])
-const recentSalseItems = ref<LabelValue<string>[]>([
-  {
-    label: 'Olivia Martin',
-    value: '+$1,999.00',
-    description: 'olivia.martin@email.com',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar2.png'
-  },
-  {
-    label: 'Jackson Lee',
-    value: '+$39.00',
-    description: 'jackson.lee@email.com',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar3.png'
-  },
-  {
-    label: 'Isabella Nguyen',
-    value: '+$299.00',
-    description: 'isabella.nguyen@email.com',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar4.png'
-  },
-  {
-    label: 'William Kim',
-    value: '+$99.00',
-    description: 'will@email.com',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar5.png'
-  },
-  {
-    label: 'Sofia Davis',
-    value: '+$39.00',
-    description: 'sofia.davis@email.com',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png'
-  }
-])
-const chartData: ISeriresCategories = {
-  categories: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ],
-  series: [
-    {
-      name: 'Access',
-      data: [32, 26, 57, 21, 8, 6, 14, 39, 10, 7, 9, 25]
-    },
-    {
-      name: 'Post',
-      data: [10, 8, 30, 21, 27, 10, 9, 40, 20, 10, 50, 12]
-    },
-    {
-      name: 'Repost',
-      data: [8, 10, 15, 21, 4, 15, 10, 50, 8, 0, 9, 25]
-    },
-    {
-      name: 'Comment',
-      data: [11, 20, 12, 14, 0, 10, 51, 22, 30, 10, 31, 11]
-    },
-    {
-      name: 'Feel',
-      data: [20, 10, 40, 16, 0, 5, 19, 1, 5, 0, 1, 4]
-    },
-    {
-      name: 'Share',
-      data: [1, 10, 11, 21, 17, 36, 51, 30, 15, 24, 56, 8]
-    },
-    {
-      name: 'Read',
-      data: [75, 38, 25, 70, 3, 2, 45, 35, 9, 6, 11, 24]
-    },
-    {
-      name: 'Learn',
-      data: [22, 0, 3, 2, 45, 11, 31, 20, 22, 10, 12, 21]
-    },
-    {
-      name: 'Reward',
-      data: [30, 1, 13, 1, 0, 0, 3, 0, 3, 0, 20, 15]
-    }
-  ]
-}
-const sparkLineItems = [
-  {
-    label: 'Revenue Status',
-    description: '12.030',
-    value: '27%',
-    color: '#23d160',
-    bg: 'green-1',
-    series: [
-      {
-        name: 'status',
-        data: [10000, 14000, 20000, 16000, 18000, 20000, 16000, 14500, 18000]
-      }
-    ],
-    categories: ['status']
-  },
-  {
-    label: 'Page View',
-    description: '5592',
-    value: '12%',
-    color: '#fb923c',
-    bg: 'orange-1',
-    series: [
-      {
-        name: 'view',
-        data: [5000, 7500, 9000, 8500, 7000, 6000, 8000, 9500, 7200]
-      }
-    ],
-    categories: ['view']
-  },
-  {
-    label: 'Bounce Rate',
-    description: '55.56%',
-    value: '22%',
-    color: '#f87171',
-    bg: 'red-1',
-    series: [
-      {
-        name: 'rate',
-        data: [28000, 25000, 27000, 24000, 23000, 26000, 25000, 22000, 20000]
-      }
-    ],
-    categories: ['rate']
-  },
-  {
-    label: 'Product Sale Rate',
-    description: '12.56%',
-    value: '17%',
-    color: '#8b5cf6',
-    bg: 'purple-2',
-    series: [
-      {
-        name: 'sale',
-        data: [15000, 12000, 18000, 22000, 14000, 11000, 25000, 20000, 17000]
-      }
-    ],
-    categories: ['sale']
-  }
-]
 const showChart = ref<boolean>(false)
 onMounted(() => {
   setTimeout(() => {
@@ -243,19 +70,40 @@ onMounted(() => {
               range
             >
               <template #after>
-                <BaseButton label="Download" :color="isDark ? 'grey-9' : 'dark'" />
+                <BaseButton label="Download" dark />
               </template>
             </BaseDatePicker>
           </div>
         </div>
       </q-card-section>
 
+      <div class="row">
+        <div
+          v-for="(item, index) in dashboardHeroItems"
+          :key="index"
+          class="col-12 col-md-4 q-px-md"
+        >
+          <BaseCard flat class="card-shade">
+            <q-card-section>
+              <BaseTextHeader :icon="item.icon" :title="item.label">
+                <template #end>
+                  <q-item-section side>
+                    <BaseLink :to="item.to || ''" color="primary"> Explore </BaseLink>
+                  </q-item-section>
+                </template>
+              </BaseTextHeader>
+              {{ item.description }}
+            </q-card-section>
+          </BaseCard>
+        </div>
+      </div>
+
       <div class="row" :class="{ 'q-mb-md': isSmallScreen }">
         <div
-          v-for="(item, index) in statisticItems"
+          v-for="(item, index) in dashBaordStatisticItems"
           :key="index"
           class="col-12 col-md-3"
-          :class="{ 'q-pa-md': !isSmallScreen, 'q-px-md ': isSmallScreen }"
+          :class="{ 'q-pa-md': !isSmallScreen, 'q-px-md q-py-sm': isSmallScreen }"
         >
           <BaseCard :flat="false" :margin="false">
             <q-item>
@@ -276,15 +124,14 @@ onMounted(() => {
       <div class="q-px-md">
         <BaseCard>
           <div class="row">
-            <!-- index < sparkLineItems.length - 1 ? '1px solid var(--color-zinc-200)' : 'none', -->
             <div
-              v-for="(item, index) in sparkLineItems"
+              v-for="(item, index) in dashboardSparkLineItems"
               :key="index"
               class="col-12 col-md-3"
               :style="{
                 borderRight:
-                  !isSmallScreen && index < sparkLineItems.length - 1
-                    ? '1px solid var(--color-zinc-200)'
+                  !isSmallScreen && index < dashboardSparkLineItems.length - 1
+                    ? `1px solid ${!isDark ? 'var(--color-zinc-200)' : 'var(--color-zinc-700)'}`
                     : 'none'
               }"
             >
@@ -299,7 +146,7 @@ onMounted(() => {
                   </q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                  <q-no-ssr>
+                  <ClientOnly>
                     <ChartSparklines
                       style="width: 155px"
                       height="75"
@@ -311,7 +158,7 @@ onMounted(() => {
                       :categories="item.categories"
                       :dark="isDark"
                     />
-                  </q-no-ssr>
+                  </ClientOnly>
                 </q-item-section>
               </q-item>
             </div>
@@ -322,23 +169,24 @@ onMounted(() => {
         <div class="col-12 col-md-8 q-px-md">
           <BaseCard title="Overview" :flat="false">
             <q-card-section>
-              <SkeletonCard height="200px" v-if="!showChart" />
-              <q-no-ssr>
-                <ChartArea
-                  v-if="showChart"
-                  class="q-my-sm"
-                  chart-id="chart-bar"
-                  height="350"
-                  type="bar"
-                  :colors="['#64748B', '#94A3B8', '#CBD5E1']"
-                  :series="chartData.series.slice(3, 6)"
-                  :categories="chartData.categories"
-                  strokestyle="smooth"
-                  :label-rotate="!isSmallScreen ? 0 : -45"
-                  :xaxis-tickamount="4"
-                  :dark="isDark"
-                />
-              </q-no-ssr>
+              <SkeletonCard height="365px" v-if="!showChart" />
+              <Transition v-if="showChart">
+                <div>
+                  <ChartArea
+                    class="q-my-sm"
+                    chart-id="chart-bar"
+                    height="350"
+                    type="bar"
+                    :colors="['#64748B', '#94A3B8', '#CBD5E1']"
+                    :series="dashboardChartData.series.slice(3, 6)"
+                    :categories="dashboardChartData.categories"
+                    strokestyle="smooth"
+                    :label-rotate="!isSmallScreen ? 0 : -45"
+                    :xaxis-tickamount="4"
+                    :dark="isDark"
+                  />
+                </div>
+              </Transition>
             </q-card-section>
           </BaseCard>
         </div>
@@ -350,7 +198,7 @@ onMounted(() => {
             style="min-height: 480px"
           >
             <q-list>
-              <q-item v-for="(item, index) in recentSalseItems" :key="index">
+              <q-item v-for="(item, index) in dashBaordRecentSalseItems" :key="index">
                 <q-item-section avatar>
                   <BaseAvatar :src="item.avatar || '/images/no_picture_thumb.jpg'" size="40px" />
                 </q-item-section>
@@ -360,7 +208,7 @@ onMounted(() => {
                     {{ item.description }}
                   </q-item-label>
                 </q-item-section>
-                <q-item-section side top class="text-h6 q-text-black text-weight-bold">
+                <q-item-section side top class="text-subtitle1 q-text-black text-weight-bold">
                   {{ item.value }}
                 </q-item-section>
               </q-item>
@@ -380,5 +228,28 @@ onMounted(() => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.card-shade {
+  background: var(--color-zinc-50); /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    var(--color-zinc-50),
+    #fff
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    var(--color-zinc-50),
+    #fff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+body.body--dark {
+  .card-shade {
+    background: var(--color-zinc-800); /* fallback for old browsers */
+  }
 }
 </style>

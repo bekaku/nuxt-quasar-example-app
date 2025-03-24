@@ -84,7 +84,7 @@ const onCustomRemove2 = (index: number) => {
         <BaseFilePicker
           v-model="files"
           v-model:file-items="filesPreview"
-          :gallery="false"
+          :gallery="true"
           @on-file-add="onFileAdd"
         >
           <BaseButton label="Click to upload" />
@@ -160,7 +160,7 @@ const onCustomRemove2 = (index: number) => {
             </template>
             <template #after>
               <BaseButton flat round :icon="biSend" color="primary">
-                <q-tooltip> Send </q-tooltip>
+                <BaseTooltip> Send </BaseTooltip>
               </BaseButton>
             </template>
           </q-input>

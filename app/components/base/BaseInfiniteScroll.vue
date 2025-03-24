@@ -1,50 +1,58 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { useTemplateRef } from 'vue'
 
 const {
-    debounce = 250,
-    offset = 500,
-    reverse = false
+  debounce = 250,
+  offset = 500,
+  reverse = false
 } = defineProps<{
-    scrollTarget?: string // #scroll-target-id
-    reverse?: boolean
-    debounce?: number
-    offset?: number
+  scrollTarget?: string // #scroll-target-id
+  reverse?: boolean
+  debounce?: number
+  offset?: number
+  disable?: boolean
 }>()
 const emit = defineEmits<{
-    'on-infinite': [index: number, done: any]
-}>();
+  'on-infinite': [index: number, done: any]
+}>()
 const baseInfiniteScrollRef = useTemplateRef<any>('baseInfiniteScrollRef')
 const onInfinite = (index: number, done: any) => {
-    emit('on-infinite', index, done)
+  emit('on-infinite', index, done)
 }
 const stop = () => {
-    if (baseInfiniteScrollRef.value) {
-        baseInfiniteScrollRef.value.stop();
-    }
-};
+  if (baseInfiniteScrollRef.value) {
+    baseInfiniteScrollRef.value.stop()
+  }
+}
 const resume = () => {
-    if (baseInfiniteScrollRef.value) {
-        baseInfiniteScrollRef.value.resume();
-    }
-};
+  if (baseInfiniteScrollRef.value) {
+    baseInfiniteScrollRef.value.resume()
+  }
+}
 defineExpose({
-    stop,
-    resume
-});
+  stop,
+  resume
+})
 </script>
 <template>
-    <div>
-        <slot />
-        <q-infinite-scroll ref="baseInfiniteScrollRef" :reverse :offset :debounce :scroll-target="scrollTarget"
-            @load="onInfinite">
-            <template #loading>
-                <div class="row justify-center q-my-md">
-                    <BaseSpinner/>
-                </div>
-            </template>
-        </q-infinite-scroll>
-        <slot name="bottom" />
-    </div>
+  <div v-bind="$attrs">
+    <slot />
+    <q-infinite-scroll
+      ref="baseInfiniteScrollRef"
+      :disable
+      :reverse
+      :offset
+      :debounce
+      :scroll-target="scrollTarget"
+      @load="onInfinite"
+    >
+      <template #loading>
+        <div class="row justify-center q-my-md">
+          <BaseSpinner />
+        </div>
+      </template>
+    </q-infinite-scroll>
+    <slot name="bottom" />
+  </div>
 </template>
 <style scoped></style>

@@ -1,12 +1,18 @@
 <script setup lang="ts">
-const { type = 'dots', color = 'primary', size = '2em' } = defineProps<{
-  type?: 'dots' | 'clock' | 'ios' | 'rings' | 'tail' | 'defult',
-  color?: string,
-  size?: string,
-}>();
+const {
+  type = 'dots',
+  color = 'primary',
+  size = '2em',
+  height = '100px'
+} = defineProps<{
+  type?: 'dots' | 'clock' | 'ios' | 'rings' | 'tail' | 'defult'
+  color?: string
+  size?: string
+  height?: string
+}>()
 </script>
 <template>
-  <div class="row items-center" style="height: 100%; min-height: 150px">
+  <div class="row items-center" :style="{ minHeight: height }">
     <div class="col-12 text-center">
       <q-spinner-dots v-if="type == 'dots'" :color :size class="self-center" />
       <q-spinner v-else-if="type == 'defult'" :color :size class="self-center" />

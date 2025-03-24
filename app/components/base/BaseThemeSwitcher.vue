@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { biCheck2, biMoon, biSun } from '@quasar/extras/bootstrap-icons'
+import BaseTooltip from './BaseTooltip.vue'
 const {
   closeOnClick = false,
   anchor = 'bottom left',
@@ -26,9 +27,9 @@ const { t } = useLang()
     dense
     @click="!dark.isActive ? onSetTheme('dark') : onSetTheme('light')"
   >
-    <q-tooltip>
+    <BaseTooltip>
       {{ dark.isActive ? t('theme.switchThemeLight') : t('theme.switchThemeDark') }}
-    </q-tooltip>
+    </BaseTooltip>
   </BaseButton>
   <q-menu v-else :anchor="anchor" :self="self" v-bind="$attrs" :auto-close="closeOnClick">
     <q-list :style="{ minWidth: width }">
