@@ -75,6 +75,10 @@ withDefaults(
   border: 2px solid v-bind(boderColor);
   margin-left: v-bind(overrapSize);
   object-fit: cover;
+  &:hover {
+    transform: translateY(-3px);
+    z-index: 999 !important;
+  }
 }
 
 .avatar.extra {
@@ -92,7 +96,7 @@ withDefaults(
 
 body.body--dark {
   .avatar.extra {
-    background-color: var(--color-dark-500);
+    background-color: var(--color-zinc-600);
     color: white;
   }
 }

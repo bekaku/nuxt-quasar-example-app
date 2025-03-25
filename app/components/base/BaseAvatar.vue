@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { AvatarProps } from '~/types/props';
+
 const {
     spinnerColor = 'white',
     ratio = 1,
@@ -10,21 +12,7 @@ const {
     bordered = false,
     borderedColor = '#fff',
     borderedWidth = '2px',
-} = defineProps<{
-    src: string;
-    spinnerColor?: string;
-    color?: string;
-    imgBg?: string;
-    ratio?: number;
-    size?: string;
-    square?: boolean;
-    rounded?: boolean;
-    fetch?: boolean;
-    bordered?: boolean;
-    borderedColor?: string;
-    borderedWidth?: string;
-    alt?: string;
-}>()
+} = defineProps<AvatarProps>()
 
 </script>
 <template>
@@ -41,6 +29,9 @@ const {
                     :ratio :fetch="fetch" :alt="alt" />
             </template>
             <slot name="extra" />
+            <slot name="badge">
+                <BaseBadge v-if="badge" v-bind="badge" />
+            </slot>
         </slot>
     </q-avatar>
 </template>
