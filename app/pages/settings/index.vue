@@ -92,13 +92,15 @@ const onUpdatePrivateData = () => {
         <q-card-section>
           <LazyUserCard
             v-if="authenStore.auth"
-            :avatar-image="authenStore.auth?.avatar?.image"
+            :avatar="{
+              src: authenStore.auth?.avatar?.image
+            }"
             :cover-image="authenStore.loginedCover"
             :name="authenStore.loginedDisplay"
             :description="t('app.name')"
             height="250px"
             avatar-top="110px"
-            description-style="margin-top:35px"
+            :description-style="{ marginTop: '35px' }"
           >
             <template #extra>
               <div class="text-white absolute-right q-pa-md">
@@ -176,7 +178,9 @@ const onUpdatePrivateData = () => {
       <template #preview>
         <LazyUserCard
           v-if="authenStore.auth && coverPreviewImage"
-          :avatar-image="authenStore.auth?.avatar?.image"
+          :avatar="{
+            src: authenStore.auth?.avatar?.image
+          }"
           :cover-image="coverPreviewImage"
           :name="authenStore.loginedDisplay"
           :description="t('app.name')"
@@ -184,7 +188,7 @@ const onUpdatePrivateData = () => {
           avatar-top="110px"
           avatar-flat
           flat
-          description-style="margin-top:35px"
+          :description-style="{ marginTop: '35px' }"
         />
       </template>
     </BaseImageCropperDialog>

@@ -33,7 +33,8 @@ import {
     biUpload,
     biWindowFullscreen,
     biWindowSidebar,
-    biTable
+    biTable,
+    biCreditCard2Front
 } from '@quasar/extras/bootstrap-icons';
 import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
 import type { LabelValue } from '~/types/common';
@@ -149,6 +150,12 @@ export const additionalMenu: LabelValue<any>[] = [
                         to: '/example/ui/button'
                     },
                     {
+                        icon: biCreditCard2Front,
+                        label: 'Card',
+                        translateLabel: false,
+                        to: '/example/ui/card'
+                    },
+                    {
                         icon: biCalendar,
                         label: 'Date-time picker',
                         translateLabel: false,
@@ -200,6 +207,12 @@ export const additionalMenu: LabelValue<any>[] = [
                         label: 'Options group',
                         translateLabel: false,
                         to: '/example/ui/toggle'
+                    },
+                    {
+                        icon: biPerson,
+                        label: 'User',
+                        translateLabel: false,
+                        to: '/example/ui/user'
                     },
                 ],
             },
