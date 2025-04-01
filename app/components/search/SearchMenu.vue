@@ -27,29 +27,51 @@ const onSetMenu = (): Promise<boolean> => {
                     if (p.children != undefined && p.children.length > 0) {
                         const parentItem: LabelValue<string> =
                         {
+                            ...p,
                             label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
-                            description: p.description,
-                            icon: p.icon,
                             children: []
                         }
+                        // {
+                        //     label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
+                        //     description: p.description,
+                        //     icon: p.icon,
+                        //     iconSet: p.iconSet,
+                        //     iconSize: p.iconSize,
+                        //     value: p.to,
+                        //     children: []
+                        // }
                         const childs: LabelValue<string>[] = [];
                         for (const item of p.children) {
                             childs.push({
+                                ...item,
                                 label: item.label && item.translateLabel !== false ? t(item.label) : item.label || '',
-                                description: item.description,
-                                icon: item.icon,
                                 value: item.to
                             })
+                            // childs.push({
+                            //     label: item.label && item.translateLabel !== false ? t(item.label) : item.label || '',
+                            //     description: item.description,
+                            //     icon: item.icon,
+                            //     iconSet: item.iconSet,
+                            //     iconSize: item.iconSize,
+                            //     value: item.to
+                            // })
                         }
                         parentItem.children = childs;
                         menuItems.value.push(parentItem);
                     } else {
                         menuItems.value.push({
-                            label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
-                            description: p.description,
-                            icon: p.icon,
-                            value: p.to
+                           ...p,
+                           label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
+                           value: p.to
                         })
+                        // menuItems.value.push({
+                        //     label: p.label && p.translateLabel !== false ? t(p.label) : p.label || '',
+                        //     description: p.description,
+                        //     icon: p.icon,
+                        //     iconSet: p.iconSet,
+                        //     iconSize: p.iconSize,
+                        //     value: p.to
+                        // })
                     }
                 }
             }

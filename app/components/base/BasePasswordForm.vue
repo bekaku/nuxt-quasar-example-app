@@ -45,7 +45,7 @@ const onSubmit = () => {
 <template>
     <q-form ref="formPwd" @submit="onSubmit">
         <q-card-section>
-            <base-alert type="is-warning" :icon="biShieldLock" :message="t('authen.helper2')" radius class="q-mb-md"/>
+            <base-alert type="is-warning" :icon="{name:biShieldLock}" :message="t('authen.helper2')" radius class="q-mb-md"/>
             <div class="row">
                 <div v-if="showCurrentPassword" class="col-12">
                     <BaseInput v-model="currentPassword" :readonly="loading" autocomplete="off"

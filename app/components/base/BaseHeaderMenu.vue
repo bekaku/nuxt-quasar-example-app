@@ -41,8 +41,8 @@ const { isSmallScreen } = useAppDevice()
       <q-icon :name="biChevronExpand" size="16px" />
     </q-item-section>
     <q-menu>
-      <q-list style="min-width: 260px">
-        <q-item v-close-popup clickable :to="`/user/${authenStore.auth?.id}`">
+      <q-list dense style="min-width: 260px" class="q-pa-xs">
+        <q-item v-close-popup clickable class="rounded" :to="`/user/${authenStore.auth?.id}`">
           <q-item-section avatar>
             <base-avatar
               v-if="authenStore.loginedAvatar"
@@ -56,7 +56,7 @@ const { isSmallScreen } = useAppDevice()
         </q-item>
         <q-separator />
         <template v-if="isSmallScreen">
-          <q-item clickable>
+          <q-item clickable class="rounded">
             <q-item-section avatar>
               <q-icon :name="isDark ? biMoon : biSun" />
             </q-item-section>
@@ -74,7 +74,7 @@ const { isSmallScreen } = useAppDevice()
               self="top start"
             />
           </q-item>
-          <q-item clickable>
+          <q-item clickable class="rounded">
             <q-item-section avatar>
               <q-icon :name="biGlobe2" />
             </q-item-section>
@@ -94,19 +94,19 @@ const { isSmallScreen } = useAppDevice()
 
           <q-separator />
         </template>
-        <q-item v-close-popup clickable>
+        <q-item v-close-popup clickable class="rounded">
           <q-item-section avatar>
             <q-icon :name="biQuestionCircle" />
           </q-item-section>
           <q-item-section>{{ t('base.help') }}</q-item-section>
         </q-item>
-        <q-item v-close-popup clickable to="/settings">
+        <q-item v-close-popup clickable to="/settings" class="rounded">
           <q-item-section avatar>
             <q-icon :name="biGear" />
           </q-item-section>
           <q-item-section>{{ t('base.setting') }}</q-item-section>
         </q-item>
-        <q-item v-close-popup clickable @click="signout">
+        <q-item v-close-popup clickable class="rounded" @click="signout" >
           <q-item-section avatar>
             <q-icon :name="biBoxArrowRight" />
           </q-item-section>

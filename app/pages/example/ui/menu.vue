@@ -30,19 +30,19 @@ const menus = ref<LabelValue<string>[]>([
   {
     label: 'Edit',
     description: 'edit this item',
-    icon: biPencil,
+    icon: { name: biPencil },
     value: 'edit'
   },
   {
     label: 'Delete',
-    icon: biTrash,
+    icon: { name: biTrash },
     color: 'negative',
     value: 'delete'
   },
   {
     label: 'Copy',
     description: 'Copy this item',
-    icon: biCopy,
+    icon: { name: biCopy },
     value: 'copy'
   }
 ])
@@ -50,7 +50,7 @@ const functionHandler = ref<LabelValue<string>[]>([
   {
     label: 'Edit',
     description: 'edit this item',
-    icon: biPencil,
+    icon: { name: biPencil },
     value: 'edit',
     onHandle() {
       console.log('onEdit')
@@ -58,7 +58,7 @@ const functionHandler = ref<LabelValue<string>[]>([
   },
   {
     label: 'Delete',
-    icon: biTrash,
+    icon: { name: biTrash },
     color: 'negative',
     value: 'delete',
     onHandle() {
@@ -68,7 +68,7 @@ const functionHandler = ref<LabelValue<string>[]>([
   {
     label: 'Copy',
     description: 'Copy this item',
-    icon: biCopy,
+    icon: { name: biCopy },
     value: 'copy',
     onHandle() {
       console.log('onCopy')
@@ -80,87 +80,87 @@ const menus2: LabelValue<number>[] = [
     label: 'Cody Fisher',
     value: 1,
     description: 'Fisher',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg' }
   },
   {
     label: 'Robert Fox',
     value: 2,
     description: 'Fox',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg' }
   },
   {
     label: 'Esther Howard',
     value: 3,
     description: 'Howard',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg' }
   },
   {
     label: 'Darlene Robertson',
     value: 4,
     description: 'Robertson',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg' }
   },
   {
     label: 'Ralph Edwards',
     value: 5,
     description: 'Edwards',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png' }
   }
 ]
 const submenus: LabelValue<string>[] = [
   {
     label: 'Cody Fisher',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg',
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg' },
     border: true
   },
   {
     label: 'Profile',
     value: 'Profile',
-    icon: biPerson
+    icon: { name: biPerson }
   },
   {
     label: 'Billing',
     value: 'Billing',
-    icon: biCreditCard
+    icon: { name: biCreditCard }
   },
   {
     label: 'Keyboard shortcuts',
     value: 'Keyboard',
-    icon: biDisplay,
+    icon: { name: biDisplay },
     border: true
   },
   {
     label: 'Team',
     value: 'Team',
-    icon: biPeople
+    icon: { name: biPeople }
   },
   {
     label: 'Invite users',
-    icon: biPersonPlus,
+    icon: { name: biPersonPlus },
     children: [
       {
         label: 'Email',
         value: 'Email',
-        icon: biEnvelope
+        icon: { name: biEnvelope }
       },
       {
         label: 'Message',
         value: 'Message',
-        icon: biChat
+        icon: { name: biChat }
       },
       {
         label: 'More',
-        icon: biPlusCircle,
+        icon: { name: biPlusCircle },
         children: [
           {
             label: 'Message',
             value: 'Message',
-            icon: biChat
+            icon: { name: biChat }
           },
           {
             label: 'Email',
             value: 'Email',
-            icon: biEnvelope
+            icon: { name: biEnvelope }
           }
         ]
       }
@@ -172,7 +172,7 @@ const exampleHomeBreadcrumb: LabelValue<any>[] = [
   {
     label: 'base.home',
     to: '/',
-    icon: biHouseDoor,
+    icon: { name: biHouseDoor },
     translateLabel: true
   },
   {
@@ -184,7 +184,7 @@ const exampleHomeBreadcrumb: LabelValue<any>[] = [
   {
     label: 'Permission list',
     to: '/permission',
-    icon: biShieldCheck
+    icon: { name: biShieldCheck }
   }
 ]
 const onMenuClick = (value: number | string | undefined) => {
@@ -242,7 +242,7 @@ const onItemClick = () => {
         <BaseBreadcrumbs :items="exampleHomeBreadcrumb" />
         <BaseBreadcrumbs
           :items="exampleHomeBreadcrumb"
-          :separator-icon="biChevronRight"
+          :separator-icon="{ name: 'lucide:chevrons-right', iconSet: 'nuxt' }"
           text-color="orange"
           active-color="secondary"
         />

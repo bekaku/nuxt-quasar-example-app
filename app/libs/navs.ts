@@ -1,16 +1,15 @@
 import {
     biApp,
+    biArrowDownCircle,
     biArrowDownUp,
     biArrowLeftRight,
     biArrowsMove,
     biBack,
     biBrush,
     biBug,
-    biCalendar,
     biChatDots,
-    biArrowDownCircle,
-    biChevronExpand,
     biChevronRight,
+    biCreditCard2Front,
     biCrop,
     biCursorText,
     biDatabase,
@@ -25,16 +24,14 @@ import {
     biList,
     biMarkdown,
     biPeople, biPerson, biPersonBadge,
-    biPersonCircle,
     biPieChart,
     biSegmentedNav,
     biShieldCheck,
+    biTable,
     biToggleOff,
     biUpload,
     biWindowFullscreen,
-    biWindowSidebar,
-    biTable,
-    biCreditCard2Front
+    biWindowSidebar
 } from '@quasar/extras/bootstrap-icons';
 import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
 import type { LabelValue } from '~/types/common';
@@ -42,7 +39,7 @@ export const appNavs: LabelValue<any>[] = [
     {
         children: [
             {
-                icon: biHouseDoor,
+                icon: { name: biHouseDoor },
                 label: 'nav.dashboard',
                 to: '/',
                 permissions: ['backend_login'],
@@ -54,11 +51,11 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'nav.systemData',
-                icon: biGear,
+                icon: { name: biGear },
                 children: [
                     {
                         label: 'model_permission',
-                        icon: biShieldCheck,
+                        icon: { name: biShieldCheck },
                         to: '/permission',
                         permissions: ['permission_list']
                     }
@@ -71,17 +68,17 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'nav.userData',
-                icon: biPersonBadge,
+                icon: { name: biPersonBadge },
                 children: [
                     {
                         label: 'nav.userRole',
-                        icon: biPeople,
+                        icon: { name: biPeople },
                         to: '/role',
                         permissions: ['role_list']
                     },
                     {
                         label: 'nav.appUser',
-                        icon: biPerson,
+                        icon: { name: biPerson },
                         to: '/user',
                         permissions: ['user_list']
                     }
@@ -94,7 +91,7 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'model_files_manager',
-                icon: biFolder,
+                icon: { name: biFolder },
                 to: '/myFiles?_id=root',
                 permissions: ['file_manager_manage']
             }
@@ -104,7 +101,7 @@ export const appNavs: LabelValue<any>[] = [
 
 export const additionalMenu: LabelValue<any>[] = [
     {
-        avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
+        avatar: { src: 'https://cdn.quasar.dev/img/avatar3.jpg' },
         label: 'My profile',
         translateLabel: false,
     },
@@ -114,18 +111,18 @@ export const additionalMenu: LabelValue<any>[] = [
         label: 'Example',
         children: [
             {
-                icon: biList,
+                icon: { name: biList },
                 label: 'Composables',
                 translateLabel: false,
                 children: [
                     {
-                        icon: biChevronRight,
+                        icon: { name: biFile },
                         label: 'useBase',
                         translateLabel: false,
                         to: '/example/composables/use-base'
                     },
                     {
-                        icon: biFileEarmark,
+                        icon: { name: biDatabase },
                         label: 'usePageFetch',
                         translateLabel: false,
                         to: '/example/composables/use-pagefecth'
@@ -133,83 +130,92 @@ export const additionalMenu: LabelValue<any>[] = [
                 ]
             },
             {
-                icon: biBrush,
-                label: 'UI',
+                icon: { name: biBrush },
+                label: 'Components',
                 translateLabel: false,
                 children: [
                     {
-                        icon: biPersonCircle,
+                        icon: {
+                            name: 'lucide:circle-user',
+                            iconSet: 'nuxt'
+                        },
                         label: 'Avatar',
                         translateLabel: false,
                         to: '/example/ui/avatar'
                     },
                     {
-                        icon: biApp,
+                        icon: { name: biApp },
                         label: 'Button',
                         translateLabel: false,
                         to: '/example/ui/button'
                     },
                     {
-                        icon: biCreditCard2Front,
+                        icon: { name: biCreditCard2Front },
                         label: 'Card',
                         translateLabel: false,
                         to: '/example/ui/card'
                     },
                     {
-                        icon: biCalendar,
+                        icon: {
+                            name: 'lucide:calendar-range',
+                            iconSet: 'nuxt'
+                        },
                         label: 'Date-time picker',
                         translateLabel: false,
                         to: '/example/ui/date-picker'
                     },
                     {
-                        icon: biBack,
+                        icon: { name: biBack },
                         label: 'Dialog',
                         description: 'dialog, popconfirm, menu',
                         translateLabel: false,
                         to: '/example/ui/dialog'
                     },
                     {
-                        icon: biUpload,
+                        icon: { name: biUpload },
                         label: 'File picker',
                         translateLabel: false,
                         to: '/example/ui/file-picker'
                     },
                     {
-                        icon: biInputCursorText,
+                        icon: { name: biInputCursorText },
                         label: 'Form Input',
                         description: 'Form, Input, Textarea',
                         translateLabel: false,
                         to: '/example/ui/input-text'
                     },
                     {
-                        icon: biLayoutSidebar,
+                        icon: { name: biLayoutSidebar },
                         label: 'Menu',
                         description: 'Dropdown, Menu, Breadcrumb',
                         translateLabel: false,
                         to: '/example/ui/menu'
                     },
                     {
-                        icon: biChevronExpand,
+                        icon: {
+                            name: 'lucide:chevrons-up-down',
+                            iconSet: 'nuxt'
+                        },
                         label: 'Select',
                         description: 'Select, Command palette',
                         translateLabel: false,
                         to: '/example/ui/select'
                     },
                     {
-                        icon: biSegmentedNav,
+                        icon: {name:biSegmentedNav},
                         label: 'Tabs',
                         translateLabel: false,
                         to: '/example/ui/tabs'
                     },
                     {
-                        icon: biToggleOff,
+                        icon: {name:biToggleOff},
                         description: 'Toggle,Options,Radios',
                         label: 'Options group',
                         translateLabel: false,
                         to: '/example/ui/toggle'
                     },
                     {
-                        icon: biPerson,
+                        icon: {name:biPerson},
                         label: 'User',
                         translateLabel: false,
                         to: '/example/ui/user'
@@ -217,124 +223,130 @@ export const additionalMenu: LabelValue<any>[] = [
                 ],
             },
             {
-                icon: biPieChart,
+                icon: {name:biPieChart},
                 label: 'Charts',
                 translateLabel: false,
                 to: '/example/charts'
             },
             {
-                icon: biChatDots,
+                icon: {name:biChatDots},
                 label: 'Chat',
                 translateLabel: false,
                 to: '/chats'
             },
             {
-                icon: biTable,
+                icon: {name:biTable},
                 label: 'Crud table',
                 translateLabel: false,
                 to: '/example/crud-table'
             },
             {
-                icon: biCursorText,
+                icon: {name:biCursorText},
                 label: 'Content text',
                 description: 'Display user input',
                 translateLabel: false,
                 to: '/example/content-text'
             },
             {
-                icon: biArrowsMove,
+                icon: {name:biArrowsMove},
                 label: 'Darg and Drop',
                 translateLabel: false,
                 to: '/example/drag-drop'
             },
             {
-                icon: biEmojiSmile,
+                icon:{name: biEmojiSmile},
                 label: 'Icon/Emoji picker',
                 description: 'Emoji and Icon',
                 translateLabel: false,
                 to: '/example/emoji-picker'
             },
             {
-                icon: biDatabase,
+                icon:{name: biDatabase},
                 label: 'Fetch data',
                 translateLabel: false,
                 to: '/example/fetch-data'
             },
             {
-                icon: biCrop,
+                icon:{name: biCrop},
                 label: 'Image cropper',
                 translateLabel: false,
                 to: '/example/image-cropper'
             },
             {
-                icon: biFileImage,
+                icon:{name: biFileImage},
                 label: 'Image/Pdf View',
                 translateLabel: false,
                 to: '/example/image-view'
             },
             {
-                icon: biArrowDownCircle,
+                icon:{name: biArrowDownCircle},
                 label: 'Infinite scroll',
                 translateLabel: false,
                 to: '/example/infinite-scroll'
             },
             {
-                icon: biWindowFullscreen,
+                icon:{name: biWindowFullscreen},
                 label: 'Login 2',
                 translateLabel: false,
                 to: '/auth/login-v1'
             },
             {
-                icon: biWindowFullscreen,
+                icon:{name: biWindowFullscreen},
                 label: 'Login 3',
                 translateLabel: false,
                 to: '/auth/login-v2'
             },
             {
-                icon: biMarkdown,
+                icon: {name:biMarkdown},
                 label: 'Markdown editor',
                 translateLabel: false,
                 to: '/example/markdown-editor'
             },
             {
-                icon: biFile,
+                icon:{name: biFile},
                 label: 'Result',
                 description: 'Error, Success, 404, Alert',
                 translateLabel: false,
                 to: '/example/result'
             },
             {
-                icon: biArrowLeftRight,
+                icon:{name: biArrowLeftRight},
                 label: 'Swiper',
                 translateLabel: false,
                 to: '/example/swiper'
             },
             {
-                icon: biWindowSidebar,
+                icon: {name:biWindowSidebar},
                 label: 'Social feed',
                 translateLabel: false,
                 to: '/feed'
             },
             {
-                icon: biArrowDownUp,
+                icon:{name: biArrowDownUp},
                 label: 'Virtual scroller',
                 translateLabel: false,
                 to: '/example/virtual-scroller'
             },
             {
-                icon: biBug,
+                icon:{name: biBug},
                 label: 'Test page',
                 translateLabel: false,
                 to: '/test'
             },
             {
-                icon: mdiRobotConfused,
+                icon: {name:mdiRobotConfused},
                 label: 'Error page',
                 translateLabel: false,
                 to: '/permission/duplicate/0'
             },
             {
-                icon: mdiRobotConfused,
+                icon:{name: biFile},
+                label: 'Starter page',
+                translateLabel: false,
+                to: '/blank'
+            },
+            {
+                icon:{name: mdiRobotConfused},
                 label: '404 page',
                 translateLabel: false,
                 to: '/notfound'

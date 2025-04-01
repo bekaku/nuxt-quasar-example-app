@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biChatDots, biMic, biMusicNote, biPlay } from '@quasar/extras/bootstrap-icons'
-import { TabTest } from '~/libs/appTabs'
+import { TabTest } from '~/libs/tabs'
 import type { LabelValue } from '~/types/common'
 
 useHead({
@@ -19,7 +19,7 @@ const groupTabs = ref<LabelValue<string>[]>([
   {
     label: 'Review',
     value: 'review',
-    icon: biChatDots
+    icon: { name: biChatDots }
   },
   {
     label: 'Photos',
@@ -33,9 +33,9 @@ const groupTabs = ref<LabelValue<string>[]>([
 ])
 const toggleModel = ref<string>('music')
 const toggleOptions: LabelValue<string>[] = [
-  { label: 'Music', value: 'music', icon: biMusicNote },
-  { label: 'Podcasts', value: 'podcasts', icon: biMic },
-  { label: 'Live', value: 'live', icon: biPlay }
+  { label: 'Music', value: 'music', icon: { name: biMusicNote } },
+  { label: 'Podcasts', value: 'podcasts', icon: { name: biMic } },
+  { label: 'Live', value: 'live', icon: { name: biPlay } }
 ]
 </script>
 <template>
@@ -117,11 +117,6 @@ const toggleOptions: LabelValue<string>[] = [
           </div>
         </div>
       </q-card-section>
-    </BaseCard>
-    <BaseCard flat :bordered="false" :title="`Button toggle '${toggleModel}'`">
-      <div class="q-pa-md">
-        <BaseButtonToggle v-model="toggleModel" :options="toggleOptions" />
-      </div>
     </BaseCard>
   </BasePage>
 </template>

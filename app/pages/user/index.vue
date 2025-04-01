@@ -1,24 +1,28 @@
 <script setup lang="ts">
-import { biPerson } from '@quasar/extras/bootstrap-icons';
-import { CrudListDataType, ICrudListHeaderOptionSearchType, type ICrudListHeader } from '~/types/common';
-import type { Role } from '~/types/models';
-import { UserPermission } from '~/libs/appPermissions';
-definePageMeta({ 
-  pageName: 'model_user', 
-  requiresPermission: [UserPermission.list], 
-}) 
-useInitPage(); 
-const { t }=useLang(); 
+import { biPerson } from '@quasar/extras/bootstrap-icons'
+import {
+  CrudListDataType,
+  ICrudListHeaderOptionSearchType,
+  type ICrudListHeader
+} from '~/types/common'
+import type { Role } from '~/types/models'
+import { UserPermission } from '~/libs/permissions'
+definePageMeta({
+  pageName: 'model_user',
+  requiresPermission: [UserPermission.list]
+})
+useInitPage()
+const { t } = useLang()
 const headerItems: ICrudListHeader[] = [
-{
+  {
     label: 'model_user_img_name',
     column: 'avatar.thumbnail',
     type: CrudListDataType.AVATAR,
     options: {
       fillable: true,
       align: 'center',
-      size: '55px',
-    },
+      size: '55px'
+    }
   },
   {
     label: 'model_user_email',
@@ -30,8 +34,8 @@ const headerItems: ICrudListHeader[] = [
       fillable: true,
       searchType: ICrudListHeaderOptionSearchType.TEXT,
       searchModel: '',
-      searchOperation: ':',
-    },
+      searchOperation: ':'
+    }
   },
   {
     label: 'model_user_username',
@@ -43,8 +47,8 @@ const headerItems: ICrudListHeader[] = [
       sortable: true,
       searchType: ICrudListHeaderOptionSearchType.TEXT,
       searchModel: '',
-      searchOperation: ':',
-    },
+      searchOperation: ':'
+    }
   },
   {
     label: 'base.enable',
@@ -57,8 +61,8 @@ const headerItems: ICrudListHeader[] = [
       align: 'center',
       searchType: ICrudListHeaderOptionSearchType.BOOLEAN,
       searchModel: true,
-      searchOperation: '=',
-    },
+      searchOperation: '='
+    }
   },
   {
     label: 'base.tool',
@@ -68,10 +72,10 @@ const headerItems: ICrudListHeader[] = [
       editButton: true,
       deleteButton: true,
       copyButton: false,
-      align: 'center',
-    },
-  },
-];
+      align: 'center'
+    }
+  }
+]
 const {
   dataList,
   loading,
@@ -91,44 +95,42 @@ const {
   crudName,
   onKeywordSearch,
   headers
-} = useCrudList<Role>(
-  {
-    crudName: 'user',
-    apiEndpoint: '/api',
-    headers: headerItems,
-    defaultSort: {
-      column: 'email',
-      mode: 'asc'
-    }
-  },
-);
+} = useCrudList<Role>({
+  crudName: 'user',
+  apiEndpoint: '/api',
+  headers: headerItems,
+  defaultSort: {
+    column: 'email',
+    mode: 'asc'
+  }
+})
 </script>
 <template>
-      <BasePage>
-        <BaseCrudList
-      :icon="biPerson" 
+  <BasePage>
+    <BaseCrudList
+      :icon="biPerson"
       :title="t('model.role.table')"
-      :crud-name="crudName" 
-      :loading="loading" 
-      :first-loaded="firstLoaded" 
-      :pages="pages" 
-      :headers="headers" 
-      :sort="sort" 
-      :list="dataList" 
-      show-search-text-box 
+      :crud-name="crudName"
+      :loading="loading"
+      :first-loaded="firstLoaded"
+      :pages="pages"
+      :headers="headers"
+      :sort="sort"
+      :list="dataList"
+      show-search-text-box
       :view-permission="[UserPermission.view]"
       :manage-permission="[UserPermission.manage]"
-      @on-item-click="onItemClick" 
-      @on-item-copy="onItemCopy" 
-      @on-page-no-change="onPageNoChange" 
-      @on-items-perpage-change="onItemPerPageChange" 
-      @on-sort="onSort" 
-      @on-sort-mode="onSortMode" 
-      @on-reload="onReload" 
-      @on-advance-search="onAdvanceSearch" 
-      @on-keyword-search="onKeywordSearch" 
-      @on-item-delete="onItemDelete" 
-      @on-new-form="onNewForm" 
+      @on-item-click="onItemClick"
+      @on-item-copy="onItemCopy"
+      @on-page-no-change="onPageNoChange"
+      @on-items-perpage-change="onItemPerPageChange"
+      @on-sort="onSort"
+      @on-sort-mode="onSortMode"
+      @on-reload="onReload"
+      @on-advance-search="onAdvanceSearch"
+      @on-keyword-search="onKeywordSearch"
+      @on-item-delete="onItemDelete"
+      @on-new-form="onNewForm"
     />
-        </BasePage>
+  </BasePage>
 </template>

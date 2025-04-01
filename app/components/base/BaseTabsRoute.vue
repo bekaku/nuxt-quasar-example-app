@@ -53,7 +53,7 @@ const getItems = computed<LabelValue<any>[]>(() => {
     >
       <template v-for="(item, index) in getItems" :key="`${index}-${item.label}`">
         <q-route-tab
-          :icon="item.icon"
+          :icon="item.icon?.name"
           :label="item.translateLabel ? (item.label ? t(item.label) : undefined) : item.label"
           :to="getLink(item)"
           :disable="item.disable"

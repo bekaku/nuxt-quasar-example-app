@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LabelValue, AppColor } from '~/types/common'
+import type { Icon } from '~/types/props'
 
 const {
   items,
@@ -9,7 +10,7 @@ const {
 } = defineProps<{
   items: LabelValue<any>[]
   showSeparator?: boolean
-  separatorIcon?: string
+  separatorIcon?: Icon
   activeColor?: string
   textColor?: AppColor
 }>()
@@ -56,14 +57,14 @@ const getLink = (item: LabelValue<any>) => {
     <q-breadcrumbs :class="`text-${textColor}`" :active-color="isDark ? 'white' : activeColor">
       <template #separator>
         <template v-if="showSeparator">
-          <q-icon v-if="separatorIcon" class="text-muted" :name="separatorIcon" />
+          <BaseIcon v-if="separatorIcon != undefined" class="text-muted" v-bind="{ ...separatorIcon }" />
           <template v-else> <span class="text-muted">/</span></template>
         </template>
       </template>
       <template v-for="(item, index) in getItems" :key="`breadcrumb-${index}-${item.to}`">
         <q-breadcrumbs-el
           :label="item.translateLabel ? (item.label ? t(item.label) : undefined) : item.label"
-          :icon="item.icon"
+          :icon="item.icon?.name"
           :to="getLink(item)"
           exact
           :class="{ 'under-line': item.to != undefined }"

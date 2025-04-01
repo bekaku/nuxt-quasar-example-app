@@ -29,25 +29,25 @@ const isActive = computed(() => {
     :active-class="item.noActiveLink ? 'q-item-no-link-highlighting' : 'active-menu-link'"
     :class="{ 'nav-active': isActive, 'default-nav-dense': dense }"
   >
-    <!-- <q-item-section side>
-            <q-icon :name="item.icon" class="q-text-black" :size="iconSize" />
-        </q-item-section> -->
     <q-item-section v-if="item.avatar || item.icon" side>
       <template v-if="item.avatar">
         <base-avatar
-          v-if="item.avatar"
-          :size="item.avatarSize || avatarSize"
-          :fetch-image="!!item.fetch"
-          :src="item.avatar"
+          v-bind="{ ...item.avatar, size: item.avatar.size || avatarSize }"
         />
       </template>
       <template v-else>
-        <q-icon
-          :name="item.icon"
+        <BaseIcon
+          v-if="item.icon != undefined"
           :class="{ 'q-text-black': !isActive, 'active-menu-link': isActive }"
-          :size="item.iconSize || iconSize"
-          :color="item.color"
+          v-bind="{ ...item.icon, size: item.icon.size || iconSize }"
         />
+        <!-- <BaseIcon
+          v-if="item.icon"
+          :name="item.icon"
+          :size="item.iconSize"
+          :color="item.color || 'light'"
+          :icon-set="item.iconSet || 'quasar'"
+        /> -->
       </template>
     </q-item-section>
     <q-item-section>

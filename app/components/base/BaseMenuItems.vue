@@ -37,14 +37,14 @@ const currentUrlPath = computed(() => getCurrentPath(false));
                             </BaseMenuItem>
                         </template>
                         <template v-else>
-                            <q-expansion-item :icon="page.icon"
+                            <q-expansion-item :icon="page.icon?.name"
                                 :label="page?.translateLabel !== false ? t(`${page.label}`) : page.label"
                                 :default-opened="checkExpansionChildActiveAlt(currentUrlPath, page.children)"
                                 :expand-icon="mdiChevronRight" :expanded-icon="mdiChevronDown"
                                 expand-icon-class="text-muted" :dense class="parent-defult">
                                 <template #header>
                                     <q-item-section avatar>
-                                        <q-icon :name="page.icon" :size="iconSize" />
+                                        <q-icon :name="page.icon?.name" :size="iconSize" />
                                     </q-item-section>
 
                                     <q-item-section>

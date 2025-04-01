@@ -1,38 +1,45 @@
 <script setup lang="ts">
-import { biX } from "@quasar/extras/bootstrap-icons";
-import { mdiLightbulbOnOutline } from "@quasar/extras/mdi-v7";
-import type { IAlert } from "~/types/common";
+import { biX } from '@quasar/extras/bootstrap-icons'
+import { mdiLightbulbOnOutline } from '@quasar/extras/mdi-v7'
+import type { IAlert } from '~/types/common'
+import type { Icon } from '~/types/props'
 
 const {
-  icon = mdiLightbulbOnOutline,
   dense = false,
   radius = true,
   closeable = true,
-  type = "is-light",
-  secondary = false,
+  type = 'is-light',
+  secondary = false
 } = defineProps<{
-  message: string;
-  title?: string;
-  type?: IAlert;
-  icon?: string;
-  dense?: boolean;
-  radius?: boolean;
-  closeable?: boolean;
-  secondary?: boolean;
-}>();
-const {isDark} = useTheme();
-const show = ref(true);
+  message: string
+  title?: string
+  type?: IAlert
+  icon?: Icon
+  dense?: boolean
+  radius?: boolean
+  closeable?: boolean
+  secondary?: boolean
+}>()
+const { isDark } = useTheme()
+const show = ref(true)
 </script>
 <template>
-  <div v-show="show" class="v-notification" :class="`${type} ${secondary ? 'is-light' : ''}`" :style="{
-    padding: dense ? '5px' : '1rem 2.25rem 1rem 1.25rem',
-    borderRadius: radius ? '5px' : '',
-  }">
+  <div
+    v-show="show"
+    class="v-notification"
+    :class="`${type} ${secondary ? 'is-light' : ''}`"
+    :style="{
+      padding: dense ? '5px' : '1rem 2.25rem 1rem 1.25rem',
+      borderRadius: radius ? '5px' : ''
+    }"
+  >
     <div>
       <strong>
-        <q-icon v-if="icon" :name="icon" style="margin-right: 5px" size="md" /></strong>
+        <BaseIcon v-if="icon" style="margin-right: 5px" v-bind="{ ...icon }" />
+        <!-- <q-icon v-if="icon" :name="icon" style="margin-right: 5px" size="md" /> -->
+      </strong>
       <span v-if="title" class="q-mx-sm text-weight-bold">{{ title }}</span>
-      {{ message ? message : "" }}
+      {{ message ? message : '' }}
       <div>
         <slot name="extra" />
       </div>
@@ -41,7 +48,7 @@ const show = ref(true);
   </div>
 </template>
 <style lang="css" scoped>
-.v-notification>.delete {
+.v-notification > .delete {
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;
@@ -74,7 +81,7 @@ const show = ref(true);
   background: transparent;
 }
 
-.v-notification>.delete {
+.v-notification > .delete {
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;

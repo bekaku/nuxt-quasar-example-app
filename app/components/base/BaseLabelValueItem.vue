@@ -1,8 +1,14 @@
 <script setup lang="ts" generic="T">
-import type { AppColor, LabelValue } from '~/types/common';
+import type { AppColor, LabelValue } from '~/types/common'
 
-
-const { item, iconSize = '20px', avatarSize = '24px', dense = true, seperator = false,rounded = false, } = defineProps<{
+const {
+  item,
+  iconSize = '20px',
+  avatarSize = '24px',
+  dense = true,
+  seperator = false,
+  rounded = false
+} = defineProps<{
   item?: LabelValue<T>
   iconSize?: string
   avatarSize?: string
@@ -10,30 +16,49 @@ const { item, iconSize = '20px', avatarSize = '24px', dense = true, seperator = 
   clickable?: boolean
   seperator?: boolean
   color?: AppColor
-  rounded?: boolean;
-}>();
+  rounded?: boolean
+}>()
 const emit = defineEmits<{
-  'on-click': [val: LabelValue<T> | undefined];
+  'on-click': [val: LabelValue<T> | undefined]
 }>()
 const onClick = () => {
   if (!item?.children || item.children.length == 0) {
-        // if (item?.onHandle != undefined) {
+    // if (item?.onHandle != undefined) {
     //   item.onHandle();
     // }
-    emit('on-click', item);
+    emit('on-click', item)
   }
-};
+}
 </script>
 <template>
-  <q-item v-if="item" v-bind="$attrs" :clickable="clickable" :class="{ rounded }" :dense @click="onClick">
+  <q-item
+    v-if="item"
+    v-bind="$attrs"
+    :clickable="clickable"
+    :class="{ rounded }"
+    :dense
+    @click="onClick"
+  >
     <slot name="start">
       <q-item-section v-if="item.avatar || item.icon" side>
         <template v-if="item.avatar">
-          <base-avatar v-if="item.avatar" :size="item.avatarSize || avatarSize" :fetch-image="!!item.fetch"
-            :src="item.avatar" />
+          <BaseAvatar
+            v-if="item.avatar"
+            v-bind="{ ...item.avatar, size: item.avatar?.size || avatarSize }"
+          />
         </template>
         <template v-else>
-          <q-icon :name="item.icon" :size="item.iconSize || iconSize" :color="item.color" />
+          <BaseIcon
+            v-if="item.icon != undefined"
+            v-bind="{ ...item.icon, size: item.icon.size || iconSize }"
+          />
+          <!-- <BaseIcon
+            v-if="item.icon"
+            :name="item.icon"
+            :size="item.iconSize"
+            :color="item.color || 'light'"
+            :icon-set="item.iconSet || 'quasar'"
+          /> -->
         </template>
       </q-item-section>
     </slot>

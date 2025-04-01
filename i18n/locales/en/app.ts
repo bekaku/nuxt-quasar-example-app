@@ -14,7 +14,7 @@ export default {
     page: {
         login: 'Sign in',
         dashboard: 'Home',
-        settingsPublicProfile: 'Publice profile',
+        settingsPublicProfile: 'Public profile',
         settingsNotification: 'Notification',
         settingsSecurity: 'Password and authentication',
         settingsEmail: 'Email'

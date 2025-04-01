@@ -95,13 +95,13 @@ onBeforeUnmount(() => {
       <BaseMenuItems :items="additionalMenu">
         <template #after>
           <q-separator />
-          <q-item clickable>
+          <q-item dense clickable>
             <q-item-section side>
               <q-icon class="q-text-black" :name="biQuestionCircle" size="20px" />
             </q-item-section>
             <q-item-section>{{ t('base.help') }}</q-item-section>
           </q-item>
-          <q-item clickable to="/settings">
+          <q-item dense clickable to="/settings">
             <q-item-section side>
               <q-icon class="q-text-black" :name="biGear" size="20px" />
             </q-item-section>

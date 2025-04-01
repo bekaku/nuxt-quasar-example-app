@@ -4,19 +4,15 @@ import {
   biChatLeft,
   biGear,
   biLightbulb,
-  biMic,
-  biMusicNote,
   biNewspaper,
   biPerson,
   biPhone,
-  biPlay,
   biQuestionCircle,
   biRadar,
   biShop,
   biWrench
 } from '@quasar/extras/bootstrap-icons'
 import { ref } from 'vue'
-import type { LabelValue } from '~/types/common'
 const progress = ref(false)
 useHead({
   title: 'Button'
@@ -30,6 +26,9 @@ useHead({
 
         <div class="q-pa-md q-gutter-sm">
           <BaseButton label="Light" light />
+          <BaseButton>
+              <BaseIcon name="lucide:accessibility" icon-set="nuxt"/> Custom nuxt icon
+            </BaseButton>
           <BaseButton label="Dark" dark />
           <BaseButton round flat :icon="biWrench" />
           <BaseButton label="Standard" />

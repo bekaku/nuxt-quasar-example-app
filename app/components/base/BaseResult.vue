@@ -13,7 +13,7 @@ const AppResult = defineAsyncComponent(
   () => import('@/components/base/AppResult.vue')
 );
 */
-import type { IResult } from '~/types/common';
+import type { IResult } from '~/types/common'
 import {
   mdiAlert,
   mdiAlertBoxOutline,
@@ -23,117 +23,120 @@ import {
   mdiInformationVariant,
   mdiPackageVariant,
   mdiPaperclip,
-  mdiRobotConfused,
-} from '@quasar/extras/mdi-v7';
+  mdiRobotConfused
+} from '@quasar/extras/mdi-v7'
+import type { Icon } from '~/types/props'
 
 const {
   status = 'info',
-  iconSize = '120px',
+  size = '120px',
+  iconSize = '70px',
   hideBg = false,
-  showIcon = true,
+  showIcon = true
 } = defineProps<{
-  status?: IResult;
-  title?: string;
-  description?: string;
-  icon?: string;
-  iconSize?: string;
-  hideBg?: boolean;
-  showIcon?: boolean;
-}>();
-const { isDark } = useTheme();
+  status?: IResult
+  title?: string
+  description?: string
+  icon?: Icon
+  iconSize?: string
+  size?: string
+  hideBg?: boolean
+  showIcon?: boolean
+}>()
+const { isDark } = useTheme()
 const getIcon = (): string => {
-  let icon: string | undefined = undefined;
+  let ic: string | undefined = undefined
 
   //404, 403, 500, 418, info, success, error, warning
   switch (status) {
     case '404':
-      icon = mdiInboxRemoveOutline;
-      break;
+      ic = mdiInboxRemoveOutline
+      break
     case '403':
-      icon = mdiAllergy;
-      break;
+      ic = mdiAllergy
+      break
     case '500':
     case '400':
-      icon = mdiRobotConfused;
-      break;
+      ic = mdiRobotConfused
+      break
     case '418':
-      icon = mdiPaperclip;
-      break;
+      ic = mdiPaperclip
+      break
     case 'success':
-      icon = mdiCheckBold;
-      break;
+      ic = mdiCheckBold
+      break
     case 'warning':
-      icon = mdiAlertBoxOutline;
-      break;
+      ic = mdiAlertBoxOutline
+      break
     case 'error':
-      icon = mdiAlert;
-      break;
+      ic = mdiAlert
+      break
     case 'empty':
-      icon = mdiPackageVariant;
-      break;
+      ic = mdiPackageVariant
+      break
     default:
-      icon = mdiInformationVariant;
-      break;
+      ic = mdiInformationVariant
+      break
   }
 
-  return icon;
-};
+  return ic
+}
 const getIconColor = () => {
-  let color = '';
+  let color = ''
   switch (status) {
     case '400':
     case '404':
     case '403':
     case '500':
     case '418':
-      color = 'text-amber';
-      break;
+      color = 'amber'
+      break
     case 'success':
-      color = 'text-green';
-      break;
+      color = 'green'
+      break
     case 'warning':
-      color = 'text-orange';
-      break;
+      color = 'orange'
+      break
     case 'error':
-      color = 'text-red';
-      break;
+      color = 'red'
+      break
     case 'empty':
-      color = 'text-grey-5';
-      break;
+      color = 'grey-5'
+      break
     default:
-      color = 'text-blue';
-      break;
+      color = 'blue'
+      break
   }
-  return color;
-};
+  return color
+}
 const getBgColor = () => {
-  let color = '';
+  let color = ''
   switch (status) {
     case '400':
     case '404':
     case '403':
     case '500':
     case '418':
-      color = !isDark.value ? 'amber-1' : 'amber-2';
-      break;
+      color = !isDark.value ? 'amber-1' : 'amber-2'
+      break
     case 'success':
-      color = !isDark.value ? 'green-1' : 'green-2';
-      break;
+      color = !isDark.value ? 'green-1' : 'green-2'
+      break
     case 'warning':
-      color = !isDark.value ? 'orange-1' : 'orange-2';
-      break;
+      color = !isDark.value ? 'orange-1' : 'orange-2'
+      break
     case 'error':
-      color = !isDark.value ? 'red-1' : 'red-2';
-      break;
+      color = !isDark.value ? 'red-1' : 'red-2'
+      break
     case 'empty':
-      color = !isDark.value ? 'grey-1' : 'grey-8';
-      break;
+      color = !isDark.value ? 'grey-1' : 'grey-8'
+      break
     default:
-      color = !isDark.value ? 'blue-1' : 'blue-2';
-      break;
+      color = !isDark.value ? 'blue-1' : 'blue-2'
+      break
   }
-  return color;
-};
+  return color
+}
 </script>
 <template>
   <div class="row items-center q-pa-md">
@@ -147,22 +150,38 @@ const getBgColor = () => {
               src="/icons/warning.png"
               :style="`width: ${iconSize} ; height: auto`"
             /> -->
-          <q-avatar v-if="status == '404'" square style="width: 256px; height: auto">
-            <img src="/icons/sad-man.png">
+          <q-avatar v-if="status == '404'" square :style="{ width: size, height: 'auto' }">
+            <img src="/icons/sad-man.png" />
           </q-avatar>
-          <q-avatar v-else-if="showIcon" :size="iconSize" :color="!hideBg ? getBgColor() : undefined"
-            :icon="icon ? icon : getIcon()" :class="getIconColor()" />
+          <q-avatar v-else-if="showIcon"  :size="size" :color="!hideBg ? getBgColor() : undefined">
+            <BaseIcon
+              :name="icon?.name || getIcon()"
+              :size="icon?.size || iconSize"
+              :color="icon?.color || getIconColor()"
+              :icon-set="icon?.iconSet || 'quasar'"
+            />
+          </q-avatar>
+          <!-- <q-avatar
+            v-else-if="showIcon"
+            :size="iconSize"
+            :color="!hideBg ? getBgColor() : undefined"
+            :icon="icon ? icon : getIcon()"
+            :class="getIconColor()"
+          /> -->
         </div>
         <div class="col q-mt-md text-center">
           <slot name="text">
-            <div v-if="title" class="text-h5 text-weight-bold q-mb-sm" :class="status == 'empty' ? 'text-grey-6' : ''">
+            <div
+              v-if="title"
+              class="text-h5 text-weight-bold q-mb-sm"
+              :class="status == 'empty' ? 'text-grey-6' : ''"
+            >
               {{ title }}
             </div>
 
             <div v-if="description" class="text-muted text-subtitle1">
               {{ description }}
             </div>
-
           </slot>
         </div>
         <div class="col q-mt-sm">

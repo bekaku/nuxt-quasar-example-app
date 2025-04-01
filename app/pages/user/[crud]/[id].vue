@@ -11,8 +11,8 @@ import {
 } from '@quasar/extras/bootstrap-icons'
 import RoleService from '~/api/RoleService'
 import UserService from '~/api/UserService'
-import { UserFormBreadcrumb } from '~/libs/appBreadcrumbs'
-import { UserPermission } from '~/libs/appPermissions'
+import { UserFormBreadcrumb } from '~/libs/breadcrumbs'
+import { UserPermission } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
 import type { Role, UserDto } from '~/types/models'
 
@@ -225,7 +225,7 @@ const onChangePassword = async () => {
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="biPeople" :title="t('model_role')" />
+            <BaseTextHeader :icon="{name:biPeople}" :title="t('model_role')" />
             <q-card-section>
               <BaseCommandPalette
                 v-model="crudEntity.selectedRoles"
@@ -251,7 +251,7 @@ const onChangePassword = async () => {
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="biCheckCircle" :title="t('userRoleSelected')" />
+            <BaseTextHeader :icon="{name:biCheckCircle}" :title="t('userRoleSelected')" />
             <q-card-section v-if="crudEntity.selectedRoles">
               <BaseScrollArea height="250px">
                 <q-list v-if="crudEntity.selectedRoles.length > 0" dense>

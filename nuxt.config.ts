@@ -94,7 +94,7 @@ export default defineNuxtConfig({
     },
     extras: {
       // font: 'roboto-font',
-      fontIcons: ['bootstrap-icons'],
+      // fontIcons: ['bootstrap-icons'],
       // animations: 'all',// https://v2.quasar.dev/options/animations
     },
     plugins: [

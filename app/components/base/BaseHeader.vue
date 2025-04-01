@@ -83,7 +83,7 @@ onBeforeUnmount(() => {
         "
       >
         <BaseIcon
-          :icon="
+          :name="
             appStore.expandDrawer
               ? hambergerIcon
               : hambergerIconOff

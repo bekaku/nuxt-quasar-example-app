@@ -1,24 +1,10 @@
 <script setup lang="ts">
 import {
-  biAirplane,
-  biChatLeft,
-  biGear,
-  biLightbulb,
-  biMic,
   biMusicNote,
-  biNewspaper,
-  biPerson,
-  biPhone,
-  biPlay,
-  biQuestionCircle,
-  biRadar,
-  biShop,
-  biWrench,
-  biSearch,
-  biPlusCircle
+  biPlusCircle,
+  biSearch
 } from '@quasar/extras/bootstrap-icons'
 import { ref } from 'vue'
-import type { LabelValue } from '~/types/common'
 const progress = ref(false)
 useHead({
   title: 'Card'
@@ -40,7 +26,7 @@ const lorem =
       </q-card-section>
     </BaseCard>
 
-    <BaseCard title="Hover" sub-title="This is subtitle" :icon="biMusicNote" hover>
+    <BaseCard title="Hover" sub-title="This is subtitle" :icon="{name:biMusicNote}" hover>
       <q-card-section>
         {{ lorem }}
       </q-card-section>

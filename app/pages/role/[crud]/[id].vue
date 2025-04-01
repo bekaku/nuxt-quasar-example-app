@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { biPeople, biShieldCheck, biShieldLock, biTrash } from '@quasar/extras/bootstrap-icons'
 import PermissionService from '~/api/PermissionService'
-import { RoleFormBreadcrumb } from '~/libs/appBreadcrumbs'
-import { RolePermission } from '~/libs/appPermissions'
+import { RoleFormBreadcrumb } from '~/libs/breadcrumbs'
+import { RolePermission } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
 import type { Permission, Role } from '~/types/models'
 const { t } = useLang()
@@ -166,7 +166,7 @@ const updateSelectedAll = (val: boolean) => {
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="biShieldLock" :title="t('model_permission')" />
+            <BaseTextHeader :icon="{name:biShieldLock}" :title="t('model_permission')" />
             <q-card-section>
               <BaseCommandPalette
                 v-model="crudEntity.selectdPermissions"
@@ -191,7 +191,7 @@ const updateSelectedAll = (val: boolean) => {
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="biShieldCheck" :title="t('permissionGrant')" />
+            <BaseTextHeader :icon="{name:biShieldCheck}" :title="t('permissionGrant')" />
             <q-card-section>
               <BaseScrollArea height="450px">
                 <q-list v-if="crudEntity.selectdPermissions.length > 0">

@@ -55,7 +55,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 :edit-mode="editMode"
                 label="Name"
                 required
-                :icon="biPerson"
+                :icon="{ name: biPerson }"
                 bottom-slots
                 hint="This is a hint"
                 :rules="[required]"
@@ -70,7 +70,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                   <BaseIcon
                     class="cursor-pointer"
                     icon-set="quasar"
-                    :icon="showPassword ? biEye : biEyeSlash"
+                    :name="showPassword ? biEye : biEyeSlash"
                     @click="showPassword = !showPassword"
                   />
                 </template>
@@ -83,13 +83,13 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 :edit-mode="editMode"
                 label="Surname"
                 :rules="[required]"
-                avatar="https://cdn.quasar.dev/img/avatar2.jpg"
+                :avatar="{ src: 'https://cdn.quasar.dev/img/avatar2.jpg' }"
               />
               <BaseInput
                 v-model="email"
                 :edit-mode="editMode"
                 label="Email"
-                :icon="biEnvelope"
+                :icon="{ name: biEnvelope }"
                 :rules="[required, requireEmail]"
                 clearable
               />
@@ -105,7 +105,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                   <q-icon :name="biPencil" />
                 </template>
                 <template #append>
-                  <BaseIcon icon="uil:vuejs" color="teal" icon-set="nuxt" />
+                  <BaseIcon name="uil:vuejs" color="teal" icon-set="nuxt" />
                 </template>
               </BaseInput>
               <ClientOnly>
@@ -157,7 +157,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 label="Test area"
                 placeholder="textarea"
                 type="textarea"
-                :icon="biPencil"
+                :icon="{ name: biPencil }"
               />
 
               <div class="text-h6">Input OTP</div>
@@ -177,7 +177,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
               v-model="name"
               :edit-mode="false"
               label="Name"
-              :icon="biPerson"
+              :icon="{ name: biPerson }"
               bottom-slots
               hint="This is a hint"
               :view-show-after="false"
@@ -192,7 +192,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 <BaseIcon
                   class="cursor-pointer"
                   icon-set="quasar"
-                  :icon="showPassword ? biEye : biEyeSlash"
+                  :name="showPassword ? biEye : biEyeSlash"
                   @click="showPassword = !showPassword"
                 />
               </template>
@@ -204,13 +204,13 @@ const onInputUpdate = (val: string | number | undefined | null) => {
               v-model="surname"
               :edit-mode="false"
               label="Surname"
-              avatar="https://cdn.quasar.dev/img/avatar2.jpg"
+              :avatar="{ src: 'https://cdn.quasar.dev/img/avatar2.jpg' }"
             />
             <BaseInput
               v-model="email"
               :edit-mode="false"
               label="Email"
-              :icon="biEnvelope"
+              :icon="{ name: biEnvelope }"
               clearable
             />
             <BaseInput v-model="title" :edit-mode="false" label="Title" clearable counter>
@@ -218,7 +218,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 <q-icon :name="biPencil" />
               </template>
               <template #append>
-                <BaseIcon icon="uil:vuejs" color="teal" icon-set="nuxt" />
+                <BaseIcon name="uil:vuejs" color="teal" icon-set="nuxt" />
               </template>
             </BaseInput>
             <BaseInput
@@ -248,7 +248,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
               :edit-mode="false"
               label="Test area"
               type="textarea"
-              :icon="biPencil"
+              :icon="{ name: biPencil }"
             />
           </q-card-section>
         </BaseCard>

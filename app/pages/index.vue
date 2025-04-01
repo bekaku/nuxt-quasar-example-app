@@ -26,8 +26,8 @@ if (!import.meta.server) {
     getPageMetaByKey('requiresPermission')
   )
 }
-const dateRangeStart = ref<string>('')
-const dateRangeEnd = ref<string>('')
+const dateRangeStart = ref<string>('2025-04-13')
+const dateRangeEnd = ref<string>('2025-04-15')
 const toggleModel = ref<string>('overview')
 
 const showChart = ref<boolean>(false)
@@ -44,7 +44,7 @@ onMounted(() => {
       :bordered="false"
       flat
       sub-title="Top picks for you. Updated daily."
-      :icon="biMusicNote"
+      :icon="{ name: biMusicNote }"
     >
       <q-card-section>
         <div class="row">
@@ -83,7 +83,7 @@ onMounted(() => {
           :key="index"
           class="col-12 col-md-4 q-px-md"
         >
-          <BaseCard flat class="card-shade">
+          <BaseCard class="card-shade" hover>
             <q-card-section>
               <BaseTextHeader :icon="item.icon" :title="item.label">
                 <template #end>
@@ -115,7 +115,7 @@ onMounted(() => {
                 </q-item-label>
               </q-item-section>
               <q-item-section side top>
-                <q-icon :name="item.icon" size="18px" />
+                <q-icon :name="item.icon?.name" size="18px" />
               </q-item-section>
             </q-item>
           </BaseCard>
@@ -200,7 +200,10 @@ onMounted(() => {
             <q-list>
               <q-item v-for="(item, index) in dashBaordRecentSalseItems" :key="index">
                 <q-item-section avatar>
-                  <BaseAvatar :src="item.avatar || '/images/no_picture_thumb.jpg'" size="40px" />
+                  <BaseAvatar
+                    :src="item.avatar?.src || '/images/no_picture_thumb.jpg'"
+                    size="40px"
+                  />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label> {{ item.label }} </q-item-label>

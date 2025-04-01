@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import {  biShieldLock } from '@quasar/extras/bootstrap-icons';
-import { ExampleHomeBreadcrumb } from '~/libs/appBreadcrumbs';
-import { PermissionPermission } from '~/libs/appPermissions';
-import { CrudListDataType, ICrudListHeaderOptionSearchType, type ICrudListHeader } from '~/types/common';
-import type { Permission } from '~/types/models';
+import { biShieldLock } from '@quasar/extras/bootstrap-icons'
+import { ExampleHomeBreadcrumb } from '~/libs/breadcrumbs'
+import { PermissionPermission } from '~/libs/permissions'
+import {
+  CrudListDataType,
+  ICrudListHeaderOptionSearchType,
+  type ICrudListHeader
+} from '~/types/common'
+import type { Permission } from '~/types/models'
 definePageMeta({
   pageName: 'model_permission',
   requiresPermission: [PermissionPermission.list],
-  breadcrumbs: ExampleHomeBreadcrumb,
+  breadcrumbs: ExampleHomeBreadcrumb
 })
-useInitPage();
+useInitPage()
 const headerItems: ICrudListHeader[] = [
   {
     label: 'model_permission_id',
@@ -20,8 +24,8 @@ const headerItems: ICrudListHeader[] = [
       sortable: true,
       searchType: ICrudListHeaderOptionSearchType.NUMBER,
       searchModel: '',
-      searchOperation: '=',
-    },
+      searchOperation: '='
+    }
   },
   {
     label: 'model_permission_name',
@@ -33,16 +37,16 @@ const headerItems: ICrudListHeader[] = [
       sortable: true,
       searchType: ICrudListHeaderOptionSearchType.TEXT,
       searchModel: '',
-      searchOperation: ':',
-    },
+      searchOperation: ':'
+    }
   },
   {
     label: 'model_permission_description',
     column: 'description',
     type: CrudListDataType.TEXT,
     options: {
-      fillable: true,
-    },
+      fillable: true
+    }
   },
   {
     label: 'model_permission_frontEnd',
@@ -56,8 +60,8 @@ const headerItems: ICrudListHeader[] = [
       searchType: ICrudListHeaderOptionSearchType.BOOLEAN,
       searchModel: false,
       clickable: true,
-      searchOperation: '=',
-    },
+      searchOperation: '='
+    }
   },
   {
     label: 'base.tool',
@@ -67,11 +71,11 @@ const headerItems: ICrudListHeader[] = [
       editButton: true,
       deleteButton: true,
       copyButton: true,
-      viewButton:true,
-      align: 'center',
-    },
-  },
-];
+      viewButton: true,
+      align: 'center'
+    }
+  }
+]
 const {
   dataList,
   loading,
@@ -91,38 +95,35 @@ const {
   crudName,
   onKeywordSearch,
   headers
-} = useCrudList<Permission>(
-  {
-    crudName: 'permission',
-    apiEndpoint: '/api',
-    headers: headerItems,
-    defaultSort: {
-      column: 'code',
-      mode: 'asc',
-    },
-  },
-);
-const {t}=useLang();
+} = useCrudList<Permission>({
+  crudName: 'permission',
+  apiEndpoint: '/api',
+  headers: headerItems,
+  defaultSort: {
+    column: 'code',
+    mode: 'asc'
+  }
+})
+const { t } = useLang()
 
 const onColClick = (event: any, index: number, headerOption: ICrudListHeader, colValue: any) => {
-    console.log('pages/permission/index.vue : onColClick',{
-      index,
-      event,
-      headerOption,
-      colValue,
-    });
-    if(headerOption && headerOption.column && headerOption.column=='frontEnd'){
-      const rowItem = dataList.value[index];
-      if(rowItem){
-          console.log('rowItem.frontEnd',rowItem.frontEnd);
-          dataList.value.map((item) => {
-              if(item.id==rowItem.id){
-                  item.frontEnd = !item.frontEnd;
-              }
-          })
-      }
-
+  console.log('pages/permission/index.vue : onColClick', {
+    index,
+    event,
+    headerOption,
+    colValue
+  })
+  if (headerOption && headerOption.column && headerOption.column == 'frontEnd') {
+    const rowItem = dataList.value[index]
+    if (rowItem) {
+      console.log('rowItem.frontEnd', rowItem.frontEnd)
+      dataList.value.map(item => {
+        if (item.id == rowItem.id) {
+          item.frontEnd = !item.frontEnd
+        }
+      })
     }
+  }
 }
 </script>
 <template>
@@ -151,7 +152,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
       @on-new-form="onNewForm"
       @on-col-click="onColClick"
     >
-    <!--
+      <!--
     <template #additionalBaseTool>
     </template>
     <template #baseTool="{index, item}">
@@ -177,5 +178,4 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
     -->
     </BaseCrudList>
   </BasePage>
-
 </template>

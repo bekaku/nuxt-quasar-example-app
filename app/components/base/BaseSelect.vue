@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T">
 import { biCheck, biChevronExpand, biX } from '@quasar/extras/bootstrap-icons'
 import type { LabelValue } from '~/types/common'
+import type { Icon } from '~/types/props'
 const {
   optionValue = 'value',
   optionLabel = 'label',
@@ -128,12 +129,20 @@ const onScroll = ({ to, ref }: any) => {
     <template #prepend>
       <slot name="prepend">
         <template v-if="getSelected !== undefined">
-          <base-avatar
+          <!-- <base-avatar
             v-if="getSelected.avatar"
             :fetch-image="fetchImage"
             :src="getSelected.avatar"
-          />
-          <q-icon v-else-if="getSelected.icon" :name="getSelected.icon" />
+          /> -->
+          <BaseAvatar v-if="getSelected.avatar" v-bind="{ ...getSelected.avatar }" />
+          <!-- <BaseIcon
+            v-else-if="getSelected.icon"
+            :name="getSelected.icon"
+            :size="getSelected.iconSize"
+            :color="getSelected.color || 'light'"
+            :icon-set="getSelected.iconSet || 'quasar'"
+          /> -->
+          <BaseIcon v-else-if="getSelected.icon" v-bind="{ ...getSelected.icon }" />
         </template>
         <q-icon v-else-if="icon" :name="icon" />
       </slot>
@@ -154,14 +163,24 @@ const onScroll = ({ to, ref }: any) => {
         @remove="scope.removeAtIndex(scope.index)"
         :style="{ backgroundColor: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-700)' }"
       >
-        <base-avatar
+        <!-- <base-avatar
           v-if="scope.opt?.avatar"
           :fetch-image="fetchImage"
           :src="scope.opt.avatar"
           size="20px"
+        /> -->
+        <BaseAvatar
+          v-if="scope.opt?.avatar"
+          v-bind="{ ...scope.opt.avatar, size: scope.opt.avatar?.size || '20px' }"
         />
         <q-avatar v-else-if="scope.opt?.icon" color="primary" text-color="white">
-          <q-icon :name="scope.opt.icon" />
+          <!-- <BaseIcon
+            :name="scope.opt.icon"
+            :size="scope.opt.iconSize"
+            :color="scope.opt.color || 'light'"
+            :icon-set="scope.opt.iconSet || 'quasar'"
+          /> -->
+          <BaseIcon v-bind="{ ...scope.opt.icon }" />
         </q-avatar>
         {{ scope.opt.label }}
       </q-chip>
@@ -169,8 +188,16 @@ const onScroll = ({ to, ref }: any) => {
     <template #option="{ itemProps, opt, selected }">
       <q-item v-bind="itemProps" dense>
         <q-item-section v-if="opt.avatar || opt.icon" avatar>
-          <base-avatar v-if="opt.avatar" :fetch-image="fetchImage" :src="opt.avatar" />
-          <q-icon v-else-if="opt.icon" :name="opt.icon" />
+          <!-- <base-avatar v-if="opt.avatar" :fetch-image="fetchImage" :src="opt.avatar" /> -->
+          <base-avatar v-if="opt.avatar" v-bind="{ ...opt.avatar }" />
+          <!-- <BaseIcon
+            v-else-if="opt.icon"
+            :name="opt.icon"
+            :size="opt.iconSize"
+            :color="opt.color || 'light'"
+            :icon-set="opt.iconSet || 'quasar'"
+          /> -->
+          <BaseIcon v-else-if="opt.icon" v-bind="{ ...opt.icon }" />
         </q-item-section>
         <q-item-section>
           <q-item-label>{{ opt.label }}</q-item-label>

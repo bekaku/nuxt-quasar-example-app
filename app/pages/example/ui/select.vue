@@ -3,7 +3,9 @@ import type { LabelValue } from '~/types/common'
 import {
   biAirplane,
   biGear,
+  biGoogle,
   biLightbulb,
+  biMicrosoft,
   biPerson,
   biPhone,
   biX
@@ -33,27 +35,27 @@ const simpleItems: LabelValue<number>[] = [
     label: 'Google',
     value: 1,
     description: 'Fox',
-    icon: biAirplane
+    icon: {name:biGoogle}
   },
   {
     label: 'Facebook',
     value: 2,
-    icon: biGear
+    icon: { name: 'lucide:facebook', iconSet: 'nuxt' }
   },
   {
     label: 'Twitter',
     value: 3,
-    icon: biLightbulb
+    icon: { name: 'lucide:twitter', iconSet: 'nuxt' }
   },
   {
     label: 'Apple',
     value: 4,
-    icon: biPerson
+    icon: { name: 'lucide:apple', iconSet: 'nuxt' }
   },
   {
-    label: 'Oracle',
+    label: 'Microsoft',
     value: 5,
-    icon: biPhone
+    icon: { name: biMicrosoft }
   }
 ]
 const simpleItems2: LabelValue<number>[] = [
@@ -61,31 +63,31 @@ const simpleItems2: LabelValue<number>[] = [
     label: 'Cody Fisher',
     value: 6,
     description: 'Fisher',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg' }
   },
   {
     label: 'Robert Fox',
     value: 7,
     description: 'Fox',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg' }
   },
   {
     label: 'Esther Howard',
     value: 8,
     description: 'Howard',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg' }
   },
   {
     label: 'Darlene Robertson',
     value: 9,
     description: 'Robertson',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg' }
   },
   {
     label: 'Ralph Edwards',
     value: 10,
     description: 'Edwards',
-    avatar: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png'
+    avatar: { src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png' }
   }
 ]
 const simpleItems3: any[] = [

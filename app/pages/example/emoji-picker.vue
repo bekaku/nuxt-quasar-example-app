@@ -57,41 +57,52 @@ const onEmojiClick = (emoji: string) => {
         <BaseTextHeader title="Icon" />
         <div class="text-h6">Nuxt Icon</div>
 
-        <!-- npm i -D @iconify-json/vscode-icons -->
-        <BaseIcon icon="vscode-icons:file-type-ai" icon-set="nuxt" />
+        <p>
+          <BaseLink href="https://icon-sets.iconify.design/" color="primary" external>
+            <BaseIcon name="lucide:move-up-right" icon-set="nuxt" color="light" /> Iconify
+          </BaseLink>
+          <BaseLink href="https://lucide.dev/icons/" color="primary" external>
+            <BaseIcon name="lucide:move-up-right" icon-set="nuxt" /> lucide Icon
+          </BaseLink>
+        </p>
 
-        <!-- <BaseIcon icon="lucide:panel-left-open" icon-set="nuxt" /> -->
+        <BaseIcon name="lucide:cookie" icon-set="nuxt" color="light" />
+
+        <!-- npm i -D @iconify-json/vscode-icons -->
+        <BaseIcon name="vscode-icons:file-type-ai" icon-set="nuxt" />
+
+        <!-- <BaseIcon name="lucide:panel-left-open" icon-set="nuxt" /> -->
 
         <!-- npm i -D @iconify-json/bi -->
-        <BaseIcon icon="bi:balloon-heart" icon-set="nuxt" size="32px" />
+        <BaseIcon name="bi:balloon-heart" icon-set="nuxt" size="32px" />
         <!-- npm i -D @iconify-json/ic -->
-        <BaseIcon icon="ic:baseline-attractions" icon-set="nuxt" style="color: red" />
+        <BaseIcon name="ic:baseline-attractions" icon-set="nuxt" style="color: red" />
         <!-- npm i -D @iconify-json/hugeicons -->
-        <BaseIcon icon="hugeicons:artificial-intelligence-04" icon-set="nuxt" />
-        <BaseIcon icon="ri:aliens-fill" color="deep-purple" icon-set="nuxt" />
-        <BaseIcon icon="ri:ancient-gate-line" icon-set="nuxt" />
+        <BaseIcon name="hugeicons:artificial-intelligence-04" icon-set="nuxt" />
+        <BaseIcon name="ri:aliens-fill" color="deep-purple" icon-set="nuxt" />
+        <BaseIcon name="ri:ancient-gate-line" icon-set="nuxt" />
         <!-- npm i -D @iconify-json/uil -->
-        <BaseIcon icon="uil:car-sideview" icon-set="nuxt" />
-        <BaseIcon icon="uil:envelope-minus" icon-set="nuxt" />
-        <BaseIcon icon="uil:plane-departure" icon-set="nuxt" />
-        <BaseIcon icon="uil:vuejs" color="teal" icon-set="nuxt" />
-        <BaseIcon icon="uil:youtube" color="red" icon-set="nuxt" />
-        <BaseIcon icon="uil:syringe" color="blue" icon-set="nuxt" />
-        <BaseIcon icon="uil:shovel" icon-set="nuxt" />
+        <BaseIcon name="uil:car-sideview" icon-set="nuxt" />
+        <BaseIcon name="uil:envelope-minus" icon-set="nuxt" />
+        <BaseIcon name="uil:plane-departure" icon-set="nuxt" />
+        <BaseIcon name="uil:vuejs" color="teal" icon-set="nuxt" />
+        <BaseIcon name="uil:youtube" color="red" icon-set="nuxt" />
+        <BaseIcon name="uil:syringe" color="blue" icon-set="nuxt" />
+        <BaseIcon name="uil:shovel" icon-set="nuxt" />
         <BaseButton color="primary">
-          <BaseIcon icon="uil:trophy" class="q-mr-sm" icon-set="nuxt" /> With button
+          <BaseIcon name="uil:trophy" class="q-mr-sm" icon-set="nuxt" /> With button
         </BaseButton>
         <BaseButton outline>
-          <BaseIcon icon="uil:utensils-alt" color="pink" class="q-mr-sm" icon-set="nuxt" /> With
+          <BaseIcon name="uil:utensils-alt" color="pink" class="q-mr-sm" icon-set="nuxt" /> With
           button
         </BaseButton>
 
         <div class="text-h6">Quasar Icon</div>
-        <BaseIcon :icon="biAppIndicator" icon-set="quasar" />
-        <BaseIcon :icon="biPenFill" icon-set="quasar" color="blue-grey-13" />
-        <BaseIcon :icon="mdiAbTesting" icon-set="quasar" />
-        <BaseIcon :icon="mdiAccount" icon-set="quasar" />
-        <BaseIcon :icon="laAddressBook" icon-set="quasar" />
+        <BaseIcon :name="biAppIndicator" icon-set="quasar" />
+        <BaseIcon :name="biPenFill" icon-set="quasar" color="blue-grey-13" />
+        <BaseIcon :name="mdiAbTesting" icon-set="quasar" />
+        <BaseIcon :name="mdiAccount" icon-set="quasar" />
+        <BaseIcon :name="laAddressBook" icon-set="quasar" />
       </q-card-section>
     </BaseCard>
   </BasePage>

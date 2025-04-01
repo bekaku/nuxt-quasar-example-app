@@ -1,3 +1,5 @@
+import type { AppColor, IconSet, IHrefTarget } from "./common";
+
 export interface AvatarProps {
     src?: string;
     spinnerColor?: string;
@@ -13,6 +15,12 @@ export interface AvatarProps {
     borderedWidth?: string;
     alt?: string;
     badge?: BadgeProps
+}
+export interface Icon {
+    name: string
+    iconSet?: IconSet
+    size?: string
+    color?: AppColor | string
 }
 export interface BadgeProps {
     color?: AppColor;

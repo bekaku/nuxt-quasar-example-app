@@ -14,7 +14,7 @@ const pdfFromServer = ref<string>()
 const imageSelectIndex = ref<number>(0)
 const showImageView = ref(false)
 const imageItems = ref<FileManagerDto[]>([
-   {
+  {
     id: 1,
     fileMime: 'image/jpeg',
     fileName: 'Img001.jpg',
@@ -22,7 +22,7 @@ const imageItems = ref<FileManagerDto[]>([
       'https://images.unsplash.com/photo-1741540420894-46bc55554fc3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true,
+    isImage: true
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const imageItems = ref<FileManagerDto[]>([
       'https://images.unsplash.com/photo-1734983234384-5a3edcec48ce?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true,
+    isImage: true
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const imageItems = ref<FileManagerDto[]>([
       'https://images.unsplash.com/photo-1741531472824-b3fc55e2ff9c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true,
+    isImage: true
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ const imageItems = ref<FileManagerDto[]>([
       'https://images.unsplash.com/photo-1741509541812-5d8f3e96df23?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true,
+    isImage: true
   },
   {
     id: 5,
@@ -62,7 +62,7 @@ const imageItems = ref<FileManagerDto[]>([
       'https://images.unsplash.com/photo-1734630378523-c6735d798820?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    isImage: true,
+    isImage: true
   },
   {
     id: 6,
@@ -236,7 +236,7 @@ const fetchPdfFromServer = async () => {
 </script>
 <template>
   <BasePage class="content-limit">
-    <BaseCard title="Image/Pdf View" sub-title="This is subtitle" :icon="biInfoCircle">
+    <BaseCard title="Image/Pdf View" sub-title="This is subtitle" :icon="{ name: biInfoCircle }">
       <q-card-section class="q-gutter-md">
         <BaseButton label="Fetch Image from server" @click="fetchImageFromServer" />
         <BaseButton label="Download Image from server" @click="downloadImageFromServer" />

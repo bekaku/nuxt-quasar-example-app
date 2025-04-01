@@ -16,28 +16,28 @@ export const TabTest: LabelValue<any>[] = [
     {
         label: 'Point',
         to: `/tab-page/:${PageIdParamiter}/point`,
-        icon: biTrophy,
+        icon: { name: biTrophy },
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Photo',
         to: `/tab-page/:${PageIdParamiter}/photo`,
-        icon: biFileImage,
+        icon: { name: biFileImage },
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Video',
         to: `/tab-page/:${PageIdParamiter}/video`,
-        icon: biCameraVideo,
+        icon: { name: biCameraVideo },
         translateLabel: false,
         params: [PageIdParamiter]
     },
     {
         label: 'Tags',
         to: `/tab-page/:${PageIdParamiter}/tags`,
-        icon: biTags,
+        icon: { name: biTags },
         translateLabel: false,
         params: [PageIdParamiter]
     },
@@ -45,7 +45,7 @@ export const TabTest: LabelValue<any>[] = [
         label: 'Message',
         // to: `/tab-page/:${PageIdParamiter}/message`,
         to: '/example/ui/tabs',
-        icon: biChatDots,
+        icon: { name: biChatDots },
         translateLabel: false,
         params: [PageIdParamiter]
     },

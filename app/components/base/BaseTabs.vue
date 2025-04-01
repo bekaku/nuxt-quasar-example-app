@@ -73,7 +73,7 @@ const getCssClass = computed<string>(() => {
       <slot>
         <template v-for="(item, index) in getItems" :key="`${index}-${item.value}`">
           <q-tab
-            :icon="item.icon"
+            :icon="item.icon?.name"
             :label="item.translateLabel ? (item.label ? t(item.label) : undefined) : item.label"
             :name="item.value"
             :disable="item.disable"

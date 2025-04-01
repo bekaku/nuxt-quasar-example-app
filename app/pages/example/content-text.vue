@@ -76,7 +76,7 @@ const testExtractHashTag = () => {
             </BaseButton>
           </div>
           <div class="col-12 col-md-6 q-pa-md">
-            <BaseTextHeader :icon="biPencil" title="Ellipsis" />
+            <BaseTextHeader :icon="{name:biPencil}" title="Ellipsis" />
             <base-ellipsis class="q-mb-lg" :lines="4" clickable>
               {{ content }}
             </base-ellipsis>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common'
+import type { Icon } from '~/types/props';
 
 const { header = true, iconSize = '24px' } = defineProps<{
   title?: string
   subTitle?: string
-  icon?: string
+  icon?: Icon
   iconSet?: IconSet
   iconSize?: string
   header?: boolean
@@ -16,10 +17,8 @@ const { header = true, iconSize = '24px' } = defineProps<{
       <q-item-section v-if="icon" side>
         <BaseIcon
           v-if="icon"
-          :icon="icon"
-          :size="iconSize"
           class="q-text-black"
-          :icon-set="iconSet"
+          v-bind="{ ...icon, size: icon?.size || iconSize }"
         />
       </q-item-section>
     </slot>

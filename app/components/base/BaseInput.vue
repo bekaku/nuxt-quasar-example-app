@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { biX } from '@quasar/extras/bootstrap-icons'
 import type { VueMoneyConFig } from '~/types/common'
+import type { AvatarProps, Icon } from '~/types/props'
 
 const {
   dense = true,
@@ -9,13 +10,10 @@ const {
   filled = false,
   bottomSlots = false,
   outlined = true,
-  fetchImage = false,
   readonly = false,
   clearable = false,
   rounded = false,
   borderless = false,
-  iconSize = '24px',
-  avatarSize = '30px',
   type = 'text',
   autogrow = true,
   rows = 1,
@@ -32,8 +30,7 @@ const {
   stackLabel = false,
   required = false
 } = defineProps<{
-  avatar?: string
-  avatarSize?: string
+  avatar?: AvatarProps
   bottomSlots?: boolean
   borderless?: boolean
   autogrow?: boolean
@@ -42,11 +39,9 @@ const {
   dense?: boolean
   debounce?: number
   disable?: boolean
-  fetchImage?: boolean
   filled?: boolean
   hint?: string
-  icon?: string
-  iconSize?: string
+  icon?: Icon
   label?: string
   maxlength?: number
   min?: number
@@ -126,8 +121,8 @@ defineEmits<{
         </template>
         <template #prepend>
           <slot name="prepend">
-            <base-avatar v-if="avatar" :fetch-image="fetchImage" :src="avatar" :size="avatarSize" />
-            <q-icon v-else-if="icon" :name="icon" :size="iconSize" />
+            <base-avatar v-if="avatar" v-bind="{ ...avatar }" />
+            <BaseIcon v-else-if="icon" v-bind="{ ...icon }" />
           </slot>
         </template>
         <template #append>
@@ -199,8 +194,8 @@ defineEmits<{
     </template>
     <template v-if="viewShowPrepend" #prepend>
       <slot name="prepend">
-        <base-avatar v-if="avatar" :fetch-image="fetchImage" :src="avatar" :size="avatarSize" />
-        <q-icon v-else-if="icon" :name="icon" :size="iconSize" />
+        <base-avatar v-if="avatar"  v-bind="{ ...avatar}" />
+        <BaseIcon v-else-if="icon" v-bind="{ ...icon }" />
       </slot>
     </template>
     <template v-if="viewShowAppend" #append>

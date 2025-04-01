@@ -1,3 +1,4 @@
+import type { AvatarProps, Icon } from "./props";
 
 /* eslint-disable no-unused-vars */
 export enum HttpMethod {
@@ -352,16 +353,17 @@ export interface IFile {
     filePath?: string | null;
 }
 export interface LabelValue<Type> {
-    avatar?: string;
+    avatar?: AvatarProps;
     avatarSize?: string;
     border?: boolean;
     children?: LabelValue<Type>[]
-    color?: string;
+    color?: AppColor | string;
     disable?: boolean;
     description?: string;
     fetch?: boolean;
-    icon?: string;
-    iconSize?: string;
+    icon?: Icon;
+    // iconSet?: IconSet;
+    // iconSize?: string;
     label?: string;
     noActiveLink?: boolean;
     permissions?: string[];

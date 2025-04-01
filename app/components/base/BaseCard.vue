@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common'
+import type { Icon } from '~/types/props';
 
 const {
   flat = false,
@@ -14,7 +15,7 @@ const {
   bordered?: boolean
   title?: string
   subTitle?: string
-  icon?: string
+  icon?: Icon
   iconSet?: IconSet
   separator?: boolean
   bgTransparent?: boolean

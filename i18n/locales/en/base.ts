@@ -146,7 +146,7 @@ export default {
         language: 'Languages',
         help: 'Help',
         appearance: 'Appearance',
-        yourProfile: 'Youre profiile',
+        yourProfile: 'Your profiile',
         oldPassword: 'Old password',
         searchThisPage: 'Search this page list.',
         match: 'Match',
