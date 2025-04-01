@@ -32,11 +32,12 @@ const { t } = useLang()
     </BaseTooltip>
   </BaseButton>
   <q-menu v-else :anchor="anchor" :self="self" v-bind="$attrs" :auto-close="closeOnClick">
-    <q-list :style="{ minWidth: width }">
+    <q-list :style="{ minWidth: width }" dense class="q-pa-xs">
       <q-item
         v-for="theme in availableThemes"
         :key="theme.key"
         clickable
+          class="rounded"
         @click="onSetTheme(theme.key)"
       >
         <q-item-section avatar>

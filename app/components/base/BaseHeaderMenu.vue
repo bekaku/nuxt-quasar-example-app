@@ -61,8 +61,8 @@ const { isSmallScreen } = useAppDevice()
               <q-icon :name="isDark ? biMoon : biSun" />
             </q-item-section>
             <q-item-section>
-              <q-item-label lines="1">
-                {{ `${t('base.appearance')} : ${!isDark ? t('theme.light') : t('theme.dark')}` }}
+              <q-item-label>
+                {{ `${t('base.appearance')}: ` }}<span class="text-weight-medium">{{ !isDark ? t('theme.light') : t('theme.dark') }}</span>
               </q-item-label>
             </q-item-section>
             <q-item-section side>
@@ -79,8 +79,8 @@ const { isSmallScreen } = useAppDevice()
               <q-icon :name="biGlobe2" />
             </q-item-section>
             <q-item-section>
-              <q-item-label lines="1">
-                {{ `${t('base.language')} : ${currentLangugeName}` }}
+              <q-item-label>
+                {{ `${t('base.language')}: ` }}<span class="text-weight-medium">{{ currentLangugeName }}</span>
               </q-item-label>
             </q-item-section>
             <q-item-section side>
