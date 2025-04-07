@@ -105,7 +105,7 @@ export default defineNuxtConfig({
     ],
     cssAddon: true,
     // sassVariables: true,
-    sassVariables: '~/assets/scss/quasar.variables.scss',
+    sassVariables: '~/assets/css/quasar.variables.scss',
     quietSassWarnings: true,
     iconSet: {
       ...bootstrapIcons,

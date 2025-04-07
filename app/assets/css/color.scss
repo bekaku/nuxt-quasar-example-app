@@ -59,18 +59,6 @@
   --color-warning-900: #7e3010;
   --color-warning-950: #441506;
 
-  --color-info-50: #f0faff;
-  --color-info-100: #e0f4fe;
-  --color-info-200: #b9ebfe;
-  --color-info-300: #7cdcfd;
-  --color-info-400: #36cbfa;
-  --color-info-500: #0cb5eb;
-  --color-info-600: #00a0dc; //main
-  --color-info-700: #0174a3;
-  --color-info-800: #066286;
-  --color-info-900: #0b516f;
-  --color-info-950: #07344a;
-
   --color-zinc-50: oklch(0.985 0 0);
   --color-zinc-100: oklch(0.967 0.001 286.375);
   --color-zinc-200: oklch(0.92 0.004 286.32);
@@ -88,7 +76,7 @@
 }
 
 .bg-dark-900 {
-  background-color: var(--color-dark-900) !important;
+  background-color: var(--color-zinc-900) !important;
 }
 
 .text-message-sent {
@@ -117,11 +105,11 @@
 
 body.body--dark {
   .text-message-received {
-    color: var(--color-dark-900) !important;
+    color: var(--color-zinc-900) !important;
   }
 
   .text-message-unsend {
-    color: var(--color-dark-500) !important;
+    color: var(--color-zinc-500) !important;
   }
 
   .bg-app-content-item {
