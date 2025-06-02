@@ -36,9 +36,9 @@ export default defineNuxtConfig({
   ],
   compatibilityDate: '2024-12-14',
   css: [
-    '~/assets/scss/color.scss',
-    '~/assets/scss/app.scss',
-    '~/assets/scss/typography.scss',
+    '~/assets/css/color.scss',
+    '~/assets/css/app.scss',
+    '~/assets/css/typography.scss',
   ],
   devtools: { enabled: true },
   devServer: {

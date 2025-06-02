@@ -19,7 +19,7 @@ definePageMeta({
 })
 useInitPage()
 const { signin } = useAuth()
-const { t, currentLangugeName } = useLang()
+const { t } = useLang()
 const { isDark } = useTheme()
 const { getDeviceId } = useAppDevice()
 const { required } = useValidation()

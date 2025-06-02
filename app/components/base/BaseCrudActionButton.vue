@@ -141,7 +141,7 @@ const onDelete = (event: any) => {
       :label="!button || crudAction == undefined ? undefined : t('base.delete')"
       @click="onDelete"
     >
-      <BaseTooltip v-if="!button" class="bg-negative">
+      <BaseTooltip v-if="!button" color="negative">
         {{ t('base.delete') }}
       </BaseTooltip>
     </BaseButton>

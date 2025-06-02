@@ -13,19 +13,19 @@ const AppResult = defineAsyncComponent(
   () => import('@/components/base/AppResult.vue')
 );
 */
-import type { IResult } from '~/types/common'
+import { biInbox } from '@quasar/extras/bootstrap-icons';
 import {
   mdiAlert,
   mdiAlertBoxOutline,
   mdiAllergy,
   mdiCheckBold,
-  mdiInboxRemoveOutline,
   mdiInformationVariant,
   mdiPackageVariant,
   mdiPaperclip,
   mdiRobotConfused
-} from '@quasar/extras/mdi-v7'
-import type { Icon } from '~/types/props'
+} from '@quasar/extras/mdi-v7';
+import type { IResult } from '~/types/common';
+import type { Icon } from '~/types/props';
 
 const {
   status = 'info',
@@ -50,7 +50,7 @@ const getIcon = (): string => {
   //404, 403, 500, 418, info, success, error, warning
   switch (status) {
     case '404':
-      ic = mdiInboxRemoveOutline
+      ic = biInbox
       break
     case '403':
       ic = mdiAllergy
