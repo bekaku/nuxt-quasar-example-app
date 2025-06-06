@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
+import { useRbac } from '~/composables/useRbac'
 import type { LabelValue } from '~/types/common'
 const {
   dense = true,
@@ -17,7 +18,7 @@ const {
 const { screen } = useQuasar()
 const { t } = useLang()
 const { getParam } = useBase()
-const appStore = useAppStore()
+const { hasPermission } = useRbac()
 const getLink = (item: LabelValue<any>) => {
   let link = item.to
   const params = item.params
@@ -32,10 +33,7 @@ const getLink = (item: LabelValue<any>) => {
   return link
 }
 const canShow = (item: LabelValue<any>) => {
-  if (item.permissions == undefined) {
-    return true
-  }
-  return appStore.isHavePermission(item.permissions)
+  return item.rbac == undefined || hasPermission(item.rbac)
 }
 const getItems = computed<LabelValue<any>[]>(() => {
   return items.filter(t => canShow(t) === true)

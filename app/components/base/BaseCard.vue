@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common'
-import type { Icon } from '~/types/props';
+import type { IconProps } from '~/types/props';
 
 const {
   flat = false,
@@ -14,8 +14,8 @@ const {
   flat?: boolean
   bordered?: boolean
   title?: string
-  subTitle?: string
-  icon?: Icon
+  subtitle?: string
+  icon?: IconProps
   iconSet?: IconSet
   separator?: boolean
   bgTransparent?: boolean
@@ -52,7 +52,7 @@ const onHover = (state: boolean) => {
         v-if="icon || title"
         class="q-py-md q-px-lg"
         :title="title"
-        :sub-title="subTitle"
+        :subtitle="subtitle"
         :icon
       >
         <template #start>

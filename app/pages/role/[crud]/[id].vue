@@ -132,8 +132,12 @@ const updateSelectedAll = (val: boolean) => {
       :crud-action="crudAction"
       :crud-entity="crudEntity"
       :full-width="true"
-      :list-permission="[RolePermission.list]"
-      :manage-permission="[RolePermission.manage]"
+      :list-permission="{
+        permissions: [RolePermission.list]
+      }"
+      :manage-permission="{
+        permissions: [RolePermission.manage]
+      }"
       :loading="loading"
       @on-back="onBack"
       @on-submit="onSubmit"
@@ -166,7 +170,7 @@ const updateSelectedAll = (val: boolean) => {
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="{name:biShieldLock}" :title="t('model_permission')" />
+            <BaseTextHeader :icon="{ name: biShieldLock }" :title="t('model_permission')" />
             <q-card-section>
               <BaseCommandPalette
                 v-model="crudEntity.selectdPermissions"
@@ -191,7 +195,7 @@ const updateSelectedAll = (val: boolean) => {
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="{name:biShieldCheck}" :title="t('permissionGrant')" />
+            <BaseTextHeader :icon="{ name: biShieldCheck }" :title="t('permissionGrant')" />
             <q-card-section>
               <BaseScrollArea height="450px">
                 <q-list v-if="crudEntity.selectdPermissions.length > 0">

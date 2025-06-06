@@ -26,6 +26,8 @@ import {
   biX
 } from '@quasar/extras/bootstrap-icons'
 import { getValFromObjectByPath } from '~/utils/appUtil'
+import type { RBACProps } from '~/types/props'
+import { useRbac } from '~/composables/useRbac'
 const {
   icon = biFile,
   showPaging = true,
@@ -50,8 +52,8 @@ const {
   rowClickable = true
 } = defineProps<{
   crudName?: string
-  viewPermission?: string[]
-  managePermission?: string[]
+  viewPermission?: RBACProps
+  managePermission?: RBACProps
   byPassPermission?: boolean
   title?: string
   icon?: string
@@ -73,21 +75,6 @@ const {
   tableSeperator?: 'horizontal' | 'vertical' | 'cell' | 'none' | undefined
   rowClickable?: boolean
 }>()
-// const emit = defineEmits([
-//     'on-page-no-change',
-//     'on-items-perpage-change',
-//     'update-search',
-//     'on-sort',
-//     'on-sort-mode',
-//     'on-item-copy',
-//     'on-item-click',
-//     'on-item-delete',
-//     'on-new-form',
-//     'on-reload',
-//     'on-advance-search',
-//     'on-keyword-search',
-//     'on-row-click',
-// ]);
 
 const emit = defineEmits<{
   'on-page-no-change': [v: number | undefined]
@@ -104,6 +91,7 @@ const emit = defineEmits<{
   'on-keyword-search': [q: string]
   'on-col-click': [event: any, index: number, headerOption: any, colValue: any]
 }>()
+const { hasPermission } = useRbac()
 const { t, locale } = useLang()
 const { formatDate, formatDateTime } = useDateFns()
 const { searchOperations } = useConstant()
@@ -245,20 +233,23 @@ const isHaveViewPermission = computed(() => {
   if (byPassPermission) {
     return true
   }
-  return viewPermission && viewPermission.length > 0
-    ? appStore.isHavePermission(viewPermission)
+  return viewPermission && viewPermission?.permissions && viewPermission?.permissions?.length > 0
+    ? hasPermission(viewPermission)
     : crudName
-      ? appStore.isHavePermission([`${crudName}_view`])
+      ? hasPermission({ permissions: [`${crudName}_view`] })
       : true
 })
 const isHaveManagePermission = computed(() => {
   if (byPassPermission) {
     return true
   }
-  return managePermission && managePermission.length > 0
-    ? appStore.isHavePermission(managePermission)
+
+  return managePermission &&
+    managePermission?.permissions &&
+    managePermission?.permissions?.length > 0
+    ? hasPermission(managePermission)
     : crudName
-      ? appStore.isHavePermission([`${crudName}_manage`])
+      ? hasPermission({ permissions: [`${crudName}_manage`] })
       : true
 })
 const dateForMat = (d: string, format: string | undefined = undefined) => {

@@ -16,7 +16,7 @@ export interface AvatarProps {
     alt?: string;
     badge?: BadgeProps
 }
-export interface Icon {
+export interface IconProps {
     name: string
     iconSet?: IconSet
     size?: string
@@ -64,4 +64,9 @@ export interface ButtonProps {
     unelevated?: boolean;
     textCapitalize?: boolean;
     dark?: boolean;
+    rbac?: RBACProps;
+}
+export interface RBACProps {
+  permissions?: string[];
+  condition?: 'any' | 'all' | 'not';
 }

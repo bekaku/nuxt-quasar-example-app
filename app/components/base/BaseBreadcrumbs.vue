@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { useRbac } from '~/composables/useRbac';
 import type { LabelValue, AppColor } from '~/types/common'
-import type { Icon } from '~/types/props'
+import type { IconProps } from '~/types/props'
 
 const {
   items,
@@ -10,7 +11,7 @@ const {
 } = defineProps<{
   items: LabelValue<any>[]
   showSeparator?: boolean
-  separatorIcon?: Icon
+  separatorIcon?: IconProps
   activeColor?: string
   textColor?: AppColor
 }>()
@@ -18,11 +19,12 @@ const appStore = useAppStore()
 const { t } = useLang()
 const { isDark } = useTheme()
 const { getParam, getQuery } = useBase()
+const { hasPermission } = useRbac();
 const canShow = (item: LabelValue<any>) => {
-  if (item.permissions == undefined) {
+  if (item.rbac == undefined) {
     return true
   }
-  return appStore.isHavePermission(item.permissions)
+  return hasPermission(item.rbac)
 }
 const getItems = computed<LabelValue<any>[]>(() => {
   return items.filter(t => canShow(t) === true)

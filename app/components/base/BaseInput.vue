@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { biX } from '@quasar/extras/bootstrap-icons'
 import type { VueMoneyConFig } from '~/types/common'
-import type { AvatarProps, Icon } from '~/types/props'
+import type { AvatarProps, IconProps } from '~/types/props'
 
 const {
   dense = true,
@@ -41,7 +41,7 @@ const {
   disable?: boolean
   filled?: boolean
   hint?: string
-  icon?: Icon
+  icon?: IconProps
   label?: string
   maxlength?: number
   min?: number

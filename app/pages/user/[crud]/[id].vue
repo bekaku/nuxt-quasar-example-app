@@ -137,8 +137,12 @@ const onChangePassword = async () => {
       :crud-name="crudName"
       :crud-action="crudAction"
       :crud-entity="crudEntity"
-      :list-permission="[UserPermission.list]"
-      :manage-permission="[UserPermission.manage]"
+      :list-permission="{
+        permissions: [UserPermission.list]
+      }"
+      :manage-permission="{
+        permissions: [UserPermission.manage]
+      }"
       :loading="loading"
       @on-back="onBack"
       @on-submit="onSubmit"
@@ -225,7 +229,7 @@ const onChangePassword = async () => {
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="{name:biPeople}" :title="t('model_role')" />
+            <BaseTextHeader :icon="{ name: biPeople }" :title="t('model_role')" />
             <q-card-section>
               <BaseCommandPalette
                 v-model="crudEntity.selectedRoles"
@@ -251,7 +255,7 @@ const onChangePassword = async () => {
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="{name:biCheckCircle}" :title="t('userRoleSelected')" />
+            <BaseTextHeader :icon="{ name: biCheckCircle }" :title="t('userRoleSelected')" />
             <q-card-section v-if="crudEntity.selectedRoles">
               <BaseScrollArea height="250px">
                 <q-list v-if="crudEntity.selectedRoles.length > 0" dense>

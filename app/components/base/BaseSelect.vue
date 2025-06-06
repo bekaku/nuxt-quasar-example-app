@@ -1,7 +1,6 @@
 <script setup lang="ts" generic="T">
-import { biCheck, biChevronExpand, biX } from '@quasar/extras/bootstrap-icons'
-import type { LabelValue } from '~/types/common'
-import type { Icon } from '~/types/props'
+import { biCheck, biChevronExpand, biX } from '@quasar/extras/bootstrap-icons';
+import type { LabelValue } from '~/types/common';
 const {
   optionValue = 'value',
   optionLabel = 'label',

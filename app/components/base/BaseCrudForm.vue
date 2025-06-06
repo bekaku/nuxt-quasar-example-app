@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { biArrowLeft, biFile } from '@quasar/extras/bootstrap-icons'
-import type { ICrudAction } from '~/types/common'
+import { biArrowLeft, biFile } from '@quasar/extras/bootstrap-icons';
+import { useRbac } from '~/composables/useRbac';
+import type { ICrudAction } from '~/types/common';
+import type { RBACProps } from '~/types/props';
 const {
   crudName,
   managePermission,
@@ -18,8 +20,8 @@ const {
   crudAction
 } = defineProps<{
   crudName?: string
-  listPermission?: string[]
-  managePermission?: string[]
+  listPermission?: RBACProps
+  managePermission?: RBACProps
   byPassPermission?: boolean
   title?: string
   icon?: string
@@ -36,26 +38,28 @@ const {
   buttonSize?: string
 }>()
 const emit = defineEmits(['on-back', 'on-submit', 'on-delete', 'on-edit-enable'])
-const appStore = useAppStore()
 const { t } = useLang()
+const { hasPermission } = useRbac()
 const isHaveManagePermission = computed(() => {
   if (byPassPermission) {
     return true
   }
-  return managePermission && managePermission.length > 0
-    ? appStore.isHavePermission(managePermission)
+  return managePermission &&
+    managePermission?.permissions &&
+    managePermission?.permissions?.length > 0
+    ? hasPermission(managePermission)
     : crudName
-      ? appStore.isHavePermission([`${crudName}_manage`])
+      ? hasPermission({ permissions: [`${crudName}_manage`] })
       : true
 })
 const isHaveListPermission = computed(() => {
   if (byPassPermission) {
     return true
   }
-  return listPermission && listPermission.length > 0
-    ? appStore.isHavePermission(listPermission)
+  return listPermission && listPermission?.permissions && listPermission?.permissions.length > 0
+    ? hasPermission(listPermission)
     : crudName
-      ? appStore.isHavePermission([`${crudName}_list`])
+      ? hasPermission({ permissions: [`${crudName}_list`] })
       : true
 })
 

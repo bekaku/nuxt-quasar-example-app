@@ -2,7 +2,7 @@
 import { biX } from '@quasar/extras/bootstrap-icons'
 import { mdiLightbulbOnOutline } from '@quasar/extras/mdi-v7'
 import type { IAlert } from '~/types/common'
-import type { Icon } from '~/types/props'
+import type { IconProps } from '~/types/props'
 
 const {
   dense = false,
@@ -14,7 +14,7 @@ const {
   message: string
   title?: string
   type?: IAlert
-  icon?: Icon
+  icon?: IconProps
   dense?: boolean
   radius?: boolean
   closeable?: boolean

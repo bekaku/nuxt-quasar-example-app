@@ -171,7 +171,7 @@ const onEndDrag = () => {
 </script>
 <template>
   <BasePage>
-    <BaseCard title="Dragdrop" sub-title="https://github.com/SortableJS/vue.draggable.next">
+    <BaseCard title="Dragdrop" subtitle="https://github.com/SortableJS/vue.draggable.next">
       <q-no-ssr>
         <q-scroll-area :style="{ height: '75vh', maxWidth: '100vw' }">
           <div class="row no-wrap">

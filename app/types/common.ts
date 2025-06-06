@@ -1,4 +1,4 @@
-import type { AvatarProps, Icon } from "./props";
+import type { AvatarProps, IconProps, RBACProps } from "./props";
 
 /* eslint-disable no-unused-vars */
 export enum HttpMethod {
@@ -361,13 +361,12 @@ export interface LabelValue<Type> {
     disable?: boolean;
     description?: string;
     fetch?: boolean;
-    icon?: Icon;
+    icon?: IconProps;
     // iconSet?: IconSet;
     // iconSize?: string;
     label?: string;
     noActiveLink?: boolean;
-    permissions?: string[];
-    permission?: string;
+    rbac?: RBACProps;
     params?: string[];
     queries?: string[];
     to?: string;

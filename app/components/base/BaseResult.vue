@@ -25,7 +25,7 @@ import {
   mdiRobotConfused
 } from '@quasar/extras/mdi-v7';
 import type { IResult } from '~/types/common';
-import type { Icon } from '~/types/props';
+import type { IconProps } from '~/types/props';
 
 const {
   status = 'info',
@@ -37,7 +37,7 @@ const {
   status?: IResult
   title?: string
   description?: string
-  icon?: Icon
+  icon?: IconProps
   iconSize?: string
   size?: string
   hideBg?: boolean

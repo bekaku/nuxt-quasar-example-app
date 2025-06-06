@@ -118,8 +118,12 @@ const {
       :sort="sort"
       :list="dataList"
       show-search-text-box
-      :view-permission="[UserPermission.view]"
-      :manage-permission="[UserPermission.manage]"
+      :view-permission="{
+        permissions: [UserPermission.view]
+      }"
+      :manage-permission="{
+        permissions: [UserPermission.manage]
+      }"
       @on-item-click="onItemClick"
       @on-item-copy="onItemCopy"
       @on-page-no-change="onPageNoChange"

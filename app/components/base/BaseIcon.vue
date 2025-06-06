@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Icon } from '~/types/props'
+import type { IconProps } from '~/types/props'
 /*
 https://iconify.design/, https://icones.js.org/ , https://quasar.dev/vue-components/icon
 <BaseIcon name="lucide:cookie" icon-set="nuxt" />
 <BaseIcon :name="mdiAbTesting" icon-set="quasar" />
 */
-const { iconSet = 'quasar', size = '24px' } = defineProps<Icon>()
+const { iconSet = 'quasar', size = '24px' } = defineProps<IconProps>()
 </script>
 <template>
   <Icon

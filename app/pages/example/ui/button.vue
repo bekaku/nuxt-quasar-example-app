@@ -54,8 +54,8 @@ useHead({
         <div class="q-pa-md q-gutter-sm">
           <BaseButton label="Light" light />
           <BaseButton>
-              <BaseIcon name="lucide:accessibility" icon-set="nuxt"/> Custom nuxt icon
-            </BaseButton>
+            <BaseIcon name="lucide:accessibility" icon-set="nuxt" /> Custom nuxt icon
+          </BaseButton>
           <BaseButton label="Dark" dark />
           <BaseButton round flat :icon="biWrench" />
           <BaseButton label="Standard" />
@@ -124,6 +124,46 @@ useHead({
           <BaseButton label="Stop loading" color="negative" @click="progress = false" />
 
           <BaseButton label="Full" full />
+        </div>
+      </q-card-section>
+    </BaseCard>
+
+    <BaseCard title="RBAC" subtitle="Role based access control">
+      <q-card-section>
+        <div class="q-gutter-md">
+          <BaseButton
+            label="Single permission"
+            :rbac="{
+              permissions: ['user_manage']
+            }"
+          />
+          <BaseButton
+            label="Any of multiple permissions"
+            :rbac="{
+              permissions: ['user_manage_not_exist', 'file_manager_list'],
+              condition: 'any'
+            }"
+          />
+          <BaseButton
+            label="All permissions required"
+            :rbac="{
+              permissions: ['user_list', 'user_view', 'user_delete'],
+              condition: 'all'
+            }"
+          />
+          <BaseButton
+            label="Negation (not)"
+            :rbac="{
+              permissions: ['user_manage_not_exist'],
+              condition: 'not'
+            }"
+          />
+          <BaseButton
+            label="This is Not eligible"
+            :rbac="{
+              permissions: ['user_manage_not_exist']
+            }"
+          />
         </div>
       </q-card-section>
     </BaseCard>

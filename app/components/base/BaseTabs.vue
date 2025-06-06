@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
+import { useRbac } from '~/composables/useRbac'
 import type { AppColor, LabelValue } from '~/types/common'
 const {
   animated = true,
@@ -31,14 +32,11 @@ const {
 }>()
 const { screen } = useQuasar()
 const { t } = useLang()
-const appStore = useAppStore()
 const modelValue = defineModel<string | undefined>()
 
+const { hasPermission } = useRbac()
 const canShow = (item: LabelValue<any>) => {
-  if (item.permissions == undefined) {
-    return true
-  }
-  return appStore.isHavePermission(item.permissions)
+  return item.rbac == undefined || hasPermission(item.rbac)
 }
 const getItems = computed<LabelValue<any>[]>(() => {
   return filterAcl ? items.filter(t => canShow(t) === true) : items

@@ -89,7 +89,7 @@ const onCropImageEnd = (imageUrl: string) => {
 </BaseCard> -->
     <!-- <base-image-cropper :title="t('cropAvatar')" :dialog="showImageCroper" @on-close="onCloseImageCropper" @on-okay="onCropImage"/> -->
 
-    <BaseCard title="Image Cropper" sub-title="Ratio">
+    <BaseCard title="Image Cropper" subtitle="Ratio">
       <BaseRadio v-model="ratioSelected" :items="ratioOptions" />
       <ClientOnly>
         <BaseImageCropper

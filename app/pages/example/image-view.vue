@@ -236,7 +236,7 @@ const fetchPdfFromServer = async () => {
 </script>
 <template>
   <BasePage class="content-limit">
-    <BaseCard title="Image/Pdf View" sub-title="This is subtitle" :icon="{ name: biInfoCircle }">
+    <BaseCard title="Image/Pdf View" subtitle="This is subtitle" :icon="{ name: biInfoCircle }">
       <q-card-section class="q-gutter-md">
         <BaseButton label="Fetch Image from server" @click="fetchImageFromServer" />
         <BaseButton label="Download Image from server" @click="downloadImageFromServer" />

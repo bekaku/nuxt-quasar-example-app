@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonProps } from '~/types/props';
+import type { ButtonProps } from '~/types/props'
 const {
   outline = false,
   noCaps = true,
@@ -17,7 +17,8 @@ const {
   color = 'primary',
   light = false,
   textCapitalize = true,
-  dark = false
+  dark = false,
+  rbac
 } = defineProps<ButtonProps>()
 const { isDark } = useTheme()
 </script>
@@ -33,60 +34,62 @@ const { isDark } = useTheme()
             ? undefined
             : outlineColor || color
     " -->
-  <q-btn
-    v-bind="$attrs"
-    :outline
-    :label="!outline ? label : undefined"
-    :color="
-      light && dark
-        ? undefined
-        : flat && label == undefined
+  <BaseRbac :rbac>
+    <q-btn
+      v-bind="$attrs"
+      :outline
+      :label="!outline ? label : undefined"
+      :color="
+        light && dark
           ? undefined
-          : outline && outlineColor == undefined
+          : flat && label == undefined
             ? undefined
-            : outlineColor || color
-    "
-    :text-color="light ? (isDark ? 'white' : 'black') : textColor"
-    :no-caps="noCaps"
-    :unelevated
-    :glossy
-    :flat
-    :href
-    :icon="!outline ? icon : undefined"
-    :icon-right="!outline ? iconRight : undefined"
-    :stack
-    :round
-    :square
-    :push
-    :rounded
-    :align
-    :size
-    :loading
-    :to
-    :disable
-    :dense
-    :target
-    :type
-    :class="{
-      'defult-outline': label && !outlineColor && outline,
-      'full-width': full,
-      'text-capitalize': textCapitalize,
-      'btn-dark': dark,
-      'btn-light': light
-    }"
-  >
-    <!-- 'default-button': !outline && !unelevated && !flat && !glossy && !stack && !push -->
-    <template v-if="outline">
-      <div
-        :class="`text-${textColor ? textColor : outlineColor ? outlineColor : !isDark ? 'black' : 'white'}`"
-      >
-        <!-- <div :class="`text-${textColor ? textColor: outlineColor ? outlineColor:color ?color:  !isDark ? 'black' :'white'}`"> -->
-        <q-icon v-if="icon" :name="icon" class="q-mr-sm" />{{ label }}
-        <q-icon v-if="iconRight" :name="iconRight" class="q-ml-sm" />
-      </div>
-    </template>
-    <slot />
-  </q-btn>
+            : outline && outlineColor == undefined
+              ? undefined
+              : outlineColor || color
+      "
+      :text-color="light ? (isDark ? 'white' : 'black') : textColor"
+      :no-caps="noCaps"
+      :unelevated
+      :glossy
+      :flat
+      :href
+      :icon="!outline ? icon : undefined"
+      :icon-right="!outline ? iconRight : undefined"
+      :stack
+      :round
+      :square
+      :push
+      :rounded
+      :align
+      :size
+      :loading
+      :to
+      :disable
+      :dense
+      :target
+      :type
+      :class="{
+        'defult-outline': label && !outlineColor && outline,
+        'full-width': full,
+        'text-capitalize': textCapitalize,
+        'btn-dark': dark,
+        'btn-light': light
+      }"
+    >
+      <!-- 'default-button': !outline && !unelevated && !flat && !glossy && !stack && !push -->
+      <template v-if="outline">
+        <div
+          :class="`text-${textColor ? textColor : outlineColor ? outlineColor : !isDark ? 'black' : 'white'}`"
+        >
+          <!-- <div :class="`text-${textColor ? textColor: outlineColor ? outlineColor:color ?color:  !isDark ? 'black' :'white'}`"> -->
+          <q-icon v-if="icon" :name="icon" class="q-mr-sm" />{{ label }}
+          <q-icon v-if="iconRight" :name="iconRight" class="q-ml-sm" />
+        </div>
+      </template>
+      <slot />
+    </q-btn>
+  </BaseRbac>
 </template>
 <style scoped lang="scss">
 .defult-outline {
