@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useLang } from '~/composables/useLang';
-const { initialLocale, t } = useLang();
-const { initialQuasarDark, isDark } = useTheme();
-const { isServer } = useAppDevice();
+import { useLang } from '~/composables/useLang'
+const { initialLocale, t } = useLang()
+const { initialQuasarDark, isDark } = useTheme()
+const { isServer } = useAppDevice()
 
-const color = computed(() => isDark.value ? '#111827' : 'white')
+const color = computed(() => (isDark.value ? '#111827' : 'white'))
 useHead({
-  titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - ${t('app.name')}` : t('app.name');
+  titleTemplate: titleChunk => {
+    return titleChunk ? `${titleChunk} - ${t('app.name')}` : t('app.name')
   },
   meta: [
     { charset: 'utf-8' },
@@ -28,10 +28,10 @@ useSeoMeta({
   ogDescription: 'This is my amazing site, let me tell you all about it.',
   ogImage: 'https://example.com/image.png',
   twitterCard: 'summary_large_image',
-  ogUrl: 'https://app.yourdomain.com',
+  ogUrl: 'https://app.yourdomain.com'
 })
-initialLocale();
-initialQuasarDark();
+initialLocale()
+initialQuasarDark()
 </script>
 <template>
   <div>

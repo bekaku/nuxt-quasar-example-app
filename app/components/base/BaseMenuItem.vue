@@ -41,13 +41,6 @@ const isActive = computed(() => {
           :class="{ 'q-text-black': !isActive, 'active-menu-link': isActive }"
           v-bind="{ ...item.icon, size: item.icon.size || iconSize }"
         />
-        <!-- <BaseIcon
-          v-if="item.icon"
-          :name="item.icon"
-          :size="item.iconSize"
-          :color="item.color || 'light'"
-          :icon-set="item.iconSet || 'quasar'"
-        /> -->
       </template>
     </q-item-section>
     <q-item-section>

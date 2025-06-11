@@ -10,9 +10,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
     // console.log('middleware > initAuth.global > Pagename: ', to.name, ', path: ',to.path);
     // skip middleware on client side entirely
     // if (import.meta.client) return
-
-    // skip middleware on server
-    // if (import.meta.server) return
+    // skip middleware on client
+    if (!import.meta.server) return
 
     // if (AuthNoInitialPath.includes(to.path)) return
     if (to.name == undefined || (typeof to.name !== 'string')) return
@@ -28,7 +27,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (!jwtToken.value) return;
     const appStore = useAppStore();
     const { callAxiosProcess } = useAxios();
-    const { initialAppNav } = useMenu();
+    // const { initialAppNav } = useMenu();
     try {
         const response = await callAxiosProcess<UserDto>({
             API: '/api/user/currentUserData',
@@ -38,8 +37,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
             authenStore.setAuthen(response.data);
             if (response.data.permissions && response.data.permissions.length > 0) {
                 appStore.setPermissions(response.data.permissions);
+                // await initialAppNav();
             }
-            await initialAppNav();
         }
     } catch (error) {
         const errors = error as AxiosError;

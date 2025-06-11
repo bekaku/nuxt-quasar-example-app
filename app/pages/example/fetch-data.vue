@@ -23,7 +23,7 @@ const responseError = ref<any>()
 const responseErrorLoading = ref<boolean>(false)
 //https://nuxt.com/docs/getting-started/data-fetching
 const { data, refresh, clear, status, error } = await useAsyncData<Permission>(
-  'gd5:test',
+  'permission-test',
   async () => {
     const response = await callAxios<any>({
       API: '/api/permission/1',

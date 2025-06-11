@@ -419,7 +419,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                     :key="`advance-search-${searchIndex}`"
                   >
                     <div v-if="searchCol.options" class="col-12 col-md-4 q-pa-sm">
-                      <div class="q-gutter-md row items-center">
+                      <div class="q-gutter-md row items-center justify-start">
                         <template
                           v-if="
                             searchCol.options?.searchType == ICrudListHeaderOptionSearchType.TEXT ||
@@ -499,6 +499,27 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                               "
                             />
                           </template>
+                        </template>
+                         <template
+                          v-else-if="
+                            searchCol.options?.searchType ==
+                              ICrudListHeaderOptionSearchType.OPTIONS &&
+                            searchCol.options?.selectOption
+                          "
+                        >
+                            <LazyBaseSelect
+                              class="q-pl-lg full-width"
+                              v-model="searchCol.options.searchModel"
+                              can-filter
+                              clearable
+                              :items="searchCol.options?.selectOption.items"
+                              :multiple="searchCol.options?.selectOption.multiple || false"
+                              :label="
+                                searchCol.translateLabel == undefined || searchCol.translateLabel
+                                  ? t(searchCol.label)
+                                  : searchCol.label
+                              "
+                            />
                         </template>
                       </div>
                     </div>

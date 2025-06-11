@@ -3,15 +3,16 @@ import { ref } from 'vue';
 import type { LabelValue } from "~/types/common";
 
 export const useAppStore = defineStore('appStore', () => {
-
+    const { initialAppNav } = useMenu();
     const { isMobileOrTablet } = useAppDevice();
     const permissions = ref<string[]>([]);
     const drawers = ref<LabelValue<any>[]>([]);
     const drawerOpen = ref<boolean>(!isMobileOrTablet);
     const expandDrawer = ref<boolean>(!isMobileOrTablet);
 
-    const setPermissions = (items: string[]) => {
+    const setPermissions = async (items: string[]) => {
         permissions.value = items;
+        await initialAppNav();
     }
 
     const setDrawers = (items: LabelValue<any>[]) => {

@@ -1,6 +1,5 @@
 import { AuthNoFilterPage } from '~/libs/constants';
 export default defineNuxtRouteMiddleware((to) => {
-
     if (to.name == undefined ||  (typeof to.name !== 'string') ) return
     const baseRouteName = to?.name?.replace(/___[a-z]{2}$/, '');
     if (typeof to.name == 'string' && AuthNoFilterPage.includes(baseRouteName)) return

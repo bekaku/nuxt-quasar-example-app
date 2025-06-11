@@ -23,17 +23,6 @@ const {
 const { isDark } = useTheme()
 </script>
 <template>
-  <!-- :color="
-      light
-        ? isDark
-          ? 'grey-9'
-          : 'grey-3'
-        : flat && label == undefined
-          ? undefined
-          : outline && outlineColor == undefined
-            ? undefined
-            : outlineColor || color
-    " -->
   <BaseRbac :rbac>
     <q-btn
       v-bind="$attrs"
@@ -77,12 +66,10 @@ const { isDark } = useTheme()
         'btn-light': light
       }"
     >
-      <!-- 'default-button': !outline && !unelevated && !flat && !glossy && !stack && !push -->
       <template v-if="outline">
         <div
           :class="`text-${textColor ? textColor : outlineColor ? outlineColor : !isDark ? 'black' : 'white'}`"
         >
-          <!-- <div :class="`text-${textColor ? textColor: outlineColor ? outlineColor:color ?color:  !isDark ? 'black' :'white'}`"> -->
           <q-icon v-if="icon" :name="icon" class="q-mr-sm" />{{ label }}
           <q-icon v-if="iconRight" :name="iconRight" class="q-ml-sm" />
         </div>

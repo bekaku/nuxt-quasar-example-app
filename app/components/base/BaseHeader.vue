@@ -5,6 +5,7 @@ import {
   biCameraVideo,
   biChatDots,
   biLayoutSidebar,
+  biGithub,
   biSearch
 } from '@quasar/extras/bootstrap-icons'
 import { useQuasar } from 'quasar'
@@ -118,6 +119,14 @@ onBeforeUnmount(() => {
         <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
           <BaseTooltip>Messages</BaseTooltip>
         </q-btn>
+         <q-btn
+          :icon="biGithub"
+          flat
+          round
+          dense
+          href="https://github.com/bekaku/nuxt-quasar-example-app"
+          target="_blank"
+        />
         <q-btn v-if="!screen.gt.xs" round dense flat @click="onOpenSearch">
           <q-icon :name="biSearch" />
         </q-btn>

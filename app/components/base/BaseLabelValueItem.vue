@@ -52,13 +52,6 @@ const onClick = () => {
             v-if="item.icon != undefined"
             v-bind="{ ...item.icon, size: item.icon.size || iconSize }"
           />
-          <!-- <BaseIcon
-            v-if="item.icon"
-            :name="item.icon"
-            :size="item.iconSize"
-            :color="item.color || 'light'"
-            :icon-set="item.iconSet || 'quasar'"
-          /> -->
         </template>
       </q-item-section>
     </slot>

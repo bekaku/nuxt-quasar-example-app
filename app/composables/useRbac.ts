@@ -4,7 +4,7 @@ export const useRbac = () => {
     const { permissions } = useAppStore();
 
     const isPermited = (code: string): boolean => {
-        return permissions.find((t: string) => t === code) != undefined;
+        return permissions != undefined &&permissions != null && permissions.find((t: string) => t === code) != undefined;
     }
     const isHavePermission = (codes: string[] | undefined): boolean => {
         if (codes == undefined || codes.length == 0) {
@@ -59,14 +59,15 @@ export const useRbac = () => {
 
         return false;
     }
-    const hasPermissionLazy = (rbac: RBACProps | undefined): Promise<boolean> => {
+    const hasPermissionLazy = async (rbac: RBACProps | undefined): Promise<boolean> => {
+        const isHave = await isHavePermissionLazy(rbac?.permissions)
         return new Promise((resolve) => {
-            const isHave = hasPermission(rbac)
             resolve(isHave);
         })
     }
     return {
         hasPermission,
-        hasPermissionLazy
+        hasPermissionLazy,
+        isHavePermissionLazy
     }
 };

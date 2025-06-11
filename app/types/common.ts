@@ -27,6 +27,7 @@ export enum ICrudListHeaderOptionSearchType {
     BOOLEAN,
     DATE,
     DATETIME,
+    OPTIONS
 }
 export type IconSet = 'nuxt' | 'quasar';
 export type Date = string;
@@ -299,6 +300,10 @@ export interface ICrudListHeaderOption {
     trueIcon?: string;
     falseIcon?: string;
     clickable?: boolean;
+    selectOption?: {
+        items: LabelValue<any>[]
+        multiple?: boolean
+    };
 }
 export interface ICrudListHeader {
     column?: string;
