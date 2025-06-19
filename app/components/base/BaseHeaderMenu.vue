@@ -54,7 +54,7 @@ const { isSmallScreen } = useAppDevice()
           </q-item-section>
           <q-item-section>{{ t('base.yourProfile') }}</q-item-section>
         </q-item>
-        <q-separator />
+        <q-separator class="q-my-xs"/>
         <template v-if="isSmallScreen">
           <q-item clickable class="rounded">
             <q-item-section avatar>
@@ -92,7 +92,7 @@ const { isSmallScreen } = useAppDevice()
             />
           </q-item>
 
-          <q-separator />
+          <q-separator class="q-my-xs" />
         </template>
         <q-item v-close-popup clickable class="rounded">
           <q-item-section avatar>
