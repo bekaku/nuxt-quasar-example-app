@@ -16,7 +16,8 @@ export const useAuth = () => {
         });
         if (response && response.authenticationToken) {
             await authenStore.setAuthenCookie(response);
-            appNavigateTo('/', { replace: true })
+            // appNavigateTo('/', { replace: true })
+            window.location.replace('/');
         }
         return new Promise((resolve) => resolve(true));
     }
