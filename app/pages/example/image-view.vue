@@ -254,18 +254,21 @@ const fetchPdfFromServer = async () => {
                 :key="`img-${i}-${item.fileName}`"
                 class="col-4 col-md-3 q-pa-xs"
               >
+                 <div style="overflow: hidden;" class="rounded">
                 <base-files-preview-item
-                  style="border-radius: 10px"
                   :item="item"
                   :index="i"
                   :show-delete="false"
+                  hover-zoom
                   show-tooltip
                   :use-thumbnail="false"
+                    class="rounded"
                   image-size="100%"
                   :show-name="false"
                   :show-size="false"
                   @on-click="onImgPreviewClick"
                 />
+                </div>
               </div>
             </div>
           </div>

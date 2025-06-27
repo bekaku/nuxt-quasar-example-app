@@ -8,37 +8,29 @@
       </base-avatar-group>
    */
 
-withDefaults(
-  defineProps<{
-    items: string[]
-    spinnerColor?: string
-    color?: string
-    imgBg?: string
-    ratio?: number
-    height?: number
-    size?: string
-    square?: boolean
-    rounded?: boolean
-    fetch?: boolean
-    limit?: number
-    boderColor?: string
-    overrapSize?: string
-  }>(),
-  {
-    boderColor: '#fff',
-    spinnerColor: 'white',
-    imgBg: 'bg-grey-8',
-    ratio: 4 / 3,
-    size: '40px',
-    square: false,
-    rounded: false,
-    fetch: false,
-    bordered: false,
-    height: 0,
-    limit: 5,
-    overrapSize: '-10px'
-  }
-)
+const {
+  boderColor = 'white',
+  ratio = 1,
+  size = '40px',
+  square = false,
+  rounded = false,
+  fetch = false,
+  limit = 5,
+  overrapSize = '-10px',
+} = defineProps<{
+  items: string[];
+  spinnerColor?: string;
+  color?: string;
+  imgBg?: string;
+  ratio?: number;
+  size?: string;
+  square?: boolean;
+  rounded?: boolean;
+  fetch?: boolean;
+  limit?: number;
+  boderColor?: string;
+  overrapSize?: string;
+}>();
 </script>
 <template>
   <div class="avatar-group" v-bind="$attrs">
@@ -51,13 +43,15 @@ withDefaults(
         class="avatar"
         :src="item"
         :fetch="fetch"
-        :ratio="1"
-        :style="{ zIndex: limit - index }"
+        :ratio="ratio"
+       :style="{ zIndex: limit + index }"
       >
         <slot name="extra" v-bind="{ index }" />
       </base-image>
       <slot name="moreNumber">
-        <div v-if="items.length > 5" class="avatar extra">+{{ items.length - 5 }}</div>
+         <div v-if="items.length > limit" class="avatar extra" :style="{ zIndex: items.length + 5 }">
+          +{{ items.length - limit }}
+        </div>
       </slot>
     </slot>
   </div>

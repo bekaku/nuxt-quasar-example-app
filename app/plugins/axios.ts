@@ -51,7 +51,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         (response) => response,
         async (error) => {
             const originalRequest = error.config;
-            if (error.response && error.response.status === 403 && !originalRequest._retry) {
+            if (error.response && error.response.status === 401 && !originalRequest._retry) {
                 if (isRefreshing) {
                     return new Promise((resolve, reject) => {
                         console.warn('Request queued:', originalRequest.url);
