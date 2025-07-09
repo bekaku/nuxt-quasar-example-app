@@ -8,7 +8,7 @@ import {
   biZoomOut
 } from '@quasar/extras/bootstrap-icons'
 import FileManagerService from '~/api/FileManagerService'
-import { downloadFileFromUrl } from '~/utils/fileUtil'
+import { downloadFileFromUrl, downloadFromBlobUrl, isBlobUrl } from '~/utils/fileUtil'
 const {
   src,
   title,
@@ -63,19 +63,31 @@ const onLoad = async () => {
 }
 const downloadPdf = async () => {
   downloadLoading.value = true
-  if (fetchToServer) {
-    await downloadCdnData(src, title)
-  } else {
+  // if (fetchToServer) {
+  //   await downloadCdnData(src, title)
+  // } else {
     if (isBlob) {
-      try {
-        downloadFromBlob(src, title || 'pdf_file.pdf')
-      } catch (err) {
-        console.error(err)
+         try {
+      if (isBlobUrl(pdfSrc.value)) {
+        downloadFromBlobUrl(pdfSrc.value, title || 'pdf_file.pdf');
+      } else {
+        downloadFromBlob(src, title || 'pdf_file.pdf');
       }
-    } else {
-      downloadFileFromUrl(src, title || 'pdf_file.pdf')
+    } catch (err) {
+      console.error(err);
     }
-  }
+    } else {
+      try {
+      if (isBlobUrl(pdfSrc.value)) {
+        downloadFromBlobUrl(pdfSrc.value, title || 'pdf_file.pdf');
+      } else {
+        downloadFileFromUrl(src, title || 'pdf_file.pdf');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    }
+  // }
   downloadLoading.value = false
 }
 const onPageChange = (p: number) => {
