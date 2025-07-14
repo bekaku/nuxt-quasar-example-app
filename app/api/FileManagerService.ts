@@ -25,7 +25,7 @@ export default () => {
     return await callAxios<FileManagerDto>({
       API: '/api/fileManager/uploadApi',
       method: 'POST',
-      body: postData,
+      // body: postData,
       baseURL: config.cdnBase,
       contentType: 'multipart/form-data'
     });

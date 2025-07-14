@@ -63,7 +63,7 @@ export const AuthNoInitialPage: string[] = [
   'all',
   'auth-login-v1',
   'auth-login-v2',
-  'test',
+  // 'test',
 ];
 export const AuthNoFilterPage: string[] = [
   'error',

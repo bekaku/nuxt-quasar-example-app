@@ -1,24 +1,12 @@
-import {defineStore} from 'pinia';
-import {ref} from 'vue';
-import type {IMenu, RefreshTokenResponse} from '~/types/common';
-import type {UserDto} from '~/types/models';
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import type { IMenu, LoginedProfileItem } from '~/types/common';
+import type { UserDto } from '~/types/models';
 
 export const useAuthenStore = defineStore('authenStore', () => {
-    const config = useRuntimeConfig()
-    const jwtToken = useCookie<string | null>(config.public.jwtKeyName, {
-        expires: addDateByDays(config.public.jwtAges),
-        path: '/',
-        sameSite: 'lax',
-        secure: !import.meta.dev
-    },)
-    const refreshToken = useCookie<string | null>(config.public.refreshJwtKeyName, {
-        expires: addDateByDays(config.public.jwtAges),
-        path: '/',
-        sameSite: 'strict',
-        secure: !import.meta.dev
-    },)
-
     const auth = ref<UserDto | undefined>(undefined);
+    const loginedItems = ref<LoginedProfileItem[]>([]);
+    const alreadyFetchLoginedProfile = ref<boolean>(false);
     const drawers = ref<IMenu[]>([]);
     const loginedCover = computed(() => auth.value?.cover?.image);
     const loginedAvatar = computed(() => auth.value?.avatar?.image);
@@ -29,22 +17,17 @@ export const useAuthenStore = defineStore('authenStore', () => {
     const setAuthen = (item: UserDto) => {
         auth.value = item;
     };
-    const setAuthenCookie = (authResponse: RefreshTokenResponse) => {
-        if (!authResponse) {
-            return new Promise((resolve) => resolve(false));
-        }
-        return new Promise((resolve) => {
-            jwtToken.value = authResponse.authenticationToken;
-            refreshToken.value = authResponse.refreshToken;
-            resolve(true)
-        });
-    };
+    const setLoginedItems = (items: LoginedProfileItem[]) => {
+        loginedItems.value = items;
+    }
+    const setFetchLoginedProfile = (status: boolean) => {
+        alreadyFetchLoginedProfile.value = status;
+    }
     const onLogout = () => {
         auth.value = undefined;
-        jwtToken.value = null;
-        refreshToken.value = null;
         return new Promise((resolve) => resolve(true));
     };
+
     return {
         auth,
         loginedCover,
@@ -52,10 +35,11 @@ export const useAuthenStore = defineStore('authenStore', () => {
         loginedDisplay,
         setAuthen,
         onLogout,
-        setAuthenCookie,
-        jwtToken,
-        refreshToken,
-        drawers
+        drawers,
+        loginedItems,
+        setLoginedItems,
+        alreadyFetchLoginedProfile,
+        setFetchLoginedProfile
     };
 
 });

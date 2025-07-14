@@ -1,11 +1,11 @@
 #!/bin/bash
-rm ./build/nuxt3-quasar-webapp.tar
+rm ./build/nuxt-quasar-web.tar
 rm -rf ./build
 mkdir build
 
-docker rmi nuxt3-quasar-webapp:latest
+docker rmi nuxt-quasar-web:latest
 
-docker image build --no-cache -t nuxt3-quasar-webapp:latest .
+docker image build --no-cache -t nuxt-quasar-web:latest .
 
-# docker save -o ./build/nuxt3-quasar-webapp.tar nuxt3-quasar-webapp:latest
+# docker save -o ./build/nuxt-quasar-web.tar nuxt-quasar-web:latest
 docker-compose up -d

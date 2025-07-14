@@ -150,13 +150,16 @@ export default defineNuxtConfig({
       codeVersion: 0,
       webUrl: '',
       defaultLocale: 'th',
-      jwtKeyName: 'token',
-      refreshJwtKeyName: 'refresh_token',
-      jwtAges: 30,//days
+      jwtKeyName: '_token',
+      refreshJwtKeyName: '_refresh_token',
+      currentUserKeyName: '_current_user',
+      jwtAges: 7,//days
+      jwtAgesSecond: 604800 ,//7 days = 7 * 24 * 60 * 60 = 604800 seconds
     }
   },
   ssr: true,
   vite: {
+    // optimizeDeps: { exclude: ['axios', 'form-data'] },
     css: {
       preprocessorOptions: {
         scss: {

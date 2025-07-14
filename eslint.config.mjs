@@ -18,7 +18,9 @@ export default withNuxt(
       'vue/custom-event-name-casing': ['warn', 'kebab-case'],
       'vue/attributes-order': 'warn',
       'vue/html-self-closing': 'warn',
-      'vue/require-explicit-emits': 'warn'
+      'vue/require-explicit-emits': 'warn',
+      'unused-imports/no-unused-vars': 'warn',
+      'ts/no-unused-vars': 'warn',
     }
   }
   // {

@@ -13,10 +13,10 @@ definePageMeta({
   // requiresPermission: ['role_manage'],//custom meta
 })
 useInitPage()
-const { isSmallScreen } = useAppDevice()
+const { isSmallScreen, isServer } = useAppDevice()
 const { getPageMeta, getPageMetaByKey } = useBase()
 const { isDark } = useTheme()
-if (!import.meta.server) {
+if (!isServer()) {
   console.log('getPageMeta', getPageMeta())
   console.log(
     'getPageMetaByKey',

@@ -395,6 +395,11 @@ export default {
         login_main_helper4: 'ป้อนรหัสยืนยันที่ได้รับจากทางอีเมล',
         login_main_helper5: 'หากไม่พบที่กล่องข้อความเข้าเป็นไปได้ว่าอาจจะอยู่ในกล่องขยะ',
         login_main_helper6: 'รหัสยืนยันมีอายุ 15 นาที',
+        seeAllProfiles: 'ดูโปรไฟล์ทั้งหมด',
+        allProfiles: 'โปรไฟล์ทั้งหมด',
+        addProfile: 'เพิ่มโปรไฟล์',
+        switchProfile: 'สลับโปรไฟล์',
+        switchProfileConfirm: 'ยืนยันการสลับโปรไฟล์ไปยังโปรไฟล์ของ {name}',
     },
     http: {
         '2xx': 'Successful',

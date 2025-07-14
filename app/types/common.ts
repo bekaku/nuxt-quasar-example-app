@@ -1,3 +1,4 @@
+import type { UserDto } from "./models";
 import type { AvatarProps, IconProps, RBACProps } from "./props";
 
 /* eslint-disable no-unused-vars */
@@ -444,15 +445,29 @@ export interface RefreshTokenRequest {
     fcmEnable?: boolean;
 }
 export interface RefreshTokenResponse {
-    userId?: number;
-    authenticationToken: string;
-    refreshToken: string;
-    expiresAt: string;
+    userId: number | null;
+    authenticationToken: string | null;
+    refreshToken: string | null;
+    expiresAt?: string;
 }
 export interface RefeshTokenStatus {
     status: boolean;
     fourceLogout: boolean;
     token?: string;
+}
+export interface CookieItem {
+  key?: string
+  value?: any
+  userId?: number | null
+}
+export interface NotificationCount {
+  lastestId: number
+  totalNotify: number
+  totalNewMessage: number
+}
+export interface LoginedProfileItem {
+  user?: UserDto
+  notificationCount?: NotificationCount
 }
 export interface RequestDto {
     [key: string]: any;

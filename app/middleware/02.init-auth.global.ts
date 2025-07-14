@@ -22,9 +22,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
     // Skip if user already loaded
     if (authenStore.auth) return
 
-    const { $config } = useNuxtApp()
-    const jwtToken = useCookie($config.public.jwtKeyName);
-    if (!jwtToken.value) return;
+    // const { $axios, $config } = useNuxtApp()
+    const { currentUserId, removeAuthToken } = useAppCookie();
+    // if (import.meta.server) {
+    //     const jwt = useCookie('_jwt_token_1');
+    //     console.log('SERVER middleware > 02.init-auth.global > JWT token (SSR):', jwt.value);
+    // }
+    // console.log('middleware > 02.init-auth.global > JWT currentUserId (SSR):', currentUserId.value)
+    // const jwtToken = useCookie($config.public.jwtKeyName);
+    // if (!jwtToken.value) return;
+    if (!currentUserId.value) return
     const appStore = useAppStore();
     const { callAxiosProcess } = useAxios();
     // const { initialAppNav } = useMenu();
@@ -33,6 +40,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
             API: '/api/user/currentUserData',
             method: 'GET',
         });
+        // console.log('middleware > 02.init-auth.global > response:', response.data);
         if (response && response?.status == 200 && response.data && !isAppException(response.data)) {
             authenStore.setAuthen(response.data);
             if (response.data.permissions && response.data.permissions.length > 0) {
@@ -43,6 +51,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     } catch (error) {
         const errors = error as AxiosError;
         if (errors?.status === 403) {
+            await removeAuthToken();
             await authenStore.onLogout();
         }
     }

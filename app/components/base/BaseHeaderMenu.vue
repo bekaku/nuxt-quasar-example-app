@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// const {}=defineProps<{
-// }>();
 import {
   biBoxArrowRight,
   biChevronExpand,
@@ -12,6 +10,7 @@ import {
   biQuestionCircle,
   biSun
 } from '@quasar/extras/bootstrap-icons'
+import { mdiAccountSwitchOutline } from '@quasar/extras/mdi-v7'
 const { screen } = useQuasar()
 const authenStore = useAuthenStore()
 const { signout } = useAuth()
@@ -54,7 +53,17 @@ const { isSmallScreen } = useAppDevice()
           </q-item-section>
           <q-item-section>{{ t('base.yourProfile') }}</q-item-section>
         </q-item>
-        <q-separator class="q-my-xs"/>
+        <q-item clickable class="rounded">
+          <q-item-section avatar>
+            <q-icon :name="mdiAccountSwitchOutline" />
+          </q-item-section>
+          <q-item-section> {{ t('authen.seeAllProfiles') }} </q-item-section>
+          <q-menu :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start">
+            <UserLoginedItems style="min-width: 260px" />
+          </q-menu>
+          <q-item-section side> <q-icon :name="biChevronRight" /> </q-item-section>
+        </q-item>
+        <q-separator class="q-my-xs" />
         <template v-if="isSmallScreen">
           <q-item clickable class="rounded">
             <q-item-section avatar>
@@ -62,7 +71,10 @@ const { isSmallScreen } = useAppDevice()
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ `${t('base.appearance')}: ` }}<span class="text-weight-medium">{{ !isDark ? t('theme.light') : t('theme.dark') }}</span>
+                {{ `${t('base.appearance')}: `
+                }}<span class="text-weight-medium">{{
+                  !isDark ? t('theme.light') : t('theme.dark')
+                }}</span>
               </q-item-label>
             </q-item-section>
             <q-item-section side>
@@ -80,7 +92,8 @@ const { isSmallScreen } = useAppDevice()
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                {{ `${t('base.language')}: ` }}<span class="text-weight-medium">{{ currentLangugeName }}</span>
+                {{ `${t('base.language')}: `
+                }}<span class="text-weight-medium">{{ currentLangugeName }}</span>
               </q-item-label>
             </q-item-section>
             <q-item-section side>
@@ -106,7 +119,7 @@ const { isSmallScreen } = useAppDevice()
           </q-item-section>
           <q-item-section>{{ t('base.setting') }}</q-item-section>
         </q-item>
-        <q-item v-close-popup clickable class="rounded" @click="signout" >
+        <q-item v-close-popup clickable class="rounded" @click="signout">
           <q-item-section avatar>
             <q-icon :name="biBoxArrowRight" />
           </q-item-section>

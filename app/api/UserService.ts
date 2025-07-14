@@ -4,7 +4,7 @@ import type {
   UserPersonalEditRequest,
   UserChangePasswordRequest
 } from '@/types/models';
-import type { AppLocale, IApiListResponse, ResponseMessage } from '~/types/common';
+import type { AppLocale, IApiListResponse, LoginedProfileItem, RefreshTokenRequest, RefreshTokenResponse, ResponseMessage } from '~/types/common';
 export default () => {
   const { callAxios } = useAxios();
 
@@ -112,6 +112,31 @@ export default () => {
       },
     });
   };
+
+  const findLoginedProfile = async (
+    refreshToken: RefreshTokenRequest
+  ): Promise<LoginedProfileItem | null> => {
+    return await callAxios<LoginedProfileItem>({
+      API: '/api/user/findLoginedProfile',
+      method: 'POST',
+      body: {
+        refreshToken
+      },
+    });
+  };
+  const verifyUserByEmailOrUsername = async (
+    userNameOrEmail: string
+  ): Promise<RefreshTokenResponse | null> => {
+    return await callAxios<RefreshTokenResponse>({
+      API: '/api/user/verifyUserByEmailOrUsername',
+      method: 'POST',
+      body: {
+        emailOrUsername: {
+          emailOrUsername: userNameOrEmail
+        }
+      },
+    });
+  };
   return {
     findCurrentUserData,
     updateUserAvatar,
@@ -122,6 +147,8 @@ export default () => {
     updateDefaultLocale,
     updatePersonalData,
     updateEmail,
-    findAll
+    findAll,
+    findLoginedProfile,
+    verifyUserByEmailOrUsername
   };
 };

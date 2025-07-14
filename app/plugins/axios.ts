@@ -3,13 +3,17 @@
 import axios from 'axios'
 import { useAuthenStore } from '~/stores/authenStore';
 export default defineNuxtPlugin((nuxtApp) => {
+    // const { $config } = useNuxtApp()
     const localeCookie = useCookie('locale');
+    // const headersCookie = useRequestHeaders(['cookie'])
     const runtimeConfig = useRuntimeConfig()
+    // const event = useRequestEvent()
     const authenStore = useAuthenStore();
+    const { setRefreshAuthenToken, currentUserId, getCurrentUserToken, removeAuthToken } = useAppCookie();
 
     const axiosInstance = axios.create({
         baseURL: runtimeConfig.public.apiBase as string,
-        withCredentials: false,
+        withCredentials: true,
         timeout: runtimeConfig.public.timeOut as unknown as number,
         headers: {
             'Content-Type': 'application/json',
@@ -17,6 +21,15 @@ export default defineNuxtPlugin((nuxtApp) => {
         },
         validateStatus: (status) => status < 400 // Resolve only if the status code is less than 400
     })
+
+    // const event = nuxtApp.ssrContext?.event;
+    // if (import.meta.server && event) {
+    //     const cookie = getRequestHeader(event, 'cookie');
+    //     console.log('axios.ts SERVERMODE >cookie', cookie)
+    //     if (cookie) {
+    //         axiosInstance.defaults.headers.Cookie = cookie;
+    //     }
+    // }
 
     // for multiple requests
     let isRefreshing = false;
@@ -35,12 +48,25 @@ export default defineNuxtPlugin((nuxtApp) => {
     };
 
     axiosInstance.interceptors.request.use(
-        (config) => {
-            const token = authenStore.jwtToken;
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`
-            }
+        async (config) => {
+            // if (import.meta.server) {
+            // if (event) {
+            //     const cookie = event.node.req.headers.cookie
+            //     console.log('axios.ts SERVERMODE >cookie 2 ', cookie)
+            // }
+            // console.log('axios.ts SERVERMODE >headersCookie ', headersCookie.cookie)
+            // if (headersCookie.cookie) {
+            //     config.headers.cookie = headersCookie.cookie
+            // }
+            // }
 
+            // const token = authenStore.jwtToken;
+            const currentToken = await getCurrentUserToken();
+            // console.log('axios.ts > currentUserJwt', currentToken)
+            if (currentToken && currentToken?.authenticationToken) {
+                config.headers.Authorization = `Bearer ${currentToken.authenticationToken}`
+            }
+            config.headers['X-User-ID'] = currentUserId.value || '';
             config.headers['Accept-Language'] = localeCookie.value;
             return config
         },
@@ -51,7 +77,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         (response) => response,
         async (error) => {
             const originalRequest = error.config;
-            if (error.response && error.response.status === 401 && !originalRequest._retry) {
+            const currentToken = await getCurrentUserToken();
+            if (currentToken && currentToken.refreshToken && error.response && error.response.status === 401 && !originalRequest._retry) {
                 if (isRefreshing) {
                     return new Promise((resolve, reject) => {
                         console.warn('Request queued:', originalRequest.url);
@@ -68,7 +95,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                 originalRequest._retry = true;
 
                 try {
-                    const tokenTORefresh = authenStore.refreshToken;
+                    const tokenTORefresh = currentToken.refreshToken;
                     console.log('Refreshing token:', { tokenTORefresh, isRefreshing, queueLength: failedQueue.length });
                     axiosInstance.defaults.baseURL = runtimeConfig.public.apiBase;
                     axiosInstance.defaults.responseType = 'json';
@@ -80,7 +107,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                         }
                     });
 
-                    await authenStore.setAuthenCookie(data);
+                    await setRefreshAuthenToken(data);
                     const newToken = data.authenticationToken;
                     axiosInstance.defaults.headers.Authorization = `Bearer ${newToken}`;
                     originalRequest.headers.Authorization = `Bearer ${newToken}`;
@@ -88,6 +115,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                     return axiosInstance(originalRequest);
                 } catch (refreshError) {
                     processQueue(refreshError, null);
+                    await removeAuthToken();
                     await authenStore.onLogout();
                     navigateTo('/auth/login');
                     return Promise.reject(refreshError);

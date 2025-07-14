@@ -9,6 +9,7 @@ export const useBase = () => {
     const route = useRoute();
     const router = useRouter();
     const { loading, notify, dialog, dark } = useQuasar();
+    const { isServer } = useAppDevice();
     const { t } = useLang();
     const getCurrentPath = (fullPath = true) => {
         return fullPath ? route.fullPath : route.path;
@@ -192,7 +193,7 @@ export const useBase = () => {
         if (!str) {
             return '';
         }
-        if (import.meta.server) {
+        if (isServer()) {
             return str;
         }
         // return $domPurify.sanitize(str,
@@ -218,19 +219,19 @@ export const useBase = () => {
             statusMessage: param.statusMessage
         })
     }
-  /**
-   * <div ref="bottomSection"></div>
-   * scrollToTop(bottomSection.value);
-   * @param el
-   */
-  const scrollToTop = (el: Element) => {
-    // window.scrollTo(0, 0);
-    if (el) {
-      // el.scrollIntoView({ behavior: 'smooth' });
-      // el.scrollIntoView({ block: 'end', behavior: 'smooth' });
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+    /**
+     * <div ref="bottomSection"></div>
+     * scrollToTop(bottomSection.value);
+     * @param el
+     */
+    const scrollToTop = (el: Element) => {
+        // window.scrollTo(0, 0);
+        if (el) {
+            // el.scrollIntoView({ behavior: 'smooth' });
+            // el.scrollIntoView({ block: 'end', behavior: 'smooth' });
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
     return {
         getPageMeta,
         getPageMetaByKey,

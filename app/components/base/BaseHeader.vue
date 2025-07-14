@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import {
-  biAppIndicator,
   biBell,
-  biCameraVideo,
   biChatDots,
-  biLayoutSidebar,
   biGithub,
   biSearch
-} from '@quasar/extras/bootstrap-icons'
-import { useQuasar } from 'quasar'
-import type { IconSet } from '~/types/common'
+} from '@quasar/extras/bootstrap-icons';
+import { useQuasar } from 'quasar';
+import type { IconSet } from '~/types/common';
 const {
   bordered = false,
   reveal = false,

@@ -1,14 +1,4 @@
 <script setup lang="ts">
-import {
-  biChevronExpand,
-  biEye,
-  biEyeSlash,
-  biGlobe,
-  biLock,
-  biMoon,
-  biPerson,
-  biSun
-} from '@quasar/extras/bootstrap-icons'
 useSeoMeta({
   title: 'Login'
 })
@@ -18,37 +8,8 @@ definePageMeta({
   pageName: 'authen.login'
 })
 useInitPage()
-const { signin } = useAuth()
 const { t } = useLang()
 const { isDark } = useTheme()
-const { getDeviceId } = useAppDevice()
-const { required } = useValidation()
-const email = ref<string | null>('admin@mydomain.com')
-const password = ref<string | null>('P@ssw0rd')
-const showPassword = ref<boolean>(false)
-const loading = ref<boolean>(false)
-const loginForm = ref(null)
-const rememberMe = ref(false)
-const deviceId = ref()
-const onSubmit = async () => {
-  loading.value = true
-  deviceId.value = await getDeviceId()
-  try {
-    await signin({
-      emailOrUsername: email.value,
-      password: password.value,
-      loginFrom: 'WEB',
-      deviceId: deviceId.value ? deviceId.value : null
-    })
-  } finally {
-    loading.value = false
-  }
-}
-const onReset = () => {
-  email.value = null
-  password.value = null
-  showPassword.value = false
-}
 </script>
 <template>
   <BasePage
@@ -85,80 +46,12 @@ const onReset = () => {
             </div>
           </div>
 
-          <q-form ref="loginForm" class="q-gutter-md" @submit.prevent="onSubmit" @reset="onReset()">
-            <BaseInput
-              v-model="email"
-              :readonly="loading"
-              :dense="false"
-              :label="t('base.emailOrUsername')"
-              :rules="[required]"
-            >
-              <template #prepend>
-                <q-icon :name="biPerson" color="grey-9" />
-              </template>
-            </BaseInput>
-            <BaseInput
-              v-model="password"
-              :readonly="loading"
-              :dense="false"
-              :type="showPassword ? 'text' : 'password'"
-              :label="t('authen.password')"
-              :rules="[required]"
-            >
-              <template #prepend>
-                <q-icon :name="biLock" color="grey-9" />
-              </template>
-              <template #append>
-                <q-icon
-                  :name="showPassword ? biEye : biEyeSlash"
-                  class="cursor-pointer"
-                  color="grey-9"
-                  @click="showPassword = !showPassword"
-                />
-              </template>
-            </BaseInput>
-
-            <div class="row items-center justify-between">
-              <q-checkbox v-model="rememberMe" label="Remember me" />
-              <BaseLink to="/auth/forgot-password" color="primary">
-                {{ t('authen.forgetPassword') }}
-              </BaseLink>
-            </div>
-
-            <div class="q-px-sm">
-              <BaseButton
-                unelevated
-                :loading="loading"
-                size="lg"
-                color="primary"
-                class="full-width text-white"
-                :label="t('authen.login')"
-                type="submit"
-              />
-            </div>
-          </q-form>
-
+          <BaseLoginForm />
           <div class="text-center q-mt-lg">
             Don't have an account?
             <BaseLink to="/signup" color="primary">Sign Up</BaseLink>
-            <!-- <BaseLink to="/auth/forgot-password">
-                                {{ t('authen.forgetPassword') }}
-                            </BaseLink> -->
-
             <q-separator class="q-my-md" />
             <div class="row items-center q-gutter-x-md justify-center">
-              <!-- <q-btn
-                size="13px"
-                flat
-                dense
-                no-caps
-                no-wrap
-                :icon="biGlobe"
-                :label="currentLangugeName"
-              >
-                <q-icon class="q-ml-sm" :name="biChevronExpand" size="14px" />
-                <BaseLangugeSwitcher anchor="top left" self="bottom left" close-on-click />
-              </q-btn> -->
               <LazyBaseLangugeSwitcherButton anchor="top left" self="bottom left" close-on-click />
               <BaseThemeSwitcher />
               <div :class="isDark ? 'text-grey-5' : 'text-grey-7'">

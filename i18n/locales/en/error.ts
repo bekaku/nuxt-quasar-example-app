@@ -52,5 +52,8 @@ export default {
         fileExcelError: 'Please select a file with the extension .xlsx.',
         percentageValueWrong: 'The percentage value is incorrect.',
         validateStartDateGreterThenEndDate: 'The start date cannot be greater than the end date.',
+        doNotHavePermissionToAccessThisDocument: 'You do not have permission to access this document.',
+        emailOrUsernameNotFound: 'Username or email not found in the system.',
+        userNameDuplicateInDevice: 'This user already exists on this device. Please change the user.',
     }
 }

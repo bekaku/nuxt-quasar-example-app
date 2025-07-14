@@ -2,16 +2,19 @@ import type { AxiosError, AxiosResponse } from "axios";
 import type { AppException, RequestType, ResponseMessage } from "~/types/common";
 import { biCheckCircle, biExclamationTriangle, biX } from "@quasar/extras/bootstrap-icons";
 import { useQuasar } from "quasar";
+import { useRequestEvent } from '#app';
+import { getRequestHeader } from 'h3';
 
 export const useAxios = () => {
 
-    const { $axios } = useNuxtApp()
+    const { $axios, ssrContext } = useNuxtApp()
     const config = useRuntimeConfig()
     // const jwtToken = useCookie(config.public.jwtKeyName);
     const { canSyncActiveStatusToServer } = useAppDevice();
     const { notify, loading: quasarLoading } = useQuasar();
     const loading = ref<boolean>(false);
     const callAxiosProcess = async <T>(req: RequestType, devLog: boolean = true): Promise<AxiosResponse<T>> => {
+        
         loading.value = true;
         const canSyncOnlineStatus = await canSyncActiveStatusToServer();
         return new Promise((resolve, reject) => {
@@ -35,10 +38,21 @@ export const useAxios = () => {
             }
 
             $axios.defaults.headers['X-Sync-Active'] = canSyncOnlineStatus ? '1' : '0';
+            // if (import.meta.server && ssrContext?.event) {
+                // const event = ssrContext?.event;
+                //  const cookie = getRequestHeader(event, 'cookie');
+                // console.log('useAxxios.ts SERVERMODE > event', cookie)
+                // const event = useRequestEvent(); // works in Nuxt middleware
+                // console.log('useAxxios.ts SERVERMODE >')
+                // if(event){
+                //     const cookie = getRequestHeader(event, 'cookie');
+                //     console.log('useAxxios.ts SERVERMODE >cookie', cookie)
+                // }
+            // }
             $axios({
                 method: req.method,
                 url: req.API,
-                data: req.body ? req.body : undefined
+                data: req.body ? req.body : undefined,
             }).then((response) => {
                 if (import.meta.dev && devLog && !import.meta.server) {
                     console.log(`api ${$axios.defaults.baseURL}${req.API}`, response);

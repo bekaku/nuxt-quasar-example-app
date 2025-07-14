@@ -398,6 +398,11 @@ export default {
         login_main_helper4: 'Enter the verification code we just sent you on email address.',
         login_main_helper5: 'If not found in the message box, it is possible that it may be in the junk box.',
         login_main_helper6: 'The verification code is valid for 15 minutes.',
+        seeAllProfiles: 'See all profiles',
+        allProfiles: 'All profiles',
+        addProfile: 'Add profile',
+        switchProfile: 'Switch profile',
+        switchProfileConfirm: 'Confirm profile switch to {name}\'s profile.',
     },
     http: {
         '2xx': 'Successful',
