@@ -32,6 +32,21 @@ useSeoMeta({
 })
 initialLocale()
 initialQuasarDark()
+const appTimeout = ref<any>()
+const { payload: logoutMessage } = useSafeBroadcastChannel<boolean>('app-logout')
+watch(logoutMessage, () => {
+  if (logoutMessage.value === true) {
+    appTimeout.value = setTimeout(() => {
+      window.location.replace('/')
+    }, 100)
+  }
+})
+
+onUnmounted(() => {
+  if (appTimeout.value) {
+    clearTimeout(appTimeout.value)
+  }
+})
 </script>
 <template>
   <div>

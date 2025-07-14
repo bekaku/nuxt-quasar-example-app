@@ -39,7 +39,7 @@ export const useAuthenStore = defineStore('authenStore', () => {
         loginedItems,
         setLoginedItems,
         alreadyFetchLoginedProfile,
-        setFetchLoginedProfile
+        setFetchLoginedProfile,
     };
 
 });

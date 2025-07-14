@@ -6,6 +6,11 @@ export const useAuth = () => {
     const { appLoading, appConfirm, appNavigateTo } = useBase();
     const { t } = useLang();
     const { setAuthenToken, removeAuthToken, getCurrentUserToken, switchUser } = useAppCookie();
+    const {
+        send: sendLogoutBroadcast,
+        reopen: reopenLogout,
+        isClosed
+    } = useSafeBroadcastChannel<boolean>('app-logout')
     const { getDeviceId } = useAppDevice()
     const signin = async (req: LoginRequest): Promise<RefreshTokenResponse | null> => {
         const deviceId = await getDeviceId()
@@ -35,15 +40,29 @@ export const useAuth = () => {
             await removeAuthToken();
             await authenStore.onLogout();
             appLoading(false);
+            await sendBroradcastChaanelLogout();
             appNavigateTo('/auth/login', { replace: true })
         }
         return new Promise((resolve) => resolve(true));
     };
+    const sendBroradcastChaanelLogout = () => {
+        return new Promise((resolve) => {
+            if (isClosed.value) {
+                reopenLogout()
+            }
+            sendLogoutBroadcast(true)
+            resolve(true);
+        });
+    }
     const onSwithUser = async (userId: number) => {
         if (!userId) {
             return;
         }
         await switchUser(userId)
+        await sendBroradcastChaanelLogout();
+        setTimeout(() => {
+            window.location.replace('/')
+        }, 100)
     }
     return {
         signin,

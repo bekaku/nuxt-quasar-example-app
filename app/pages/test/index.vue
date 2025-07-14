@@ -17,7 +17,8 @@ const {
   getAllJwtRefreshToken,
   removeAuthToken
 } = useAppCookie()
-const {onSwithUser} = useAuth()
+const { onSwithUser } = useAuth()
+// const { sendBroadcast } = useSwitchUserBroadcastChannel()
 const testFn = async () => {
   await findCurrentUserData()
 }
@@ -44,12 +45,15 @@ const logOutCurrent = async () => {
 }
 
 const swithUserTo = (uid: number) => {
-  onSwithUser(uid)
+  // onSwithUser(uid)
 }
 
 const testServerCookie = async () => {
   const res = await $fetch('/api/test-cookie') // call api in internal server path /src/server/api/now.ts
   console.log('/api/test-cookie', res)
+}
+const bradcastChanel = async () => {
+  // sendSwitchUserBroadcast(true)
 }
 </script>
 <template>
@@ -73,6 +77,7 @@ const testServerCookie = async () => {
       <BaseButton label="swithUserTo2" color="info" @click="swithUserTo(2)" />
 
       <BaseButton label="logOutCurrent" color="negative" @click="logOutCurrent" />
+      <BaseButton label="Broadcast Chanel" color="purple" @click="bradcastChanel" />
     </div>
   </BasePage>
 </template>

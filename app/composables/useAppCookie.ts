@@ -248,22 +248,28 @@ export const useAppCookie = () => {
         });
     }
 
-    const switchUser = async (userId: number) => {
+    const switchUser = async (userId: number): Promise<boolean> => {
         if (!userId || isServerMode) {
-            return;
+            return new Promise((resolve) => {
+                resolve(false);
+            });
         }
         if (!currentUserId.value || currentUserId.value == userId) {
-            return;
+            return new Promise((resolve) => {
+                resolve(false);
+            });
         }
         // validate user exist in cookies
         const exist = await validateUserExist(userId);
         if (!exist) {
-            return;
+            return new Promise((resolve) => {
+                resolve(false);
+            });
         }
         currentUserId.value = userId;
-        setTimeout(() => {
-            window.location.replace('/')
-        }, 100)
+        return new Promise((resolve) => {
+            resolve(true);
+        });
     }
     return {
         jwtToken,
