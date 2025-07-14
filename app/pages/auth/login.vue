@@ -10,6 +10,8 @@ definePageMeta({
 useInitPage()
 const { t } = useLang()
 const { isDark } = useTheme()
+const { getQuery } = useBase()
+const redirectTo = ref<string | undefined>(getQuery('continue'))
 </script>
 <template>
   <BasePage
@@ -45,8 +47,7 @@ const { isDark } = useTheme()
               {{ t('base.loginTitle2') }}
             </div>
           </div>
-
-          <BaseLoginForm />
+          <BaseLoginForm auto-redirect :redirect-to="redirectTo || '/'"/>
           <div class="text-center q-mt-lg">
             Don't have an account?
             <BaseLink to="/signup" color="primary">Sign Up</BaseLink>

@@ -33,9 +33,9 @@ useSeoMeta({
 initialLocale()
 initialQuasarDark()
 const appTimeout = ref<any>()
-const { payload: logoutMessage } = useSafeBroadcastChannel<boolean>('app-logout')
-watch(logoutMessage, () => {
-  if (logoutMessage.value === true) {
+const { payload: reloadMessage } = useSafeBroadcastChannel<boolean>('app-reload-bradcast-channel')
+watch(reloadMessage, () => {
+  if (reloadMessage.value === true) {
     appTimeout.value = setTimeout(() => {
       window.location.replace('/')
     }, 100)

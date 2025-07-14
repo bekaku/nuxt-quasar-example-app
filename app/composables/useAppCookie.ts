@@ -210,7 +210,6 @@ export const useAppCookie = () => {
 
     }
     const removeAuthToken = async () => {
-        console.log('removeAuthToken', currentUserId.value);
         if (!currentUserId.value) {
             return null;
         }

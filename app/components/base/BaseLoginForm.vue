@@ -28,6 +28,7 @@ const { inputSanitizeHtml } = useBase()
 const { required } = useValidation()
 const { verifyUserByEmailOrUsername } = UserService()
 const { getAllJwtToken } = useAppCookie()
+const { sendBroradcastChanelReload } = useAppBroadcastChannels()
 const email = ref<string | null>('admin@mydomain.com')
 const password = ref<string | null>('P@ssw0rd')
 const showPassword = ref<boolean>(false)
@@ -56,6 +57,7 @@ const onSubmit = async () => {
       loginFrom: 'WEB'
     })
     if (autoRedirect && redirectTo && response != null && response.authenticationToken) {
+      await sendBroradcastChanelReload()
       redirectTimeout.value = setTimeout(() => {
         window.location.replace(redirectTo !== undefined ? redirectTo : '/')
       }, 350)

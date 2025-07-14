@@ -2,7 +2,7 @@ import { ref, watch, shallowRef, onUnmounted } from 'vue'
 import { useBroadcastChannel } from '@vueuse/core'
 
 const TAB_ID = (() => {
-    if (process.env.SERVER) {
+    if (import.meta.server) {
         return null;
     }
     const key = 'app-tab-id'

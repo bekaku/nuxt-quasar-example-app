@@ -15,6 +15,11 @@ export default defineNuxtRouteMiddleware((to) => {
 
     if (!currentUserId.value && to.path !== '/auth/login') { // if token doesn't exist redirect to log in
         abortNavigation();
-        return navigateTo('/auth/login');
+        // return navigateTo('/auth/login?continue=' + to.fullPath ? to.fullPath : '');
+        // return navigateTo('/auth/login?continue=' + (to.fullPath ? encodeURIComponent(to.fullPath):''));
+        const continueQuery = to.fullPath
+            ? `?continue=${!import.meta.server ? encodeURIComponent(to.fullPath) : to.fullPath}`
+            : ''
+        return navigateTo(`/auth/login${continueQuery}`)
     }
 })
