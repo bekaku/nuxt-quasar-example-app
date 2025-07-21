@@ -142,6 +142,7 @@ export default defineNuxtConfig({
     apiSecret: '123',// can be overridden by NUXT_API_SECRET environment variable
     // Keys within public, will be also exposed to the client-side
     public: {
+      apiDomain: 'localhost',//override by NUXT_PUBLIC_API_BASE in .env
       apiBase: '/api',//override by NUXT_PUBLIC_API_BASE in .env
       cdnBase: '/api',
       apiClient: '',

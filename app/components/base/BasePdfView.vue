@@ -8,6 +8,7 @@ import {
   biZoomOut
 } from '@quasar/extras/bootstrap-icons'
 import FileManagerService from '~/api/FileManagerService'
+import { useConfiguration } from '~/composables/useConfiguration'
 import { downloadFileFromUrl, downloadFromBlobUrl, isBlobUrl } from '~/utils/fileUtil'
 const {
   src,
@@ -32,6 +33,7 @@ const {
 }>()
 const { isDark } = useTheme()
 const { fethCdnData, downloadCdnData } = FileManagerService()
+const { isLinkFromApi } = useConfiguration()
 const emit = defineEmits(['on-close'])
 const { t } = useLang()
 const show = defineModel('show', { type: Boolean, default: false })
@@ -66,27 +68,35 @@ const downloadPdf = async () => {
   // if (fetchToServer) {
   //   await downloadCdnData(src, title)
   // } else {
-    if (isBlob) {
-         try {
+  if (isBlob) {
+    try {
       if (isBlobUrl(pdfSrc.value)) {
-        downloadFromBlobUrl(pdfSrc.value, title || 'pdf_file.pdf');
+        downloadFromBlobUrl(pdfSrc.value, title || 'pdf_file.pdf')
       } else {
-        downloadFromBlob(src, title || 'pdf_file.pdf');
+        downloadFromBlob(src, title || 'pdf_file.pdf')
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-    } else {
-      try {
+  } else {
+    try {
       if (isBlobUrl(pdfSrc.value)) {
-        downloadFromBlobUrl(pdfSrc.value, title || 'pdf_file.pdf');
+        downloadFromBlobUrl(pdfSrc.value, title || 'pdf_file.pdf')
       } else {
-        downloadFileFromUrl(src, title || 'pdf_file.pdf');
+        if (fetchToServer) {
+          if (isLinkFromApi(pdfSrc.value)) {
+            await downloadCdnData(src, title)
+          } else {
+            downloadFileFromUrl(pdfSrc.value, title || 'pdf_file.pdf')
+          }
+        } else {
+          downloadFileFromUrl(pdfSrc.value, title || 'pdf_file.pdf')
+        }
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-    }
+  }
   // }
   downloadLoading.value = false
 }
