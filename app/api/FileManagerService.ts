@@ -71,13 +71,15 @@ export default () => {
     path: string,
     responseDataType: ResponseDataType = 'blob'
   ): Promise<any> => {
-    const cdnBase = config.cdnBase;
-    const src = cdnBase ? path.replace(cdnBase, '') : path;
+    // const cdnBase = config.cdnBase;
+    // const src = cdnBase ? path.replace(cdnBase, '') : path;
     const response = await callAxiosFile<any>({
-      API: src,
-      baseURL: config.cdnBase,
+      API: path,
+      // baseURL: config.cdnBase,
       method: 'GET',
-      responseType: 'arraybuffer'
+      responseType: 'arraybuffer',
+      clearBaseUrl: true
+
     });
     if (response.data) {
       if (responseDataType == 'blob') {

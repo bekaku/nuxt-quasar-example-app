@@ -479,6 +479,7 @@ export interface RequestType {
     body?: any;
     contentType?: string;
     responseType?: 'arraybuffer' | 'document' | 'json' | 'text' | 'stream';
+    clearBaseUrl?: boolean
 }
 export interface SwiperSlideChange {
     activeIndex: number

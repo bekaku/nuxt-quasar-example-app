@@ -14,14 +14,18 @@ export const useAxios = () => {
     const { notify, loading: quasarLoading } = useQuasar();
     const loading = ref<boolean>(false);
     const callAxiosProcess = async <T>(req: RequestType, devLog: boolean = true): Promise<AxiosResponse<T>> => {
-        
+
         loading.value = true;
         const canSyncOnlineStatus = await canSyncActiveStatusToServer();
         return new Promise((resolve, reject) => {
             // $axios.defaults.headers.Authorization = `Bearer ${jwtToken.value || ''}`;
             // console.log('useAxios > callAxios :', req);
+
+
             if (req.baseURL != undefined) {
                 $axios.defaults.baseURL = req.baseURL;
+            } else if (req.clearBaseUrl === true) {
+                $axios.defaults.baseURL = '';
             } else {
                 $axios.defaults.baseURL = config.public.apiBase;
             }
@@ -39,15 +43,15 @@ export const useAxios = () => {
 
             $axios.defaults.headers['X-Sync-Active'] = canSyncOnlineStatus ? '1' : '0';
             // if (import.meta.server && ssrContext?.event) {
-                // const event = ssrContext?.event;
-                //  const cookie = getRequestHeader(event, 'cookie');
-                // console.log('useAxxios.ts SERVERMODE > event', cookie)
-                // const event = useRequestEvent(); // works in Nuxt middleware
-                // console.log('useAxxios.ts SERVERMODE >')
-                // if(event){
-                //     const cookie = getRequestHeader(event, 'cookie');
-                //     console.log('useAxxios.ts SERVERMODE >cookie', cookie)
-                // }
+            // const event = ssrContext?.event;
+            //  const cookie = getRequestHeader(event, 'cookie');
+            // console.log('useAxxios.ts SERVERMODE > event', cookie)
+            // const event = useRequestEvent(); // works in Nuxt middleware
+            // console.log('useAxxios.ts SERVERMODE >')
+            // if(event){
+            //     const cookie = getRequestHeader(event, 'cookie');
+            //     console.log('useAxxios.ts SERVERMODE >cookie', cookie)
+            // }
             // }
             $axios({
                 method: req.method,
