@@ -131,36 +131,37 @@ useHead({
     <BaseCard title="RBAC" subtitle="Role based access control">
       <q-card-section>
         <div class="q-gutter-md">
+          <button v-rbac="{ permissions: ['user_manage'] }">Test RBAC</button>
           <BaseButton
             label="Single permission"
-            :rbac="{
+            v-rbac="{
               permissions: ['user_manage']
             }"
           />
           <BaseButton
             label="Any of multiple permissions"
-            :rbac="{
+            v-rbac="{
               permissions: ['user_manage_not_exist', 'file_manager_list'],
               condition: 'any'
             }"
           />
           <BaseButton
             label="All permissions required"
-            :rbac="{
+            v-rbac="{
               permissions: ['user_list', 'user_view', 'user_delete'],
               condition: 'all'
             }"
           />
           <BaseButton
             label="Negation (not)"
-            :rbac="{
+            v-rbac="{
               permissions: ['user_manage_not_exist'],
               condition: 'not'
             }"
           />
           <BaseButton
             label="This is Not eligible"
-            :rbac="{
+            v-rbac="{
               permissions: ['user_manage_not_exist']
             }"
           />

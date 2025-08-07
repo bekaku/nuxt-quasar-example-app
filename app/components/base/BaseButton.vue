@@ -23,7 +23,7 @@ const {
 const { isDark } = useTheme()
 </script>
 <template>
-  <BaseRbac :rbac>
+  <!-- <BaseRbac :rbac> -->
     <q-btn
       v-bind="$attrs"
       :outline
@@ -76,7 +76,7 @@ const { isDark } = useTheme()
       </template>
       <slot />
     </q-btn>
-  </BaseRbac>
+  <!-- </BaseRbac> -->
 </template>
 <style scoped lang="scss">
 .defult-outline {

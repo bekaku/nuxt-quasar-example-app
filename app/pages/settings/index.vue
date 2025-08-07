@@ -11,6 +11,7 @@ const { t } = useLang()
 const { appLoading } = useBase()
 const { uploadApi } = FileManagerService()
 const { updateUserAvatar, updateUserCover } = UserService()
+const { onUploadChunk } = useFileUpload()
 const { required } = useValidation()
 const authenStore = useAuthenStore()
 const showAvatarCroper = ref(false)
@@ -27,7 +28,8 @@ const entityPersonal = ref<UserPersonalEditRequest>({
 const onUpdateAvatar = async (f: any) => {
   console.log('onUpdateAvatar', f)
   appLoading()
-  const response = await uploadApi(f)
+  // const response = await uploadApi(f)
+  const response = await onUploadChunk(f)
   if (response && authenStore.auth && response.id) {
     //update avatar id to user
     await updateUserAvatar(response.id)
@@ -60,7 +62,8 @@ const onCoverCropClose = () => {
 const onUploadCover = async (f: any) => {
   console.log('onUploadCover', f)
   appLoading()
-  const response = await uploadApi(f)
+  // const response = await uploadApi(f)
+  const response = await onUploadChunk(f)
   if (response && authenStore.auth && response.id) {
     //update cover id to user
     await updateUserCover(response.id)

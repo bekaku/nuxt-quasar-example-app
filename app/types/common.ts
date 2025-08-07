@@ -121,10 +121,11 @@ export type MDCodeTheme =
     | 'qtcreator'
     | 'stackoverflow';
 export type ResponseDataType = 'arraybuffer' | 'blob' | 'json' | 'download' | 'axiosresponse';
-export type FileType = 'pdf' | 'msexcel' | 'msword' | 'mspowerpoint' | 'image' | 'zip' | 'unknown';
+export type FileType = 'pdf' | 'msexcel' | 'msword' | 'mspowerpoint' | 'image' | 'vdo' | 'zip' | 'unknown';
 export type IAlign = 'center' | 'left' | 'right';
 export type LoginLogType = 'WEB' | 'IOS' | 'ANDROID';
 export type ChatHistoryTab = 'ALL' | 'GROUP' | 'FAVORITE';
+export type UploadStatus = 'UPLOADING' | 'COMPLETED' | 'FAILED';
 
 export interface AppNuxtError {
     statusCode: number
@@ -456,18 +457,18 @@ export interface RefeshTokenStatus {
     token?: string;
 }
 export interface CookieItem {
-  key?: string
-  value?: any
-  userId?: number | null
+    key?: string
+    value?: any
+    userId?: number | null
 }
 export interface NotificationCount {
-  lastestId: number
-  totalNotify: number
-  totalNewMessage: number
+    lastestId: number
+    totalNotify: number
+    totalNewMessage: number
 }
 export interface LoginedProfileItem {
-  user?: UserDto
-  notificationCount?: NotificationCount
+    user?: UserDto
+    notificationCount?: NotificationCount
 }
 export interface RequestDto {
     [key: string]: any;

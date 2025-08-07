@@ -30,7 +30,8 @@ export const CrudAction = {
 };
 export const FileExtensionAccept =
   '.jpg,.png,.gif,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar';
-export const FileExtensionImageAccept ='.jpg,.png';
+export const FileExtensionImageAccept = '.jpg,.png';
+export const FileExtensionVdoAccept = '.mp4,.m4v,.m4a,.mov,.mpg,.mpeg,.mpe,.mpv,.webm,.avi,.webm';
 
 export const FileTypeAcceptList = [
   'application/msword',
@@ -46,7 +47,12 @@ export const FileTypeAcceptList = [
   'image/png',
   'image/gif',
   'text/plain',
-  'text/csv'
+  'text/csv',
+  'video/mpeg',
+  'video/mp4',
+  'video/quicktime',
+  'video/x-msvideo',
+  'video/webm',
 ];
 // export const AuthNoInitialPath: string[] = [
 //   '/auth/login',

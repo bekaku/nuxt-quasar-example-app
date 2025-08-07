@@ -7,7 +7,8 @@ import {
     biFileEarmarkZip,
     biFiletypePdf,
     biFiletypeXlsx,
-    biFileWord
+    biFileWord,
+    biFilm
 } from '@quasar/extras/bootstrap-icons';
 // import JSZip from 'jszip';
 import type { FileType } from '~/types/common';
@@ -58,16 +59,16 @@ export const downloadFromBlob = (
     URL.revokeObjectURL(url);
 };
 export const downloadFromBlobUrl = (blobUrl: string, filename: string) => {
-  const a = document.createElement('a');
-  a.href = blobUrl;
-  a.download = filename || 'downloaded-file';
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename || 'downloaded-file';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
-export const isBlobUrl=(url: string) => {
-  return url!=undefined && url.startsWith('blob:')
+export const isBlobUrl = (url: string) => {
+    return url != undefined && url.startsWith('blob:')
 }
 export const downloadFileFromUrl = async (url: string, filename: string) => {
     try {
@@ -292,6 +293,13 @@ export const getFileType = (t: string): FileType | undefined => {
         case 'image/webp':
             type = 'image';
             break;
+        case 'video/mpeg':
+        case 'video/mp4':
+        case 'video/quicktime':
+        case 'video/x-msvideo':
+        case 'video/webm':
+            type = 'vdo';
+            break;
         case 'application/zip':
         case 'application/x-zip-compressed':
         case 'application/x-rar':
@@ -353,6 +361,13 @@ export const getFileTypeIcon = (t: string) => {
         case 'application/vnd.rar':
         case 'x-rar':
             icon = biFileEarmarkZip;
+            break;
+        case 'video/mpeg':
+        case 'video/mp4':
+        case 'video/quicktime':
+        case 'video/x-msvideo':
+        case 'video/webm':
+            icon = biFilm;
             break;
         default:
             icon = biFileEarmark;

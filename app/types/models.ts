@@ -1,4 +1,4 @@
-import type { ChatMessageType, ChatType, EmojiType, ILanguge, LoginLogType } from "./common";
+import type { ChatMessageType, ChatType, EmojiType, ILanguge, LoginLogType, UploadStatus } from "./common";
 export type IPermissionOperationType = 1 | 2 | 3; // 1=crud, 2=report, 3=other
 export interface Id {
   id: number | null;
@@ -22,6 +22,26 @@ export interface FileManagerDto extends Id {
   isImage?: boolean;
   image?: boolean;
   file?: any;
+  uploadProgress?: {
+    uploading: boolean;
+    progress: number;
+    status: UploadStatus;
+    uploadData?: FileManagerDto | null
+  };
+}
+export interface FileUploadChunkResponseDto {
+  filename?: string | null;
+  fileMime?: string | null;
+  status?: boolean;
+  lastChunk?: boolean;
+}
+export interface FileUploadChunkMergeRequestDto {
+  totalChunks: number;
+  fileMime: string | null;
+  originalFilename?: string;
+  chunkFilename: string;
+  resizeImage: boolean;
+  fileDirectoryId?: number | null;
 }
 export interface ImageDto {
   index?: number;

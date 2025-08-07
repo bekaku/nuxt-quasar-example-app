@@ -25,6 +25,9 @@ export default defineNuxtConfig({
   //     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   //   }
   // },
+  build: {
+    transpile: ['form-data'],
+  },
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/i18n',
@@ -66,7 +69,7 @@ export default defineNuxtConfig({
       },
     ],
     // vueI18n: 'i18n.config.ts',
-    lazy: true,
+    // lazy: true,
     langDir: 'locales',
     defaultLocale: 'th',
     detectBrowserLanguage: {
@@ -155,12 +158,11 @@ export default defineNuxtConfig({
       refreshJwtKeyName: '_refresh_token',
       currentUserKeyName: '_current_user',
       jwtAges: 7,//days
-      jwtAgesSecond: 604800 ,//7 days = 7 * 24 * 60 * 60 = 604800 seconds
+      jwtAgesSecond: 604800,//7 days = 7 * 24 * 60 * 60 = 604800 seconds
     }
   },
   ssr: true,
   vite: {
-    // optimizeDeps: { exclude: ['axios', 'form-data'] },
     css: {
       preprocessorOptions: {
         scss: {

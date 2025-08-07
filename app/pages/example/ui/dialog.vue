@@ -51,7 +51,8 @@ const onConfirmToClose = async () => {
 
       <q-card-section class="q-gutter-md">
         <BaseTextHeader title="Popover confirm" />
-        <BaseButton label="Delete item" color="negative" :icon="biTrash">
+        <button v-rbac="{ permissions: ['user_managsse'] }">Test RBAC</button>
+        <BaseButton v-rbac="{ permissions: ['user_manage'] }" label="Delete item" color="negative" :icon="biTrash">
           <BasePopConfirm
             :title="t('base.deleteConfirm')"
             confirm-color="negative"

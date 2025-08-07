@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
+import type { FileManagerDto } from '~/types/models'
 import { formatBytes } from '~/utils/appUtil'
 import { getFileTypeIcon } from '~/utils/fileUtil'
-import type { FileManagerDto } from '~/types/models'
-import { biX } from '@quasar/extras/bootstrap-icons'
 import BaseButton from './BaseButton.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
@@ -74,20 +74,73 @@ const onClick = (event: any, index: number) => {
           {{ formatSize ? formatBytes(item.fileSize) : item.fileSize }}
         </slot>
       </q-item-label>
+      <!-- <q-item-label v-if="item.uploadProgress != undefined">
+        <q-linear-progress
+          v-if="item.uploadProgress.uploading"
+          :value="item.uploadProgress.progress"
+          color="primary"
+          class="q-my-xs"
+          rounded
+          stripe
+        >
+          <div class="absolute-full flex flex-center">
+            <q-badge
+              color="white"
+              text-color="primary"
+              :label="Math.round(item.uploadProgress.progress * 100) + '%'"
+            />
+          </div>
+        </q-linear-progress>
+      </q-item-label> -->
     </q-item-section>
     <q-item-section side>
       <slot name="end">
-        <BaseButton
-          v-if="showDelete"
-          :icon="biX"
-          flat
-          round
-          @click="onRemove($event, index)"
-        >
-          <BaseTooltip color="negative">
-            {{ t('base.delete') }}
-          </BaseTooltip>
-        </BaseButton>
+        <div class="row items-center">
+          <template v-if="item.uploadProgress">
+            <q-circular-progress
+              v-if="
+                item.uploadProgress.status == 'UPLOADING' ||
+                item.uploadProgress.status == 'COMPLETED'
+              "
+              :indeterminate="false"
+              show-value
+              font-size="10px"
+              :value="Math.round(item.uploadProgress.progress * 100)"
+              size="35px"
+              :thickness="0.22"
+              :color="
+                item.uploadProgress.status == 'UPLOADING'
+                  ? 'primary'
+                  : item.uploadProgress.status == 'COMPLETED'
+                    ? 'positive'
+                    : 'negative'
+              "
+              track-color="grey-3"
+            >
+              <template v-if="item.uploadProgress.status == 'UPLOADING'">
+                {{ Math.round(item.uploadProgress.progress * 100) }}%
+              </template>
+              <template v-else-if="item.uploadProgress.status == 'COMPLETED'">
+                <BaseIcon :name="biCheck2" color="positive" size="16px" />
+              </template>
+              <template v-else-if="item.uploadProgress.status == 'FAILED'">
+                <BaseIcon :name="biExclamation" color="negative" size="16px" />
+              </template>
+            </q-circular-progress>
+          </template>
+
+          <BaseButton
+            v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
+            :icon="biX"
+            flat
+            round
+            @click="onRemove($event, index)"
+          >
+            <BaseTooltip color="negative">
+              {{ t('base.delete') }}
+            </BaseTooltip>
+          </BaseButton>
+        </div>
       </slot>
     </q-item-section>
   </q-item>

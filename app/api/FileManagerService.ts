@@ -1,5 +1,5 @@
 import { useAxios } from '~/composables/useAxios';
-import type { FileManagerDto } from '~/types/models';
+import type { FileManagerDto, FileUploadChunkMergeRequestDto, FileUploadChunkResponseDto } from '~/types/models';
 import type { ResponseDataType, ResponseMessage } from '~/types/common';
 import { FileDirectoryKey, FileUploadKey } from '~/libs/constants';
 import {
@@ -25,9 +25,40 @@ export default () => {
     return await callAxios<FileManagerDto>({
       API: '/api/fileManager/uploadApi',
       method: 'POST',
-      // body: postData,
+      body: postData,
       baseURL: config.cdnBase,
       contentType: 'multipart/form-data'
+    });
+  };
+  const uploadChunkApi = async (
+    file: any,
+    chunkNumber = 0,
+    totalChunks = 0,
+    originalFilename: string = '',
+    chunkFilename: string = '',
+  ): Promise<FileUploadChunkResponseDto | null> => {
+    const postData = new FormData();
+    postData.append(FileUploadKey, file);
+    postData.append("chunkNumber", chunkNumber.toString());
+    postData.append('totalChunks', totalChunks.toString());
+    postData.append('originalFilename', originalFilename);
+    postData.append('chunkFilename', chunkFilename);
+    return await callAxios<FileUploadChunkResponseDto>({
+      API: '/api/fileManager/uploadChunkApi',
+      method: 'POST',
+      body: postData,
+      baseURL: config.cdnBase,
+      contentType: 'multipart/form-data'
+    });
+  };
+  const mergeChunkApi = async (req: FileUploadChunkMergeRequestDto): Promise<FileManagerDto | null> => {
+    return await callAxios<FileManagerDto>({
+      API: '/api/fileManager/mergeChunkApi',
+      method: 'POST',
+      body: {
+        fileUploadChunkMergeRequest: req
+      },
+      baseURL: config.cdnBase,
     });
   };
   const deleteFileApi = async (fileId: number): Promise<ResponseMessage | null> => {
@@ -124,6 +155,8 @@ export default () => {
   }
   return {
     uploadApi,
+    uploadChunkApi,
+    mergeChunkApi,
     updateUserAvatar,
     updateUserCover,
     deleteFileApi,

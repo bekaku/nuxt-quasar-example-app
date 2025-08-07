@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FileManagerDto } from '~/types/models'
-import { FileExtensionAccept } from '~/libs/constants'
+import { FileExtensionAccept, FileExtensionVdoAccept } from '~/libs/constants'
 import {
   biFileArrowUp,
   biUpload,
@@ -16,6 +16,7 @@ const { t } = useLang()
 useHead({
   title: 'File picker'
 })
+const { files: fileChunks, previews, uploading, progress, onStartUploadChunk } = useFileUpload()
 const files = ref<File[]>([])
 const filesPreview = ref<FileManagerDto[]>([])
 const filesSingle = ref<File[]>([])
@@ -25,9 +26,13 @@ const filePickerCustomUiRef =
   useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef')
 const customFiles = ref<FileManagerDto[]>([])
 
-const filePickerCustomUi2Ref = useTemplateRef('filePickerCustomUi2Ref')
+const filePickerCustomUi2Ref = useTemplateRef<any>('filePickerCustomUi2Ref')
 const custom2Files = ref<FileManagerDto[]>([])
 const message = ref()
+
+const onFileVdoAdd = (items: File[]) => {
+  console.log('onFileVdoAdd', items)
+}
 const onFileAdd = (items: File[]) => {
   console.log('onFildAdd', items)
 }
@@ -68,6 +73,33 @@ const onCustomRemove2 = (index: number) => {
 </script>
 <template>
   <BasePage :full="false">
+    <BaseCard title="Chunk upload">
+      <q-card-section>
+        <!-- <BaseFilePicker
+          v-model="fileChunks"
+          v-model:file-items="previews"
+          accept="*"
+          label="Select file"
+          gallery
+          @on-file-add="onFileVdoAdd"
+        /> -->
+        <BaseFilePicker
+          v-model="fileChunks"
+          v-model:file-items="previews"
+          :accept="FileExtensionVdoAccept"
+          label="Select vdo file"
+          @on-file-add="onFileVdoAdd"
+        />
+        <BaseButton
+          class="q-my-md"
+          color="positive"
+          :disable="!fileChunks || fileChunks.length == 0 || uploading"
+          @click="onStartUploadChunk"
+        >
+          Upload
+        </BaseButton>
+      </q-card-section>
+    </BaseCard>
     <BaseCard title="Simple Picker">
       <q-card-section>
         <BaseFilePicker

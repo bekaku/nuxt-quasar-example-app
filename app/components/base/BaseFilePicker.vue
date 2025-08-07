@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { useLang } from '@/composables/useLang'
+import { ClientOnly } from '#components'
 import { useBase } from '@/composables/useBase'
+import { useLang } from '@/composables/useLang'
+import { biPlus } from '@quasar/extras/bootstrap-icons'
 import { onBeforeUnmount, ref } from 'vue'
-import type { FileManagerDto } from '~/types/models'
-import { biPaperclip, biPlus, biUpload, biX } from '@quasar/extras/bootstrap-icons'
 import {
-  MaxSelectFiles,
   FileExtensionAccept,
   FileTypeAcceptList,
+  LimitFileSize,
   LimitFileSizeMB,
-  LimitFileSize
+  MaxSelectFiles
 } from '~/libs/constants'
-import { zipFile, isImageFile, getImgUrlFromFile } from '~/utils/fileUtil'
+import type { FileManagerDto } from '~/types/models'
+import { getImgUrlFromFile, isImageFile, zipFile } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
-import { ClientOnly } from '#components'
 
 const {
   multiple = true,
@@ -167,41 +167,11 @@ defineExpose({
     <div class="cursor-pointer div" @click="openFilePicker">
       <slot>
         <BaseButton :icon="icon" outline :label="label ? label : t('base.chooseFile')" />
-        <!-- <q-list bordered class="app-border-radius">
-            <q-item clickable @click="openFilePicker">
-              <q-item-section side>
-                <q-icon :name="icon" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>
-                  {{ label ? label : t('base.chooseFile') }}
-                </q-item-label>
-                <q-item-label v-if="fileItems && fileItems.length > 0">
-                  <div class="q-gutter-xs row" style="max-height: 150px; overflow-y: auto">
-                    <q-chip
-                      v-for="(item, index) in fileItems"
-                      :key="`fi-${index}`"
-                      removable
-                      class="truncate-chip-labels"
-                      @remove="onRemoveNewImage(index)"
-                    >
-                      <div class="ellipsis">
-                        {{ item.fileName }}
-                      </div>
-                    </q-chip>
-                  </div>
-                </q-item-label>
-              </q-item-section>
-              <q-item-section v-if="modelValue && modelValue.length > 0" side>
-                <q-btn round flat :icon="biX" @click="onClear" />
-              </q-item-section>
-            </q-item>
-          </q-list> -->
       </slot>
     </div>
     <ClientOnly>
       <div v-if="showPreview" class="row">
-        <div class="col-12 div-preview">
+        <div class="col-12 div-preview q-py-xs">
           <!-- <BaseScrollArea :height="previewHieight"> -->
           <template v-if="fileItems.length > 0 && modelValue && modelValue.length > 0">
             <LazyBaseFilesPreview
