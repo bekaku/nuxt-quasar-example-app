@@ -18,11 +18,11 @@ const headerItems: ICrudListHeader[] = [
   {
     label: 'model_permission_id',
     column: 'id',
-    type: CrudListDataType.NUMBER_FORMAT,
+    type: CrudListDataType.TEXT,
     options: {
       searchable: true,
       sortable: true,
-      searchType: ICrudListHeaderOptionSearchType.NUMBER,
+      searchType: ICrudListHeaderOptionSearchType.TEXT,
       searchModel: '',
       searchOperation: '='
     }
@@ -99,6 +99,7 @@ const {
   crudName: 'permission',
   apiEndpoint: '/api',
   headers: headerItems,
+  itemsPerPage: 15,
   defaultSort: {
     column: 'code',
     mode: 'asc'

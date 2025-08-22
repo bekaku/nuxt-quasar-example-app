@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import axios from 'axios'
+import JSONbig from 'json-bigint'
 import { useAuthenStore } from '~/stores/authenStore';
+const JSONbigString = JSONbig({ storeAsString: true });
 export default defineNuxtPlugin((nuxtApp) => {
     // const { $config } = useNuxtApp()
     const localeCookie = useCookie('locale');
@@ -19,7 +21,18 @@ export default defineNuxtPlugin((nuxtApp) => {
             'Content-Type': 'application/json',
             'Accept-Apiclient': runtimeConfig.public.apiClient
         },
-        validateStatus: (status) => status < 400 // Resolve only if the status code is less than 400
+        validateStatus: (status) => status < 400, // Resolve only if the status code is less than 400
+        // transformResponse: [function (data) {
+        //     try {
+        //         const parsed = JSONbigString.parse(data);
+        //         console.log('Parsed ID type:', typeof parsed?.id); // Should log: "string"
+        //         return parsed;
+        //     } catch (e) {
+        //         console.warn('Parse failed:', e);
+        //         return data;
+        //     }
+        // }]
+        transformResponse: [data => data]
     })
 
     // const event = nuxtApp.ssrContext?.event;
@@ -74,7 +87,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     );
 
     axiosInstance.interceptors.response.use(
-        (response) => response,
+        (response) => {
+            try {
+                response.data = JSONbigString.parse(response.data);
+            } catch (e) {
+                // fallback to normal JSON
+                response.data = JSON.parse(response.data);
+            }
+            return response;
+        },
         async (error) => {
             const originalRequest = error.config;
             const currentToken = await getCurrentUserToken();

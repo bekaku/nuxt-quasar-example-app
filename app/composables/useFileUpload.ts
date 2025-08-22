@@ -1,16 +1,18 @@
-import { constructFromSymbol } from "date-fns/constants";
-import FileManagerService from "~/api/FileManagerService"
+import FileManagerService from "~/api/FileManagerService";
 import type { UploadStatus } from "~/types/common";
 import type { FileManagerDto, FileUploadChunkResponseDto } from "~/types/models";
-export const useFileUpload = () => {
+export const useFileUpload = (options?: {
+    chunkSize?: number;
+    maxRetries?: number;
+}) => {
     const { uploadChunkApi, mergeChunkApi } = FileManagerService();
     const files = ref<File[]>([])
     const previews = ref<FileManagerDto[]>([])
     const uploading = ref(false)
     const progress = ref(0)
     const status = ref<UploadStatus>();
-    const chunkSize = 1 * 1024 * 1024 // 1 MB
-    const maxRetries = 3
+    const chunkSize = options?.chunkSize || (1 * 1024 * 1024); // 1 MB
+    const maxRetries = options?.maxRetries || 3;
 
     // Track uploaded chunks for resume support
     const uploadedChunks = new Set<number>()

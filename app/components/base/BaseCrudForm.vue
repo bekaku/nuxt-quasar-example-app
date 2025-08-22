@@ -1,8 +1,8 @@
-<script setup lang="ts">
-import { biArrowLeft, biFile } from '@quasar/extras/bootstrap-icons';
-import { useRbac } from '~/composables/useRbac';
-import type { ICrudAction } from '~/types/common';
-import type { RBACProps } from '~/types/props';
+<script setup lang="ts" generic="T">
+import { biArrowLeft, biFile } from '@quasar/extras/bootstrap-icons'
+import { useRbac } from '~/composables/useRbac'
+import type { ICrudAction } from '~/types/common'
+import type { RBACProps } from '~/types/props'
 const {
   crudName,
   managePermission,
@@ -36,6 +36,7 @@ const {
   deleteButton?: true
   copyButton?: boolean
   buttonSize?: string
+  crudEntity?: T
 }>()
 const emit = defineEmits(['on-back', 'on-submit', 'on-delete', 'on-edit-enable'])
 const { t } = useLang()
@@ -73,7 +74,7 @@ const onSubmit = () => {
 }
 </script>
 <template>
-  <div class="row" :class="{ 'content-limit': !fullWidth }">
+  <div v-bind="$attrs" class="row" :class="{ 'content-limit': !fullWidth }">
     <div class="col">
       <BaseCard>
         <q-card-section>
@@ -110,7 +111,6 @@ const onSubmit = () => {
             </q-toolbar>
           </slot>
           <slot name="crudFrom">
-            <!-- <q-form class="q-gutter-md" @submit="$emit('on-submit')"> -->
             <q-form class="q-gutter-md" @submit="onSubmit">
               <slot name="crudFromContent" />
               <slot name="crudAction">

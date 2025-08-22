@@ -74,34 +74,12 @@ const onClick = (event: any, index: number) => {
           {{ formatSize ? formatBytes(item.fileSize) : item.fileSize }}
         </slot>
       </q-item-label>
-      <!-- <q-item-label v-if="item.uploadProgress != undefined">
-        <q-linear-progress
-          v-if="item.uploadProgress.uploading"
-          :value="item.uploadProgress.progress"
-          color="primary"
-          class="q-my-xs"
-          rounded
-          stripe
-        >
-          <div class="absolute-full flex flex-center">
-            <q-badge
-              color="white"
-              text-color="primary"
-              :label="Math.round(item.uploadProgress.progress * 100) + '%'"
-            />
-          </div>
-        </q-linear-progress>
-      </q-item-label> -->
     </q-item-section>
     <q-item-section side>
       <slot name="end">
         <div class="row items-center">
           <template v-if="item.uploadProgress">
             <q-circular-progress
-              v-if="
-                item.uploadProgress.status == 'UPLOADING' ||
-                item.uploadProgress.status == 'COMPLETED'
-              "
               :indeterminate="false"
               show-value
               font-size="10px"

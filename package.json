@@ -28,6 +28,7 @@
     "emoji-mart": "^5.6.0",
     "install": "^0.13.0",
     "jsdom": "^26.1.0",
+    "json-bigint": "^1.0.0",
     "md-editor-v3": "^5.8.4",
     "pinia": "^3.0.3",
     "quasar": "^2.18.2",
@@ -62,5 +63,5 @@
     "typescript": "^5.9.2",
     "vue-tsc": "3.0.5"
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.15.0"
 }

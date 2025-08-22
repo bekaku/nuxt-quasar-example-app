@@ -1,7 +1,7 @@
 import type { ChatMessageType, ChatType, EmojiType, ILanguge, LoginLogType, UploadStatus } from "./common";
 export type IPermissionOperationType = 1 | 2 | 3; // 1=crud, 2=report, 3=other
 export interface Id {
-  id: number | null;
+  id: number | string | null;
 }
 export interface AccessTokenDto extends Id {
   ipAddredd: string;
