@@ -1,15 +1,6 @@
 <script setup lang="ts">
+import { biGoogle, biMicrosoft, biX } from '@quasar/extras/bootstrap-icons'
 import type { LabelValue } from '~/types/common'
-import {
-  biAirplane,
-  biGear,
-  biGoogle,
-  biLightbulb,
-  biMicrosoft,
-  biPerson,
-  biPhone,
-  biX
-} from '@quasar/extras/bootstrap-icons'
 useHead({
   title: 'Select'
 })
@@ -35,7 +26,7 @@ const simpleItems: LabelValue<number>[] = [
     label: 'Google',
     value: 1,
     description: 'Fox',
-    icon: {name:biGoogle}
+    icon: { name: biGoogle }
   },
   {
     label: 'Facebook',
@@ -136,6 +127,7 @@ const districtItems = ref<LabelValue<number>[]>([])
 const districtSeleted = ref<number>()
 const subdistrictItems = ref<LabelValue<number>[]>([])
 const subdistrictSeleted = ref<number>()
+const baseSelectProvinceModel = ref<number| string>(570103)
 
 onMounted(() => {
   onLoadProviceItems()
@@ -341,6 +333,12 @@ watch(districtSeleted, () => {
               :multiple="false"
               label="Sub District"
             />
+          </div>
+
+          <div class="col-12 col-md-4">
+            <BaseCard title="Thailand province select">
+              <BaseSelectProvince v-model="baseSelectProvinceModel" />
+            </BaseCard>
           </div>
         </div>
 

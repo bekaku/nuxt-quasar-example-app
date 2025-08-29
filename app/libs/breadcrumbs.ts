@@ -40,18 +40,18 @@ export const PermissionFormBreadcrumb: LabelValue<any>[] = [
 export const RoleFormBreadcrumb: LabelValue<any>[] = [
     {
         label: 'model.role.table',
-        to: '/role',
+        to: '/app-role',
         icon:{name: biPeople},
         translateLabel: true
     },
-    ...crudDetailFn('role')
+    ...crudDetailFn('app-role')
 ];
 export const UserFormBreadcrumb: LabelValue<any>[] = [
     {
         label: 'model_user',
-        to: '/user',
+        to: '/app-user',
         icon:{name: biPerson},
         translateLabel: true
     },
-    ...crudDetailFn('user')
+    ...crudDetailFn('app-user')
 ];

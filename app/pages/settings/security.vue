@@ -2,8 +2,8 @@
 import { biDisplay, biDot } from '@quasar/extras/bootstrap-icons'
 import { mdiAndroid, mdiApple } from '@quasar/extras/mdi-v6'
 import AuthenService from '~/api/AuthenService'
-import UserService from '~/api/UserService'
-import type { AccessTokenDto } from '~/types/models'
+import AppUserService from '~/api/AppUserService'
+import type { AccessToken } from '~/types/models'
 definePageMeta({
   pageName: 'page.settingsSecurity'
 })
@@ -12,18 +12,18 @@ const { appConfirm, appLoading } = useBase()
 const { formatDateTime } = useDateFns()
 const { t, locale } = useLang()
 const { signout } = useAuth()
-const { selfUpdatePassword } = UserService()
+const { selfUpdatePassword } = AppUserService()
 const { removeAccessTokenSession } = AuthenService()
 const currentPassword = ref<string>('')
 const newPassword = ref<string>('')
 const logoutAllDevice = ref(true)
 const loading = ref(false)
-const sessionList = ref<AccessTokenDto[]>([])
+const sessionList = ref<AccessToken[]>([])
 const timeout = ref<any>(null)
 
 const { firstLoaded, dataList, loadData, onNextPage, isInfiniteDisabled } =
-  usePagefecth<AccessTokenDto>({
-    apiEndpoint: '/api/user/currentAuthSession',
+  usePagefecth<AccessToken>({
+    apiEndpoint: '/api/appUser/currentAuthSession',
     sortAble: false,
     itemsPerPage: 10,
     concatList: true

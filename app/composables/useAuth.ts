@@ -41,7 +41,7 @@ export const useAuth = () => {
         }
         return new Promise((resolve) => resolve(true));
     };
-    const onSwithUser = async (userId: number) => {
+    const onSwithUser = async (userId: number | string) => {
         if (!userId) {
             return;
         }

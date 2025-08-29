@@ -287,6 +287,12 @@ export default {
         typeForsearch: 'พิมพ์เพื่อค้นหา',
         typeCommandForsearch: 'Type a command to search',
         searchMenu: 'ค้นหาเมนู',
+        faveoriteMenu: 'บันทึกเป็นเมนูโปรด',
+        unFaveoriteMenu: 'ลบออกจากเมนูโปรด',
+        faveoriteMenuTitle: 'เมนูโปรด',
+        province: 'จังหวัด',
+        district: 'เขต/อำเภอ/กิ่งอำเภอ',
+        subDistrict: 'แขวง/ตำบล',
     },
     theme: {
         light: 'กลางวัน',

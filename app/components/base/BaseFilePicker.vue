@@ -11,7 +11,7 @@ import {
   LimitFileSizeMB,
   MaxSelectFiles
 } from '~/libs/constants'
-import type { FileManagerDto } from '~/types/models'
+import type { FileManager } from '~/types/models'
 import { getImgUrlFromFile, isImageFile, zipFile } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
 
@@ -37,7 +37,7 @@ const {
 const { appToast } = useBase()
 const { t } = useLang()
 const modelValue = defineModel<any[]>({ default: () => [] })
-const fileItems = defineModel<FileManagerDto[]>('fileItems', { default: () => [] })
+const fileItems = defineModel<FileManager[]>('fileItems', { default: () => [] })
 const modelImageFiles = ref<any[]>([])
 const emit = defineEmits<{
   'on-file-add': [files: File[]]

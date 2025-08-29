@@ -236,7 +236,7 @@ const isHaveViewPermission = computed(() => {
   return viewPermission && viewPermission?.permissions && viewPermission?.permissions?.length > 0
     ? hasPermission(viewPermission)
     : crudName
-      ? hasPermission({ permissions: [`${crudName}_view`] })
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_view`] })
       : true
 })
 const isHaveManagePermission = computed(() => {
@@ -249,7 +249,7 @@ const isHaveManagePermission = computed(() => {
     managePermission?.permissions?.length > 0
     ? hasPermission(managePermission)
     : crudName
-      ? hasPermission({ permissions: [`${crudName}_manage`] })
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_manage`] })
       : true
 })
 const dateForMat = (d: string, format: string | undefined = undefined) => {
@@ -668,6 +668,8 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                                 <BaseCrudActionButton
                                   :is-have-manage-permission="isHaveManagePermission"
                                   :is-have-view-permission="isHaveViewPermission"
+                                  :crud-name="crudName"
+                                  :crud-id="getValueByColunm('id', index)"
                                   :edit-button="fillable.options && fillable.options.editButton"
                                   :copy-button="fillable.options && fillable.options.copyButton"
                                   :delete-button="fillable.options && fillable.options.deleteButton"

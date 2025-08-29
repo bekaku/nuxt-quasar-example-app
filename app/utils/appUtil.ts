@@ -129,14 +129,10 @@ export const isObjectEmpty = (obj: any) => {
 export const convertStringToNumber = (n: string | undefined): number => {
     return n ? +n : 0;
 };
-export const snakeToCamel = (str: string) =>
-    str
-        ? str
-            .toLowerCase()
-            .replace(/([-_][a-z])/g, (group) =>
-                group.toUpperCase().replace('-', '').replace('_', '')
-            )
-        : '';
+export const snakeToCamel = (str: string) => str ? str.toLowerCase().replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace('-', '').replace('_', '')) : '';
+export const pascalToCamelCase = (str: string) => str ? str.charAt(0).toLowerCase() + str.slice(1) : '';
+export const pascalToSnake = (str: string) => str ? str.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/([A-Z])([A-Z][a-z])/g, '$1_$2').toLowerCase() : '';
+export const pascalToKebab = (str: string) => str ? str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/([A-Z])([A-Z][a-z])/g, '$1-$2').toLowerCase() : '';
 export const catchUrlFromText = (inputText: string) => {
     return inputText.match(/\bhttps?:\/\/\S+/gi);
 };
@@ -165,7 +161,7 @@ export const formatBytes = (bytes: any, decimals = 2) => {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
-export const readableNumber = (num: number, digits: number=1) => {
+export const readableNumber = (num: number, digits: number = 1) => {
     if (num < 1000) {
         return num;
     }
@@ -188,9 +184,9 @@ export const readableNumber = (num: number, digits: number=1) => {
     // return item
     //     ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol
     //     : '0';
-     return item
-  ? (Math.floor((num / item.value) * 10**digits) / 10**digits) + item.symbol
-  : '0';
+    return item
+        ? (Math.floor((num / item.value) * 10 ** digits) / 10 ** digits) + item.symbol
+        : '0';
 };
 export const percentage = (val: number, total: number, decimal = 2): number => {
     if (total === 0) {
@@ -255,32 +251,32 @@ export const isArray = (value: any): boolean => {
     return Array.isArray(value);
 };
 export const sortArray = <T extends Record<string, any>>(
-  array: T[],
-  field: keyof T,
-  mode: 'asc' | 'desc' = 'asc'
+    array: T[],
+    field: keyof T,
+    mode: 'asc' | 'desc' = 'asc'
 ): Promise<T[]> => {
-  return new Promise((resolve) => {
-    const sortedArray = [...array].sort((a, b) => {
-      const valA = a[field];
-      const valB = b[field];
+    return new Promise((resolve) => {
+        const sortedArray = [...array].sort((a, b) => {
+            const valA = a[field];
+            const valB = b[field];
 
-      // Handle string comparison (case-insensitive)
-      if (typeof valA === 'string' && typeof valB === 'string') {
-        return mode === 'asc'
-          ? valA.localeCompare(valB)
-          : valB.localeCompare(valA);
-      }
+            // Handle string comparison (case-insensitive)
+            if (typeof valA === 'string' && typeof valB === 'string') {
+                return mode === 'asc'
+                    ? valA.localeCompare(valB)
+                    : valB.localeCompare(valA);
+            }
 
-      // Handle number and boolean comparison
-      if (valA < valB)
-        return mode === 'asc' ? -1 : 1;
-      if (valA > valB)
-        return mode === 'asc' ? 1 : -1;
-      return 0;
+            // Handle number and boolean comparison
+            if (valA < valB)
+                return mode === 'asc' ? -1 : 1;
+            if (valA > valB)
+                return mode === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        resolve(sortedArray);
     });
-
-    resolve(sortedArray);
-  });
 }
 export const escapeHtml = (unsafe: string | undefined) => {
     if (!unsafe) {
@@ -307,7 +303,7 @@ export const unescapeHtml = (safe: string | undefined) => {
         '&quot;': '"',
         '&#039;': '\''
     };
-    return safe.replace(/&(amp|lt|gt|quot|#039);/g, (entity) => map[entity] ||'');
+    return safe.replace(/&(amp|lt|gt|quot|#039);/g, (entity) => map[entity] || '');
 };
 
 export const getValFromObjectByPath = (obj: any, path: string) => {

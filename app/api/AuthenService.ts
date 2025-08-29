@@ -42,10 +42,10 @@ export default () => {
     });
   };
   const removeAccessTokenSession = async (
-    id: number
+    id: number | string
   ): Promise<ResponseMessage | null> => {
     return await callAxios<ResponseMessage>({
-      API: `/api/user/removeAccessTokenSession?id=${id}`,
+      API: `/api/appUser/removeAccessTokenSession?id=${id}`,
       method: 'DELETE',
     });
   };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileManagerDto } from '~/types/models'
+import type { FileManager } from '~/types/models'
 
 const {
   showDelete = true,
@@ -8,7 +8,7 @@ const {
 } = defineProps<{
   showDelete?: boolean
   col?: string
-  items: FileManagerDto[]
+  items: FileManager[]
   formatSize?: boolean
   gallery?: boolean
   imageSize?: string

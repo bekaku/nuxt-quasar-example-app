@@ -43,6 +43,7 @@ export default {
         username3: 'No __ or _. or ._ or .. inside',
         username4: 'Allowed a-z A-Z 0-9 . _ characters ',
         username5: 'No _ or . at the end',
-        imageNotYetChoose: 'No picture has been selected yet.'
+        imageNotYetChoose: 'No picture has been selected yet.',
+        pleaseSelectAddress: 'Province,District,Sub District',
     }
 }

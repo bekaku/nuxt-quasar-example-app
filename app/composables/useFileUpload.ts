@@ -1,13 +1,13 @@
 import FileManagerService from "~/api/FileManagerService";
 import type { UploadStatus } from "~/types/common";
-import type { FileManagerDto, FileUploadChunkResponseDto } from "~/types/models";
+import type { FileManager, FileUploadChunkResponse } from "~/types/models";
 export const useFileUpload = (options?: {
     chunkSize?: number;
     maxRetries?: number;
 }) => {
     const { uploadChunkApi, mergeChunkApi } = FileManagerService();
     const files = ref<File[]>([])
-    const previews = ref<FileManagerDto[]>([])
+    const previews = ref<FileManager[]>([])
     const uploading = ref(false)
     const progress = ref(0)
     const status = ref<UploadStatus>();
@@ -25,7 +25,7 @@ export const useFileUpload = (options?: {
         status.value = undefined;
         uploadedChunks.clear()
     }
-    const onUploadChunkProcess = async (chunk: Blob, index: number, total: number, filename: string): Promise<FileUploadChunkResponseDto | null> => {
+    const onUploadChunkProcess = async (chunk: Blob, index: number, total: number, filename: string): Promise<FileUploadChunkResponse | null> => {
         for (let attempt = 1; attempt <= maxRetries; attempt++) {
             try {
                 const response = await uploadChunkApi(chunk, index, total, filename, chunkFileName.value)
@@ -44,7 +44,7 @@ export const useFileUpload = (options?: {
         }
     }
 
-    const onUploadChunk = async (selectedFile: File): Promise<FileManagerDto | null> => {
+    const onUploadChunk = async (selectedFile: File): Promise<FileManager | null> => {
         if (!selectedFile) {
             return new Promise(resolve => resolve(null))
         }

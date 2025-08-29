@@ -2,9 +2,39 @@ import { appNavs } from '~/libs/navs';
 import type { LabelValue } from "~/types/common";
 import { useRbac } from './useRbac';
 import type { RBACProps } from '~/types/props';
+import type { FavoriteMenu } from '~/types/models';
+import { biStar, biStarFill } from '@quasar/extras/bootstrap-icons';
 export const useMenu = () => {
     const appStore = useAppStore();
+    const { setDrawers, drawers } = appStore;
+    const { favoriteMenus } = storeToRefs(appStore)
     const { hasPermissionLazy } = useRbac();
+
+    const getFavoriteMenuItems = computed<LabelValue<any>[]>(() => {
+        const items: LabelValue<any>[] = [];
+        for (const menu of favoriteMenus.value) {
+            const result = findByUrl(drawers, menu.url)
+            if (result) {
+                items.push(result)
+            }
+        }
+        if (items.length > 0) {
+            return [
+                {
+                    label: '',
+                    children: [
+                        {
+                            label: 'base.faveoriteMenuTitle',
+                            icon: { name: biStarFill , color: 'yellow' },
+                            children: items
+                        }
+                    ]
+                }
+            ]
+
+        }
+        return items
+    })
     const initialAppNav = async (): Promise<boolean> => {
         const aclFinal: LabelValue<any>[] = [];
         let menu: LabelValue<any> | null = {};
@@ -20,6 +50,9 @@ export const useMenu = () => {
                 }
                 if (menuLevel1?.translateLabel != undefined) {
                     menu.translateLabel = menuLevel1.translateLabel;
+                }
+                if (menuLevel1?.icon != undefined) {
+                    menu.icon = menuLevel1.icon;
                 }
                 //child pages
                 const filterPages: LabelValue<any>[] = [];
@@ -50,7 +83,7 @@ export const useMenu = () => {
             }
         }
         if (aclFinal && aclFinal.length > 0) {
-            appStore.setDrawers(aclFinal);
+            setDrawers(aclFinal);
         }
 
         return new Promise((resolve) => resolve(true));
@@ -105,7 +138,30 @@ export const useMenu = () => {
     const isPermited = async (rabc: RBACProps | undefined): Promise<boolean> => {
         return await hasPermissionLazy(rabc);
     }
+
+    const findByUrl = (arr: LabelValue<any>[], to: string): LabelValue<any> | null => {
+        for (const item of arr) {
+            if (item.to === to) {
+                return item
+            }
+            if (item.children) {
+                const found = findByUrl(item.children, to)
+                if (found) return found
+            }
+        }
+        return null
+    }
+    const isFaveroteExist = (url: string) => {
+        return favoriteMenus.value.some((item: FavoriteMenu) => item.url === url);
+    }
+    const getFaveroteIndex = (url: string) => {
+        return favoriteMenus.value.findIndex((item: FavoriteMenu) => item.url === url);
+    }
     return {
-        initialAppNav
+        initialAppNav,
+        findByUrl,
+        isFaveroteExist,
+        getFaveroteIndex,
+        getFavoriteMenuItems
     };
 };

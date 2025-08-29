@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { biCopy, biEye, biFloppy, biPencil, biTrash } from '@quasar/extras/bootstrap-icons'
+import { CrudAction } from '~/libs/constants'
 import type { ICrudAction } from '~/types/common'
 
 const {
@@ -8,7 +9,12 @@ const {
   editButton = true,
   copyButton = true,
   deleteButton = true,
-  button = false
+  button = false,
+  autoLink = true,
+  crudName,
+  crudId,
+  isHaveViewPermission,
+  isHaveManagePermission
 } = defineProps<{
   isHaveManagePermission?: boolean
   isHaveViewPermission?: boolean
@@ -20,6 +26,9 @@ const {
   button?: boolean
   crudAction?: ICrudAction
   loading?: boolean
+  autoLink?: boolean
+  crudName?: string
+  crudId?: string | number
 }>()
 const emit = defineEmits<{
   'on-item-click': [type: ICrudAction]
@@ -27,6 +36,24 @@ const emit = defineEmits<{
   'on-item-delete': []
 }>()
 const { t } = useLang()
+const getViewLink = computed(() => {
+  if (isHaveViewPermission && viewButton && crudName && crudId) {
+    return `/${pascalToKebab(crudName)}/${CrudAction.VIEW}/${crudId}`
+  }
+  return
+})
+const getEditLink = computed(() => {
+  if (isHaveManagePermission && editButton && crudName && crudId) {
+    return `/${pascalToKebab(crudName)}/${CrudAction.EDIT}/${crudId}`
+  }
+  return
+})
+const getCopyLink = computed(() => {
+  if (isHaveManagePermission && editButton && crudName && crudId) {
+    return `/${pascalToKebab(crudName)}/${CrudAction.COPY}/${crudId}`
+  }
+  return
+})
 const onEditBtnBaseClick = (event: any, type: ICrudAction) => {
   appPreventDefult(event)
   emit('on-item-click', type)
@@ -48,23 +75,54 @@ const onDelete = (event: any) => {
     v-if="isHaveManagePermission || isHaveViewPermission"
     :class="{ 'q-gutter-xs': !button, 'q-gutter-md': button }"
   >
-    <BaseButton
-      v-if="viewButton && isHaveViewPermission"
-      :loading
-      :icon="biEye"
-      flat
-      dense
-      round
-      :size="size"
-      @click="onEditBtnBaseClick($event, 'view')"
-    >
-      <BaseTooltip v-if="!button">
-        {{ t('base.view') }}
-      </BaseTooltip>
-    </BaseButton>
+    <template v-if="viewButton && isHaveViewPermission">
+      <BaseButton
+        v-if="autoLink && getViewLink"
+        :loading
+        :icon="biEye"
+        flat
+        dense
+        round
+        :size="size"
+        :to="getViewLink"
+      >
+        <BaseTooltip v-if="!button">
+          {{ t('base.view') }}
+        </BaseTooltip>
+      </BaseButton>
+      <BaseButton
+        v-else
+        :loading
+        :icon="biEye"
+        flat
+        dense
+        round
+        :size="size"
+        @click="onEditBtnBaseClick($event, 'view')"
+      >
+        <BaseTooltip v-if="!button">
+          {{ t('base.view') }}
+        </BaseTooltip>
+      </BaseButton>
+    </template>
     <template v-if="editButton && isHaveManagePermission">
       <template v-if="!button">
         <BaseButton
+          v-if="autoLink && getEditLink"
+          :icon="biPencil"
+          flat
+          dense
+          round
+          :size="size"
+          type="button"
+          :to="getEditLink"
+        >
+          <BaseTooltip>
+            {{ t('base.edit') }}
+          </BaseTooltip>
+        </BaseButton>
+        <BaseButton
+          v-else
           :icon="biPencil"
           flat
           dense
@@ -112,21 +170,38 @@ const onDelete = (event: any) => {
       </template>
     </template>
 
-    <BaseButton
-      v-if="copyButton && isHaveManagePermission"
-      :loading
-      :icon="biCopy"
-      :flat="!button"
-      :dense="!button"
-      :size="size"
-      :outline="button"
-      :label="!button || crudAction == undefined ? undefined : t('base.copy')"
-      @click="onCopy"
-    >
-      <BaseTooltip v-if="!button">
-        {{ t('base.copy') }}
-      </BaseTooltip>
-    </BaseButton>
+    <template v-if="copyButton && isHaveManagePermission">
+      <BaseButton
+        v-if="autoLink && getCopyLink"
+        :loading
+        :icon="biCopy"
+        :flat="!button"
+        :dense="!button"
+        :size="size"
+        :outline="button"
+        :label="!button || crudAction == undefined ? undefined : t('base.copy')"
+        :to="getCopyLink"
+      >
+        <BaseTooltip v-if="!button">
+          {{ t('base.copy') }}
+        </BaseTooltip>
+      </BaseButton>
+      <BaseButton
+        v-else
+        :loading
+        :icon="biCopy"
+        :flat="!button"
+        :dense="!button"
+        :size="size"
+        :outline="button"
+        :label="!button || crudAction == undefined ? undefined : t('base.copy')"
+        @click="onCopy"
+      >
+        <BaseTooltip v-if="!button">
+          {{ t('base.copy') }}
+        </BaseTooltip>
+      </BaseButton>
+    </template>
     <BaseButton
       v-if="deleteButton && isHaveManagePermission && crudAction !== 'copy' && crudAction !== 'new'"
       color="negative"

@@ -1,5 +1,5 @@
 import { useAxios } from '~/composables/useAxios';
-import type { FileManagerDto, FileUploadChunkMergeRequestDto, FileUploadChunkResponseDto } from '~/types/models';
+import type { FileManager, FileUploadChunkMergeRequest, FileUploadChunkResponse } from '~/types/models';
 import type { ResponseDataType, ResponseMessage } from '~/types/common';
 import { FileDirectoryKey, FileUploadKey } from '~/libs/constants';
 import {
@@ -17,12 +17,12 @@ export default () => {
     file: any,
     fileDirectoryId = 0,
     resizeImage = true
-  ): Promise<FileManagerDto | null> => {
+  ): Promise<FileManager | null> => {
     const postData = new FormData();
     postData.append(FileUploadKey, file);
     postData.append(FileDirectoryKey, fileDirectoryId.toString());
     postData.append('resizeImage', resizeImage ? '1' : '0');
-    return await callAxios<FileManagerDto>({
+    return await callAxios<FileManager>({
       API: '/api/fileManager/uploadApi',
       method: 'POST',
       body: postData,
@@ -36,14 +36,14 @@ export default () => {
     totalChunks = 0,
     originalFilename: string = '',
     chunkFilename: string = '',
-  ): Promise<FileUploadChunkResponseDto | null> => {
+  ): Promise<FileUploadChunkResponse | null> => {
     const postData = new FormData();
     postData.append(FileUploadKey, file);
     postData.append("chunkNumber", chunkNumber.toString());
     postData.append('totalChunks', totalChunks.toString());
     postData.append('originalFilename', originalFilename);
     postData.append('chunkFilename', chunkFilename);
-    return await callAxios<FileUploadChunkResponseDto>({
+    return await callAxios<FileUploadChunkResponse>({
       API: '/api/fileManager/uploadChunkApi',
       method: 'POST',
       body: postData,
@@ -51,8 +51,8 @@ export default () => {
       contentType: 'multipart/form-data'
     });
   };
-  const mergeChunkApi = async (req: FileUploadChunkMergeRequestDto): Promise<FileManagerDto | null> => {
-    return await callAxios<FileManagerDto>({
+  const mergeChunkApi = async (req: FileUploadChunkMergeRequest): Promise<FileManager | null> => {
+    return await callAxios<FileManager>({
       API: '/api/fileManager/mergeChunkApi',
       method: 'POST',
       body: {

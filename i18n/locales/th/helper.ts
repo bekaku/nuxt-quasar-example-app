@@ -45,6 +45,7 @@ export default {
         username3: 'ไม่ใช้ __ หรือ _ หรือ ._ หรือ .. ข้างใน',
         username4: 'อนุญาต a-z A-Z 0-9 . _ ตัวอักษร ',
         username5: 'ไม่ใช้ _ หรือ . ในตอนท้าย',
-        imageNotYetChoose: 'ยังไม่ได้เลือกรูปภาพ'
+        imageNotYetChoose: 'ยังไม่ได้เลือกรูปภาพ',
+        pleaseSelectAddress: 'กรุณาเลือกจังหวัด,เขต/อำเภอ/กิ่งอำเภอ,ตำบล',
     }
 }

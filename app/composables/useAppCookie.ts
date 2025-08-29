@@ -19,7 +19,7 @@ export const useAppCookie = () => {
         sameSite: 'strict',
         secure: !import.meta.dev
     },)
-    const currentUserId = useCookie<number | null>(config.public.currentUserKeyName, {
+    const currentUserId = useCookie<number | string | null>(config.public.currentUserKeyName, {
         expires: addDateByDays(config.public.jwtAges),
         path: '/',
         sameSite: 'lax',
@@ -247,7 +247,7 @@ export const useAppCookie = () => {
         });
     }
 
-    const switchUser = async (userId: number): Promise<boolean> => {
+    const switchUser = async (userId: number | string): Promise<boolean> => {
         if (!userId || isServerMode) {
             return new Promise((resolve) => {
                 resolve(false);

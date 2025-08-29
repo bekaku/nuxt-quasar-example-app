@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { biCheckCircleFill, biDot, biPlusCircle } from '@quasar/extras/bootstrap-icons'
-import UserService from '~/api/UserService'
+import AppUserService from '~/api/AppUserService'
 import type { LoginedProfileItem } from '~/types/common'
 const { height = '175px' } = defineProps<{
   height?: string
 }>()
-const { findLoginedProfile } = UserService()
+const { findLoginedProfile } = AppUserService()
 const authenStore = useAuthenStore()
 const { onSwithUser } = useAuth()
 const { loginedItems, alreadyFetchLoginedProfile } = storeToRefs(authenStore)

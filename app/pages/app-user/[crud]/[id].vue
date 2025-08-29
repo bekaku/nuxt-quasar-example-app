@@ -9,12 +9,12 @@ import {
   biPerson,
   biTrash
 } from '@quasar/extras/bootstrap-icons'
-import RoleService from '~/api/RoleService'
-import UserService from '~/api/UserService'
+import AppRoleService from '~/api/AppRoleService'
+import AppUserService from '~/api/AppUserService'
 import { UserFormBreadcrumb } from '~/libs/breadcrumbs'
 import { UserPermission } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
-import type { Role, UserDto } from '~/types/models'
+import type { AppRole, AppUser } from '~/types/models'
 
 definePageMeta({
   pageName: 'model_user',
@@ -26,9 +26,9 @@ const { t } = useLang()
 const { required, requireEmail, requireUsername } = useValidation()
 const { appLoading } = useBase()
 const { isDark } = useTheme()
-const { findAllBackendRole } = RoleService()
-const { updateUserPassword } = UserService()
-const roles = ref<Role[]>([])
+const { findAllPermissions } = AppRoleService()
+const { updateUserPassword } = AppUserService()
+const roles = ref<AppRole[]>([])
 const selectedAll = ref(false)
 // update user password
 const showChangePasswordForm = ref(false)
@@ -36,7 +36,7 @@ const currentPassword = ref<string>('')
 const newPassword = ref<string>('')
 const logoutAllDevice = ref(true)
 
-const initialEntity: UserDto = Object.freeze<UserDto>({
+const initialEntity: AppUser = Object.freeze<AppUser>({
   id: null,
   email: '',
   username: null,
@@ -55,21 +55,21 @@ const {
   onEnableEditForm,
   onSubmit,
   preFectData
-} = useCrudForm<UserDto>(
+} = useCrudForm<AppUser>(
   {
-    crudName: 'user',
+    crudName: 'AppUser',
     apiEndpoint: '/api',
     fectchDataOnLoad: false
   },
   initialEntity
 )
-const roleItems = ref<LabelValue<number>[]>([])
+const roleItems = ref<LabelValue<number | string>[]>([])
 onMounted(() => {
   onLoadData()
 })
 const onLoadData = async () => {
   appLoading(true)
-  const res = await findAllBackendRole()
+  const res = await findAllPermissions()
   if (res) {
     roles.value = res
     for (const r of res) {
@@ -82,7 +82,7 @@ const onLoadData = async () => {
   await preFectData()
   appLoading(false)
 }
-const getRoleById = (id: number): LabelValue<number> | undefined => {
+const getRoleById = (id: number| string): LabelValue<number | string> | undefined => {
   return roleItems.value.find(p => p.value === id)
 }
 const removeRole = (index: number) => {
@@ -108,7 +108,7 @@ const updateSelectedAll = (val: boolean) => {
 //change password
 const onChangePassword = async () => {
   showChangePasswordForm.value = false
-  if (crudEntity.value && crudEntity.value.id && crudEntity.value.id > 0) {
+  if (crudEntity.value && crudEntity.value.id) {
     appLoading()
     try {
       await updateUserPassword(

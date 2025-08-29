@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { biPerson } from '@quasar/extras/bootstrap-icons'
-import UserService from '~/api/UserService'
+import AppUserService from '~/api/AppUserService'
 import { userListApi } from '~/libs/data'
 import type { ICrudListHeader, ISortModeType } from '~/types/common'
 import { CrudListDataType, ICrudListHeaderOptionSearchType } from '~/types/common'
-import type { UserDto } from '~/types/models'
+import type { AppUser } from '~/types/models'
 import { sortArray } from '~/utils/appUtil'
 useHead({
   title: 'Crud table'
@@ -135,7 +135,7 @@ const headers = ref<ICrudListHeader[]>([
     }
   }
 ])
-const { findAll } = UserService()
+const { findAll } = AppUserService()
 const { appConfirm } = useBase()
 const { t } = useLang()
 const { pages, resetPaging } = usePaging(10)
@@ -143,7 +143,7 @@ const { sort } = useSort({
   column: 'id',
   mode: 'desc'
 })
-const dataList = ref<UserDto[]>([])
+const dataList = ref<AppUser[]>([])
 const fristLoaded = ref(false)
 const loading = ref(false)
 onMounted(async () => {
@@ -236,7 +236,7 @@ const onSortMode = async (mode: ISortModeType) => {
 const onAdvanceSearch = async (event: any) => {
   console.log('onAdvanceSearch', event)
 }
-const onItemDelete = async (indexOrIds: number | number[], isSingle: boolean) => {
+const onItemDelete = async (indexOrIds: number | (number| string)[], isSingle: boolean) => {
   const conf = await appConfirm(t('app.monogram'), t('base.deleteConfirm'))
   if (!conf) {
     return
@@ -278,7 +278,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
     <BaseCrudList
       :icon="biPerson"
       :title="t('model_user')"
-      crud-name="user"
+      crud-name="AppUser"
       :loading="loading"
       :first-loaded="fristLoaded"
       :pages="pages"

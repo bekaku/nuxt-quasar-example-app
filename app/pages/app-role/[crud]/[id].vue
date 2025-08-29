@@ -4,7 +4,7 @@ import PermissionService from '~/api/PermissionService'
 import { RoleFormBreadcrumb } from '~/libs/breadcrumbs'
 import { RolePermission } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
-import type { Permission, Role } from '~/types/models'
+import type { Permission, AppRole } from '~/types/models'
 const { t } = useLang()
 const { required } = useValidation()
 definePageMeta({
@@ -14,8 +14,8 @@ definePageMeta({
 })
 useInitPage()
 const { appLoading } = useBase()
-const { findAllBackendPermission } = PermissionService()
-const entity: Role = Object.freeze<Role>({
+const { findAllPermission } = PermissionService()
+const entity: AppRole = Object.freeze<AppRole>({
   id: null,
   name: '',
   nameEn: null,
@@ -34,9 +34,9 @@ const {
   onEnableEditForm,
   onSubmit,
   preFectData
-} = useCrudForm<Role>(
+} = useCrudForm<AppRole>(
   {
-    crudName: 'role',
+    crudName: 'AppRole',
     apiEndpoint: '/api',
     fectchDataOnLoad: false
   },
@@ -44,19 +44,19 @@ const {
 )
 const permissions = ref<Permission[]>([])
 const selectedAll = ref(false)
-const permissionItems = ref<LabelValue<number>[]>([])
+const permissionItems = ref<LabelValue<number| string>[]>([])
 onMounted(() => {
   onLoadData()
 })
 const onLoadData = async () => {
   appLoading(true)
-  const response = await findAllBackendPermission()
+  const response = await findAllPermission()
   if (response) {
     permissions.value = response
     permissionItems.value.push({
       label: t('crudPermission'),
       children: response
-        .filter(c => c.operationType === 1)
+        .filter(c => c.operationType === 'CRUD')
         .map(c => {
           return {
             label: c.description || 'unknow',
@@ -97,7 +97,7 @@ const onLoadData = async () => {
   await preFectData()
   appLoading(false)
 }
-const getPermissionById = (id: number): LabelValue<number> | undefined => {
+const getPermissionById = (id: number | string): LabelValue<number | string> | undefined => {
   return permissionItems.value
     .find(p => p.children?.find(r => r.value === id))
     ?.children?.find(t => t.value == id)

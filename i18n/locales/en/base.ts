@@ -286,6 +286,12 @@ export default {
         typeForsearch: 'Type to search',
         typeCommandForsearch: 'Type a command to search',
         searchMenu: 'Search menu',
+        faveoriteMenu: 'Save as favorite menu',
+        unFaveoriteMenu: 'Remove from favorites menu',
+        faveoriteMenuTitle: 'Favorite menu',
+        province: 'Province',
+        district: 'District',
+        subDistrict: 'Sub District',
     },
     theme: {
         light: 'Light',

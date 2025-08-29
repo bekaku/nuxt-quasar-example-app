@@ -2,7 +2,7 @@
 import FileManagerService from '@/api/FileManagerService'
 import { useBase } from '@/composables/useBase'
 import { useLang } from '@/composables/useLang'
-import type { FileManagerDto } from '@/types/models'
+import type { FileManager } from '@/types/models'
 import { biQuestion } from '@quasar/extras/bootstrap-icons'
 import { MdEditor, type ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
@@ -81,7 +81,7 @@ const onUploadImg = async (files: any, callback: any) => {
 
   // Approach 2
   callback(
-    res.map((item: FileManagerDto) => ({
+    res.map((item: FileManager) => ({
       url: item.filePath,
       alt: item.id,
       title: item.fileName

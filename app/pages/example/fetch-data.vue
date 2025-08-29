@@ -67,7 +67,7 @@ const fetchResponseApi = async () => {
 const fetchResponseList = async () => {
   reponseListLoading.value = true
   reponseListItems.value = await callAxios<Permission[]>({
-    API: '/api/permission/findAllBackendPermission',
+    API: '/api/permission/findAllPermission',
     method: 'GET'
   })
   reponseListLoading.value = false
@@ -112,7 +112,7 @@ const fetchError = async () => {
 }
 
 // const { data: apiData, error: apiError, loading: apiLoading, clear:apiClear, refresh : apiRefresh} = await useApi<Permission>({
-//     API: '/api/permission/findAllBackendPermission',
+//     API: '/api/permission/findAllPermission',
 //     method: 'GET',
 // });
 
@@ -156,7 +156,7 @@ await callAxios<RefreshTokenResponse | null>({
 
 // PUT
 await callAxios<ResponseMessage>({
-    API: '/api/user/updateEmail',
+    API: '/api/appUser/updateEmail',
     method: 'PUT',
     body: {
         user: {

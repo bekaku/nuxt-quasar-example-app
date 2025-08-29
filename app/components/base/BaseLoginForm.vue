@@ -6,7 +6,7 @@ import {
   biLock,
   biPerson
 } from '@quasar/extras/bootstrap-icons'
-import UserService from '~/api/UserService'
+import AppUserService from '~/api/AppUserService'
 import type { RefreshTokenResponse } from '~/types/common'
 const {
   recoveryPasswordBtn = true,
@@ -26,7 +26,7 @@ const { signin } = useAuth()
 const { t } = useLang()
 const { inputSanitizeHtml } = useBase()
 const { required } = useValidation()
-const { verifyUserByEmailOrUsername } = UserService()
+const { verifyUserByEmailOrUsername } = AppUserService()
 const { getAllJwtToken } = useAppCookie()
 const { sendBroradcastChanelReload } = useAppBroadcastChannels()
 const email = ref<string | null>('admin@mydomain.com')

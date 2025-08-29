@@ -10,7 +10,7 @@ import { PermissionFormBreadcrumb } from '~/libs/breadcrumbs'
 import { PermissionPermission } from '~/libs/permissions'
 import { TabTest } from '~/libs/tabs'
 import type { LabelValue } from '~/types/common'
-import type { Permission } from '~/types/models'
+import type { Permission, PermissionType } from '~/types/models'
 definePageMeta({
   pageName: 'model_permission',
   requiresPermission: [PermissionPermission.view],
@@ -27,8 +27,7 @@ const entity: Permission = Object.freeze<Permission>({
   code: '',
   remark: null,
   description: null,
-  operationType: 1,
-  frontEnd: false
+  operationType: 'CRUD'
 })
 const {
   crudAction,
@@ -42,17 +41,17 @@ const {
   onSubmit
 } = useCrudForm<Permission>(
   {
-    crudName: 'permission',
+    crudName: 'Permission',
     apiEndpoint: '/api'
   },
   entity
 )
 const { required } = useValidation()
 const { t } = useLang()
-const radios: LabelValue<number>[] = [
-  { label: 'Crud', value: 1, icon: { name: biUiChecks } },
-  { label: 'Report', value: 2, icon: { name: biFileBarGraph } },
-  { label: 'Other', value: 3, icon: { name: biFileEarmark } }
+const radios: LabelValue<PermissionType>[] = [
+  { label: 'Crud', value: 'CRUD', icon: { name: biUiChecks } },
+  { label: 'Report', value: 'REPORT', icon: { name: biFileBarGraph } },
+  { label: 'Other', value: 'OTHER', icon: { name: biFileEarmark } }
 ]
 </script>
 <template>
@@ -83,15 +82,12 @@ const radios: LabelValue<number>[] = [
           </div>
           <div class="col-12 col-md-6 q-pa-md">
             <BaseInput
-              v-model="crudEntity.remark"
+              v-model="crudEntity.description"
               :edit-mode="isEditMode"
               :icon="{ name: biPencil }"
               :label="t('model_permission_description')"
               :maxlength="255"
             />
-          </div>
-          <div class="col-12 col-md-6 q-pa-md">
-            <BaseCheckbox v-model="crudEntity.frontEnd" :edit-mode="isEditMode" label="Frontend" />
           </div>
           <div class="col-12 col-md-6 q-pa-md">
             <div class="q-px-sm">Permission type</div>

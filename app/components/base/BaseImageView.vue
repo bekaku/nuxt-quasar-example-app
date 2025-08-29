@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FileManagerService from '~/api/FileManagerService';
-import type { FileManagerDto, ImageDto, UserProfileDto } from '~/types/models';
+import type { FileManager, ImageDto, UserProfile } from '~/types/models';
 import { downloadURI, generateimageFileName } from '~/utils/fileUtil';
 import {
     biX,
@@ -18,8 +18,8 @@ const { showDeleteImage = false, dark = true, fetch = false, showArrow = true, f
     showDeleteImage?: boolean
     fetch?: boolean
     showArrow?: boolean
-    user?: UserProfileDto
-    files?: FileManagerDto[]
+    user?: UserProfile
+    files?: FileManager[]
     images?: ImageDto[]
     selectedIndex?: number
     allowKeyboard?: boolean

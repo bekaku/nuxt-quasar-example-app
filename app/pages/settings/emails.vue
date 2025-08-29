@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biPencil } from '@quasar/extras/bootstrap-icons';
-import UserService from '~/api/UserService';
+import AppUserService from '~/api/AppUserService';
 import type { UserPersonalEditRequest } from '~/types/models';
 
 definePageMeta({
@@ -9,7 +9,7 @@ definePageMeta({
 useInitPage();
 const { t } = useLang();
 const authenStore = useAuthenStore();
-const { updateEmail } = UserService();
+const { updateEmail } = AppUserService();
 const { required, requireEmail } = useValidation();
 const entity = ref<UserPersonalEditRequest>({
     email: '',

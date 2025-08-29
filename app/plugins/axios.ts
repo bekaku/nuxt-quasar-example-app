@@ -88,11 +88,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     axiosInstance.interceptors.response.use(
         (response) => {
-            try {
-                response.data = JSONbigString.parse(response.data);
-            } catch (e) {
-                // fallback to normal JSON
-                response.data = JSON.parse(response.data);
+            if (response?.data) {
+                try {
+                    response.data = JSONbigString.parse(response.data);
+                } catch (e) {
+                    // fallback to normal JSON
+                    response.data = JSON.parse(response.data);
+                }
             }
             return response;
         },

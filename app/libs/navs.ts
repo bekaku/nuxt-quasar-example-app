@@ -34,6 +34,7 @@ import {
 } from '@quasar/extras/bootstrap-icons';
 import { mdiRobotConfused } from '@quasar/extras/mdi-v7';
 import type { LabelValue } from '~/types/common';
+import { login, PermissionPermission, RolePermission, UserPermission } from './permissions';
 export const appNavs: LabelValue<any>[] = [
     {
         children: [
@@ -42,7 +43,7 @@ export const appNavs: LabelValue<any>[] = [
                 label: 'nav.dashboard',
                 to: '/',
                 rbac: {
-                    permissions: ['backend_login']
+                    permissions: [login]
                 }
             }
         ]
@@ -59,7 +60,7 @@ export const appNavs: LabelValue<any>[] = [
                         icon: { name: biShieldCheck },
                         to: '/permission',
                         rbac: {
-                            permissions: ['permission_list']
+                            permissions: [PermissionPermission.list]
                         }
                     }
                 ]
@@ -76,17 +77,17 @@ export const appNavs: LabelValue<any>[] = [
                     {
                         label: 'nav.userRole',
                         icon: { name: biPeople },
-                        to: '/role',
+                        to: '/app-role',
                         rbac: {
-                            permissions: ['role_list']
+                            permissions: [RolePermission.list]
                         }
                     },
                     {
                         label: 'nav.appUser',
                         icon: { name: biPerson },
-                        to: '/user',
+                        to: '/app-user',
                         rbac: {
-                            permissions: ['user_list']
+                            permissions: [UserPermission.list]
                         }
                     }
                 ]

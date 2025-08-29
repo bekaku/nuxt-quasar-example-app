@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { biCommand, biGear, biQuestionCircle, biSearch } from '@quasar/extras/bootstrap-icons'
+import {
+  biCommand,
+  biGear,
+  biQuestionCircle,
+  biSearch,
+  biStar,
+  biStarFill
+} from '@quasar/extras/bootstrap-icons'
+import { mdiChevronDown, mdiChevronRight } from '@quasar/extras/mdi-v7'
 import { additionalMenu } from '~/libs/navs'
 const {
   overlay = false,
@@ -14,6 +22,7 @@ const {
   width?: number
   tranparent?: boolean
 }>()
+const { getFavoriteMenuItems } = useMenu()
 const { isMobileOrTablet } = useAppDevice()
 const { version: quasarVersion } = useQuasar()
 const { t } = useLang()
@@ -91,7 +100,17 @@ onBeforeUnmount(() => {
           </q-item-section>
         </q-item>
       </div>
-      <BaseMenuItems :items="appStore.drawers" />
+      <template v-if="getFavoriteMenuItems.length > 0">
+        <BaseMenuItems
+          :items="getFavoriteMenuItems"
+          :padding="true"
+          favorite-section
+          can-favorite
+        >
+      </BaseMenuItems>
+        <q-separator />
+      </template>
+      <BaseMenuItems :items="appStore.drawers" can-favorite />
       <BaseMenuItems :items="additionalMenu">
         <template #after>
           <q-separator />

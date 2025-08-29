@@ -1,10 +1,10 @@
 
-import type { FileManagerDto, GroupChatDto, GroupChatMsgDto, Permission, UserDto } from '~/types/models';
+import type { FileManager, GroupChat, GroupChatMsg, Permission, AppUser } from '~/types/models';
 import { FORMAT_DATE13, getCurrentDateByFormat } from '~/utils/dateUtil'
 import { biBarChart, biChatDots, biCreditCard, biCurrencyDollar, biGraphUp, biNewspaper, biPeople } from '@quasar/extras/bootstrap-icons';
 import type { LabelValue, RefreshTokenResponse, IApiListResponse } from '~/types/common';
 import type { ISeriresCategories } from '~/types/chart';
-export const userData: UserDto = {
+export const userData: AppUser = {
     id: 1,
     email: 'admin@mydomain.com',
     username: 'admin',
@@ -135,7 +135,7 @@ export const permissionListApi: IApiListResponse<Permission> = {
     totalElements: 20,
     last: false,
 }
-export const userItems: UserDto[] = [
+export const userItems: AppUser[] = [
     {
         id: 1,
         email: 'Cody@mydomain.com',
@@ -297,7 +297,7 @@ export const userItems: UserDto[] = [
         active: true,
     }
 ]
-export const userListApi: IApiListResponse<UserDto> = {
+export const userListApi: IApiListResponse<AppUser> = {
     dataList: userItems,
     totalPages: 100,
     totalElements: 20000,
@@ -499,7 +499,7 @@ export const dashboardHeroItems: LabelValue<string>[] = [
     },
 ];
 
-export const imageItemsData: FileManagerDto[] = [
+export const imageItemsData: FileManager[] = [
     {
         id: 1,
         fileMime: 'image/jpeg',
@@ -634,7 +634,7 @@ export const imageItemsData: FileManagerDto[] = [
     },
 ];
 
-export const pdfItemsData: FileManagerDto[] = ([
+export const pdfItemsData: FileManager[] = ([
     {
         id: 1,
         fileMime: 'application/pdf',
@@ -735,7 +735,7 @@ export const appleStockPrices: ISeriresCategories = {
 export const simpleSeries: number[] = [44, 55, 41, 37, 22, 43, 21];
 export const simpleCategories: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
 
-export const chatHistoryListApi: IApiListResponse<GroupChatDto> = {
+export const chatHistoryListApi: IApiListResponse<GroupChat> = {
     dataList: [
         {
             id: 1,
@@ -917,7 +917,7 @@ export const chatHistoryListApi: IApiListResponse<GroupChatDto> = {
     totalElements: 15,
     last: true
 }
-export const chatMessageListApi: IApiListResponse<GroupChatMsgDto> =
+export const chatMessageListApi: IApiListResponse<GroupChatMsg> =
 {
     dataList: [
         {

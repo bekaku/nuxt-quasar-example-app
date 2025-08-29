@@ -4,7 +4,7 @@ import { useMenu } from '~/composables/useMenu';
 import { AuthNoInitialPage } from '~/libs/constants';
 import { useAppStore } from '~/stores/appStore';
 import { useAuthenStore } from '~/stores/authenStore';
-import type { UserDto } from '~/types/models';
+import type { AppUser } from '~/types/models';
 
 export default defineNuxtRouteMiddleware(async (to) => {
     // console.log('middleware > initAuth.global > Pagename: ', to.name, ', path: ',to.path);
@@ -36,8 +36,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const { callAxiosProcess } = useAxios();
     // const { initialAppNav } = useMenu();
     try {
-        const response = await callAxiosProcess<UserDto>({
-            API: '/api/user/currentUserData',
+        const response = await callAxiosProcess<AppUser>({
+            API: '/api/appUser/currentUserData',
             method: 'GET',
         });
         // console.log('middleware > 02.init-auth.global > response:', response.data);
@@ -45,6 +45,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
             authenStore.setAuthen(response.data);
             if (response.data.permissions && response.data.permissions.length > 0) {
                 appStore.setPermissions(response.data.permissions);
+                appStore.setFavoriteMenus(response.data.favoriteMenus);
                 // await initialAppNav();
             }
         }

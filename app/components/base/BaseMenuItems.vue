@@ -1,92 +1,127 @@
 <script setup lang="ts" generic="T">
-import { checkExpansionChildActiveAlt } from '@/utils/appUtil';
-import { mdiChevronDown, mdiChevronRight } from '@quasar/extras/mdi-v7';
-import { computed } from 'vue';
-import type { LabelValue } from '~/types/common';
+import { checkExpansionChildActiveAlt } from '@/utils/appUtil'
+import { mdiChevronDown, mdiChevronRight } from '@quasar/extras/mdi-v7'
+import { computed } from 'vue'
+import type { LabelValue } from '~/types/common'
 
-const { items, iconSize = '20px', dense = true } = defineProps<{
-    items: LabelValue<T>[];
-    darkText?: string;
-    lightText?: string;
-    dark?: boolean;
-    iconSize?: string;
-    dense?: boolean;
-}>();
-const { t } = useLang();
-const { getCurrentPath } = useBase();
-const currentUrlPath = computed(() => getCurrentPath(false));
+const {
+  items,
+  iconSize = '20px',
+  dense = true,
+  canFavorite = false,
+  padding = true,
+  favoriteSection = false
+} = defineProps<{
+  items: LabelValue<T>[]
+  darkText?: string
+  lightText?: string
+  dark?: boolean
+  iconSize?: string
+  dense?: boolean
+  canFavorite?: boolean
+  padding?: boolean
+  favoriteSection?: boolean
+}>()
+const { t } = useLang()
+const { getCurrentPath } = useBase()
+const currentUrlPath = computed(() => getCurrentPath(false))
 </script>
 <template>
-    <q-list v-bind="$attrs" padding>
-        <slot name="before" />
-        <template v-if="items && items.length > 0">
-            <template v-for="(item, index) in items" :key="`parent-${index}`">
-                <q-separator v-if="item.border" />
-                <template v-if="item.children && item.children.length > 0">
-                    <template v-if="item.label">
-                        <q-item-label header class="q-pa-none text-subtitle2 q-pl-md q-mt-md q-pb-xs">
-                            {{ item?.translateLabel !== false ? t(`${item.label}`) : item.label }}
-                        </q-item-label>
-                    </template>
-                    <template v-for="(page, pageIndex) in item.children" :key="`parent-${index}-page-${pageIndex}`">
-                        <template v-if="!page.children">
-                            <BaseMenuItem :dark-text="darkText" :light-text="lightText" :dense :item="page">
-                                <template #end="{ item: menuItem }">
-                                    <slot name="end" v-bind="{ menuItem }" />
-                                </template>
-                            </BaseMenuItem>
-                        </template>
-                        <template v-else>
-                            <q-expansion-item :icon="page.icon?.name"
-                                :label="page?.translateLabel !== false ? t(`${page.label}`) : page.label"
-                                :default-opened="checkExpansionChildActiveAlt(currentUrlPath, page.children)"
-                                :expand-icon="mdiChevronRight" :expanded-icon="mdiChevronDown"
-                                expand-icon-class="text-muted" :dense class="parent-defult">
-                                <template #header>
-                                    <q-item-section avatar>
-                                        <q-icon :name="page.icon?.name" :size="iconSize" />
-                                    </q-item-section>
-
-                                    <q-item-section>
-                                        {{ page?.translateLabel !== false ? t(`${page.label}`) : page.label }}
-                                    </q-item-section>
-                                </template>
-                                <q-list class="q-pl-sm">
-                                    <div class="parent-menu-border">
-                                        <BaseMenuItem v-for="(pageItem, pageItemIndex) in page.children"
-                                            :key="`parent-${index}-page-${pageIndex}-sub-${pageItemIndex}`"
-                                            :light-text="lightText" :dark-text="darkText" :dense :item="pageItem"
-                                            icon-size="18px">
-                                            <template #end="{ item: menuItem }">
-                                                <slot name="end" v-bind="{ menuItem }" />
-                                            </template>
-                                        </BaseMenuItem>
-                                    </div>
-                                </q-list>
-
-                            </q-expansion-item>
-                        </template>
-                    </template>
+  <q-list v-bind="$attrs" :padding>
+    <slot name="before" />
+    <template v-if="items && items.length > 0">
+      <template v-for="(item, index) in items" :key="`parent-${index}`">
+        <q-separator v-if="item.border" />
+        <template v-if="item.children && item.children.length > 0">
+          <template v-if="item.label">
+            <q-item>
+              <q-item-section v-if="item.icon" side>
+                <BaseIcon v-bind="item.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="q-pa-none text-subtitle2 text-muted">
+                  {{ item?.translateLabel !== false ? t(`${item.label}`) : item.label }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <!-- <q-item-label header class="q-pa-none text-subtitle2 q-pl-md q-mt-md q-pb-xs">
+             <BaseIcon v-if="item.icon" v-bind="item.icon" /> {{ item?.translateLabel !== false ? t(`${item.label}`) : item.label }}
+            </q-item-label> -->
+          </template>
+          <template
+            v-for="(page, pageIndex) in item.children"
+            :key="`parent-${index}-page-${pageIndex}`"
+          >
+            <template v-if="!page.children">
+              <BaseMenuItem
+                :dark-text="darkText"
+                :light-text="lightText"
+                :dense
+                :item="page"
+                :can-favorite="canFavorite"
+                :favorite-section="favoriteSection"
+              >
+                <template #end="{ item: menuItem }">
+                  <slot name="end" v-bind="{ menuItem }" />
                 </template>
-                <template v-else>
-                    <BaseMenuItem :dark-text="darkText" :light-text="lightText" :dense :item="item">
-                        <template #end="{ item: menuItem }">
-                            <slot name="end" v-bind="{ menuItem }" />
-                        </template>
-                    </BaseMenuItem>
-                </template>
+              </BaseMenuItem>
             </template>
+            <template v-else>
+              <q-expansion-item
+                :label="page?.translateLabel !== false ? t(`${page.label}`) : page.label"
+                :default-opened="checkExpansionChildActiveAlt(currentUrlPath, page.children)"
+                :expand-icon="mdiChevronRight"
+                :expanded-icon="mdiChevronDown"
+                expand-icon-class="text-muted"
+                :dense
+                class="parent-defult"
+              >
+                <template #header>
+                  <q-item-section v-if="page.icon" avatar>
+                    <BaseIcon v-bind="{ ...page.icon, size: page.icon.size || iconSize }" />
+                  </q-item-section>
+
+                  <q-item-section>
+                    {{ page?.translateLabel !== false ? t(`${page.label}`) : page.label }}
+                  </q-item-section>
+                </template>
+                <q-list class="q-pl-sm">
+                  <div class="parent-menu-border">
+                    <BaseMenuItem
+                      v-for="(pageItem, pageItemIndex) in page.children"
+                      :key="`parent-${index}-page-${pageIndex}-sub-${pageItemIndex}`"
+                      :light-text="lightText"
+                      :dark-text="darkText"
+                      :dense
+                      :item="pageItem"
+                      :can-favorite="canFavorite"
+                      :favorite-section="favoriteSection"
+                      icon-size="18px"
+                    >
+                      <template #end="{ item: menuItem }">
+                        <slot name="end" v-bind="{ menuItem }" />
+                      </template>
+                    </BaseMenuItem>
+                  </div>
+                </q-list>
+              </q-expansion-item>
+            </template>
+          </template>
         </template>
-        <slot name="after" />
-    </q-list>
+        <template v-else>
+          <BaseMenuItem :dark-text="darkText" :light-text="lightText" :dense :item="item">
+            <template #end="{ item: menuItem }">
+              <slot name="end" v-bind="{ menuItem }" />
+            </template>
+          </BaseMenuItem>
+        </template>
+      </template>
+    </template>
+    <slot name="after" />
+  </q-list>
 </template>
 <style lang="scss">
 .parent-menu-border {
-    border-left: 1px solid var(--app-main-border-color);
-}
-
-.default-nav {
-    padding: 10px;
-    border-radius: 10px;
+  border-left: 1px solid var(--app-main-border-color);
 }
 </style>

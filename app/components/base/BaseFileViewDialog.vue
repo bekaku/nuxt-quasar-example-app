@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileManagerDto } from '~/types/models'
+import type { FileManager } from '~/types/models'
 import FileManagerService from '~/api/FileManagerService'
 import type { FileType } from '~/types/common'
 import {
@@ -21,8 +21,8 @@ const {
   isBlob = false
 } = defineProps<{
   title?: string
-  item: FileManagerDto
-  imageList?: FileManagerDto[]
+  item: FileManager
+  imageList?: FileManager[]
   selectIndex?: number
   fetch?: boolean
   showArrow?: boolean
@@ -37,7 +37,7 @@ const fileType = ref<FileType | undefined>(undefined)
 
 const pdfSrc = ref<any>()
 
-const imageItems = ref<FileManagerDto[]>([])
+const imageItems = ref<FileManager[]>([])
 const imageSelectIndex = ref(0)
 onMounted(async () => {
   appLoading()

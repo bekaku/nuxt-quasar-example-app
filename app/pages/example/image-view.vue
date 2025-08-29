@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biInfoCircle } from '@quasar/extras/bootstrap-icons'
-import type { FileManagerDto } from '~/types/models'
+import type { FileManager } from '~/types/models'
 import FileManagerService from '~/api/FileManagerService'
 useHead({
   title: 'Image/Pdf View'
@@ -13,7 +13,7 @@ const pdfFromServer = ref<string>()
 
 const imageSelectIndex = ref<number>(0)
 const showImageView = ref(false)
-const imageItems = ref<FileManagerDto[]>([
+const imageItems = ref<FileManager[]>([
   {
     id: 1,
     fileMime: 'image/jpeg',
@@ -138,7 +138,7 @@ const imageItems = ref<FileManagerDto[]>([
 const showPdfView = ref(false)
 const pdfSrc = ref<string>()
 const pdfName = ref<string>()
-const pdfItems = ref<FileManagerDto[]>([
+const pdfItems = ref<FileManager[]>([
   {
     id: 1,
     fileMime: 'application/pdf',
@@ -152,9 +152,9 @@ const pdfItems = ref<FileManagerDto[]>([
 
 const showMixFiles = ref(false)
 const fileMixImageSelectIndex = ref<number>(0)
-const fileImageItemsForView = ref<FileManagerDto[]>([])
-const fileMixForView = ref<FileManagerDto>()
-const mixItems = ref<FileManagerDto[]>(imageItems.value.concat(pdfItems.value))
+const fileImageItemsForView = ref<FileManager[]>([])
+const fileMixForView = ref<FileManager>()
+const mixItems = ref<FileManager[]>(imageItems.value.concat(pdfItems.value))
 const onImgPreviewClick = async (index: number) => {
   imageSelectIndex.value = index
   showImageView.value = true
@@ -194,7 +194,7 @@ const onMixPreviewClick = async (index: number) => {
   }
 }
 const getImageItems = computed(() => mixItems.value.filter(f => f.isImage))
-const setImagesFileView = (file: FileManagerDto) => {
+const setImagesFileView = (file: FileManager) => {
   return new Promise(resolve => {
     const index = getImageItems.value.findIndex(t => t.id == file.id)
     if (index >= 0) {

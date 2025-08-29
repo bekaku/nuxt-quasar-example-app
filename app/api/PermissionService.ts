@@ -15,15 +15,9 @@ export default () => {
       method: 'GET',
     });
   };
-  const findAllBackendPermission = async (): Promise<Permission[] | null> => {
+  const findAllPermission = async (): Promise<Permission[] | null> => {
     return await callAxios<Permission[]>({
-      API: '/api/permission/findAllBackendPermission',
-      method: 'GET',
-    });
-  };
-  const findAllFrontendPermission = async (): Promise<Permission[] | null> => {
-    return await callAxios<Permission[]>({
-      API: '/api/permission/findAllFrontendPermission',
+      API: '/api/permission/findAllPermission',
       method: 'GET',
     });
   };
@@ -31,7 +25,6 @@ export default () => {
   return {
     findAll,
     userAcl,
-    findAllBackendPermission,
-    findAllFrontendPermission,
+    findAllPermission,
   };
 };

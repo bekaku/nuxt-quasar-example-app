@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { FileManagerDto, ImageDto, UserProfileDto } from '~/types/models';
+import type { FileManager, ImageDto, UserProfile } from '~/types/models';
 const { showDeleteImage = false, maximized = true, fetch = false, showArrow = true, files = [], images = [], selectedIndex = 0 } = defineProps<{
     showDeleteImage?: boolean
     maximized?: boolean
     fetch?: boolean
     showArrow?: boolean
-    user?: UserProfileDto
-    files?: FileManagerDto[]
+    user?: UserProfile
+    files?: FileManager[]
     images?: ImageDto[]
     selectedIndex?: number
 }>();

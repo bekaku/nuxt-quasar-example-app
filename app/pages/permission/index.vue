@@ -49,21 +49,6 @@ const headerItems: ICrudListHeader[] = [
     }
   },
   {
-    label: 'model_permission_frontEnd',
-    column: 'frontEnd',
-    type: CrudListDataType.STATUS,
-    options: {
-      fillable: true,
-      sortable: true,
-      searchable: true,
-      align: 'center',
-      searchType: ICrudListHeaderOptionSearchType.BOOLEAN,
-      searchModel: false,
-      clickable: true,
-      searchOperation: '='
-    }
-  },
-  {
     label: 'base.tool',
     type: CrudListDataType.BASE_TOOL,
     options: {
@@ -96,7 +81,7 @@ const {
   onKeywordSearch,
   headers
 } = useCrudList<Permission>({
-  crudName: 'permission',
+  crudName: 'Permission',
   apiEndpoint: '/api',
   headers: headerItems,
   itemsPerPage: 15,
@@ -107,25 +92,6 @@ const {
 })
 const { t } = useLang()
 
-const onColClick = (event: any, index: number, headerOption: ICrudListHeader, colValue: any) => {
-  console.log('pages/permission/index.vue : onColClick', {
-    index,
-    event,
-    headerOption,
-    colValue
-  })
-  if (headerOption && headerOption.column && headerOption.column == 'frontEnd') {
-    const rowItem = dataList.value[index]
-    if (rowItem) {
-      console.log('rowItem.frontEnd', rowItem.frontEnd)
-      dataList.value.map(item => {
-        if (item.id == rowItem.id) {
-          item.frontEnd = !item.frontEnd
-        }
-      })
-    }
-  }
-}
 </script>
 <template>
   <BasePage>
@@ -151,7 +117,6 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
       @on-keyword-search="onKeywordSearch"
       @on-item-delete="onItemDelete"
       @on-new-form="onNewForm"
-      @on-col-click="onColClick"
     >
       <!--
     <template #additionalBaseTool>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileManagerDto } from '~/types/models'
+import type { FileManager } from '~/types/models'
 import { FileExtensionAccept, FileExtensionVdoAccept } from '~/libs/constants'
 import {
   biFileArrowUp,
@@ -18,16 +18,16 @@ useHead({
 })
 const { files: fileChunks, previews, uploading, progress, onStartUploadChunk } = useFileUpload()
 const files = ref<File[]>([])
-const filesPreview = ref<FileManagerDto[]>([])
+const filesPreview = ref<FileManager[]>([])
 const filesSingle = ref<File[]>([])
-const filesSinglePreview = ref<FileManagerDto[]>([])
+const filesSinglePreview = ref<FileManager[]>([])
 
 const filePickerCustomUiRef =
   useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef')
-const customFiles = ref<FileManagerDto[]>([])
+const customFiles = ref<FileManager[]>([])
 
 const filePickerCustomUi2Ref = useTemplateRef<any>('filePickerCustomUi2Ref')
-const custom2Files = ref<FileManagerDto[]>([])
+const custom2Files = ref<FileManager[]>([])
 const message = ref()
 
 const onFileVdoAdd = (items: File[]) => {

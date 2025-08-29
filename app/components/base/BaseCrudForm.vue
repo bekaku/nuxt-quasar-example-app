@@ -50,7 +50,7 @@ const isHaveManagePermission = computed(() => {
     managePermission?.permissions?.length > 0
     ? hasPermission(managePermission)
     : crudName
-      ? hasPermission({ permissions: [`${crudName}_manage`] })
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_manage`] })
       : true
 })
 const isHaveListPermission = computed(() => {
@@ -60,7 +60,7 @@ const isHaveListPermission = computed(() => {
   return listPermission && listPermission?.permissions && listPermission?.permissions.length > 0
     ? hasPermission(listPermission)
     : crudName
-      ? hasPermission({ permissions: [`${crudName}_list`] })
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_list`] })
       : true
 })
 

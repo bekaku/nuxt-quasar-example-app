@@ -1,9 +1,10 @@
 import type { ChatMessageType, ChatType, EmojiType, ILanguge, LoginLogType, UploadStatus } from "./common";
 export type IPermissionOperationType = 1 | 2 | 3; // 1=crud, 2=report, 3=other
+export type PermissionType = "CRUD" | "REPORT" | "OTHER" | "FEATURE";
 export interface Id {
   id: number | string | null;
 }
-export interface AccessTokenDto extends Id {
+export interface AccessToken extends Id {
   ipAddredd: string;
   hostName: string;
   agent: string;
@@ -12,7 +13,7 @@ export interface AccessTokenDto extends Id {
   createdDate: string;
   lastestActive: string;
 }
-export interface FileManagerDto extends Id {
+export interface FileManager extends Id {
   fileMime: string;
   fileName: string;
   filePath: string;
@@ -26,16 +27,16 @@ export interface FileManagerDto extends Id {
     uploading: boolean;
     progress: number;
     status: UploadStatus;
-    uploadData?: FileManagerDto | null
+    uploadData?: FileManager | null
   };
 }
-export interface FileUploadChunkResponseDto {
+export interface FileUploadChunkResponse {
   filename?: string | null;
   fileMime?: string | null;
   status?: boolean;
   lastChunk?: boolean;
 }
-export interface FileUploadChunkMergeRequestDto {
+export interface FileUploadChunkMergeRequest {
   totalChunks: number;
   fileMime: string | null;
   originalFilename?: string;
@@ -53,17 +54,16 @@ export interface Permission extends Id {
   code: string;
   remark?: string | null;
   description?: string | null;
-  operationType: IPermissionOperationType;
-  frontEnd?: boolean;
+  operationType: PermissionType;
 }
-export interface Role extends Id {
+export interface AppRole extends Id {
   name: string;
   nameEn?: string | null;
   active: boolean;
   frontEnd: boolean;
-  selectdPermissions: number[];
+  selectdPermissions: (number | string)[];
 }
-export interface UserDto extends Id {
+export interface AppUser extends Id {
   email: string;
   uuid?: string;
   username?: string | null;
@@ -76,12 +76,13 @@ export interface UserDto extends Id {
   avatar?: ImageDto | null;
   cover?: ImageDto | null;
   active: boolean;
-  selectedRoles?: number[];
+  selectedRoles?: (number | string)[];
   defaultLocale?: ILanguge;
   ownerProfile?: boolean;
   permissions?: string[]
+  favoriteMenus?: FavoriteMenu[]
 }
-export interface UserProfileDto extends Id {
+export interface UserProfile extends Id {
   id: number;
   username: string;
   fullName: string;
@@ -104,17 +105,17 @@ export interface UserPersonalEditRequest {
   autoFollowUser?: boolean;
 }
 
-export interface GroupChatMemberDto extends Id {
+export interface GroupChatMember extends Id {
   favorite: boolean
   muteNotify: boolean
   pin: boolean
   online?: boolean
   joinDate: string
   offDate?: string
-  member: UserProfileDto
+  member: UserProfile
 }
 
-export interface GroupChatDto extends Id {
+export interface GroupChat extends Id {
   dtoAvatar?: ImageDto | null
   chatType: ChatType
   groupName?: string | null
@@ -127,7 +128,7 @@ export interface GroupChatDto extends Id {
   favorite: boolean
   muteNotify: boolean
   online: boolean
-  memberItems?: GroupChatMemberDto[]
+  memberItems?: GroupChatMember[]
   totalImages?: number
   totalFile?: number
 }
@@ -141,28 +142,28 @@ export interface GroupChatRequest {
   newAvatar?: ImageDto | undefined
   avatarPreview?: string | undefined
 }
-export interface GroupChatFileDto extends Id {
-  fileManager?: FileManagerDto | null | undefined
+export interface GroupChatFile extends Id {
+  fileManager?: FileManager | null | undefined
 }
 
-export interface EmojiCountDto {
+export interface EmojiCount {
   total: number
   emojiType: EmojiType
 }
-export interface GroupChatMsgDto extends Id {
+export interface GroupChatMsg extends Id {
   groupId?: number | undefined
   chatMsg?: string | undefined | null
   msgDateTime: string
   readCount: number
   unsend?: boolean | undefined
   sent: boolean
-  sendUser?: UserDto | undefined
-  files?: GroupChatFileDto[] | undefined | null
+  sendUser?: AppUser | undefined
+  files?: GroupChatFile[] | undefined | null
   liked?: boolean | undefined
   onlyLabel?: boolean | undefined
   emojiType?: EmojiType | null | undefined
-  reactionEngage?: EmojiCountDto[] | undefined
-  dtoReplyTo?: GroupChatMsgDto | null | undefined
+  reactionEngage?: EmojiCount[] | undefined
+  dtoReplyTo?: GroupChatMsg | null | undefined
   chatMessageType?: ChatMessageType | undefined
 }
 export interface GroupChatMsgRequest {
@@ -171,4 +172,7 @@ export interface GroupChatMsgRequest {
   fileIds?: number[]
   shareMessageIds?: number[]
   replyToId?: number | null
+}
+export interface FavoriteMenu {
+  url: string
 }

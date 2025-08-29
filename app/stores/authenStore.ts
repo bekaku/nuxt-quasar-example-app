@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { IMenu, LoginedProfileItem } from '~/types/common';
-import type { UserDto } from '~/types/models';
+import type { AppUser } from '~/types/models';
 
 export const useAuthenStore = defineStore('authenStore', () => {
-    const auth = ref<UserDto | undefined>(undefined);
+    const auth = ref<AppUser | undefined>(undefined);
     const loginedItems = ref<LoginedProfileItem[]>([]);
     const alreadyFetchLoginedProfile = ref<boolean>(false);
     const drawers = ref<IMenu[]>([]);
@@ -14,7 +14,7 @@ export const useAuthenStore = defineStore('authenStore', () => {
         ? auth.value?.username
         : auth.value?.email);
 
-    const setAuthen = (item: UserDto) => {
+    const setAuthen = (item: AppUser) => {
         auth.value = item;
     };
     const setLoginedItems = (items: LoginedProfileItem[]) => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
-import type { FileManagerDto } from '~/types/models'
+import type { FileManager } from '~/types/models'
 import { formatBytes } from '~/utils/appUtil'
 import { getFileTypeIcon } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
@@ -19,7 +19,7 @@ const {
 } = defineProps<{
   showDelete?: boolean
   col?: string
-  item: FileManagerDto
+  item: FileManager
   index: number
   formatSize?: boolean
   imageSize?: string

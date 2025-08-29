@@ -1,4 +1,4 @@
-import type { UserDto } from "./models";
+import type { AppUser } from "./models";
 import type { AvatarProps, IconProps, RBACProps } from "./props";
 
 /* eslint-disable no-unused-vars */
@@ -369,16 +369,15 @@ export interface LabelValue<Type> {
     description?: string;
     fetch?: boolean;
     icon?: IconProps;
-    // iconSet?: IconSet;
-    // iconSize?: string;
     label?: string;
     noActiveLink?: boolean;
-    rbac?: RBACProps;
     params?: string[];
     queries?: string[];
-    to?: string;
+    rbac?: RBACProps;
     translateLabel?: boolean;
+    to?: string;
     value?: Type;
+    additionalValue?: any;
     onHandle?: (...params: any[] | []) => void;
 }
 export interface LoginRequest {
@@ -446,7 +445,7 @@ export interface RefreshTokenRequest {
     fcmEnable?: boolean;
 }
 export interface RefreshTokenResponse {
-    userId: number | null;
+    userId: number | string | null;
     authenticationToken: string | null;
     refreshToken: string | null;
     expiresAt?: string;
@@ -467,7 +466,7 @@ export interface NotificationCount {
     totalNewMessage: number
 }
 export interface LoginedProfileItem {
-    user?: UserDto
+    user?: AppUser
     notificationCount?: NotificationCount
 }
 export interface RequestDto {

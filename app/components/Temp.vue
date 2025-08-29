@@ -1,19 +1,19 @@
 <script setup lang="ts" generic="T">
-import type { BaseFilePicker } from '#components';
-// const { count = 0, message = 'hello' } = defineProps<{
-//   count?: number
-//   message?: string
-// }>();
-const props = withDefaults(
-  defineProps<{
-    height?: number;
-    autofocus?: boolean;
-  }>(),
-  {
-    height: 450,
-    autofocus: false
-  }
-);
+import type { BaseFilePicker } from '#components'
+const { count = 0, message = 'hello' } = defineProps<{
+  count?: number
+  message?: string
+}>()
+// const props = withDefaults(
+//   defineProps<{
+//     height?: number;
+//     autofocus?: boolean;
+//   }>(),
+//   {
+//     height: 450,
+//     autofocus: false
+//   }
+// );
 const emit = defineEmits<{
   'on-close': []
   change: [id: number]
@@ -21,15 +21,16 @@ const emit = defineEmits<{
 }>()
 
 // const emit = defineEmits(['on-close', 'update:modelValue']);
-const filePickerCustomUiRef = useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef');
+const filePickerCustomUiRef =
+  useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef')
 const onClick = async (index: number, event: any) => {
   if (event) {
     // event.stopPropagation();
-    event.preventDefault();
+    event.preventDefault()
     // event.stopImmediatePropagation();
   }
-  console.log('onRemove', index);
-};
+  console.log('onRemove', index)
+}
 
 // <comp-use-model v-model="testModel" v-model:count="count"></comp-use-model>
 // const count = defineModel('count', { type: Number, default: 0 });
@@ -51,20 +52,26 @@ const childComponentRef = useTemplateRef<InstanceType<typeof ChildComponent>>('c
 </template>
  */
 const onTestClickFromParent = (from: string) => {
-  console.log('onTestClickFromParent', from);
-};
+  console.log('onTestClickFromParent', from)
+}
 defineExpose({
   onTestClickFromParent
-});
+})
 /*
 To disable all rules on a specific line
  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 */
+
+/*
+Store
+const appStore = useAppStore()
+const { drawers } = appStore
+const { favoriteMenus } = storeToRefs(appStore)
+*/
 </script>
 <template>
   <q-card v-bind="$attrs" flat class="full-height">
-
     <!-- 
       <slot name="additionalBaseTool" v-bind="{ item: item, index: index }">
       </slot> 
@@ -73,14 +80,10 @@ To disable all rules on a specific line
        </template>
 -->
 
-      <Suspense>
-        <template #default>
-          Content
-        </template>
-        <template #fallback>
-          Loading...
-        </template>
-      </Suspense>
+    <Suspense>
+      <template #default> Content </template>
+      <template #fallback> Loading... </template>
+    </Suspense>
   </q-card>
 </template>
 <style scoped lang="scss">

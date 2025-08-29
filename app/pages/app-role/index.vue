@@ -1,50 +1,27 @@
 <script setup lang="ts">
-import { biPerson } from '@quasar/extras/bootstrap-icons'
+import { biPeople } from '@quasar/extras/bootstrap-icons'
 import {
   CrudListDataType,
   ICrudListHeaderOptionSearchType,
   type ICrudListHeader
 } from '~/types/common'
-import type { Role } from '~/types/models'
-import { UserPermission } from '~/libs/permissions'
+import type { AppRole } from '~/types/models'
+import { RolePermission } from '~/libs/permissions'
 definePageMeta({
-  pageName: 'model_user',
-  requiresPermission: [UserPermission.list]
+  pageName: 'model.role.table',
+  requiresPermission: [RolePermission.list]
 })
 useInitPage()
 const { t } = useLang()
 const headerItems: ICrudListHeader[] = [
   {
-    label: 'model_user_img_name',
-    column: 'avatar.thumbnail',
-    type: CrudListDataType.AVATAR,
-    options: {
-      fillable: true,
-      align: 'center',
-      size: '55px'
-    }
-  },
-  {
-    label: 'model_user_email',
-    column: 'email',
+    label: 'model.role.name',
+    column: 'name',
     type: CrudListDataType.TEXT,
     options: {
       searchable: true,
       sortable: true,
       fillable: true,
-      searchType: ICrudListHeaderOptionSearchType.TEXT,
-      searchModel: '',
-      searchOperation: ':'
-    }
-  },
-  {
-    label: 'model_user_username',
-    column: 'username',
-    type: CrudListDataType.TEXT,
-    options: {
-      fillable: true,
-      searchable: true,
-      sortable: true,
       searchType: ICrudListHeaderOptionSearchType.TEXT,
       searchModel: '',
       searchOperation: ':'
@@ -55,13 +32,14 @@ const headerItems: ICrudListHeader[] = [
     column: 'active',
     type: CrudListDataType.STATUS,
     options: {
-      fillable: true,
-      sortable: true,
       searchable: true,
-      align: 'center',
+      sortable: true,
+      fillable: true,
+      clickable: true,
       searchType: ICrudListHeaderOptionSearchType.BOOLEAN,
-      searchModel: true,
-      searchOperation: '='
+      searchModel: '',
+      searchOperation: '=',
+      align: 'center'
     }
   },
   {
@@ -71,7 +49,8 @@ const headerItems: ICrudListHeader[] = [
       fillable: true,
       editButton: true,
       deleteButton: true,
-      copyButton: false,
+      copyButton: true,
+      viewButton: true,
       align: 'center'
     }
   }
@@ -95,20 +74,40 @@ const {
   crudName,
   onKeywordSearch,
   headers
-} = useCrudList<Role>({
-  crudName: 'user',
+} = useCrudList<AppRole>({
+  crudName: 'AppRole',
   apiEndpoint: '/api',
   headers: headerItems,
   defaultSort: {
-    column: 'email',
-    mode: 'asc'
+    column: 'id',
+    mode: 'desc'
   }
 })
+
+const onColClick = (event: any, index: number, headerOption: ICrudListHeader, colValue: any) => {
+  console.log('pages/permission/index.vue : onColClick', {
+    index,
+    event,
+    headerOption,
+    colValue
+  })
+  if (headerOption && headerOption.column && headerOption.column == 'active') {
+    const rowItem = dataList.value[index]
+    if (rowItem) {
+      console.log('rowItem.active', rowItem.active)
+      dataList.value.map(item => {
+        if (item.id == rowItem.id) {
+          item.active = !item.active
+        }
+      })
+    }
+  }
+}
 </script>
 <template>
   <BasePage>
     <BaseCrudList
-      :icon="biPerson"
+      :icon="biPeople"
       :title="t('model.role.table')"
       :crud-name="crudName"
       :loading="loading"
@@ -119,10 +118,10 @@ const {
       :list="dataList"
       show-search-text-box
       :view-permission="{
-        permissions: [UserPermission.view]
+        permissions: [RolePermission.view]
       }"
       :manage-permission="{
-        permissions: [UserPermission.manage]
+        permissions: [RolePermission.manage]
       }"
       @on-item-click="onItemClick"
       @on-item-copy="onItemCopy"
@@ -135,6 +134,7 @@ const {
       @on-keyword-search="onKeywordSearch"
       @on-item-delete="onItemDelete"
       @on-new-form="onNewForm"
+      @on-col-click="onColClick"
     />
   </BasePage>
 </template>

@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import type { LabelValue } from "~/types/common";
+import type { FavoriteMenu } from '~/types/models';
 
 export const useAppStore = defineStore('appStore', () => {
     const { initialAppNav } = useMenu();
@@ -9,6 +10,9 @@ export const useAppStore = defineStore('appStore', () => {
     const drawers = ref<LabelValue<any>[]>([]);
     const drawerOpen = ref<boolean>(!isMobileOrTablet);
     const expandDrawer = ref<boolean>(!isMobileOrTablet);
+
+    const favoriteMenus = ref<FavoriteMenu[]>([]);
+    const favoritDrawers = ref<LabelValue<any>[]>([]);
 
     const setPermissions = async (items: string[]) => {
         permissions.value = items;
@@ -24,6 +28,12 @@ export const useAppStore = defineStore('appStore', () => {
     const setExpandDrawer = (open: boolean) => {
         expandDrawer.value = open;
     }
+    const setFavoriteMenus = (items?: FavoriteMenu[]) => {
+        favoriteMenus.value = items || [];
+    }
+    const addFavoriteMenus = (item: FavoriteMenu) => {
+        favoriteMenus.value.push(item)
+    }
     return {
         permissions,
         setPermissions,
@@ -32,6 +42,10 @@ export const useAppStore = defineStore('appStore', () => {
         drawerOpen,
         setDrawerOpen,
         expandDrawer,
-        setExpandDrawer
+        setExpandDrawer,
+        favoriteMenus,
+        setFavoriteMenus,
+        addFavoriteMenus,
+        favoritDrawers
     }
 });

@@ -55,6 +55,5 @@ export default {
         doNotHavePermissionToAccessThisDocument: 'คุณไม่มีสิทธิ์เข้าถึงเอกสารฉบับนี้',
         emailOrUsernameNotFound: 'ไม่พบชื่อผู้ใช้หรืออีเมล์ในระบบ',
         userNameDuplicateInDevice: 'มีผู้ใช้งานนี้แล้วในอุปกรณ์นี้ กรุณาเปลี่ยนผู้ใช้งานใหม่',
-
     }
 }

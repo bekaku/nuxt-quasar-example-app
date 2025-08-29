@@ -78,14 +78,14 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         enpointList.value
             ? enpointList.value
             : options.apiEndpoint && crudName.value
-                ? options.apiEndpoint + '/' + snakeToCamel(crudName.value)
+                ? options.apiEndpoint + '/' + pascalToCamelCase(crudName.value)
                 : '');
 
     const deleteApiEndpoint = computed(() =>
         enpointDelete.value
             ? enpointDelete.value
             : options.apiEndpoint && crudName.value
-                ? options.apiEndpoint + '/' + snakeToCamel(crudName.value)
+                ? options.apiEndpoint + '/' + pascalToCamelCase(crudName.value)
                 : ''
     );
 
@@ -377,7 +377,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         if (options?.pathNew) {
             appNavigateTo(options.pathNew);
         } else if (crudName.value) {
-            appNavigateTo(`${crudName.value.replaceAll('_', '-')}/${CrudAction.NEW}/0`);
+            appNavigateTo(`/${pascalToKebab(crudName.value)}/${CrudAction.NEW}/0`);
         }
     };
     const onItemClick = async (index: number, type: ICrudAction) => {
@@ -388,7 +388,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         if (options?.pathView) {
             appNavigateTo(`${options.pathView}/${item.id}`);
         } else if (crudName.value) {
-            appNavigateTo(`${crudName.value.replaceAll('_', '-')}/${type == 'view' ? CrudAction.VIEW : CrudAction.EDIT}/${item.id}`);
+            appNavigateTo(`/${pascalToKebab(crudName.value)}/${type == 'view' ? CrudAction.VIEW : CrudAction.EDIT}/${item.id}`);
         }
     };
     const onItemCopy = async (index: number) => {
@@ -400,7 +400,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
             appNavigateTo(`${options.pathCopy}/${item.id}`);
         } else if (crudName.value) {
             appNavigateTo(
-                `${crudName.value.replaceAll('_', '-')}/${CrudAction.COPY}/${item.id}`
+                `/${pascalToKebab(crudName.value)}/${CrudAction.COPY}/${item.id}`
             );
         }
     };

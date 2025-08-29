@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FileManagerService from '~/api/FileManagerService'
-import UserService from '~/api/UserService'
+import AppUserService from '~/api/AppUserService'
 import { biPencilFill, biPencil } from '@quasar/extras/bootstrap-icons'
 import type { UserPersonalEditRequest } from '~/types/models'
 definePageMeta({
@@ -10,7 +10,7 @@ useInitPage()
 const { t } = useLang()
 const { appLoading } = useBase()
 const { uploadApi } = FileManagerService()
-const { updateUserAvatar, updateUserCover } = UserService()
+const { updateUserAvatar, updateUserCover } = AppUserService()
 const { onUploadChunk } = useFileUpload()
 const { required } = useValidation()
 const authenStore = useAuthenStore()
