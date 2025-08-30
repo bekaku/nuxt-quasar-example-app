@@ -100,19 +100,38 @@ const onLoadSubdistrictItemsProcess = async (districtId: number | string) => {
   })
 }
 const onInitialDefultValue = async (): Promise<void> => {
+  const subdistictInitial = await $fetch(`/api/subdistrict/initial/${modelValue.value}`)
+  console.log('subdistictInitial', subdistictInitial)
+  if (
+    subdistictInitial &&
+    subdistictInitial.subdistrictId &&
+    subdistictInitial.districtId &&
+    subdistictInitial.provinceId
+  ) {
+    await onLoadSubdistrictItemsProcess(subdistictInitial.districtId)
+    await onLoadDistrictItemsProcess(subdistictInitial.provinceId)
+    districtSeleted.value = subdistictInitial.districtId
+    await onLoadProvinceItems()
+    provinceSeleted.value = subdistictInitial.provinceId
+  }
+  return new Promise(resolve => resolve(undefined))
+}
+/*
+const onInitialDefultValueBak = async (): Promise<void> => {
   const subdistict = await $fetch(`/api/subdistrict/${modelValue.value}`)
   if (subdistict && subdistict.amphure_id) {
     await onLoadSubdistrictItemsProcess(subdistict.amphure_id)
-    districtSeleted.value = subdistict.amphure_id
     const distict = await $fetch(`/api/district/${subdistict.amphure_id}`)
     if (distict && distict.province_id) {
       await onLoadDistrictItemsProcess(distict.province_id)
+      districtSeleted.value = subdistict.amphure_id
       await onLoadProvinceItems()
       provinceSeleted.value = distict.province_id
     }
   }
   return new Promise(resolve => resolve(undefined))
 }
+*/
 onMounted(async () => {
   if (modelValue.value) {
     await onInitialDefultValue()
@@ -143,7 +162,7 @@ watch(districtSeleted, () => {
         :items="provinceItems"
         dense
         :lazy-loading="cascadeLoading || !initialed"
-         :clearable="!readonly && !cascadeLoading && initialed"
+        :clearable="!readonly && !cascadeLoading && initialed"
         :multiple="false"
         :label="t('base.province')"
       />
@@ -156,7 +175,7 @@ watch(districtSeleted, () => {
         dense
         :readonly="readonly || !initialed"
         :lazy-loading="cascadeLoading || !initialed"
-         :clearable="!readonly && !cascadeLoading && initialed"
+        :clearable="!readonly && !cascadeLoading && initialed"
         :multiple="false"
         :label="t('base.district')"
       />
