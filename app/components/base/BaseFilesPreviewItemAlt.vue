@@ -2,7 +2,7 @@
 import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
 import type { FileManager } from '~/types/models'
 import { formatBytes } from '~/utils/appUtil'
-import { getFileTypeIcon } from '~/utils/fileUtil'
+import { getFileTypeIconFromFileName } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
@@ -15,7 +15,8 @@ const {
   clickable = false,
   imageSize = '75px',
   textColor = 'q-text-black',
-  iconSize = '4em'
+  iconSize = '4em',
+  fourceShowImage = true
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -29,6 +30,7 @@ const {
   clickable?: boolean
   textColor?: string
   showSize?: boolean
+  fourceShowImage?: boolean
 }>()
 const { t } = useLang()
 const emit = defineEmits(['on-remove', 'on-click'])
@@ -48,7 +50,7 @@ const onClick = (event: any, index: number) => {
 <template>
   <q-item v-bind="$attrs" :dense="dense" :clickable @click="onClick($event, index)">
     <q-item-section side>
-      <template v-if="item.isImage || item.image">
+      <template v-if="fourceShowImage && item.image">
         <q-avatar square :size="imageSize" class="cursor-pointer" @click="onClick($event, index)">
           <base-image :fetch="fetch" :src="item.filePath" />
         </q-avatar>
@@ -59,7 +61,13 @@ const onClick = (event: any, index: number) => {
           class="cursor-pointer text-center"
           @click="onClick($event, index)"
         >
-          <q-icon :class="textColor" :name="getFileTypeIcon(item.fileMime)" :size="iconSize" />
+          <!-- <q-icon :class="textColor" :name="getFileTypeIcon(item.fileMime)" :size="iconSize" /> -->
+          <BaseIcon
+            :class="textColor"
+            :name="getFileTypeIconFromFileName(item.fileName)"
+            icon-set="nuxt"
+            :size="iconSize"
+          />
         </div>
       </template>
     </q-item-section>

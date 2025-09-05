@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biX } from '@quasar/extras/bootstrap-icons'
-import type { VueMoneyConFig } from '~/types/common'
+import type { AppColor, VueMoneyConFig } from '~/types/common'
 import type { AvatarProps, IconProps } from '~/types/props'
 
 const {
@@ -36,6 +36,8 @@ const {
   autogrow?: boolean
   counter?: boolean
   clearable?: boolean
+  color?: AppColor
+  bgColor?: AppColor
   dense?: boolean
   debounce?: number
   disable?: boolean
@@ -90,6 +92,8 @@ defineEmits<{
         :filled
         :bottom-slots="bottomSlots"
         :label
+        :color
+        :bg-color="bgColor"
         :stack-label="stackLabel"
         :placeholder
         :readonly

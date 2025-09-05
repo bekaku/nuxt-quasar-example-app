@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  biCommand,
-  biGear,
-  biQuestionCircle,
-  biSearch,
-  biStar,
-  biStarFill
-} from '@quasar/extras/bootstrap-icons'
-import { mdiChevronDown, mdiChevronRight } from '@quasar/extras/mdi-v7'
+import { biCommand, biGear, biQuestionCircle, biSearch } from '@quasar/extras/bootstrap-icons'
 import { additionalMenu } from '~/libs/navs'
 const {
   overlay = false,
@@ -71,75 +63,61 @@ onBeforeUnmount(() => {
     :overlay="overlay"
     :bordered="bordered"
     :tranparent
+    :show-header="!miniState || appStore.expandDrawer"
     @mouseover="onMounseover"
     @mouseout="onMounseout"
     @hide="onDrawerHide"
   >
-    <q-scroll-area class="fit">
-      <div v-show="!miniState || appStore.expandDrawer">
-        <div class="row justify-center q-pa-sm">
-          <q-btn flat dense round to="/" class="btn--no-hover">
-            <q-avatar style="height: auto; width: 44px" square>
-              <img alt="logo" :src="!isDark ? '/logo/logo-black.png' : '/logo/logo-white.png'" />
-            </q-avatar>
-          </q-btn>
-        </div>
-        <q-separator />
+    <template #headerBottom>
+      <q-item clickable dense class="search-item" @click="onOpenSearch">
+        <q-item-section side>
+          <q-icon :name="biSearch" size="xs" class="text-muted" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label class="text-muted">
+            {{ t('base.searchMenu') }}
+          </q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-icon :name="biCommand" size="xs" class="text-muted" />
+        </q-item-section>
+      </q-item>
+    </template>
 
-        <q-item clickable dense class="search-item" @click="onOpenSearch">
+    <template v-if="getFavoriteMenuItems.length > 0">
+      <BaseMenuItems :items="getFavoriteMenuItems" :padding="true" favorite-section can-favorite>
+      </BaseMenuItems>
+      <q-separator />
+    </template>
+    <BaseMenuItems :items="appStore.drawers" can-favorite />
+    <BaseMenuItems :items="additionalMenu">
+      <template #after>
+        <q-separator />
+        <q-item dense clickable>
           <q-item-section side>
-            <q-icon :name="biSearch" size="xs" class="text-muted" />
+            <q-icon class="q-text-black" :name="biQuestionCircle" size="20px" />
           </q-item-section>
-          <q-item-section>
-            <q-item-label class="text-muted">
-              {{ t('base.searchMenu') }}
+          <q-item-section>{{ t('base.help') }}</q-item-section>
+        </q-item>
+        <q-item dense clickable to="/settings">
+          <q-item-section side>
+            <q-icon class="q-text-black" :name="biGear" size="20px" />
+          </q-item-section>
+          <q-item-section>{{ t('base.setting') }}</q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item>
+          <q-item-section class="text-center">
+            <q-item-label caption>
+              {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
+            </q-item-label>
+            <q-item-label caption>
+              {{ `Quasar ${quasarVersion}` }}
             </q-item-label>
           </q-item-section>
-          <q-item-section side>
-            <q-icon :name="biCommand" size="xs" class="text-muted" />
-          </q-item-section>
         </q-item>
-      </div>
-      <template v-if="getFavoriteMenuItems.length > 0">
-        <BaseMenuItems
-          :items="getFavoriteMenuItems"
-          :padding="true"
-          favorite-section
-          can-favorite
-        >
-      </BaseMenuItems>
-        <q-separator />
       </template>
-      <BaseMenuItems :items="appStore.drawers" can-favorite />
-      <BaseMenuItems :items="additionalMenu">
-        <template #after>
-          <q-separator />
-          <q-item dense clickable>
-            <q-item-section side>
-              <q-icon class="q-text-black" :name="biQuestionCircle" size="20px" />
-            </q-item-section>
-            <q-item-section>{{ t('base.help') }}</q-item-section>
-          </q-item>
-          <q-item dense clickable to="/settings">
-            <q-item-section side>
-              <q-icon class="q-text-black" :name="biGear" size="20px" />
-            </q-item-section>
-            <q-item-section>{{ t('base.setting') }}</q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item>
-            <q-item-section class="text-center">
-              <q-item-label caption>
-                {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
-              </q-item-label>
-              <q-item-label caption>
-                {{ `Quasar ${quasarVersion}` }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </template>
-      </BaseMenuItems>
-    </q-scroll-area>
+    </BaseMenuItems>
     <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
   </BaseDrawer>
 </template>

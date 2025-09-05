@@ -2,49 +2,47 @@
 import type { ISort, ISortModeType } from '~/types/common'
 import { biCheck, biSortDown } from '@quasar/extras/bootstrap-icons'
 
-const props = withDefaults(
-  defineProps<{
-    fields?: any[]
-    sort?: ISort
-    icon?: string
-    label?: string
-    width?: string
-    listDense?: boolean
-    btnRound?: boolean
-  }>(),
-  {
-    fields: () => [],
-    icon: biSortDown,
-    width: '200px',
-    listDense: true,
-    btnRound: false
-  }
-)
+const {
+  fields = [],
+  icon = biSortDown,
+  width = '200px',
+  listDense = true,
+  btnRound = false,
+  sort
+} = defineProps<{
+  fields?: any[]
+  sort?: ISort
+  icon?: string
+  label?: string
+  width?: string
+  listDense?: boolean
+  btnRound?: boolean
+}>()
 
 const emit = defineEmits(['on-sort-column', 'on-sort-mode'])
 const { t } = useLang()
 const { sortMode } = useSort()
 const onSortColumn = (column: string) => {
-  if (!column || !props.sort) {
+  if (!column || !sort) {
     return
   }
-  if (props.sort.column === column) {
+  if (sort.column === column) {
     return
   }
   emit('on-sort-column', column)
 }
 const onSortMode = (mode: ISortModeType) => {
-  if (!mode || !props.sort) {
+  if (!mode || !sort) {
     return
   }
-  if (props.sort.mode === mode) {
+  if (sort.mode === mode) {
     return
   }
   emit('on-sort-mode', mode)
 }
 </script>
 <template>
-  <q-btn v-bind="$attrs" flat :round="btnRound" :icon="icon" :label="label">
+  <q-btn v-bind="$attrs" flat :round="btnRound" no-caps :icon="icon" :label="label">
     <q-menu>
       <q-list :style="{ minWidth: width }" :dense="listDense">
         <q-item-label header>{{ t('sort.sort') }}</q-item-label>

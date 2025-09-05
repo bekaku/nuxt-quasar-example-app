@@ -100,7 +100,7 @@ export const appNavs: LabelValue<any>[] = [
             {
                 label: 'model_files_manager',
                 icon: { name: biFolder },
-                to: '/myFiles?_id=root',
+                to: '/my-drive/folder/0',
                 rbac: {
                     permissions: ['file_manager_manage']
                 }

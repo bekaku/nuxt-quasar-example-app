@@ -12,5 +12,8 @@ export const RolePermission = {
 export const UserPermission = {
   view: 'app_user_view',
   list: 'app_user_list',
-  manage: 'app_user_manage',
+  manage: 'file_manager_manage',
+};
+export const FileManagermission = {
+  manage: 'file_manager_manage',
 };

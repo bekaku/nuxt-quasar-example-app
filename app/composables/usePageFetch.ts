@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { IApiListResponse, CrudListApiOptions } from "~/types/common";
+import type { IApiListResponse, CrudListApiOptions, ISortModeType } from "~/types/common";
 
 export const usePagefecth = <T>(options: CrudListApiOptions) => {
   const { callAxios } = useAxios();
@@ -150,6 +150,19 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
     await loadPageChange(false);
     return new Promise((resolve) => resolve(true));
   };
+
+  const onSortColumn = async (column: string) => {
+  console.log('onSortColumn', column)
+  sort.value.column = column
+  await onReload();
+  return new Promise((resolve) => resolve(true));
+}
+const onSortMode = async (mode: ISortModeType) => {
+  console.log('onSortColumn', mode)
+  sort.value.mode = mode
+  await onReload();
+  return new Promise((resolve) => resolve(true));
+}
   return {
     isInfiniteDisabled,
     firstLoaded,
@@ -164,6 +177,8 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
     onPageChange,
     onPerPageChange,
     onNextPage,
-    onReload
+    onReload,
+    onSortColumn,
+    onSortMode
   };
 };

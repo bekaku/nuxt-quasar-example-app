@@ -1,3 +1,4 @@
+import { FileManagermission } from "~/libs/permissions";
 import type { IPageMetaConfig } from "~/types/common";
 
 export const useInitPage = (config?: IPageMetaConfig) => {

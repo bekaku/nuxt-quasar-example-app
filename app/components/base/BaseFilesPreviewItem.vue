@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FileManager } from '@/types/models'
 import { formatBytes } from '@/utils/appUtil'
-import { getFileTypeIcon } from '~/utils/fileUtil'
+import { getFileTypeIconFromFileName } from '~/utils/fileUtil';
 import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
 import { computed } from 'vue'
 
@@ -58,7 +58,7 @@ const onClick = (event: any, index: number) => {
 }
 </script>
 <template>
-  <template v-if="item?.isImage || item?.image">
+  <template v-if="item?.image">
     <div class="text-center">
       <!-- :style="{ maxHeight: imageHeight || imageSize, maxWidth: imageSize }" -->
       <base-image
@@ -133,7 +133,7 @@ const onClick = (event: any, index: number) => {
   </template>
   <template v-else>
     <div class="text-center">
-      <q-icon
+      <!-- <q-icon
         v-bind="$attrs"
         class="cursor-pointer"
         :size="iconSize"
@@ -154,7 +154,30 @@ const onClick = (event: any, index: number) => {
         <BaseTooltip v-if="showTooltip && item.fileName">
           {{ item.fileName }}
         </BaseTooltip>
-      </q-icon>
+      </q-icon> -->
+      <div class="row">
+        <div class="col-12 cursor-pointer text-center" @click="onClick($event, index)">
+          <BaseIcon
+            :class="textColor"
+            :name="getFileTypeIconFromFileName(item.fileName)"
+            icon-set="nuxt"
+            :size="imageSize"
+          />
+          <BaseButton
+           v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
+            class="relative-position"
+            :style="{
+              top: `-${imageSize}`,
+              left: `-${imageSize}`
+            }"
+            :icon="biX"
+            text-color="negative"
+            flat
+            round
+            @click="onRemove($event, index)"
+          />
+        </div>
+      </div>
       <q-item v-if="item.uploadProgress" dense>
         <q-item-section>
           <q-item-label>

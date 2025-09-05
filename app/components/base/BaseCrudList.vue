@@ -1,33 +1,34 @@
 <script setup lang="ts">
-import { useConstant } from '~/composables/useConstant'
+import type {
+   ICrudAction,
+   ICrudListHeader,
+   IPagination,
+   ISort,
+   ISortModeType,
+   LabelValue
+} from '~/types/common'
 import {
-  type ICrudAction,
-  type ICrudListHeader,
-  type IPagination,
-  type ISort,
-  type ISortModeType,
-  type LabelValue,
   CrudListDataType,
   ICrudListHeaderOptionSearchType
 } from '~/types/common'
 
 import {
   biArrowClockwise,
+  biArrowDown,
+  biArrowUp,
   biCheckCircle,
   biChevronExpand,
   biEraser,
   biFile,
   biPlusCircle,
   biSearch,
-  biSortAlphaDown,
-  biSortAlphaUpAlt,
   biThreeDots,
   biTrash,
   biX
 } from '@quasar/extras/bootstrap-icons'
-import { getValFromObjectByPath } from '~/utils/appUtil'
-import type { RBACProps } from '~/types/props'
 import { useRbac } from '~/composables/useRbac'
+import type { RBACProps } from '~/types/props'
+import { getValFromObjectByPath } from '~/utils/appUtil'
 const {
   icon = biFile,
   showPaging = true,
@@ -500,26 +501,26 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                             />
                           </template>
                         </template>
-                         <template
+                        <template
                           v-else-if="
                             searchCol.options?.searchType ==
                               ICrudListHeaderOptionSearchType.OPTIONS &&
                             searchCol.options?.selectOption
                           "
                         >
-                            <LazyBaseSelect
-                              class="q-pl-lg full-width"
-                              v-model="searchCol.options.searchModel"
-                              can-filter
-                              clearable
-                              :items="searchCol.options?.selectOption.items"
-                              :multiple="searchCol.options?.selectOption.multiple || false"
-                              :label="
-                                searchCol.translateLabel == undefined || searchCol.translateLabel
-                                  ? t(searchCol.label)
-                                  : searchCol.label
-                              "
-                            />
+                          <LazyBaseSelect
+                            class="q-pl-lg full-width"
+                            v-model="searchCol.options.searchModel"
+                            can-filter
+                            clearable
+                            :items="searchCol.options?.selectOption.items"
+                            :multiple="searchCol.options?.selectOption.multiple || false"
+                            :label="
+                              searchCol.translateLabel == undefined || searchCol.translateLabel
+                                ? t(searchCol.label)
+                                : searchCol.label
+                            "
+                          />
                         </template>
                       </div>
                     </div>
@@ -618,7 +619,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                               "
                             >
                               <q-icon
-                                :name="sort.mode == 'desc' ? biSortAlphaUpAlt : biSortAlphaDown"
+                                :name="sort.mode == 'desc' ? biArrowUp : biArrowDown"
                                 class="q-mr-xs"
                                 size="18px"
                               />
@@ -871,50 +872,3 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-.crud-table {
-  .q-table__top,
-  .q-table__bottom {
-    display: none;
-  }
-
-  thead tr th {
-    background-color: var(--color-zinc-100);
-    color: var(--color-zinc-700);
-    font-weight: 600 !important;
-    font-size: 0.875rem;
-    border-bottom: 1px solid var(--color-zinc-200);
-  }
-
-  tbody tr td {
-    border-bottom: 1px solid var(--color-zinc-200);
-  }
-
-  tbody tr:hover {
-    background-color: var(--color-zinc-50);
-  }
-}
-
-body.body--dark {
-  .crud-table {
-    .q-table__top,
-    .q-table__bottom {
-      display: none;
-    }
-
-    thead tr th {
-      background-color: var(--color-zinc-800);
-      color: var(--color-zinc-50);
-      border-bottom: 1px solid var(--color-zinc-700);
-    }
-
-    tbody tr td {
-      border-bottom: 1px solid var(--color-zinc-700);
-    }
-
-    tbody tr:hover {
-      background-color: var(--color-zinc-800);
-    }
-  }
-}
-</style>

@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import {
-  biBell,
-  biChatDots,
-  biGithub,
-  biSearch
-} from '@quasar/extras/bootstrap-icons';
-import { useQuasar } from 'quasar';
-import type { IconSet } from '~/types/common';
+import { biBell, biChatDots, biGithub, biSearch } from '@quasar/extras/bootstrap-icons'
+import { useQuasar } from 'quasar'
+import type { IconSet } from '~/types/common'
 const {
   bordered = false,
   reveal = false,
@@ -34,7 +29,7 @@ const { screen } = useQuasar()
 const { isDark } = useTheme()
 const { appNavigateTo } = useBase()
 const appStore = useAppStore()
-const { isMobileOrTablet, isSmallScreen } = useAppDevice()
+const { isMobileOrTablet } = useAppDevice()
 const showGotTopBtn = ref(false)
 const showSearch = ref(false)
 
@@ -69,29 +64,31 @@ onBeforeUnmount(() => {
   >
     <!-- <q-scroll-observer @scroll="onScroll" /> -->
     <q-toolbar class="q-py-xs">
-      <q-btn
-        v-if="showTogleDrawer"
-        dense
-        flat
-        round
-        @click="
-          !isMobileOrTablet
-            ? appStore.setExpandDrawer(!appStore.expandDrawer)
-            : appStore.setDrawerOpen(!appStore.drawerOpen)
-        "
-      >
-        <BaseIcon
-          :name="
-            appStore.expandDrawer
-              ? hambergerIcon
-              : hambergerIconOff
-                ? hambergerIconOff
-                : hambergerIcon
+      <slot name="toggleBtn">
+        <q-btn
+          v-if="showTogleDrawer"
+          dense
+          flat
+          round
+          @click="
+            !isMobileOrTablet
+              ? appStore.setExpandDrawer(!appStore.expandDrawer)
+              : appStore.setDrawerOpen(!appStore.drawerOpen)
           "
-          :icon-set="hambergerIconSet"
-          :size="hambergerSize"
-        />
-      </q-btn>
+        >
+          <BaseIcon
+            :name="
+              appStore.expandDrawer
+                ? hambergerIcon
+                : hambergerIconOff
+                  ? hambergerIconOff
+                  : hambergerIcon
+            "
+            :icon-set="hambergerIconSet"
+            :size="hambergerSize"
+          />
+        </q-btn>
+      </slot>
       <q-btn
         v-if="showLogo && !appStore.expandDrawer"
         flat
@@ -116,7 +113,7 @@ onBeforeUnmount(() => {
         <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
           <BaseTooltip>Messages</BaseTooltip>
         </q-btn>
-         <q-btn
+        <q-btn
           :icon="biGithub"
           flat
           round

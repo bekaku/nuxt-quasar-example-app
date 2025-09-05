@@ -181,6 +181,23 @@ export const getFileNameFromResponse = (axiosResponse: any) => {
     }
     return fileName;
 };
+
+export const getExtensionFromFileName = (filename: string) => {
+  const dotIndex = filename.lastIndexOf('.');
+  if (dotIndex === -1) {
+    return '';
+  }
+  return filename.substring(dotIndex); // includes the dot
+}
+
+export const getFileTypeIconFromFileName = (filename: string) => {
+  const ext = getExtensionFromFileName(filename);
+  if (!ext) {
+    return '';
+  }
+
+  return getFileTypeIconNuxt(ext);
+}
 export const getFileExtension = (t: string): string | undefined => {
 
     if (!t) {
@@ -262,6 +279,10 @@ export const getFileType = (t: string): FileType | undefined => {
         case 'application/pdf':
             type = 'pdf';
             break;
+        case 'application/x-tika-ooxml':
+        case 'application/x-tika-msoffice':
+            type = 'msoffice'
+            break
         case 'xls':
         case 'xlsx':
         case 'application/vnd.ms-excel':
@@ -326,6 +347,8 @@ export const getFileTypeIcon = (t: string) => {
             break;
         case 'xls':
         case 'xlsx':
+        case '.xls':
+        case '.xlsx':
         case 'application/vnd.ms-excel':
         case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
         case 'vnd.openxmlformats-officedocument.spreadsheetml.sheet':
@@ -333,6 +356,8 @@ export const getFileTypeIcon = (t: string) => {
             break;
         case 'doc':
         case 'docx':
+        case '.doc':
+        case '.docx':
         case 'application/msword':
         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         case 'vnd.openxmlformats-officedocument.wordprocessingml.document':
@@ -340,6 +365,8 @@ export const getFileTypeIcon = (t: string) => {
             break;
         case 'ppt':
         case 'pptx':
+        case '.ppt':
+        case '.pptx':
         case 'application/vnd.ms-powerpoint':
         case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
         case 'vnd.openxmlformats-officedocument.presentationml.presentation':
@@ -349,6 +376,10 @@ export const getFileTypeIcon = (t: string) => {
         case 'jpeg':
         case 'gif':
         case 'png':
+        case '.jpg':
+        case '.jpeg':
+        case '.gif':
+        case '.png':
         case 'image/png':
         case 'image/jpeg':
         case 'image/gif':
@@ -360,6 +391,10 @@ export const getFileTypeIcon = (t: string) => {
         case 'application/x-rar':
         case 'application/vnd.rar':
         case 'x-rar':
+        case 'rar':
+        case '.rar':
+        case 'zip':
+        case '.zip':
             icon = biFileEarmarkZip;
             break;
         case 'video/mpeg':
@@ -371,6 +406,86 @@ export const getFileTypeIcon = (t: string) => {
             break;
         default:
             icon = biFileEarmark;
+            break;
+    }
+    return icon;
+};
+export const getFileTypeIconNuxt = (t: string) => {
+    if (!t) {
+        return '';
+    }
+    const type = t.toLowerCase();
+    let icon = '';
+    switch (type) {
+        case 'pdf':
+        case '.pdf':
+        case 'application/pdf':
+            icon = 'vscode-icons:file-type-pdf2';
+            break;
+        case 'xls':
+        case '.xls':
+        case 'xlsx':
+        case '.xlsx':
+        case 'application/vnd.ms-excel':
+        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        case 'vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            icon = 'vscode-icons:file-type-excel';
+            break;
+        case 'doc':
+        case '.doc':
+        case 'docx':
+        case '.docx':
+        case 'application/msword':
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        case 'vnd.openxmlformats-officedocument.wordprocessingml.document':
+            icon = 'vscode-icons:file-type-word';
+            break;
+        case 'ppt':
+        case '.ppt':
+        case 'pptx':
+        case '.pptx':
+        case 'application/vnd.ms-powerpoint':
+        case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        case 'vnd.openxmlformats-officedocument.presentationml.presentation':
+            icon = 'vscode-icons:file-type-powerpoint';
+            break;
+        case 'jpg':
+        case '.jpg':
+        case 'jpeg':
+        case '.jpeg':
+        case 'gif':
+        case '.gif':
+        case 'png':
+        case '.png':
+        case 'image/png':
+        case 'image/jpeg':
+        case 'image/gif':
+        case 'image/webp':
+            icon = 'vscode-icons:file-type-image';
+            break;
+        case 'zip':
+        case '.zip':
+        case 'rar':
+        case '.rar':
+        case 'application/zip':
+        case 'application/x-zip-compressed':
+        case 'application/x-rar':
+        case 'application/vnd.rar':
+        case 'x-rar':
+            icon = 'vscode-icons:file-type-zip';
+            break;
+        case 'video/mpeg':
+        case 'video/mp4':
+        case 'video/quicktime':
+        case 'video/x-msvideo':
+        case 'video/webm':
+            icon = 'vscode-icons:file-type-video';
+            break;
+        case 'directory':
+            icon = 'vscode-icons:default-folder';
+            break;
+        default:
+            icon = 'vscode-icons:default-file';
             break;
     }
     return icon;

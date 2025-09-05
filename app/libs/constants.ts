@@ -32,6 +32,7 @@ export const FileExtensionAccept =
   '.jpg,.png,.gif,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar';
 export const FileExtensionImageAccept = '.jpg,.png';
 export const FileExtensionVdoAccept = '.mp4,.m4v,.m4a,.mov,.mpg,.mpeg,.mpe,.mpv,.webm,.avi,.webm';
+export const FileExtensionAudioAccept = '.mp3,.wav,.ogg,.flac,.m4a,.webm';
 
 export const FileTypeAcceptList = [
   'application/msword',
@@ -43,6 +44,7 @@ export const FileTypeAcceptList = [
   'application/pdf',
   'application/vnd.rar',
   'application/zip',
+  'application/x-zip-compressed',
   'image/jpeg',
   'image/png',
   'image/gif',
@@ -53,6 +55,11 @@ export const FileTypeAcceptList = [
   'video/quicktime',
   'video/x-msvideo',
   'video/webm',
+  'audio/mpeg',
+  'audio/wav',
+  'audio/ogg',
+  'audio/flac',
+  'audio/mp4'
 ];
 // export const AuthNoInitialPath: string[] = [
 //   '/auth/login',

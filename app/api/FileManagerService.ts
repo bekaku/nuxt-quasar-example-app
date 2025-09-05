@@ -68,6 +68,13 @@ export default () => {
       baseURL: config.cdnBase
     });
   };
+  const findAllFolderAndFiles = async (folderId: string, q: string | undefined): Promise<FileManager[] | null> => {
+    return await callAxios<FileManager[]>({
+      API: `/api/fileManager?directoryId=${isNumeric(folderId) ? folderId : '0'}&${q || ''}`,
+      method: 'GET',
+      baseURL: config.cdnBase
+    });
+  }
   const updateUserAvatar = async (
     fileManagerId: number
   ): Promise<ResponseMessage | null> => {
@@ -86,18 +93,6 @@ export default () => {
       baseURL: config.cdnBase
     });
   };
-  // const fethCdnData = async (
-  //   path: string
-  // ): Promise<any> => {
-  //   const cdnBase = config.public.cdnBase;
-  //   const src = cdnBase ? path.replace(cdnBase, '') : path;
-  //   return await callAxiosFile<any>({
-  //     API: src,
-  //     baseURL: config.public.cdnBase,
-  //     method: 'GET',
-  //     responseType: 'arraybuffer'
-  //   });
-  // };
   const fethCdnData = async (
     path: string,
     responseDataType: ResponseDataType = 'blob'
@@ -162,5 +157,6 @@ export default () => {
     deleteFileApi,
     fethCdnData,
     downloadCdnData,
+    findAllFolderAndFiles
   };
 };

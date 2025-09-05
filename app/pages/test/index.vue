@@ -9,6 +9,33 @@ definePageMeta({
   layout: 'empty'
 })
 const { getFavoriteMenuItems } = useMenu()
+async function downloadPDF(url: any, filename : any) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const tempUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = tempUrl;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(tempUrl);
+    console.log(`Download of '${filename}' initiated successfully.`);
+
+  } catch (error) {
+    console.error('Error downloading the PDF:', error);
+  }
+}
+
+// Example usage:
+const pdfURL = 'https://drive.google.com/file/d/1xqKRsTS03pgPDTWmAfYZuz-4jV5nL3do/view';
+const pdfFilename = 'dummy-file.pdf';
+
+downloadPDF(pdfURL, pdfFilename);
 </script>
 <template>
   <BasePage>

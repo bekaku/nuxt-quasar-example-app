@@ -40,7 +40,23 @@ const {
     | 'bottom start'
     | 'bottom end'
     | undefined
-  self?: any
+  self?:
+    | undefined
+    | 'top left'
+    | 'top middle'
+    | 'top right'
+    | 'top start'
+    | 'top end'
+    | 'center left'
+    | 'center middle'
+    | 'center right'
+    | 'center start'
+    | 'center end'
+    | 'bottom left'
+    | 'bottom middle'
+    | 'bottom right'
+    | 'bottom start'
+    | 'bottom end'
   emptyBody?: boolean
   flat?: boolean
   round?: boolean
@@ -87,6 +103,7 @@ const onHide = () => {
       :style="{ minWidth: width }"
       :cover
       :anchor
+      :self
       @hide="onHide"
     >
       <q-list>

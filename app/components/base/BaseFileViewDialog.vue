@@ -7,6 +7,7 @@ import {
   downloadFromBlob,
   fileToBlob,
   generateFileNameByExtesnsion,
+  getExtensionFromFileName,
   getFileExtension,
   getFileType
 } from '~/utils/fileUtil'
@@ -80,7 +81,10 @@ const onDownloadFile = async () => {
   // if (fetch) {
   //     await downloadCdnData(file.filePath, file.fileName || title);
   // } else {
-  const fileExtension = getFileExtension(file.fileMime)
+  let fileExtension = getFileExtension(file.fileMime)
+  if (!fileExtension) {
+    fileExtension = getExtensionFromFileName(file.fileName)
+  }
   const fileGenerateName = generateFileNameByExtesnsion(fileExtension)
   if (fileExtension && fileGenerateName) {
     if (isBlob) {

@@ -86,8 +86,8 @@ const onCustomRemove2 = (index: number) => {
         <BaseFilePicker
           v-model="fileChunks"
           v-model:file-items="previews"
-          :accept="FileExtensionVdoAccept"
-          label="Select vdo file"
+          accept="*"
+          label="Select file"
           @on-file-add="onFileVdoAdd"
         />
         <BaseButton

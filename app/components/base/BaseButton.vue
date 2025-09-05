@@ -17,55 +17,54 @@ const {
   color = 'primary',
   light = false,
   textCapitalize = true,
-  dark = false,
-  rbac
+  dark = false
 } = defineProps<ButtonProps>()
 const { isDark } = useTheme()
 </script>
 <template>
-  <!-- <BaseRbac :rbac> -->
-    <q-btn
-      v-bind="$attrs"
-      :outline
-      :label="!outline ? label : undefined"
-      :color="
-        light && dark
+  <q-btn
+    v-bind="$attrs"
+    :outline
+    :label="!outline ? label : undefined"
+    :color="
+      light && dark
+        ? undefined
+        : flat && label == undefined
           ? undefined
-          : flat && label == undefined
+          : outline && outlineColor == undefined
             ? undefined
-            : outline && outlineColor == undefined
-              ? undefined
-              : outlineColor || color
-      "
-      :text-color="light ? (isDark ? 'white' : 'black') : textColor"
-      :no-caps="noCaps"
-      :unelevated
-      :glossy
-      :flat
-      :href
-      :icon="!outline ? icon : undefined"
-      :icon-right="!outline ? iconRight : undefined"
-      :stack
-      :round
-      :square
-      :push
-      :rounded
-      :align
-      :size
-      :loading
-      :to
-      :disable
-      :dense
-      :target
-      :type
-      :class="{
-        'defult-outline': label && !outlineColor && outline,
-        'full-width': full,
-        'text-capitalize': textCapitalize,
-        'btn-dark': dark,
-        'btn-light': light
-      }"
-    >
+            : outlineColor || color
+    "
+    :text-color="light ? (isDark ? 'white' : 'black') : textColor"
+    :no-caps="noCaps"
+    :unelevated
+    :glossy
+    :flat
+    :href
+    :icon="!outline ? icon : undefined"
+    :icon-right="!outline ? iconRight : undefined"
+    :stack
+    :round
+    :square
+    :push
+    :rounded
+    :align
+    :size
+    :loading
+    :to
+    :disable
+    :dense
+    :target
+    :type
+    :class="{
+      'defult-outline': label && !outlineColor && outline,
+      'full-width': full,
+      'text-capitalize': textCapitalize,
+      'btn-dark': dark,
+      'btn-light': light
+    }"
+  >
+    <slot>
       <template v-if="outline">
         <div
           :class="`text-${textColor ? textColor : outlineColor ? outlineColor : !isDark ? 'black' : 'white'}`"
@@ -74,9 +73,8 @@ const { isDark } = useTheme()
           <q-icon v-if="iconRight" :name="iconRight" class="q-ml-sm" />
         </div>
       </template>
-      <slot />
-    </q-btn>
-  <!-- </BaseRbac> -->
+    </slot>
+  </q-btn>
 </template>
 <style scoped lang="scss">
 .defult-outline {

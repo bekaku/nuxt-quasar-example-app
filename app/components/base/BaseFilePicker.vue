@@ -100,8 +100,11 @@ const validateAndZipFile = async (files: File[]): Promise<any[]> => {
   })
 }
 const onFileAdded = async (files: File[] | File) => {
+  console.log('onFileAdded', files);
   const fileList = Array.isArray(files) ? files : [files]
   const finalFiles = await validateAndZipFile(fileList)
+
+  
   emit('on-file-add', finalFiles)
   if (multiple) {
     if (finalFiles && finalFiles.length > 0) {
@@ -124,7 +127,7 @@ const onAddFile = async (f: any) => {
   }
   onAddFilePreview(f, isImg, url)
 }
-const onAddFilePreview = (f: File, isImage: boolean, pathUrl: string | undefined = undefined) => {
+const onAddFilePreview = (f: File, image: boolean, pathUrl: string | undefined = undefined) => {
   if (modelValue.value) {
     modelValue.value.push(f)
     fileItems.value.push({
@@ -135,7 +138,7 @@ const onAddFilePreview = (f: File, isImage: boolean, pathUrl: string | undefined
       fileThumbnailPath: '',
       fileSize: f.size + '',
       functionId: 0,
-      isImage: isImage,
+      image: image,
       file: f
     })
   }

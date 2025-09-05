@@ -19,9 +19,13 @@ export interface FileManager extends Id {
   filePath: string;
   fileThumbnailPath: string;
   fileSize: string;
+  fileSizeNo?: number;
+  fileCount?: number;
   functionId?: number;
-  isImage?: boolean;
   image?: boolean;
+  directoryFolder?: boolean;
+  createdDate?: string;
+  updatedDate?: string;
   file?: any;
   uploadProgress?: {
     uploading: boolean;

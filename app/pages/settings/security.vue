@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biDisplay, biDot } from '@quasar/extras/bootstrap-icons'
-import { mdiAndroid, mdiApple } from '@quasar/extras/mdi-v6'
+import { mdiAndroid, mdiApple } from '@quasar/extras/mdi-v7'
 import AuthenService from '~/api/AuthenService'
 import AppUserService from '~/api/AppUserService'
 import type { AccessToken } from '~/types/models'

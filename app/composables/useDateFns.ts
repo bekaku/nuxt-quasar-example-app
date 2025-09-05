@@ -23,7 +23,7 @@ export const useDateFns = () => {
     const getDateDiffNow = (dateString: string) => {
         const d = removeTime(dateString);
         const currentDate = removeTime(getCurrentDateByFormat());
-        if(d==undefined || currentDate==undefined){
+        if (d == undefined || currentDate == undefined) {
             return 0;
         }
         // return getDateDiff(Date.parse(d), new Date());
@@ -116,10 +116,13 @@ export const useDateFns = () => {
      * @returns
      */
     const formatDateTime = (
-        dateString: string,
+        dateString: string | undefined | null,
         forMatString: string,
         locale: string | unknown
     ) => {
+        if (!dateString) {
+            return '';
+        }
         return $datefns.format(convertStringToDate(dateString), forMatString, {
             locale: locale == 'th' ? th : enUS
         });
@@ -186,6 +189,7 @@ export const useDateFns = () => {
         getDateDiffMinutes,
         formatDistanceFromNow,
         formatDate,
-        formatDateTime
+        formatDateTime,
+        getDateTimeAutoFormatBy
     };
 };

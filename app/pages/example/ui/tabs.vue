@@ -33,9 +33,9 @@ const groupTabs = ref<LabelValue<string>[]>([
 ])
 const toggleModel = ref<string>('music')
 const toggleOptions: LabelValue<string>[] = [
-  { label: 'Music', value: 'music', icon: { name: biMusicNote } },
-  { label: 'Podcasts', value: 'podcasts', icon: { name: biMic } },
-  { label: 'Live', value: 'live', icon: { name: biPlay } }
+  { label: 'Music', value: 'music', icon: biMusicNote as any },
+  { label: 'Podcasts', value: 'podcasts', icon: biMic as any },
+  { label: 'Live', value: 'live', icon: biPlay as any }
 ]
 </script>
 <template>
@@ -117,6 +117,11 @@ const toggleOptions: LabelValue<string>[] = [
           </div>
         </div>
       </q-card-section>
+    </BaseCard>
+     <BaseCard flat :bordered="false" :title="`Button toggle '${toggleModel}'`">
+      <div class="q-pa-md">
+        <BaseButtonToggle v-model="toggleModel" :options="toggleOptions" />
+      </div>
     </BaseCard>
   </BasePage>
 </template>

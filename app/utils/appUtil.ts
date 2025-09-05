@@ -337,3 +337,6 @@ export const appPreventDefult = async (event: any) => {
         event.stopImmediatePropagation();
     }
 };
+export const isNumeric = (str: string): boolean => {
+  return /^\d+$/.test(str);
+}
