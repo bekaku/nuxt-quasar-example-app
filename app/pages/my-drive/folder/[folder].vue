@@ -15,6 +15,7 @@ useInitPage()
 const { t } = useLang()
 const { isDark } = useTheme()
 const { getParam } = useBase()
+const { isSmallScreen } = useAppDevice()
 const { findAllFolderAndFiles } = FileManagerService()
 const folderId = computed<string>(() => getParam('folder') || '0')
 // const { pages, resetPaging } = usePaging(10)
@@ -42,6 +43,7 @@ const folderId = computed<string>(() => getParam('folder') || '0')
 //     return response
 //   }
 // )
+const showFolderForm = ref(false)
 const searchText = ref<string>('')
 const viewMode = ref<string>('list')
 const viewModeOptions: LabelValue<string>[] = [
@@ -78,7 +80,7 @@ const uploadMenus = ref<LabelValue<string>[]>([
     value: 'file'
   },
   {
-     label: t('drive.uploadVideos'),
+    label: t('drive.uploadVideos'),
     icon: {
       name: 'lucide:file-video-camera',
       iconSet: 'nuxt'
@@ -86,7 +88,7 @@ const uploadMenus = ref<LabelValue<string>[]>([
     value: 'video'
   },
   {
-     label: t('drive.uploadAudios'),
+    label: t('drive.uploadAudios'),
     icon: {
       name: 'lucide:file-audio-2',
       iconSet: 'nuxt'
@@ -113,6 +115,14 @@ const updateSelectedAll = (val: boolean) => {
 const onUploadMenuClick = (value: number | string | undefined) => {
   console.log('onUploadMenuClick', value)
 }
+const onFolderCreate = async (name: string) => {
+  console.log('onFolderCreate', name)
+  showFolderForm.value = false
+}
+const onFolderUpdate = async (folder?: FileManager) => {
+  console.log('onFolderUpdate', folder)
+  showFolderForm.value = false
+}
 onMounted(async () => {
   await loadData()
 })
@@ -121,7 +131,7 @@ onMounted(async () => {
   <BasePage :full="true">
     <BaseCard :bordered="false" flat :title="t('drive.title')">
       <template #end>
-        <BaseButton flat>
+        <BaseButton flat @click="showFolderForm = true">
           <BaseIcon name="lucide:folder-plus" icon-set="nuxt" />
           <span class="q-ml-sm">{{ t('drive.newFolder') }}</span>
         </BaseButton>
@@ -144,6 +154,7 @@ onMounted(async () => {
       <q-toolbar class="app-border-radius">
         <BaseButtonToggle v-model="viewMode" :options="viewModeOptions" />
         <BaseInput
+          v-if="!isSmallScreen"
           v-bind="$attrs"
           v-model="searchText"
           :bg-color="!isDark ? 'white' : 'grey-9'"
@@ -155,7 +166,7 @@ onMounted(async () => {
         <q-space />
         <BaseSort
           :sort="sort"
-          :label="t('sort.sort')"
+          :label="!isSmallScreen ? t('sort.sort') : ''"
           :fields="[
             {
               label: t('drive.fileName'),
@@ -183,6 +194,23 @@ onMounted(async () => {
         />
       </q-toolbar>
 
+      <BaseTransitionWrapper name="slide-up">
+        <BaseCardSection v-if="selected.length > 0" :padding="false" >
+          <BaseCard  flat>
+            <q-toolbar>
+              <BaseButton flat>
+                <BaseIcon name="lucide:trash-2" icon-set="nuxt" />
+                <span class="q-ml-sm">{{ t('base.delete') }}</span>
+              </BaseButton>
+              <BaseButton flat>
+                <BaseIcon name="lucide:folder-input" icon-set="nuxt" />
+                <span class="q-ml-sm">{{ t('drive.moveTo') }}</span>
+              </BaseButton>
+            </q-toolbar>
+          </BaseCard>
+        </BaseCardSection>
+      </BaseTransitionWrapper>
+
       <LazyDriveList
         v-if="viewMode === 'list'"
         v-model:selected="selected"
@@ -192,5 +220,11 @@ onMounted(async () => {
       />
       <LazyDriveGrid v-else :items="dataList" />
     </BaseCard>
+    <LazyDriveFolderForm
+      v-if="showFolderForm"
+      v-model="showFolderForm"
+      @on-create="onFolderCreate"
+      @on-update="onFolderUpdate"
+    />
   </BasePage>
 </template>

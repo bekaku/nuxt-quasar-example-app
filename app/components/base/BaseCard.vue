@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common'
-import type { IconProps } from '~/types/props';
+import type { IconProps } from '~/types/props'
 
 const {
   flat = false,
   bordered = true,
   separator = false,
   bgTransparent = false,
-    margin = true,
+  margin = true,
   square = false,
-  hover = false,
+  hover = false
 } = defineProps<{
   flat?: boolean
   bordered?: boolean
@@ -19,17 +19,18 @@ const {
   iconSet?: IconSet
   separator?: boolean
   bgTransparent?: boolean
-    margin?: boolean;
-  square?: boolean;
-  hover?: boolean;
+  margin?: boolean
+  square?: boolean
+  hover?: boolean
+  titleLines?: number
 }>()
-const isHover = ref<boolean>(false);
+const isHover = ref<boolean>(false)
 const onHover = (state: boolean) => {
   if (!hover) {
-    return;
+    return
   }
-  isHover.value = state;
-};
+  isHover.value = state
+}
 </script>
 <template>
   <q-card
@@ -42,7 +43,7 @@ const onHover = (state: boolean) => {
       'default-card-shadow': !flat,
       'bg-transparent': bgTransparent,
       'q-mb-md': margin,
-      'hover-shadow': isHover,
+      'hover-shadow': isHover
     }"
     @mouseover="onHover(true)"
     @mouseleave="onHover(false)"
@@ -54,6 +55,7 @@ const onHover = (state: boolean) => {
         :title="title"
         :subtitle="subtitle"
         :icon
+        :title-lines="titleLines"
       >
         <template #start>
           <slot name="start" />

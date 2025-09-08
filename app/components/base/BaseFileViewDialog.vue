@@ -81,10 +81,11 @@ const onDownloadFile = async () => {
   // if (fetch) {
   //     await downloadCdnData(file.filePath, file.fileName || title);
   // } else {
-  let fileExtension = getFileExtension(file.fileMime)
-  if (!fileExtension) {
-    fileExtension = getExtensionFromFileName(file.fileName)
-  }
+  // let fileExtension = getFileExtension(file.fileMime)
+  const fileExtension = getExtensionFromFileName(file.fileMime)
+  // if (!fileExtension) {
+    // fileExtension = getExtensionFromFileName(file.fileName)
+  // }
   const fileGenerateName = generateFileNameByExtesnsion(fileExtension)
   if (fileExtension && fileGenerateName) {
     if (isBlob) {

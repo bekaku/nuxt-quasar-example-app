@@ -286,7 +286,7 @@ const onChangePassword = async () => {
       v-if="showChangePasswordForm"
       v-model="showChangePasswordForm"
       :title="t('base.changePassword')"
-      :icon="biPencil"
+      :icon="{biPencil}"
     >
       <BasePasswordForm
         v-model:current-password="currentPassword"

@@ -49,8 +49,8 @@ onBeforeUnmount(() => {
         <q-card-section class="q-pt-none">
             <ClientOnly>
                 <BaseImageCropper :ratio="ratio" :disabled :crop-width="cropWidth" :initial-src="initialSrc" :width
-                    :height :clear-on-submit @on-close="onClose" @on-submit="(file) => onSubmit(file)"
-                    @on-cropend="(imageUrl) => $emit('on-cropend', imageUrl)">
+                    :height :clear-on-submit @on-close="onClose" @on-submit="(file: File) => onSubmit(file)"
+                    @on-cropend="(imageUrl: string) => $emit('on-cropend', imageUrl)">
                     <template #preview>
                         <slot name="preview" />
                     </template>

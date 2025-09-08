@@ -15,16 +15,19 @@
 import {
   biArrowsAngleContract,
   biArrowsAngleExpand,
-  biFile,
   biX
-} from '@quasar/extras/bootstrap-icons'
+} from '@quasar/extras/bootstrap-icons';
+import type { IconProps } from '~/types/props';
 
 const {
   persistent = false,
   fullWidth = false,
   fullHeight = false,
   maximized = false,
-  icon = biFile,
+  icon = {
+    name: 'lucide:app-window-mac',
+    iconSet: 'nuxt'
+  },
   transitionShow = 'fade', //fade, slide-down
   transitionHide = 'fade',
   canMaximized = false,
@@ -37,7 +40,7 @@ const {
   fullHeight?: boolean
   maximized?: boolean
   canMaximized?: boolean
-  icon?: string
+  icon?: IconProps
   title?: string
   transitionShow?: string
   transitionHide?: string
@@ -84,11 +87,11 @@ const onCloseModel = () => {
       <slot name="toolBar">
         <q-bar
           v-if="showToolbar"
-          class="q-py-md"
-           :style="{ background: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-800)' }"
+          class="q-py-lg"
+          :style="{ background: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-800)' }"
         >
           <slot name="icon">
-            <q-icon v-if="icon" :name="icon" />
+             <BaseIcon v-if="icon" v-bind="{ ...icon }"/>
           </slot>
 
           <div>

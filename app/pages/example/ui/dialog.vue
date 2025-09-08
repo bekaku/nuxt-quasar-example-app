@@ -102,7 +102,7 @@ const onConfirmToClose = async () => {
       </q-card-section>
     </BaseCard>
 
-    <base-dialog v-if="dialog" v-model="dialog" title="Dialog title" :icon="biPencil">
+    <base-dialog v-if="dialog" v-model="dialog" title="Dialog title" :icon="{name :'lucide:pencil', iconSet: 'nuxt'}">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate
       voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam
       exercitationem aut, natus minima, porro labore.
@@ -185,7 +185,7 @@ const onConfirmToClose = async () => {
       v-if="dialogConfirmToClose"
       v-model="dialogConfirmToClose"
       title="Confirm to close title"
-      :icon="biPencil"
+      :icon="{name :biPencil}"
       :auto-close="false"
       persistent
       @on-close="onConfirmToClose"
