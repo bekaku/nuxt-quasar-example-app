@@ -20,7 +20,7 @@
     "@nuxtjs/device": "^3.2.4",
     "@quasar/extras": "^1.17.0",
     "@tato30/vue-pdf": "^1.11.4",
-    "apexcharts": "^5.3.4",
+    "apexcharts": "^5.3.5",
     "axios": "^1.11.0",
     "cropperjs": "^2.0.1",
     "date-fns": "^4.1.0",
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@iconify-json/bi": "^1.2.6",
+    "@iconify-json/flat-color-icons": "^1.2.3",
     "@iconify-json/hugeicons": "^1.2.14",
     "@iconify-json/ic": "^1.2.4",
     "@iconify-json/lucide": "^1.2.66",
@@ -49,24 +50,19 @@
     "@iconify-json/vscode-icons": "^1.2.30",
     "@nuxt/eslint": "^1.9.0",
     "@nuxt/icon": "2.0.0",
-    "@nuxtjs/i18n": "^10.0.6",
+    "@nuxtjs/i18n": "^10.1.0",
     "@pinia/nuxt": "^0.11.2",
     "@vueuse/core": "^13.9.0",
     "@vueuse/nuxt": "^13.9.0",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "nuxt": "4.1.0",
+    "nuxt": "4.1.1",
     "nuxt-quasar-ui": "^2.1.13",
     "prettier": "^3.6.2",
-    "sass-embedded": "^1.92.0",
+    "sass-embedded": "^1.92.1",
     "typescript": "^5.9.2",
     "vue-tsc": "3.0.6"
   },
-  "packageManager": "pnpm@10.15.1",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:rolldown-vite@latest"
-    }
-  }
+  "packageManager": "pnpm@10.15.1"
 }

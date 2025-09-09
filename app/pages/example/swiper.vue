@@ -7,7 +7,7 @@ const { t } = useLang()
 useHead({
   title: 'Swipper'
 })
-const { isSmallScreen } = useAppDevice()
+const { isScreenMobileOrTablet } = useAppDevice()
 const testSwiperRef = useTemplateRef<InstanceType<typeof BaseSwiperSlides>>('testSwiperRef')
 // Create 10 slides
 const slides = ref(Array.from({ length: 10 }))
@@ -307,7 +307,7 @@ const items = [
                 :params="{
                   initialSlide: 0,
                   speed: 400,
-                  slidesPerView: !isSmallScreen ? 5 : 2.5,
+                  slidesPerView: !isScreenMobileOrTablet ? 5 : 2.5,
                   spaceBetween: 30,
                   pagination: true,
                   gridRows: 2

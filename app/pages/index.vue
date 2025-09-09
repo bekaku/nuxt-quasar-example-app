@@ -13,7 +13,7 @@ definePageMeta({
   // requiresPermission: ['role_manage'],//custom meta
 })
 useInitPage()
-const { isSmallScreen, isServer } = useAppDevice()
+const { isScreenMobileOrTablet, isServer } = useAppDevice()
 const { getPageMeta, getPageMetaByKey } = useBase()
 const { isDark } = useTheme()
 if (!isServer()) {
@@ -48,10 +48,10 @@ onMounted(() => {
     >
       <q-card-section>
         <div class="row">
-          <div class="col-12 col-md-8" :class="{ 'q-pr-md': !isSmallScreen }">
+          <div class="col-12 col-md-8" :class="{ 'q-pr-md': !isScreenMobileOrTablet }">
             <BaseTabs
               v-model="toggleModel"
-              :full-width="isSmallScreen"
+              :full-width="isScreenMobileOrTablet"
               :items="[
                 { label: 'Overview', value: 'overview' },
                 { label: 'Analytics', value: 'analytics' },
@@ -60,7 +60,7 @@ onMounted(() => {
               align="left"
             />
           </div>
-          <div class="col-12 col-md-4" :class="{ 'q-pt-md': isSmallScreen }">
+          <div class="col-12 col-md-4" :class="{ 'q-pt-md': isScreenMobileOrTablet }">
             <BaseDatePicker
               v-model:start="dateRangeStart"
               v-model:end="dateRangeEnd"
@@ -98,12 +98,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="row" :class="{ 'q-mb-md': isSmallScreen }">
+      <div class="row" :class="{ 'q-mb-md': isScreenMobileOrTablet }">
         <div
           v-for="(item, index) in dashBaordStatisticItems"
           :key="index"
           class="col-12 col-md-3"
-          :class="{ 'q-pa-md': !isSmallScreen, 'q-px-md q-py-sm': isSmallScreen }"
+          :class="{ 'q-pa-md': !isScreenMobileOrTablet, 'q-px-md q-py-sm': isScreenMobileOrTablet }"
         >
           <BaseCard :flat="false" :margin="false">
             <q-item>
@@ -130,7 +130,7 @@ onMounted(() => {
               class="col-12 col-md-3"
               :style="{
                 borderRight:
-                  !isSmallScreen && index < dashboardSparkLineItems.length - 1
+                  !isScreenMobileOrTablet && index < dashboardSparkLineItems.length - 1
                     ? `1px solid ${!isDark ? 'var(--color-zinc-200)' : 'var(--color-zinc-700)'}`
                     : 'none'
               }"
@@ -181,7 +181,7 @@ onMounted(() => {
                     :series="dashboardChartData.series.slice(3, 6)"
                     :categories="dashboardChartData.categories"
                     strokestyle="smooth"
-                    :label-rotate="!isSmallScreen ? 0 : -45"
+                    :label-rotate="!isScreenMobileOrTablet ? 0 : -45"
                     :xaxis-tickamount="4"
                     :dark="isDark"
                   />

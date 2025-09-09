@@ -25,11 +25,10 @@ const {
   showUserSetting?: boolean
 }>()
 const { t } = useLang()
-const { screen } = useQuasar()
 const { isDark } = useTheme()
 const { appNavigateTo } = useBase()
 const appStore = useAppStore()
-const { isMobileOrTablet } = useAppDevice()
+const { isMobileOrTablet, isScreenMobileOrTablet } = useAppDevice()
 const showGotTopBtn = ref(false)
 const showSearch = ref(false)
 
@@ -103,14 +102,14 @@ onBeforeUnmount(() => {
           <img :src="!isDark ? '/logo/logo-black.png' : '/logo/logo-white.png'" />
         </q-avatar>
       </q-btn>
-      <q-btn v-if="screen.gt.xs" flat rounded class="text-capitalize" @click="onOpenSearch">
+      <q-btn v-if="!isScreenMobileOrTablet" flat rounded class="text-capitalize" @click="onOpenSearch">
         <span class="q-mr-sm text-muted">{{ t('base.search') }}</span>
         <q-icon :name="biSearch" />
       </q-btn>
       <q-space />
 
       <div class="q-gutter-sm row items-center no-wrap">
-        <q-btn v-if="screen.gt.sm" round dense flat :icon="biChatDots" to="/chats">
+        <q-btn  round dense flat :icon="biChatDots" to="/chats">
           <BaseTooltip>Messages</BaseTooltip>
         </q-btn>
         <q-btn
@@ -121,15 +120,15 @@ onBeforeUnmount(() => {
           href="https://github.com/bekaku/nuxt-quasar-example-app"
           target="_blank"
         />
-        <q-btn v-if="!screen.gt.xs" round dense flat @click="onOpenSearch">
+        <q-btn v-if="isScreenMobileOrTablet" round dense flat @click="onOpenSearch">
           <q-icon :name="biSearch" />
         </q-btn>
         <q-btn round dense flat :icon="biBell">
           <q-badge color="negative" rounded text-color="white" floating> 99+ </q-badge>
           <BaseTooltip>{{ t('base.notifications') }}</BaseTooltip>
         </q-btn>
-        <LazyBaseLangugeSwitcherButton v-if="!isMobileOrTablet" />
-        <LazyBaseThemeSwitcher v-if="!isMobileOrTablet" toggle />
+        <LazyBaseLangugeSwitcherButton v-if="!isScreenMobileOrTablet" />
+        <LazyBaseThemeSwitcher v-if="!isScreenMobileOrTablet" toggle />
         <LazyBaseHeaderMenu v-if="showUserSetting" style="max-width: 225px" />
       </div>
     </q-toolbar>

@@ -16,7 +16,7 @@ const authenStore = useAuthenStore()
 const { signout } = useAuth()
 const { t, currentLangugeName } = useLang()
 const { isDark } = useTheme()
-const { isSmallScreen } = useAppDevice()
+const { isScreenMobileOrTablet } = useAppDevice()
 </script>
 <template>
   <q-item v-bind="$attrs" clickable class="rounded">
@@ -64,7 +64,7 @@ const { isSmallScreen } = useAppDevice()
           <q-item-section side> <q-icon :name="biChevronRight" /> </q-item-section>
         </q-item>
         <q-separator class="q-my-xs" />
-        <template v-if="isSmallScreen">
+        <template v-if="isScreenMobileOrTablet">
           <q-item clickable class="rounded">
             <q-item-section avatar>
               <q-icon :name="isDark ? biMoon : biSun" />

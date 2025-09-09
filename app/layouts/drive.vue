@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { biDatabase, biFile, biHouseDoor } from '@quasar/extras/bootstrap-icons'
-import { login, FileManagermission } from '~/libs/permissions'
+import { biHouseDoor } from '@quasar/extras/bootstrap-icons'
+import { login } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
-const { isMobileOrTablet } = useAppDevice()
-const { isDark } = useTheme()
-const modelValue = ref(true)
-const expandDrawer = ref(true)
-const drawerOpen = ref(true)
-const miniState = ref(false)
+const {
+  isMobileOrTablet,
+} = useAppDevice()
+const modelValue = ref(!isMobileOrTablet)
+const expandDrawer = ref(!isMobileOrTablet)
+const miniState = ref(!isMobileOrTablet)
 const overlay = ref(false)
 const miniToOverlay = ref(true)
 const menus: LabelValue<any>[] = [
@@ -22,7 +22,7 @@ const menus: LabelValue<any>[] = [
   {
     icon: { name: 'lucide:folder', iconSet: 'nuxt' },
     label: 'drive.title',
-    to: '/my-drive',
+    to: '/my-drive'
   },
   {
     icon: { name: 'lucide:star', iconSet: 'nuxt' },
@@ -66,17 +66,19 @@ const onMounseout = () => {
     miniState.value = true
   }
 }
+const onOpenDrawer = () => {
+  if (!isMobileOrTablet) {
+    expandDrawer.value = !expandDrawer.value
+  } else {
+    modelValue.value = !modelValue.value
+  }
+}
 </script>
 <template>
   <q-layout view="lHh Lpr lff">
     <BaseHeader :show-togle-drawer="true" :show-logo="true" bordered>
       <template #toggleBtn>
-        <q-btn
-          dense
-          flat
-          round
-          @click="!isMobileOrTablet ? (expandDrawer = !expandDrawer) : (drawerOpen = !drawerOpen)"
-        >
+        <q-btn dense flat round @click="onOpenDrawer">
           <BaseIcon
             :name="expandDrawer ? 'lucide:panel-left-close' : 'lucide:panel-left-open'"
             icon-set="nuxt"
@@ -96,19 +98,7 @@ const onMounseout = () => {
       @mouseover="onMounseover"
       @mouseout="onMounseout"
     >
-      <!-- <q-scroll-area class="fit">
-        <div v-show="!miniState || expandDrawer">
-          <div class="row justify-center q-pa-sm">
-            <q-btn flat dense round to="/" class="btn--no-hover">
-              <q-avatar style="height: auto; width: 44px" square>
-                <img alt="logo" :src="!isDark ? '/logo/logo-black.png' : '/logo/logo-white.png'" />
-              </q-avatar>
-            </q-btn>
-          </div>
-          <q-separator />
-        </div> -->
       <BaseMenuItems :items="menus" />
-      <!-- </q-scroll-area> -->
     </BaseDrawer>
     <q-page-container>
       <slot />

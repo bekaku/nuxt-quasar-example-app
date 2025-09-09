@@ -295,7 +295,8 @@ export default {
         province: 'Province',
         district: 'District',
         subDistrict: 'Sub District',
-        items: 'no items | {n} item | {n} items'
+        items: 'no items | {n} item | {n} items',
+        selectdItems: 'Not selected | Selected {n} item | Selected {n} items'
     },
     drive: {
         title: 'My Files',

@@ -10,6 +10,10 @@ export const useAppDevice = () => {
   const { latestSyncActiveStatus } = useCache();
 
   const { screen } = useQuasar();
+  const isScreenMobile = computed(() => screen.lt.sm) // xs only
+  const isScreenTablet = computed(() => screen.sm || screen.md) // sm, md
+  const isScreenDesktop = computed(() => screen.gt.md) // lg, xl
+  const isScreenMobileOrTablet = computed(() => isScreenMobile.value || isScreenTablet.value)
   const isSmallScreen = computed(() => {
     return screen.sm || screen.xs;
   })
@@ -63,6 +67,7 @@ export const useAppDevice = () => {
     deviceId,
     canSyncActiveStatusToServer,
     setSysncActiveStatus,
-    isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows, isSmallScreen
+    isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows,
+    isSmallScreen, isScreenMobile, isScreenTablet, isScreenDesktop, isScreenMobileOrTablet
   };
 };

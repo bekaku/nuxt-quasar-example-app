@@ -15,7 +15,7 @@ useInitPage()
 const { t } = useLang()
 const { isDark } = useTheme()
 const { getParam } = useBase()
-const { isSmallScreen } = useAppDevice()
+const { isScreenMobileOrTablet } = useAppDevice()
 const { findAllFolderAndFiles } = FileManagerService()
 const folderId = computed<string>(() => getParam('folder') || '0')
 // const { pages, resetPaging } = usePaging(10)
@@ -112,6 +112,12 @@ const updateSelectedAll = (val: boolean) => {
     }
   }
 }
+const onItemCLick = (id: string | number | null) => {
+  console.log('onItemCLick', id)
+}
+const onClearSelected = () => {
+  selected.value = []
+}
 const onUploadMenuClick = (value: number | string | undefined) => {
   console.log('onUploadMenuClick', value)
 }
@@ -154,7 +160,7 @@ onMounted(async () => {
       <q-toolbar class="app-border-radius">
         <BaseButtonToggle v-model="viewMode" :options="viewModeOptions" />
         <BaseInput
-          v-if="!isSmallScreen"
+          v-if="!isScreenMobileOrTablet"
           v-bind="$attrs"
           v-model="searchText"
           :bg-color="!isDark ? 'white' : 'grey-9'"
@@ -166,7 +172,7 @@ onMounted(async () => {
         <q-space />
         <BaseSort
           :sort="sort"
-          :label="!isSmallScreen ? t('sort.sort') : ''"
+          :label="!isScreenMobileOrTablet ? t('sort.sort') : ''"
           :fields="[
             {
               label: t('drive.fileName'),
@@ -195,8 +201,8 @@ onMounted(async () => {
       </q-toolbar>
 
       <BaseTransitionWrapper name="slide-up">
-        <BaseCardSection v-if="selected.length > 0" :padding="false" >
-          <BaseCard  flat>
+        <BaseCardSection v-if="selected.length > 0" :padding="false">
+          <BaseCard>
             <q-toolbar>
               <BaseButton flat>
                 <BaseIcon name="lucide:trash-2" icon-set="nuxt" />
@@ -205,6 +211,15 @@ onMounted(async () => {
               <BaseButton flat>
                 <BaseIcon name="lucide:folder-input" icon-set="nuxt" />
                 <span class="q-ml-sm">{{ t('drive.moveTo') }}</span>
+              </BaseButton>
+              <BaseButton v-if="selected.length === 1" flat>
+                <BaseIcon name="lucide:text-cursor-input" icon-set="nuxt" />
+                <span class="q-ml-sm">{{ t('drive.changName') }}</span>
+              </BaseButton>
+              <q-space />
+              <BaseButton flat @click="onClearSelected">
+                <BaseIcon name="lucide:x" icon-set="nuxt" />
+                <span class="q-ml-sm">{{ t('base.selectdItems', selected.length as any) }}</span>
               </BaseButton>
             </q-toolbar>
           </BaseCard>
@@ -216,6 +231,7 @@ onMounted(async () => {
         v-model:selected="selected"
         :items="dataList"
         @on-check-all="updateSelectedAll"
+        @on-item-click="onItemCLick"
         class="q-pt-md"
       />
       <LazyDriveGrid v-else :items="dataList" />
