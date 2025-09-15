@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import axios from 'axios'
+import axios, { type AxiosInstance } from 'axios'
 import JSONbig from 'json-bigint'
 import { useAuthenStore } from '~/stores/authenStore';
 const JSONbigString = JSONbig({ storeAsString: true });
@@ -13,7 +13,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const authenStore = useAuthenStore();
     const { setRefreshAuthenToken, currentUserId, getCurrentUserToken, removeAuthToken } = useAppCookie();
 
-    const axiosInstance = axios.create({
+    const axiosInstance: AxiosInstance = axios.create({
         baseURL: runtimeConfig.public.apiBase as string,
         withCredentials: true,
         timeout: runtimeConfig.public.timeOut as unknown as number,
@@ -22,17 +22,18 @@ export default defineNuxtPlugin((nuxtApp) => {
             'Accept-Apiclient': runtimeConfig.public.apiClient
         },
         validateStatus: (status) => status < 400, // Resolve only if the status code is less than 400
-        // transformResponse: [function (data) {
-        //     try {
-        //         const parsed = JSONbigString.parse(data);
-        //         console.log('Parsed ID type:', typeof parsed?.id); // Should log: "string"
-        //         return parsed;
-        //     } catch (e) {
-        //         console.warn('Parse failed:', e);
-        //         return data;
-        //     }
-        // }]
-        transformResponse: [data => data]
+        transformResponse: [(data) => {
+            if (data) {
+                try {
+                    const parsed = JSONbigString.parse(data);
+                    return parsed;
+                } catch (e) {
+                    return data;
+                }
+            }
+            return data;
+        }]
+        // transformResponse: [data => data]
     })
 
     // const event = nuxtApp.ssrContext?.event;
@@ -87,17 +88,18 @@ export default defineNuxtPlugin((nuxtApp) => {
     );
 
     axiosInstance.interceptors.response.use(
-        (response) => {
-            if (response?.data) {
-                try {
-                    response.data = JSONbigString.parse(response.data);
-                } catch (e) {
-                    // fallback to normal JSON
-                    response.data = JSON.parse(response.data);
-                }
-            }
-            return response;
-        },
+        (response) => response,
+        // (response) => {
+        //     if (response?.data) {
+        //         try {
+        //             response.data = JSONbigString.parse(response.data);
+        //         } catch (e) {
+        //             // fallback to normal JSON
+        //             response.data = JSON.parse(response.data);
+        //         }
+        //     }
+        //     return response;
+        // },
         async (error) => {
             const originalRequest = error.config;
             const currentToken = await getCurrentUserToken();

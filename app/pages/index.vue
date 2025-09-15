@@ -13,7 +13,8 @@ definePageMeta({
   // requiresPermission: ['role_manage'],//custom meta
 })
 useInitPage()
-const { isScreenMobileOrTablet, isServer } = useAppDevice()
+const { isScreenMobileOrTablet } = useAppDevice()
+const { isServer } = useConfiguration()
 const { getPageMeta, getPageMetaByKey } = useBase()
 const { isDark } = useTheme()
 if (!isServer()) {

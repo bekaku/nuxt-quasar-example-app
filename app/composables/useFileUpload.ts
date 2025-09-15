@@ -78,7 +78,7 @@ export const useFileUpload = (options?: {
                 originalFilename: filename,
                 resizeImage: true
             })
-            if (response && response.id && response.id > 0) {
+            if (response && response.id) {
                 console.info('Merge complete')
                 await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
                 return new Promise(resolve => resolve(response))

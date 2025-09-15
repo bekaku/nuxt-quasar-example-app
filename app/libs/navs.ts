@@ -7,7 +7,6 @@ import {
     biBack,
     biBrush,
     biBug,
-    biChatDots,
     biCreditCard2Front,
     biCrop,
     biCursorText,
@@ -16,17 +15,13 @@ import {
     biFile,
     biFileImage,
     biFolder,
-    biGear, biHouseDoor,
     biInputCursorText,
     biLayers,
     biLayoutSidebar,
-    biList,
     biMarkdown,
-    biPeople, biPerson, biPersonBadge,
-    biPieChart,
+    biPerson,
     biSegmentedNav,
     biShieldCheck,
-    biTable,
     biToggleOff,
     biUpload,
     biWindowFullscreen,
@@ -39,7 +34,7 @@ export const appNavs: LabelValue<any>[] = [
     {
         children: [
             {
-                icon: { name: biHouseDoor },
+                icon: { name: 'hugeicons:home-11', iconSet: 'nuxt' },
                 label: 'nav.dashboard',
                 to: '/',
                 rbac: {
@@ -53,7 +48,7 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'nav.systemData',
-                icon: { name: biGear },
+                icon: { name: 'hugeicons:database-setting', iconSet: 'nuxt' },
                 children: [
                     {
                         label: 'model_permission',
@@ -72,11 +67,11 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'nav.userData',
-                icon: { name: biPersonBadge },
+                icon: { name: 'hugeicons:user-settings-02', iconSet: 'nuxt' },
                 children: [
                     {
                         label: 'nav.userRole',
-                        icon: { name: biPeople },
+                        icon: { name: 'hugeicons:user-group-02', iconSet: 'nuxt' },
                         to: '/app-role',
                         rbac: {
                             permissions: [RolePermission.list]
@@ -84,7 +79,7 @@ export const appNavs: LabelValue<any>[] = [
                     },
                     {
                         label: 'nav.appUser',
-                        icon: { name: biPerson },
+                        icon: { name: 'hugeicons:user-02', iconSet: 'nuxt' },
                         to: '/app-user',
                         rbac: {
                             permissions: [UserPermission.list]
@@ -98,7 +93,7 @@ export const appNavs: LabelValue<any>[] = [
         label: 'nav.more',
         children: [
             {
-                label: 'model_files_manager',
+                label: 'drive.title',
                 icon: { name: biFolder },
                 to: '/my-drive/folder/0',
                 rbac: {
@@ -121,7 +116,7 @@ export const additionalMenu: LabelValue<any>[] = [
         label: 'Example',
         children: [
             {
-                icon: { name: biList },
+                icon: { name: 'hugeicons:function', iconSet : 'nuxt' },
                 label: 'Composables',
                 translateLabel: false,
                 children: [
@@ -132,7 +127,7 @@ export const additionalMenu: LabelValue<any>[] = [
                         to: '/example/composables/use-base'
                     },
                     {
-                        icon: { name: biDatabase },
+                        icon: { name: 'hugeicons:database-import', iconSet: 'nuxt' },
                         label: 'usePageFetch',
                         translateLabel: false,
                         to: '/example/composables/use-pagefecth'
@@ -239,19 +234,19 @@ export const additionalMenu: LabelValue<any>[] = [
                 ],
             },
             {
-                icon: { name: biPieChart },
+                icon: { name: 'hugeicons:presentation-bar-chart-02', iconSet: 'nuxt' },
                 label: 'Charts',
                 translateLabel: false,
                 to: '/example/charts'
             },
             {
-                icon: { name: biChatDots },
+                icon: { name: 'hugeicons:bubble-chat', iconSet: 'nuxt' },
                 label: 'Chat',
                 translateLabel: false,
                 to: '/chats'
             },
             {
-                icon: { name: biTable },
+                icon: { name: 'hugeicons:edit-table', iconSet: 'nuxt' },
                 label: 'Crud table',
                 translateLabel: false,
                 to: '/example/crud-table'
@@ -283,13 +278,13 @@ export const additionalMenu: LabelValue<any>[] = [
                 to: '/example/fetch-data'
             },
             {
-                icon: { name: biCrop },
+                icon: { name: 'hugeicons:image-crop', iconSet: 'nuxt' },
                 label: 'Image cropper',
                 translateLabel: false,
                 to: '/example/image-cropper'
             },
             {
-                icon: { name: biFileImage },
+                icon: { name: 'hugeicons:image-03', iconSet: 'nuxt' },
                 label: 'Image/Pdf View',
                 translateLabel: false,
                 to: '/example/image-view'

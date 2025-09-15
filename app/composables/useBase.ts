@@ -9,7 +9,7 @@ export const useBase = () => {
     const route = useRoute();
     const router = useRouter();
     const { loading, notify, dialog, dark } = useQuasar();
-    const { isServer } = useAppDevice();
+    const { isServer } = useConfiguration();
     const { t } = useLang();
     const getCurrentPath = (fullPath = true) => {
         return fullPath ? route.fullPath : route.path;
@@ -232,6 +232,7 @@ export const useBase = () => {
             el.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
     return {
         getPageMeta,
         getPageMetaByKey,
@@ -251,6 +252,6 @@ export const useBase = () => {
         inputSanitizeHtml,
         writeToClipboard,
         appThrowError,
-        scrollToTop
+        scrollToTop,
     }
 };

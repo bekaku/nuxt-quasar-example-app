@@ -296,7 +296,9 @@ export default {
         district: 'District',
         subDistrict: 'Sub District',
         items: 'no items | {n} item | {n} items',
-        selectdItems: 'Not selected | Selected {n} item | Selected {n} items'
+        selectdItems: 'Not selected | Selected {n} item | Selected {n} items',
+        print: 'Print',
+        showAllPage: 'Show all pages',
     },
     drive: {
         title: 'My Files',

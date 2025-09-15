@@ -8,7 +8,7 @@ import {
 import type { CrudFormApiOptions, ICrudAction, RequestDto, ResponseMessage } from '~/types/common';
 
 export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) => {
-    const { isDevMode } = useAppDevice();
+    const { isDevMode } = useConfiguration();
     const { appNavigateTo, getParam, appToast, appConfirm, getPreviousPath, appThrowError } = useBase();
     const { callAxios } = useAxios();
     const { t } = useLang();

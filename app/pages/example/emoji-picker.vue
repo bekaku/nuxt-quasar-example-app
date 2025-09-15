@@ -61,7 +61,10 @@ const onEmojiClick = (emoji: string) => {
           <BaseLink href="https://icon-sets.iconify.design/" color="primary" external>
             <BaseIcon name="lucide:move-up-right" icon-set="nuxt" color="light" /> Iconify
           </BaseLink>
-          <BaseLink href="https://lucide.dev/icons/" color="primary" external>
+          <BaseLink href="https://icon-sets.iconify.design/hugeicons/?keyword=huge" color="primary" external>
+            <BaseIcon name="lucide:move-up-right" icon-set="nuxt" /> Huge Icon
+          </BaseLink>
+          <BaseLink href="https://icon-sets.iconify.design/lucide/?keyword=lucide" color="primary" external>
             <BaseIcon name="lucide:move-up-right" icon-set="nuxt" /> lucide Icon
           </BaseLink>
         </p>

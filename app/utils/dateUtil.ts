@@ -113,3 +113,20 @@ export const isDate2GreaterOrEqualThanOnlyDate = (d1: Date, d2: Date) => {
 export const removeTime = (datetimeString: string) => {
   return datetimeString ? datetimeString.split(' ')[0] : '';
 };
+
+export const formatDuration = (ms: number): string => {
+  const seconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  const remainingSeconds = seconds % 60;
+  const remainingMinutes = minutes % 60;
+
+  const parts: string[] = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${remainingMinutes}m`);
+  if (remainingSeconds > 0 || parts.length === 0) {
+    parts.push(`${remainingSeconds}s`);
+  }
+  return parts.join(" ");
+}

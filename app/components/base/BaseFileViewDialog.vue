@@ -78,14 +78,7 @@ const onDownloadFile = async () => {
     return new Promise(resolve => resolve(false))
   }
 
-  // if (fetch) {
-  //     await downloadCdnData(file.filePath, file.fileName || title);
-  // } else {
-  // let fileExtension = getFileExtension(file.fileMime)
-  const fileExtension = getExtensionFromFileName(file.fileMime)
-  // if (!fileExtension) {
-    // fileExtension = getExtensionFromFileName(file.fileName)
-  // }
+  const fileExtension = getExtensionFromFileManager(file)
   const fileGenerateName = generateFileNameByExtesnsion(fileExtension)
   if (fileExtension && fileGenerateName) {
     if (isBlob) {
@@ -118,8 +111,6 @@ const onDownloadFile = async () => {
       }
     }
   }
-  // }
-
   return new Promise(resolve => resolve(true))
 }
 const detechFile = async () => {

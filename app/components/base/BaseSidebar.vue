@@ -87,7 +87,6 @@ onBeforeUnmount(() => {
     <template v-if="getFavoriteMenuItems.length > 0">
       <BaseMenuItems :items="getFavoriteMenuItems" :padding="true" favorite-section can-favorite>
       </BaseMenuItems>
-      <q-separator />
     </template>
     <BaseMenuItems :items="appStore.drawers" can-favorite />
     <BaseMenuItems :items="additionalMenu">

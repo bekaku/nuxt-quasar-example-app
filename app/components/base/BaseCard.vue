@@ -33,6 +33,7 @@ const onHover = (state: boolean) => {
 }
 </script>
 <template>
+
   <q-card
     v-bind="$attrs"
     :flat

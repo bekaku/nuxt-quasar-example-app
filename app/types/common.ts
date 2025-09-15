@@ -562,8 +562,6 @@ export interface VirtualScrollerUpdate {
     isScrollingToTop: boolean;
 }
 
-
-
 export interface VueMoneyConFig {
     decimal: string
     separator: string
@@ -573,6 +571,24 @@ export interface VueMoneyConFig {
     masked: boolean
     nullValue: string
     reverseFill: boolean
+}
+
+export interface PdfWatermarkOptions {
+  text?: string | undefined
+  columns?: number
+  rows?: number
+  rotation?: number
+  fontSize?: number
+  color?: any
+  opacity?: number
+  image?: string
+  items?: PdfWatermarkItems[]
+}
+export interface PdfWatermarkItems {
+  x?: number
+  y?: number
+  text?: string
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 }
 
 export type CountryCode =

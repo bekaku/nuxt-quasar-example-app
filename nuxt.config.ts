@@ -16,7 +16,7 @@ function getFileList(locale: string) {
 export default defineNuxtConfig({
   // app: {
   //   head: {
-  //     title: 'Quasar + Nuxt 3',
+  //     title: 'Quasar + Nuxt',
   //     meta: [
   //       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
   //       { name: 'keywords', content: 'Nuxt Quasar Example, Vue Quasar Example' },

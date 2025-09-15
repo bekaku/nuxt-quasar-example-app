@@ -12,6 +12,7 @@ import {
 } from '@quasar/extras/bootstrap-icons';
 // import JSZip from 'jszip';
 import type { FileType } from '~/types/common';
+import type { FileManager } from '~/types/models';
 
 export const fileToBlob = (file: File): Promise<any> => {
     return new Promise((resolve) => {
@@ -183,20 +184,40 @@ export const getFileNameFromResponse = (axiosResponse: any) => {
 };
 
 export const getExtensionFromFileName = (filename: string) => {
-  const dotIndex = filename.lastIndexOf('.');
-  if (dotIndex === -1) {
-    return '';
-  }
-  return filename.substring(dotIndex); // includes the dot
+    const dotIndex = filename.lastIndexOf('.');
+    if (dotIndex === -1) {
+        return '';
+    }
+    return filename.substring(dotIndex); // includes the dot
+}
+export const getExtensionFromFileManager = (file: FileManager) => {
+
+    let fileExtension = getFileExtension(file.fileMime)
+    if (!fileExtension) {
+        fileExtension = getExtensionFromFileName(file.filePath)
+    }
+    return fileExtension;
 }
 
 export const getFileTypeIconFromFileName = (filename: string) => {
-  const ext = getExtensionFromFileName(filename);
-  if (!ext) {
-    return '';
-  }
+    const ext = getExtensionFromFileName(filename);
+    if (!ext) {
+        return 'hugeicons:file-empty-02';
+    }
 
-  return getFileTypeIconNuxt(ext);
+    return getFileTypeIconNuxt(ext);
+}
+export const getFileTypeIconFromFileManager = (file: FileManager) => {
+
+    let fileExtension = getFileExtension(file.fileMime)
+    if (!fileExtension) {
+        fileExtension = getExtensionFromFileName(file.filePath)
+    }
+    if (!fileExtension) {
+        return 'hugeicons:file-empty-02';
+    }
+
+    return getFileTypeIconNuxt(fileExtension);
 }
 export const getFileExtension = (t: string): string | undefined => {
 
@@ -485,7 +506,7 @@ export const getFileTypeIconNuxt = (t: string) => {
             icon = 'vscode-icons:default-folder';
             break;
         default:
-            icon = 'vscode-icons:default-file';
+            icon = 'hugeicons:file-empty-02';
             break;
     }
     return icon;

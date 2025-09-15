@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { biFolderFill } from '@quasar/extras/bootstrap-icons'
 import type { FileManager } from '~/types/models'
-import { getFileTypeIconFromFileName } from '~/utils/fileUtil'
 const { t, locale } = useLang()
 const { formatDateTime } = useDateFns()
 const { items, iconSize = '3em' } = defineProps<{
@@ -64,7 +62,7 @@ const onRowClick = (id: string | number | null) => {
                 <q-item-section side>
                   <BaseIcon
                     v-if="!item.directoryFolder"
-                    :name="getFileTypeIconFromFileName(item.fileName)"
+                    :name="getFileTypeIconFromFileManager(item)"
                     icon-set="nuxt"
                     :size="iconSize"
                   />

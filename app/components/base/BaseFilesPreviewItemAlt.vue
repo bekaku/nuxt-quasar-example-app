@@ -2,7 +2,6 @@
 import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
 import type { FileManager } from '~/types/models'
 import { formatBytes } from '~/utils/appUtil'
-import { getFileTypeIconFromFileName } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
 import BaseTooltip from './BaseTooltip.vue'
 
@@ -61,10 +60,9 @@ const onClick = (event: any, index: number) => {
           class="cursor-pointer text-center"
           @click="onClick($event, index)"
         >
-          <!-- <q-icon :class="textColor" :name="getFileTypeIcon(item.fileMime)" :size="iconSize" /> -->
           <BaseIcon
             :class="textColor"
-            :name="getFileTypeIconFromFileName(item.fileName)"
+            :name="getFileTypeIconFromFileManager(item)"
             icon-set="nuxt"
             :size="iconSize"
           />

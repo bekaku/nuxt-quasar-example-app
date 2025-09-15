@@ -107,6 +107,7 @@ export default () => {
       clearBaseUrl: true
 
     });
+    console.log('response',path, response)
     if (response.data) {
       if (responseDataType == 'blob') {
         const imageUrlObject = await getBlobFromAxiosResponse(response);

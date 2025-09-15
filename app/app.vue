@@ -2,7 +2,7 @@
 import { useLang } from '~/composables/useLang'
 const { initialLocale, t } = useLang()
 const { initialQuasarDark, isDark } = useTheme()
-const { isServer } = useAppDevice()
+const { isServer } = useConfiguration()
 
 const color = computed(() => (isDark.value ? '#111827' : 'white'))
 useHead({

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { FileManager } from '@/types/models'
 import { formatBytes } from '@/utils/appUtil'
-import { getFileTypeIconFromFileName } from '~/utils/fileUtil';
 import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
 import { computed } from 'vue'
 
@@ -159,9 +158,9 @@ const onClick = (event: any, index: number) => {
         <div class="col-12 cursor-pointer text-center" @click="onClick($event, index)">
           <BaseIcon
             :class="textColor"
-            :name="getFileTypeIconFromFileName(item.fileName)"
+            :name="getFileTypeIconFromFileManager(item)"
             icon-set="nuxt"
-            :size="imageSize"
+            :size="iconSize"
           />
           <BaseButton
            v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"

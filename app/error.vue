@@ -7,7 +7,7 @@ const props = defineProps({
   error: Object as () => NuxtError
 })
 const { t } = useLang()
-const { isDevMode } = useAppDevice()
+const { isDevMode } = useConfiguration()
 const { onPageBack } = useBase()
 const { isDark } = useTheme()
 // const message = computed(() => String(props.error?.message || ''))

@@ -11,6 +11,7 @@ useInitPage()
 const { t } = useLang()
 const { isDark } = useTheme()
 const { getQuery } = useBase()
+const { appVersion } = useConfiguration()
 const redirectTo = ref<string | undefined>(getQuery('continue'))
 </script>
 <template>
@@ -47,7 +48,7 @@ const redirectTo = ref<string | undefined>(getQuery('continue'))
               {{ t('base.loginTitle2') }}
             </div>
           </div>
-          <BaseLoginForm auto-redirect :redirect-to="redirectTo || '/'"/>
+          <BaseLoginForm auto-redirect :redirect-to="redirectTo || '/'" />
           <div class="text-center q-mt-lg">
             Don't have an account?
             <BaseLink to="/signup" color="primary">Sign Up</BaseLink>
@@ -56,7 +57,7 @@ const redirectTo = ref<string | undefined>(getQuery('continue'))
               <LazyBaseLangugeSwitcherButton anchor="top left" self="bottom left" close-on-click />
               <BaseThemeSwitcher />
               <div :class="isDark ? 'text-grey-5' : 'text-grey-7'">
-                {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
+                {{ `@ ${getYearNow()} ${t('app.monogram')} v${appVersion}` }}
               </div>
             </div>
           </div>

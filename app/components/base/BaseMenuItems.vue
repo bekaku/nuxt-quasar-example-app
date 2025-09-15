@@ -27,7 +27,7 @@ const { getCurrentPath } = useBase()
 const currentUrlPath = computed(() => getCurrentPath(false))
 </script>
 <template>
-  <q-list v-bind="$attrs" :padding>
+  <q-list v-bind="$attrs" :padding >
     <slot name="before" />
     <template v-if="items && items.length > 0">
       <template v-for="(item, index) in items" :key="`parent-${index}`">

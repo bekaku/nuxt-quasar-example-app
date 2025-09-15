@@ -53,7 +53,7 @@ const onReset = () => {
                             <q-carousel-slide name="style" class="column no-wrap flex-center">
                                 <div class="q-mt-md text-center">
                                     <img src="/logo/logo-white.png" style="height: 175px; width: auto">
-                                    <div class="text-h3 text-weight-bolder">Nuxt 3 Quasar</div>
+                                    <div class="text-h3 text-weight-bolder">Nuxt Quasar</div>
                                     <div class="text-subtitle1 q-mt-lg">
                                         Lorem Ipsum is simply dummy text of the printing and
                                         typesetting industry.

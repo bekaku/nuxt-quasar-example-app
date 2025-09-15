@@ -2,6 +2,8 @@
 import { biInfoCircle } from '@quasar/extras/bootstrap-icons'
 import type { FileManager } from '~/types/models'
 import FileManagerService from '~/api/FileManagerService'
+import { rgb } from 'pdf-lib'
+import { ca } from 'date-fns/locale'
 useHead({
   title: 'Image/Pdf View'
 })
@@ -138,6 +140,10 @@ const imageItems = ref<FileManager[]>([
 const showPdfView = ref(false)
 const pdfSrc = ref<string>()
 const pdfName = ref<string>()
+const showPdfViewWatermark1 = ref(false)
+const showPdfViewWatermark2 = ref(false)
+const showPdfViewWatermark3 = ref(false)
+const dummyPdfUrl = 'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf'
 const pdfItems = ref<FileManager[]>([
   {
     id: 1,
@@ -211,27 +217,41 @@ const setImagesFileView = (file: FileManager) => {
 }
 
 const fetchImageFromServer = async () => {
-  const response = await fethCdnData(
-    '/api/fileManager/files/download?path=images/202502/1_1738834032363_35bb20615b61481dbca0a44c401e8d9b.jpg'
-  )
-  console.log('response', response)
-  imageFromServer.value = response
+  try {
+    const response = await fethCdnData(
+      'http://127.0.0.1:8080/api/fileManager/files/download?path=images/default-men-avatar.png'
+    )
+    if (response) {
+      console.log('response', response)
+      imageFromServer.value = response
+    }
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 const downloadImageFromServer = async () => {
-  const response = await fethCdnData(
-    '/api/fileManager/files/download?path=images/202502/1_1738834032363_35bb20615b61481dbca0a44c401e8d9b.jpg',
-    'download'
-  )
-  console.log('response', response)
+  try {
+    const response = await fethCdnData(
+      'http://127.0.0.1:8080/api/fileManager/files/download?path=images/default-men-avatar.png',
+      'download'
+    )
+    console.log('response', response)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 const fetchPdfFromServer = async () => {
-  const response = await fethCdnData(
-    '/api/fileManager/files/download?path=images/202502/Product_20210612.pdf'
-  )
-  console.log('response', response)
-  pdfFromServer.value = response
+  try {
+    const response = await fethCdnData(
+      'http://127.0.0.1:8080/api/fileManager/files/download?path=files/compressed.tracemonkey-pldi-09.pdf'
+    )
+    console.log('response', response)
+    pdfFromServer.value = response
+  } catch (e) {
+    console.warn(e)
+  }
 }
 </script>
 <template>
@@ -254,20 +274,20 @@ const fetchPdfFromServer = async () => {
                 :key="`img-${i}-${item.fileName}`"
                 class="col-4 col-md-3 q-pa-xs"
               >
-                 <div style="overflow: hidden;" class="rounded">
-                <base-files-preview-item
-                  :item="item"
-                  :index="i"
-                  :show-delete="false"
-                  hover-zoom
-                  show-tooltip
-                  :use-thumbnail="false"
+                <div style="overflow: hidden" class="rounded">
+                  <base-files-preview-item
+                    :item="item"
+                    :index="i"
+                    :show-delete="false"
+                    hover-zoom
+                    show-tooltip
+                    :use-thumbnail="false"
                     class="rounded"
-                  image-size="100%"
-                  :show-name="false"
-                  :show-size="false"
-                  @on-click="onImgPreviewClick"
-                />
+                    image-size="100%"
+                    :show-name="false"
+                    :show-size="false"
+                    @on-click="onImgPreviewClick"
+                  />
                 </div>
               </div>
             </div>
@@ -318,7 +338,7 @@ const fetchPdfFromServer = async () => {
             :key="`impdfg-${pdfIndex}-${pdf.id}`"
             class="col-4 col-md-2 q-pa-xs"
           >
-            <base-files-preview-item
+            <BaseFilesPreviewItem
               style="border-radius: 10px"
               :item="pdf"
               :index="pdfIndex"
@@ -331,12 +351,27 @@ const fetchPdfFromServer = async () => {
           </div>
         </div>
 
+        <q-card flat>
+          <BaseTextHeader title="Pdf watermark" />
+          <q-card-section class="q-gutter-lg">
+            <BaseButton label="Defult watermark" @click="showPdfViewWatermark1 = true" />
+            <BaseButton label="Custom watermark" @click="showPdfViewWatermark2 = true" />
+            <BaseButton
+              label="Custom position, text, image"
+              @click="showPdfViewWatermark3 = true"
+            />
+          </q-card-section>
+        </q-card>
         <BaseTextHeader title="Pdf inline display" />
         <q-card flat bordered>
-          <base-pdf-view
-            src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+          <BasePdfView
+            :src="dummyPdfUrl"
             :closeable="false"
             title="compressed.tracemonkey-pldi-09.pdf"
+            :all-page="false"
+            :watermark-options="{
+              image: '/logo/logo.png'
+            }"
           />
         </q-card>
       </q-card-section>
@@ -345,7 +380,7 @@ const fetchPdfFromServer = async () => {
         <BaseButton label="Fetch pdf from server" @click="fetchPdfFromServer" />
         <p />
 
-        <base-pdf-view
+        <LazyBasePdfView
           v-if="pdfFromServer"
           :src="pdfFromServer"
           :closeable="false"
@@ -379,7 +414,7 @@ const fetchPdfFromServer = async () => {
         </div>
       </q-card-section>
     </BaseCard>
-    <lazy-base-image-view-dialog
+    <LazyBaseImageViewDialog
       v-if="showImageView"
       v-model="showImageView"
       :files="imageItems"
@@ -391,7 +426,7 @@ const fetchPdfFromServer = async () => {
       @on-close="onImgPreviewClose"
     />
 
-    <lazy-base-pdf-view-dialog
+    <LazyBasePdfViewDialog
       v-if="showPdfView && pdfSrc"
       v-model="showPdfView"
       :src="pdfSrc"
@@ -399,7 +434,59 @@ const fetchPdfFromServer = async () => {
       @on-close="() => onClosePefView"
     />
 
-    <lazy-base-file-view-dialog
+    <LazyBasePdfViewDialog
+      v-if="showPdfViewWatermark1"
+      v-model="showPdfViewWatermark1"
+      :src="dummyPdfUrl"
+      title="Defult watermark"
+      :watermark-options="{
+        text: 'Defult watermark'
+      }"
+    />
+
+    <LazyBasePdfViewDialog
+      v-if="showPdfViewWatermark2"
+      v-model="showPdfViewWatermark2"
+      :src="dummyPdfUrl"
+      title="Custom watermark"
+      :watermark-options="{
+        text: 'Watermark',
+        fontSize: 28,
+        rows: 3,
+        columns: 3,
+        rotation: 0,
+        opacity: 0.7,
+        color: rgb(0.1, 1, 0.1)
+      }"
+    />
+    <LazyBasePdfViewDialog
+      v-if="showPdfViewWatermark3"
+      v-model="showPdfViewWatermark3"
+      :src="dummyPdfUrl"
+      title="Custom position"
+      :watermark-options="{
+        image: '/logo/logo.png',
+        items: [
+          {
+            text: 'Top left',
+            position: 'top-left'
+          },
+          {
+            text: 'Top right',
+            position: 'top-right'
+          },
+          {
+            text: 'Bottom left',
+            position: 'bottom-left'
+          },
+          {
+            text: 'Bottom right',
+            position: 'bottom-right'
+          }
+        ]
+      }"
+    />
+    <LazyBaseFileViewDialog
       v-if="showMixFiles && fileMixForView"
       v-model:show="showMixFiles"
       :item="fileMixForView"

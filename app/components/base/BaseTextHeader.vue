@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import type { IconSet } from '~/types/common'
-import type { IconProps } from '~/types/props';
+import type { IconProps } from '~/types/props'
 
-const { header = true, iconSize = '24px', titleLines=1 } = defineProps<{
+const {
+  header = true,
+  iconSize = '24px',
+  titleLines = 1,
+  subTitleLines = 2
+} = defineProps<{
   title?: string
   subtitle?: string
   icon?: IconProps
@@ -10,6 +15,7 @@ const { header = true, iconSize = '24px', titleLines=1 } = defineProps<{
   iconSize?: string
   header?: boolean
   titleLines?: number
+  subTitleLines?: number
 }>()
 </script>
 <template>
@@ -24,10 +30,18 @@ const { header = true, iconSize = '24px', titleLines=1 } = defineProps<{
       </q-item-section>
     </slot>
     <q-item-section>
-      <q-item-label :lines="titleLines" :class="{ 'text-h5 text-weight-bold': header }">
+      <q-item-label
+        :lines="titleLines"
+        class="fix-header q-py-xs"
+        :class="{ 'text-h5 text-weight-bold': header }"
+      >
         {{ title }}
       </q-item-label>
-      <q-item-label v-if="subtitle" :class="{ 'text-body2 text-muted': header }">
+      <q-item-label
+        v-if="subtitle"
+        :lines="subTitleLines"
+        :class="{ 'text-body2 text-muted': header }"
+      >
         {{ subtitle }}
       </q-item-label>
     </q-item-section>

@@ -17,12 +17,6 @@ export const useAppDevice = () => {
   const isSmallScreen = computed(() => {
     return screen.sm || screen.xs;
   })
-  const isDevMode = () => {
-    return import.meta.dev;
-  };
-  const isServer = () => {
-    return import.meta.server;
-  };
   const getDeviceInfo = async (): Promise<any> => {
     const info = await Device.getInfo();
     return new Promise((resolve) => {
@@ -60,8 +54,6 @@ export const useAppDevice = () => {
     latestSyncActiveStatus.value = getCurrentTimestamp();
   };
   return {
-    isDevMode,
-    isServer,
     getDeviceInfo,
     getDeviceId,
     deviceId,

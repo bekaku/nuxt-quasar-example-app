@@ -1,11 +1,11 @@
 export default {
     app: {
-        name: 'Nuxt 3 Quasar',
-        monogram: 'Nuxt 3 Quasar',
-        fullName: 'Nuxt 3 Quasar',
-        backendTitle: 'Nuxt 3 Quasar Starter',
+        name: 'Nuxt  Quasar',
+        monogram: 'Nuxt  Quasar',
+        fullName: 'Nuxt  Quasar',
+        backendTitle: 'Nuxt  Quasar Starter',
         appVersion: 'Version {0}',
-        copyright: 'Nuxt 3 Quasar Starter © {0} All Rights Reserved.',
+        copyright: 'Nuxt  Quasar Starter © {0} All Rights Reserved.',
         description: '',
         keyword: '',
         developedBy: 'Developed',
