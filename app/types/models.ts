@@ -27,6 +27,13 @@ export interface FileManager extends Id {
   createdDate?: string;
   updatedDate?: string;
   file?: any;
+  video?: boolean;
+  videoDetail?: {
+    thumbnailFile?: any
+    duration?: number
+    title?: string
+    description?: string
+  },
   uploadProgress?: {
     uploading: boolean;
     progress: number;

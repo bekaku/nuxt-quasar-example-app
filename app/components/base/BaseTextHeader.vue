@@ -19,7 +19,7 @@ const {
 }>()
 </script>
 <template>
-  <q-item v-bind="$attrs" v-if="icon || title" class="q-pl-none">
+  <q-item v-bind="$attrs" v-if="icon || title || subtitle" class="q-pl-none">
     <slot name="start">
       <q-item-section v-if="icon" side>
         <BaseIcon
@@ -30,7 +30,7 @@ const {
       </q-item-section>
     </slot>
     <q-item-section>
-      <q-item-label
+      <q-item-label v-if="title"
         :lines="titleLines"
         class="fix-header q-py-xs"
         :class="{ 'text-h5 text-weight-bold': header }"

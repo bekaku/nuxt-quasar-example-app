@@ -107,7 +107,7 @@ defineEmits<{
         :type="type"
         :counter
         :maxlength="maxlength"
-        :dense="type == 'textarea' ? false : dense"
+        :dense="dense"
         :rounded
         :clearable
         :clear-icon="clearable ? biX : undefined"

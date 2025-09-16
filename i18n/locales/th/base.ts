@@ -300,6 +300,7 @@ export default {
         selectdItems: 'ไม่ได้เลือก | เลือก {n} รายการ | เลือก {n} รายการ',
         print: 'พิมพ์',
         showAllPage: 'แสดงทั้งหมด',
+        title: 'ชื่อ',
     },
     drive: {
         title: 'ไฟล์ของฉัน',
@@ -325,6 +326,11 @@ export default {
         typeNewFolder: 'ใส่ชื่อโฟลเดอร์ของคุณ',
         moveTo: 'ย้ายไปยัง',
         copyTo: 'คัดลอกไปยัง',
+        selectThumbnailFromVideo: 'เลือกภาพจากวิดีโอ',
+        selectThumbnailFromVideo2: 'เลือกภาพหน้าปกที่ต้องการ',
+        filename: 'ชื่อไฟล์',
+        duration: 'ระยะเวลา',
+        longVideoAlert: 'วิดีโอที่ยาวกว่าจะถูกย่อให้เหลือ {0} วินาที แต่คุณสามารถตัดออกก่อนได้',
     },
     theme: {
         light: 'กลางวัน',

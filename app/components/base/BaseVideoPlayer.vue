@@ -4,35 +4,33 @@ import 'plyr/dist/plyr.css'
 import type { FileManager } from '~/types/models'
 
 interface PlyrOptions {
-  autoplay: boolean
-  controls: string[]
-  ratio: string
-  poster: string
-  settings: string[]
+  autoSetSource?: boolean
+  autoplay?: boolean
+  controls?: string[]
+  ratio?: string
+  poster?: string
+  settings?: string[]
 }
-
-const {
-  file,
-  options = {
-    autoplay: false,
-    controls: [
-      'play-large',
-      'play',
-      'progress',
-      'current-time',
-      'mute',
-      'volume',
-      'captions',
-      'settings',
-      'pip',
-      'airplay',
-      'fullscreen'
-    ],
-    ratio: '16:9',
-    poster: 'http://127.0.0.1:8080/cdn/files/202509/dummy.jpg',
-    settings: ['captions', 'quality', 'speed', 'loop']
-  }
-} = defineProps<{
+const defaultOptions = {
+  autoplay: false,
+  controls: [
+    'play-large',
+    'play',
+    'progress',
+    'current-time',
+    'mute',
+    'volume',
+    'captions',
+    'settings',
+    'pip',
+    'airplay',
+    'fullscreen'
+  ],
+  ratio: '16:9',
+  // poster: 'http://127.0.0.1:8080/cdn/files/202509/dummy.jpg',
+  settings: ['captions', 'quality', 'speed', 'loop']
+}
+const { file, options } = defineProps<{
   file: FileManager
   options?: PlyrOptions
 }>()
@@ -43,8 +41,6 @@ const plyrInstance = ref<Plyr | null>(null)
 const sourceRef = useTemplateRef<HTMLSourceElement | null>('sourceRef')
 
 // const { downloadFile } = useFileDownload()
-const videoUrl =
-  'http://127.0.0.1:8080/api/fileManager/video/stream?path=files/2022_1204_140014.MP4'
 
 // Plyr options
 // const options: any = {
@@ -70,7 +66,8 @@ const videoUrl =
 const initPlyr = (): Promise<void> => {
   return new Promise(resolve => {
     if (videoRef.value) {
-      plyrInstance.value = new Plyr(videoRef.value, options)
+      const opt = { ...defaultOptions, ...options }
+      plyrInstance.value = new Plyr(videoRef.value, { ...defaultOptions, ...options })
     }
     resolve(undefined)
   })
@@ -121,21 +118,23 @@ const onSetPreviewThumbnail = () => {
     })
   }
 }
-const onSetSource = (config: { src: string; type: string }) => {
-  if (plyrInstance.value && videoRef.value) {
-    // Set source manually
-    plyrInstance.value.source = {
-      type: 'video',
-      title: 'My Video',
-      sources: [
-        {
-          src: config.src,
-          type: config.type //'video/mp4'
-        }
-      ]
+const onSetSource = (): Promise<void> => {
+  return new Promise<void>(resolve => {
+    if (plyrInstance.value && videoRef.value) {
+      // Set source manually
+      plyrInstance.value.source = {
+        type: 'video',
+        title: file?.videoDetail?.title || 'My Video',
+        sources: [
+          {
+            src: file.filePath,
+            type: file.fileMime //'video/mp4'
+          }
+        ]
+      }
     }
-    play()
-  }
+    resolve()
+  })
 }
 const onPlay = async () => {
   console.log('onPlay')
@@ -149,10 +148,18 @@ const onPlay = async () => {
   //   onSetSource({ src: response.src, type: response.type })
   // }
   // initialEvent()
-  onSetSource({
-    src: videoUrl,
-    type: 'video/mp4'
-  })
+  if (!file) {
+    return
+  }
+  if (!options?.autoSetSource) {
+    await onSetSource()
+  }
+
+  play()
+  // onSetSource({
+  //   src: 'http://127.0.0.1:8080/api/fileManager/video/stream?path=files/2022_1204_140014.MP4',
+  //   type: 'video/mp4'
+  // })
 }
 const onSeeking = () => {
   console.log('onSeeking')
@@ -169,7 +176,16 @@ const onRestart = () => {
 onMounted(async () => {
   await nextTick()
   await initPlyr()
-  //   // initialEvent()
+  // if (options) {
+  //   if (options.autoplay) {
+  //     onPlay()
+  //   } else if (options.autoSetSource) {
+  //     await onSetSource({
+  //       src: file.filePath,
+  //       type: file.fileMime
+  //     })
+  //   }
+  // }
 })
 
 onBeforeUnmount(() => {
@@ -186,13 +202,23 @@ onBeforeUnmount(() => {
       <video
         ref="videoRef"
         class="plyr"
-        style="--plyr-color-main: var(--color-danger-500)"
-        :data-poster="options.poster"
+        style="--plyr-color-main: var(--video-player-color)"
+        :data-poster="
+          file.fileThumbnailPath ||
+          '/images/no_picture.jpg'
+        "
         playsinline
         controls
         @play="onPlay"
         @seeking="onSeeking"
-      ></video>
+        @pause="onPause"
+        @stop="onStop"
+        @restart="onRestart"
+      >
+        <template v-if="options?.autoSetSource">
+          <source :src="file.filePath" :type="file.fileMime" />
+        </template>
+      </video>
     </div>
   </ClientOnly>
 </template>
@@ -202,11 +228,5 @@ onBeforeUnmount(() => {
   width: 100%;
   max-width: 800px;
   margin: auto;
-}
-:root {
-  --plyr-color-main: #1ac266 !important;
-}
-.plyr {
-  --plyr-color-main: #1ac266;
 }
 </style>

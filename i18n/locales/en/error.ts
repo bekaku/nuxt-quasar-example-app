@@ -39,6 +39,7 @@ export default {
         limitFile: 'Files size should be less than {0} MB!',
         limitFile2: 'File limit: {total} files',
         limitEachFile: 'Each file size cannot exceed {0} MB!',
+        limitEachFile2: 'Unfortunately, the file {0} cannot be uploaded because it exceeds {1} MB in size!',
         permissionNotFound: 'Menu privileges not found',
         validate_url: 'Invalid link format',
         slugFormat: 'English or numbers only',

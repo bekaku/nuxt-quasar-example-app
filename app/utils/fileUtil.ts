@@ -23,6 +23,46 @@ export const fileToBlob = (file: File): Promise<any> => {
         resolve(fileUrlObject);
     });
 };
+// export const base64ToFile = (base64: string, filename: string): File | null => {
+//     const arr: any = base64.split(',')
+//     if (arr != undefined || !Array.isArray(arr)) {
+//         return null;
+//     }
+//     const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg'
+//     const bstr = atob(arr[1])
+//     let n = bstr.length
+//     const u8arr = new Uint8Array(n)
+//     while (n--) {
+//         u8arr[n] = bstr.charCodeAt(n)
+//     }
+//     return new File([u8arr], filename, { type: mime })
+// }
+export const base64ToFile = (base64: string, filename: string): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const arr: string[] = base64.split(",");
+      if (!arr || arr.length < 2) {
+        return reject(new Error("Invalid base64 input"));
+      }
+
+      const mimeMatch = arr[0]?.match(/:(.*?);/);
+      const mime = mimeMatch && mimeMatch[1] ? mimeMatch[1] : "image/jpeg";
+
+      const bstr = atob(arr[1] ?? ""); // safe fallback
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+
+      for (let i = 0; i < n; i++) {
+        u8arr[i] = bstr.charCodeAt(i);
+      }
+
+      const file = new File([u8arr], filename, { type: mime });
+      resolve(file);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
 export const fileUrlToBlob = async (url: string): Promise<any> => {
     const response = await fetch(url);
     const blob = await response.blob();
@@ -213,6 +253,7 @@ export const getFileTypeIconFromFileManager = (file: FileManager) => {
     if (!fileExtension) {
         fileExtension = getExtensionFromFileName(file.filePath)
     }
+
     if (!fileExtension) {
         return 'hugeicons:file-empty-02';
     }
@@ -281,6 +322,36 @@ export const getFileExtension = (t: string): string | undefined => {
         case 'x-rar':
             extension = '.rar';
             break;
+        case 'video/mp4':
+        case 'video/mpeg4':
+            extension = '.mp4';
+            break;
+        case 'video/webm':
+            extension = '.webm';
+            break;
+        case 'video/ogg':
+        case 'application/ogg':
+            extension = '.ogv';
+            break;
+        case 'video/x-msvideo':
+            extension = '.avi';
+            break;
+        case 'video/quicktime':
+            extension = '.mov';
+            break;
+        case 'video/x-matroska':
+        case 'video/mkv':
+            extension = '.mkv';
+            break;
+        case 'video/x-flv':
+            extension = '.flv';
+            break;
+        case 'video/3gpp':
+            extension = '.3gp';
+            break;
+        case 'video/3gpp2':
+            extension = '.3g2';
+            break;
         default:
             extension = undefined;
             break;
@@ -340,7 +411,14 @@ export const getFileType = (t: string): FileType | undefined => {
         case 'video/quicktime':
         case 'video/x-msvideo':
         case 'video/webm':
-            type = 'vdo';
+        case 'video/ogg':
+        case 'application/ogg':
+        case 'video/x-matroska':
+        case 'video/mkv':
+        case 'video/x-flv':
+        case 'video/3gpp':
+        case 'video/3gpp2':
+            type = 'video';
             break;
         case 'application/zip':
         case 'application/x-zip-compressed':
@@ -495,11 +573,27 @@ export const getFileTypeIconNuxt = (t: string) => {
         case 'x-rar':
             icon = 'vscode-icons:file-type-zip';
             break;
+        case '.mp4':
+        case '.webm':
+        case '.ogv':
+        case '.avi':
+        case '.mov':
+        case '.mkv':
+        case '.flv':
+        case '.3gp':
+        case '.3g2':
         case 'video/mpeg':
         case 'video/mp4':
         case 'video/quicktime':
         case 'video/x-msvideo':
         case 'video/webm':
+        case 'video/ogg':
+        case 'application/ogg':
+        case 'video/x-matroska':
+        case 'video/mkv':
+        case 'video/x-flv':
+        case 'video/3gpp':
+        case 'video/3gpp2':
             icon = 'vscode-icons:file-type-video';
             break;
         case 'directory':
@@ -528,3 +622,19 @@ export const isImageFile = (f: File) => {
     }
     return /^image\/\w+/.test(f.type);
 };
+export const captureFrameFromVideo = (video: HTMLVideoElement, time: number): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        video.currentTime = time
+        video.onseeked = () => {
+            const canvas = document.createElement("canvas")
+            canvas.width = video.videoWidth
+            canvas.height = video.videoHeight
+            const ctx = canvas.getContext("2d")
+            if (!ctx) return reject("No ctx")
+
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+            resolve(canvas.toDataURL("image/jpeg"))
+        }
+        video.onerror = (err) => reject(err)
+    })
+}

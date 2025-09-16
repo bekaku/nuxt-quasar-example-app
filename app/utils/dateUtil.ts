@@ -114,7 +114,7 @@ export const removeTime = (datetimeString: string) => {
   return datetimeString ? datetimeString.split(' ')[0] : '';
 };
 
-export const formatDuration = (ms: number): string => {
+export const formatDurationFromMillis = (ms: number): string => {
   const seconds = Math.floor(ms / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
@@ -130,3 +130,31 @@ export const formatDuration = (ms: number): string => {
   }
   return parts.join(" ");
 }
+export const formatDurationFromSecond = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  const remainingSeconds = seconds % 60;
+  const remainingMinutes = minutes % 60;
+
+  const parts: string[] = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${remainingMinutes}m`);
+  if (remainingSeconds > 0 || parts.length === 0) {
+    parts.push(`${remainingSeconds}s`);
+  }
+  return parts.join(" ");
+}
+export const formatDurationHMS = (seconds: number): string => {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  if (h > 0) {
+    return `${pad(h)}:${pad(m)}:${pad(s)}`; // hh:mm:ss
+  } else {
+    return `${pad(m)}:${pad(s)}`;           // mm:ss
+  }
+};

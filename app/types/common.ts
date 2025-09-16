@@ -121,7 +121,7 @@ export type MDCodeTheme =
     | 'qtcreator'
     | 'stackoverflow';
 export type ResponseDataType = 'arraybuffer' | 'blob' | 'json' | 'download' | 'axiosresponse';
-export type FileType = 'pdf' | 'msexcel' | 'msword' | 'mspowerpoint' | 'image' | 'vdo' | 'zip' | 'msoffice' | 'unknown';
+export type FileType = 'pdf' | 'msexcel' | 'msword' | 'mspowerpoint' | 'image' | 'video' | 'zip' | 'msoffice' | 'unknown';
 export type IAlign = 'center' | 'left' | 'right';
 export type LoginLogType = 'WEB' | 'IOS' | 'ANDROID';
 export type ChatHistoryTab = 'ALL' | 'GROUP' | 'FAVORITE';

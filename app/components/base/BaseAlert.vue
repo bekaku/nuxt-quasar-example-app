@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { biX } from '@quasar/extras/bootstrap-icons'
-import { mdiLightbulbOnOutline } from '@quasar/extras/mdi-v7'
-import type { IAlert } from '~/types/common'
-import type { IconProps } from '~/types/props'
+import { biX } from '@quasar/extras/bootstrap-icons';
+import type { IAlert } from '~/types/common';
+import type { IconProps } from '~/types/props';
 
 const {
   dense = false,
@@ -11,7 +10,7 @@ const {
   type = 'is-light',
   secondary = false
 } = defineProps<{
-  message: string
+  message?: string
   title?: string
   type?: IAlert
   icon?: IconProps
@@ -34,15 +33,17 @@ const show = ref(true)
     }"
   >
     <div>
-      <strong>
-        <BaseIcon v-if="icon" style="margin-right: 5px" v-bind="{ ...icon }" />
-        <!-- <q-icon v-if="icon" :name="icon" style="margin-right: 5px" size="md" /> -->
-      </strong>
-      <span v-if="title" class="q-mx-sm text-weight-bold">{{ title }}</span>
-      {{ message ? message : '' }}
-      <div>
-        <slot name="extra" />
-      </div>
+      <slot>
+        <strong>
+          <BaseIcon v-if="icon" style="margin-right: 5px" v-bind="{ ...icon }" />
+          <!-- <q-icon v-if="icon" :name="icon" style="margin-right: 5px" size="md" /> -->
+        </strong>
+        <span v-if="title" class="q-mx-sm text-weight-bold">{{ title }}</span>
+        {{ message ? message : '' }}
+        <div>
+          <slot name="extra" />
+        </div>
+      </slot>
     </div>
     <q-btn v-if="closeable" class="delete" dense round flat :icon="biX" @click="show = !show" />
   </div>

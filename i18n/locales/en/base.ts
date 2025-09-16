@@ -299,6 +299,7 @@ export default {
         selectdItems: 'Not selected | Selected {n} item | Selected {n} items',
         print: 'Print',
         showAllPage: 'Show all pages',
+        title: 'Title',
     },
     drive: {
         title: 'My Files',
@@ -324,6 +325,11 @@ export default {
         typeNewFolder: 'Enter your folder name',
         moveTo: 'Move to',
         copyTo: 'Copy to',
+        selectThumbnailFromVideo: 'Select thumbnail from video',
+        selectThumbnailFromVideo2: 'Select the thumbnail image.',
+        filename: 'File name',
+        duration: 'Duration',
+        longVideoAlert: 'Longer videos get shortened to {0} seconds, but you can trim them first.',
     },
     theme: {
         light: 'Light',

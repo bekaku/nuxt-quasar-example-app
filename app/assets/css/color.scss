@@ -73,6 +73,7 @@
 
   --color-black: #000;
   --color-white: #fff;
+  --video-player-color: var(--color-primary-600);
 }
 
 .bg-dark-900 {
@@ -100,7 +101,6 @@
 .bg-app-content-item {
   background-color: var(--color-zinc-100);
 }
-
 
 
 body.body--dark {

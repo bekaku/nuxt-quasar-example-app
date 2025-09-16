@@ -34,7 +34,7 @@ export const appNavs: LabelValue<any>[] = [
     {
         children: [
             {
-                icon: { name: 'hugeicons:home-11', iconSet: 'nuxt' },
+                icon: { name: 'lucide:home', iconSet: 'nuxt' },
                 label: 'nav.dashboard',
                 to: '/',
                 rbac: {
@@ -52,7 +52,7 @@ export const appNavs: LabelValue<any>[] = [
                 children: [
                     {
                         label: 'model_permission',
-                        icon: { name: biShieldCheck },
+                         icon: { name: 'lucide:file-lock-2', iconSet: 'nuxt' },
                         to: '/permission',
                         rbac: {
                             permissions: [PermissionPermission.list]
@@ -67,11 +67,11 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'nav.userData',
-                icon: { name: 'hugeicons:user-settings-02', iconSet: 'nuxt' },
+                icon: { name: 'lucide:user-cog', iconSet: 'nuxt' },
                 children: [
                     {
                         label: 'nav.userRole',
-                        icon: { name: 'hugeicons:user-group-02', iconSet: 'nuxt' },
+                        icon: { name: 'lucide:users', iconSet: 'nuxt' },
                         to: '/app-role',
                         rbac: {
                             permissions: [RolePermission.list]
@@ -79,7 +79,7 @@ export const appNavs: LabelValue<any>[] = [
                     },
                     {
                         label: 'nav.appUser',
-                        icon: { name: 'hugeicons:user-02', iconSet: 'nuxt' },
+                        icon: { name: 'hugeicons:user', iconSet: 'nuxt' },
                         to: '/app-user',
                         rbac: {
                             permissions: [UserPermission.list]
