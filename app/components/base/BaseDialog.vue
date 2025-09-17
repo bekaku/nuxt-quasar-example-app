@@ -12,12 +12,8 @@
   >
   </base-dialog>
 */
-import {
-  biArrowsAngleContract,
-  biArrowsAngleExpand,
-  biX
-} from '@quasar/extras/bootstrap-icons';
-import type { IconProps } from '~/types/props';
+import { biArrowsAngleContract, biArrowsAngleExpand, biX } from '@quasar/extras/bootstrap-icons'
+import type { IconProps } from '~/types/props'
 
 const {
   persistent = false,
@@ -91,7 +87,7 @@ const onCloseModel = () => {
           :style="{ background: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-800)' }"
         >
           <slot name="icon">
-             <BaseIcon v-if="icon" v-bind="{ ...icon }"/>
+            <BaseIcon v-if="icon" v-bind="{ ...icon }" />
           </slot>
 
           <div>

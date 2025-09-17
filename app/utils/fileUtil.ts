@@ -611,7 +611,8 @@ export const blobToFile = (
 ): Promise<File> => {
     return new Promise((resolve) => {
         const file = new File([b as any], originalFileName, {
-            type: b.type
+            type: b.type,
+            lastModified: Date.now(),
         });
         resolve(file);
     });

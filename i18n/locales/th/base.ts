@@ -301,6 +301,7 @@ export default {
         print: 'พิมพ์',
         showAllPage: 'แสดงทั้งหมด',
         title: 'ชื่อ',
+        cut: 'ตัด',
     },
     drive: {
         title: 'ไฟล์ของฉัน',
@@ -330,7 +331,11 @@ export default {
         selectThumbnailFromVideo2: 'เลือกภาพหน้าปกที่ต้องการ',
         filename: 'ชื่อไฟล์',
         duration: 'ระยะเวลา',
-        longVideoAlert: 'วิดีโอที่ยาวกว่าจะถูกย่อให้เหลือ {0} วินาที แต่คุณสามารถตัดออกก่อนได้',
+        longVideoAlert: 'กรุณาตัดวิดีโอให้ยาวไม่เกิน {0} วินาที',
+        trimVideo: 'ตัดวิดีโอ',
+        thumbnails: 'ภาพปกวิดีโอ',
+        trimTextHelp: 'ตัดจาก {0} ถึง {1}, ความยาว {2} วินาที',
+        trimTextHelp2: 'ลากจุดเริ่มต้นและสิ้นสุดของวิดีโอที่ต้องการเพื่อตัด',
     },
     theme: {
         light: 'กลางวัน',

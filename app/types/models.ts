@@ -33,6 +33,8 @@ export interface FileManager extends Id {
     duration?: number
     title?: string
     description?: string
+    width?: number
+    height?: number
   },
   uploadProgress?: {
     uploading: boolean;

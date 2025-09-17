@@ -300,6 +300,7 @@ export default {
         print: 'Print',
         showAllPage: 'Show all pages',
         title: 'Title',
+        cut: 'Cut',
     },
     drive: {
         title: 'My Files',
@@ -329,7 +330,11 @@ export default {
         selectThumbnailFromVideo2: 'Select the thumbnail image.',
         filename: 'File name',
         duration: 'Duration',
-        longVideoAlert: 'Longer videos get shortened to {0} seconds, but you can trim them first.',
+        longVideoAlert: 'Please trim the video to no more than {0} seconds.',
+        trimVideo: 'Trim the video',
+        thumbnails: 'Thumbnails',
+        trimTextHelp: 'Trim from {0} to {1}, length {2}s',
+        trimTextHelp2: 'Drag the start and end points of the video to trim.',
     },
     theme: {
         light: 'Light',

@@ -118,7 +118,7 @@ const onFileAdded = async (files: File[] | File) => {
   const fileList = Array.isArray(files) ? files : [files]
   if (!videoEditor) {
     const finalFiles = await validateAndZipFile(fileList)
-    emit('on-file-add', finalFiles)
+    onEmitFileAdd(finalFiles);
     if (multiple) {
       if (finalFiles && finalFiles.length > 0) {
         for (const f of finalFiles) {
@@ -142,7 +142,7 @@ const onFileAdded = async (files: File[] | File) => {
         }, 500)
       } else {
         // showVdoEditor.value = true
-        emit('on-file-add', fileList)
+        onEmitFileAdd(fileList);
       }
     }
   }
@@ -173,6 +173,22 @@ const onAddFilePreview = (f: File, image: boolean, pathUrl: string | undefined =
     })
   }
 }
+const onEmitFileAdd = (items: File[]) => {
+ emit('on-file-add', items)
+}
+const onVideoEditorClose = () => {
+  showVdoEditor.value = false
+  vdoFile.value = null
+  modelFiles.value = []
+}
+const onVideoAdd = (f: FileManager) => {
+  console.log('onVideoAdd', f)
+  if (f && f.file) {
+    onEmitFileAdd([f.file]);
+    modelValue.value.push(f.file)
+    fileItems.value.push(f)
+  }
+}
 const onRemoveNewImage = (index: number) => {
   if (!modelValue.value || modelValue.value.length == 0) {
     return
@@ -195,7 +211,7 @@ const clearAppTimeout = () => {
 }
 onBeforeUnmount(() => {
   onClearProcess()
-  clearAppTimeout();
+  clearAppTimeout()
 })
 defineExpose({
   openFilePicker
@@ -225,7 +241,13 @@ defineExpose({
       </div>
 
       <template v-if="showVdoEditor">
-        <LazyBaseVideoEditor v-if="showVdoEditor && vdoFile" :file="vdoFile" />
+        <LazyBaseVideoEditorDialog
+          v-if="showVdoEditor && vdoFile"
+          v-bind:show="showVdoEditor"
+          :file="vdoFile"
+          @on-close="onVideoEditorClose"
+          @on-submit="onVideoAdd"
+        />
       </template>
     </ClientOnly>
 

@@ -163,6 +163,9 @@ export default defineNuxtConfig({
   },
   ssr: true,
   vite: {
+    optimizeDeps: {
+      exclude: ['@ffmpeg/ffmpeg']
+    },
     css: {
       preprocessorOptions: {
         scss: {

@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import type { FileManager } from '~/types/models'
 import FileManagerService from '~/api/FileManagerService'
+import { useConfiguration } from '~/composables/useConfiguration'
 import type { FileType } from '~/types/common'
+import type { FileManager } from '~/types/models'
 import {
   downloadFileFromUrl,
   downloadFromBlob,
   fileToBlob,
   generateFileNameByExtesnsion,
-  getExtensionFromFileName,
-  getFileExtension,
   getFileType
 } from '~/utils/fileUtil'
-import { useConfiguration } from '~/composables/useConfiguration'
 const {
   title,
   imageList,

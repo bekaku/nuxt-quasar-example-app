@@ -79,7 +79,7 @@ export const appNavs: LabelValue<any>[] = [
                     },
                     {
                         label: 'nav.appUser',
-                        icon: { name: 'hugeicons:user', iconSet: 'nuxt' },
+                        icon: { name: 'lucide:user', iconSet: 'nuxt' },
                         to: '/app-user',
                         rbac: {
                             permissions: [UserPermission.list]

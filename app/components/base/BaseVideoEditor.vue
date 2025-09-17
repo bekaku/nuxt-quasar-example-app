@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import type { FileManager } from '~/types/models'
-
+import { fetchFile, toBlobURL } from '@ffmpeg/util'
 const {
   file,
-  thumbnailCount = 4,
+  thumbnailCount = 6,
   limitDuration = 120
 } = defineProps<{
   file: File
   thumbnailCount?: number
   limitDuration?: number //180 second
 }>()
-
+const emit = defineEmits<{
+  'on-submit': [f: FileManager]
+}>()
+const { $FFmpeg } = useNuxtApp()
+const FFmpeg = $FFmpeg
+const ffmpeg = new FFmpeg()
 const { required } = useValidation()
 const { appLoading } = useBase()
 const videoEditorHiddenRef = ref<HTMLVideoElement | null>(null)
@@ -22,6 +27,12 @@ const showThumbnailSelect = ref<boolean>(false)
 const entity = ref<FileManager>()
 const showPreview = ref<boolean>(false)
 const previewTimeout = ref<any>()
+
+// trim video
+const duration = ref<number>(0)
+const range = ref<{ min: number; max: number }>({ min: 0, max: 0 })
+const trimmedUrl = ref<string | null>(null)
+const trimBlob = ref<Blob>()
 /*
 const captureFrameAt = (timeInSeconds: number) => {
   if (!videoEditorHiddenRef.value || !posterRef.value) return
@@ -76,9 +87,17 @@ const validateDuration = computed<boolean>(() => {
   if (entity.value.videoDetail.duration <= limitDuration) return true
   return false
 })
-
+const validateTrimDuration = computed<boolean>(() => {
+  const trimDuration = range.value.max - range.value.min
+  if (trimDuration <= limitDuration) return true
+  return false
+})
+const canTrimVideo = computed<boolean>(() => {
+  const trimDuration = range.value.max - range.value.min
+  return validateTrimDuration.value && trimDuration > 0 && trimDuration !== duration.value
+})
 const canSubmit = computed<boolean>(() => {
-  return validateDuration.value
+  return validateDuration.value && validateTrimDuration.value
 })
 
 const initialFile = async () => {
@@ -95,13 +114,14 @@ const initialFile = async () => {
   return new Promise((resolve, reject) => {
     video.onloadedmetadata = async () => {
       try {
-        const duration = video.duration
+        duration.value = video.duration
+        range.value = { min: 0, max: duration.value }
 
         const frames: File[] = []
-        const interval = duration / (thumbnailCount + 1)
+        const interval = duration.value / (thumbnailCount + 1)
 
         for (let i = 1; i <= thumbnailCount; i++) {
-          const time = Math.min(i * interval, duration - 0.1)
+          const time = Math.min(i * interval, duration.value - 0.1)
           const base64 = await captureFrameFromVideo(video, time)
           //   const thumbFile = base64ToFile(base64, `thumb_${i}.jpg`)
           //   frames.push(thumbFile)
@@ -113,15 +133,18 @@ const initialFile = async () => {
           fileMime: file.type,
           fileName: file.name,
           filePath: videoUrl,
-          fileThumbnailPath: thumbnailBase64Items.value[0] || '',
-          fileSize: formatBytes(file.size),
-          fileSizeNo: file.size,
+          // fileThumbnailPath: thumbnailBase64Items.value[0] || '',
+          fileThumbnailPath: '',
+          fileSize: file.size + '',
           video: true,
+          file: null,
           videoDetail: {
             thumbnailFile: null,
-            duration: duration,
+            duration: duration.value,
             title: '',
-            description: ''
+            description: '',
+            width: video.videoWidth,
+            height: video.videoHeight
           }
         }
 
@@ -174,6 +197,71 @@ const onReloadPreview = () => {
     showPreview.value = true
   }, 500)
 }
+
+// Trimg video
+const loadFFmpeg = async () => {
+  if (!ffmpeg.loaded) {
+    await ffmpeg.load()
+  }
+}
+const trimVideo = async () => {
+  if (!file) return
+  appLoading()
+  await loadFFmpeg()
+  const start = range.value.min
+  const trimDuration = range.value.max - range.value.min
+  // Write input
+  await ffmpeg.writeFile('input.mp4', await fetchFile(file))
+  // Run ffmpeg
+  await ffmpeg.exec([
+    '-ss',
+    start.toString(),
+    '-t',
+    trimDuration.toString(),
+    '-i',
+    'input.mp4',
+    '-c',
+    'copy',
+    'output.mp4'
+  ])
+  // Read output
+  const data = await ffmpeg.readFile('output.mp4') // returns FileData
+  console.log('data', data)
+  if (data) {
+    trimBlob.value = new Blob([(data as any).buffer], { type: 'video/mp4' }) // use .data
+    console.log('blob', trimBlob.value)
+    if (trimBlob.value) {
+      const trimmedUrl = URL.createObjectURL(trimBlob.value)
+      if (trimmedUrl && entity.value && entity.value.videoDetail) {
+        // const trimFile = await blobToFile(blob, entity.value.fileName)
+        entity.value.videoDetail.duration = trimDuration
+        entity.value.filePath = trimmedUrl
+        onReloadPreview()
+      }
+    }
+  }
+
+  appLoading(false)
+}
+const onSubmit = async () => {
+  if (!canSubmit.value || !entity.value || !entity.value.videoDetail) {
+    return
+  }
+
+  if (trimBlob.value) {
+    const trimFile = await blobToFile(trimBlob.value, entity.value.fileName)
+    if (trimFile) {
+      entity.value.file = trimFile
+    }
+  }
+  if (!entity.value.file) {
+    entity.value.file = file
+  }
+
+  entity.value.fileSize = entity.value.file.size + ''
+  console.log('BaseVideoEditor.vue > onSubmit > trimBlob', entity.value)
+  emit('on-submit', entity.value)
+}
 const onClearProcess = () => {
   if (previewTimeout.value) {
     clearTimeout(previewTimeout.value)
@@ -184,12 +272,16 @@ const onClearProcess = () => {
       URL.revokeObjectURL(entity.value.filePath)
     }
   }
+  if (trimmedUrl.value) {
+    URL.revokeObjectURL(trimmedUrl.value)
+  }
   showPreview.value = false
 }
 onMounted(async () => {
   await nextTick()
   console.log('BaseVideoEditor', file)
   await initialFile()
+
   if (entity.value && !entity.value.fileThumbnailPath && thumbnailBase64Items.value.length > 0) {
     onSelectThumbnail(0)
   } else {
@@ -201,166 +293,224 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div class="row">
-    <div class="col-12 col-md-7 q-pa-md">
-      <template v-if="entity">
-        <BaseTextHeader :title="$t('base.detail')" />
-        <BaseInput
-          v-if="entity.videoDetail"
-          v-model="entity.videoDetail.title"
-          required
-          :label="$t('base.title')"
-          :rules="[required]"
-        />
-        <BaseInput
-          v-if="entity.videoDetail"
-          v-model="entity.videoDetail.description"
-          required
-          type="textarea"
-          :label="$t('base.description')"
-          :rules="[required]"
-        />
-        <BaseTextHeader title="Thumbnails" />
-        <template v-if="showThumbnailSelect && thumbnailBase64Items.length > 0">
-          <BaseCard flat :subtitle="$t('drive.selectThumbnailFromVideo2')">
-            <template #end>
-              <BaseButton flat round @click="showThumbnailSelect = false">
-                <BaseIcon name="hugeicons:cancel-01" icon-set="nuxt" />
-              </BaseButton>
-            </template>
-            <div class="row q-my-md">
-              <div
-                v-for="(tn, tnIndex) in thumbnailBase64Items"
-                :key="`${tnIndex}-${tn}`"
-                class="col-12 col-md-3 q-pa-sm"
-              >
-                <div style="overflow: hidden" class="app-border-radius">
-                  <BaseImage
-                    class="app-border-radius cursor-pointer"
-                    :class="{ 'thumbnail-selectd': entity.fileThumbnailPath === tn }"
-                    :src="tn"
-                    :ratio="16 / 9"
-                    fit="contain"
-                    image-bg
-                    hover-zoom
-                    style="width: 100%; max-height: 120px"
-                    @click="onSelectThumbnail(tnIndex)"
+  <div>
+    <q-form @submit="onSubmit">
+      <div class="row">
+        <div class="col-12 col-md-7 q-pa-md">
+          <template v-if="entity">
+            <BaseTextHeader :title="$t('base.detail')" />
+            <BaseInput
+              v-if="entity.videoDetail"
+              v-model="entity.videoDetail.title"
+              required
+              :label="$t('base.title')"
+              :rules="[required]"
+              class="q-mb-md"
+            />
+            <BaseInput
+              v-if="entity.videoDetail"
+              v-model="entity.videoDetail.description"
+              type="textarea"
+              :label="$t('base.description')"
+            />
+            <q-list dense class="q-py-md">
+              <q-item>
+                <q-item-section avatar>
+                  <BaseIcon name="lucide:text-cursor-input" icon-set="nuxt" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label caption>{{ $t('drive.filename') }}</q-item-label>
+                  <q-item-label>{{ entity.fileName }}</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar>
+                  <BaseIcon name="lucide:clock" icon-set="nuxt" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label caption>{{ $t('drive.duration') }}</q-item-label>
+                  <q-item-label>{{
+                    formatDurationHMS(entity.videoDetail?.duration || 0)
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <BaseTextHeader :title="$t('drive.thumbnails')" />
+            <template v-if="showThumbnailSelect && thumbnailBase64Items.length > 0">
+              <BaseCard flat :subtitle="$t('drive.selectThumbnailFromVideo2')">
+                <template #end>
+                  <BaseButton flat round @click="showThumbnailSelect = false">
+                    <BaseIcon name="hugeicons:cancel-01" icon-set="nuxt" />
+                  </BaseButton>
+                </template>
+                <div class="row q-my-md">
+                  <div
+                    v-for="(tn, tnIndex) in thumbnailBase64Items"
+                    :key="`${tnIndex}-${tn}`"
+                    class="col-12 col-md-2 q-pa-sm"
                   >
-                    <BaseIcon
-                      v-if="entity.fileThumbnailPath === tn"
-                      name="hugeicons:checkmark-circle-02"
-                      icon-set="nuxt"
-                      color="white"
-                      size="40px"
-                      class="absolute-center"
-                    />
-                  </BaseImage>
+                    <div style="overflow: hidden" class="app-border-radius">
+                      <BaseImage
+                        class="app-border-radius cursor-pointer"
+                        :class="{ 'thumbnail-selectd': entity.fileThumbnailPath === tn }"
+                        :src="tn"
+                        :ratio="16 / 9"
+                        fit="contain"
+                        image-bg
+                        hover-zoom
+                        style="width: 100%; max-height: 120px"
+                        @click="onSelectThumbnail(tnIndex)"
+                      >
+                        <BaseIcon
+                          v-if="entity.fileThumbnailPath === tn"
+                          name="hugeicons:checkmark-circle-02"
+                          icon-set="nuxt"
+                          color="white"
+                          size="40px"
+                          class="absolute-center"
+                        />
+                      </BaseImage>
+                    </div>
+                  </div>
+                </div>
+              </BaseCard>
+            </template>
+            <div class="row">
+              <div class="col-12 col-md-4 text-center q-pa-sm">
+                <BaseImage
+                  v-if="entity.fileThumbnailPath"
+                  :src="entity.fileThumbnailPath"
+                  :ratio="16 / 9"
+                  fit="contain"
+                  image-bg
+                  style="width: 100%"
+                  class="app-border-radius"
+                >
+                  <BaseIcon
+                    name="hugeicons:play-circle-02"
+                    icon-set="nuxt"
+                    color="white"
+                    size="40px"
+                    class="absolute-center"
+                  />
+                </BaseImage>
+              </div>
+              <div class="col-12 col-md-4 text-center q-pa-sm">
+                <div class="row justify-end">
+                  <BaseFilePicker
+                    v-model="thumbnailFiles"
+                    :multiple="false"
+                    :show-preview="false"
+                    accept=".jpg,.png"
+                    @on-file-add="onThumbnailAdd"
+                  >
+                    <div
+                      class="text-center app-border-radius q-py-md"
+                      style="border: 1px dashed #ccc; width: 200px; height: 120px; overflow: hidden"
+                    >
+                      <q-avatar square>
+                        <BaseIcon name="lucide:image-plus" icon-set="nuxt" />
+                      </q-avatar>
+                      <p class="text-muted">{{ $t('drive.newFile') }}</p>
+                    </div>
+                  </BaseFilePicker>
+                </div>
+              </div>
+              <div v-if="!showThumbnailSelect" class="col-12 col-md-4 text-center q-pa-sm">
+                <div
+                  class="app-border-radius cursor-pointer q-py-md"
+                  style="border: 1px dashed #ccc; height: 120px"
+                  @click="showThumbnailSelect = true"
+                >
+                  <q-avatar square>
+                    <BaseIcon name="lucide:wand-sparkles" icon-set="nuxt" />
+                  </q-avatar>
+                  <p class="text-muted">{{ $t('drive.selectThumbnailFromVideo') }}</p>
                 </div>
               </div>
             </div>
-          </BaseCard>
-        </template>
-        <div class="row">
-          <div class="col-12 col-md-4 text-center q-pa-sm">
-            <BaseImage
-              v-if="entity.fileThumbnailPath"
-              :src="entity.fileThumbnailPath"
-              :ratio="16 / 9"
-              fit="contain"
-              image-bg
-              style="width: 100%"
-              class="app-border-radius"
-            >
-              <BaseIcon
-                name="hugeicons:play-circle-02"
-                icon-set="nuxt"
-                color="white"
-                size="40px"
-                class="absolute-center"
-              />
-            </BaseImage>
-          </div>
-          <div class="col-12 col-md-4 text-center q-pa-sm">
-            <div class="row justify-end">
-              <BaseFilePicker
-                v-model="thumbnailFiles"
-                :multiple="false"
-                :show-preview="false"
-                accept=".jpg,.png"
-                @on-file-add="onThumbnailAdd"
+          </template>
+        </div>
+        <div class="col-12 col-md-5 q-pa-md">
+          <template v-if="entity">
+            <div class="row q-pb-md justify-center">
+              <BaseVideoPlayer
+                v-if="showPreview && entity.filePath"
+                :options="{
+                  autoSetSource: true
+                }"
+                :file="entity"
+                style="width: 70%"
               >
-                <div
-                  class="text-center app-border-radius q-py-md"
-                  style="border: 1px dashed #ccc; width: 200px; height: 120px; overflow: hidden"
-                >
-                  <q-avatar square>
-                    <BaseIcon name="lucide:image-plus" icon-set="nuxt" />
-                  </q-avatar>
-                  <p class="text-muted">{{ $t('drive.newFile') }}</p>
+              </BaseVideoPlayer>
+              <SkeletonCard v-else height="170px" />
+            </div>
+
+            <BaseCard :title="$t('drive.trimVideo')">
+              <BaseCardSection>
+                <LazyBaseAlert v-if="!canSubmit" type="is-danger" :closeable="false">
+                  <p v-if="!validateDuration || !validateTrimDuration">
+                    {{ $t('drive.longVideoAlert', [limitDuration]) }}
+                  </p>
+                </LazyBaseAlert>
+
+                <div class="q-pt-lg">
+                  <q-range
+                    v-model="range"
+                    :min="0"
+                    :max="duration"
+                    :step="1"
+                    label-always
+                    drag-range
+                    :left-label-value="formatDurationHMS(range.min)"
+                    :right-label-value="formatDurationHMS(range.max)"
+                    :color="validateTrimDuration ? 'positive' : 'danger'"
+                  />
+                  <q-item>
+                    <q-item-section avatar>
+                      <BaseIcon
+                        :name="validateTrimDuration ? 'lucide:check' : 'lucide:file-warning'"
+                        icon-set="nuxt"
+                        :color="validateTrimDuration ? 'positive' : 'danger'"
+                      />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label caption> {{ $t('drive.trimTextHelp2') }} </q-item-label>
+                      <q-item-label>
+                        {{
+                          $t('drive.trimTextHelp', [
+                            formatDurationHMS(range.min),
+                            formatDurationHMS(range.max),
+                            removeDecimal(range.max - range.min)
+                          ])
+                        }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <BaseButton :disable="!canTrimVideo" full color="dark" @click="trimVideo">
+                    <BaseIcon name="lucide:scissors" icon-set="nuxt" />
+                    <span>{{ $t('base.cut') }}</span>
+                  </BaseButton>
                 </div>
-              </BaseFilePicker>
-            </div>
-          </div>
-          <div v-if="!showThumbnailSelect" class="col-12 col-md-4 text-center q-pa-sm">
-            <div
-              class="app-border-radius cursor-pointer q-py-md"
-              style="border: 1px dashed #ccc; height: 120px"
-              @click="showThumbnailSelect = true"
-            >
-              <q-avatar square>
-                <BaseIcon name="lucide:wand-sparkles" icon-set="nuxt" />
-              </q-avatar>
-              <p class="text-muted">{{ $t('drive.selectThumbnailFromVideo') }}</p>
-            </div>
+              </BaseCardSection>
+            </BaseCard>
+          </template>
+          <!-- Hidden video (for capturing frame) -->
+          <video ref="videoEditorHiddenRef" style="display: none"></video>
+          <canvas ref="posterRef" style="display: none"></canvas>
+
+          <div class="col-12">
+            <BaseButton
+              full
+              :label="$t('base.okay')"
+              :disable="!canSubmit"
+              size="lg"
+              type="submit"
+            />
           </div>
         </div>
-      </template>
-    </div>
-    <div class="col-12 col-md-5 q-pa-md">
-      <template v-if="entity">
-        <div class="q-pb-md">
-          <BaseVideoPlayer
-            v-if="showPreview && entity.filePath"
-            :options="{
-              autoSetSource: true
-            }"
-            :file="entity"
-          >
-          </BaseVideoPlayer>
-          <SkeletonCard v-else height="170px" />
-        </div>
-
-        <q-list dense>
-          <q-item>
-            <q-item-section avatar>
-              <BaseIcon name="hugeicons:cursor-text" icon-set="nuxt" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label caption>{{ $t('drive.filename') }}</q-item-label>
-              <q-item-label>{{ entity.fileName }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section avatar>
-              <BaseIcon name="hugeicons:time-04" icon-set="nuxt" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label caption>{{ $t('drive.duration') }}</q-item-label>
-              <q-item-label>{{
-                formatDurationHMS(entity.videoDetail?.duration || 0)
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-
-        <LazyBaseAlert v-if="!canSubmit" type="is-warning">
-          <p v-if="!validateDuration">{{ $t('drive.longVideoAlert', [limitDuration]) }}</p>
-        </LazyBaseAlert>
-      </template>
-      <!-- Hidden video (for capturing frame) -->
-      <video ref="videoEditorHiddenRef" style="display: none"></video>
-      <canvas ref="posterRef" style="display: none"></canvas>
-    </div>
+      </div>
+    </q-form>
   </div>
 </template>
 <style lang="css" scoped>
