@@ -82,8 +82,6 @@ const onEmojiClick = (emoji: string) => {
         <BaseIcon name="ic:baseline-attractions" icon-set="nuxt" style="color: red" />
         <!-- npm i -D @iconify-json/hugeicons -->
         <BaseIcon name="hugeicons:artificial-intelligence-04" icon-set="nuxt" />
-        <BaseIcon name="ri:aliens-fill" color="deep-purple" icon-set="nuxt" />
-        <BaseIcon name="ri:ancient-gate-line" icon-set="nuxt" />
         <!-- npm i -D @iconify-json/uil -->
         <BaseIcon name="uil:car-sideview" icon-set="nuxt" />
         <BaseIcon name="uil:envelope-minus" icon-set="nuxt" />

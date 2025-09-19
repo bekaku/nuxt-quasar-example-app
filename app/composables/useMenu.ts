@@ -25,7 +25,7 @@ export const useMenu = () => {
                     children: [
                         {
                             label: 'base.faveoriteMenuTitle',
-                            icon: { name: biStarFill , color: 'yellow' },
+                            icon: { name: 'lucide:star' , color: 'yellow' },
                             children: items
                         }
                     ]

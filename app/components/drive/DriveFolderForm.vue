@@ -29,7 +29,9 @@ const onSubmit = () => {
       name: isNew ? 'lucide:folder-plus' : 'lucide:folder-pen',
       iconSet: 'nuxt'
     }"
-    dialog-style="width: 400px;"
+    :dialog-style="{
+      width: '400px'
+    }"
   >
     <BaseCardSection>
       <q-form class="q-gutter-md" @submit="onSubmit">

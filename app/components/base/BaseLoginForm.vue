@@ -115,7 +115,7 @@ const onReset = () => {
       v-if="showError == true && errorMessage"
       :message="errorMessage"
       :icon="{
-        name: biExclamationOctagonFill
+        name: 'lucide:triangle-alert'
       }"
       radius
       type="is-danger"

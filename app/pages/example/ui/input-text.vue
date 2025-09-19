@@ -55,7 +55,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 :edit-mode="editMode"
                 label="Name"
                 required
-                :icon="{ name: biPerson }"
+                :icon="{ name: 'lucide:user' }"
                 bottom-slots
                 hint="This is a hint"
                 :rules="[required]"
@@ -89,7 +89,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 v-model="email"
                 :edit-mode="editMode"
                 label="Email"
-                :icon="{ name: biEnvelope }"
+                :icon="{ name: 'lucide:mail' }"
                 :rules="[required, requireEmail]"
                 clearable
               />
@@ -157,7 +157,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 label="Test area"
                 placeholder="textarea"
                 type="textarea"
-                :icon="{ name: biPencil }"
+                :icon="{ name: 'lucide:pencil-line' }"
               />
 
               <div class="text-h6">Input OTP</div>
@@ -177,7 +177,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
               v-model="name"
               :edit-mode="false"
               label="Name"
-              :icon="{ name: biPerson }"
+              :icon="{ name: 'lucide:user' }"
               bottom-slots
               hint="This is a hint"
               :view-show-after="false"
@@ -210,7 +210,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
               v-model="email"
               :edit-mode="false"
               label="Email"
-              :icon="{ name: biEnvelope }"
+              :icon="{ name: 'lucide:mail' }"
               clearable
             />
             <BaseInput v-model="title" :edit-mode="false" label="Title" clearable counter>
@@ -248,7 +248,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
               :edit-mode="false"
               label="Test area"
               type="textarea"
-              :icon="{ name: biPencil }"
+              :icon="{ name: 'lucide:pencil' }"
             />
           </q-card-section>
         </BaseCard>

@@ -82,7 +82,7 @@ const onLoadData = async () => {
   await preFectData()
   appLoading(false)
 }
-const getRoleById = (id: number| string): LabelValue<number | string> | undefined => {
+const getRoleById = (id: number | string): LabelValue<number | string> | undefined => {
   return roleItems.value.find(p => p.value === id)
 }
 const removeRole = (index: number) => {
@@ -229,7 +229,7 @@ const onChangePassword = async () => {
         <q-separator />
         <div class="row">
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="{ name: biPeople }" :title="t('model_role')" />
+            <BaseTextHeader :icon="{ name: 'lucide:user' }" :title="t('model_role')" />
             <q-card-section>
               <BaseCommandPalette
                 v-model="crudEntity.selectedRoles"
@@ -255,7 +255,7 @@ const onChangePassword = async () => {
             </q-card-section>
           </div>
           <div class="col-12 col-md-6">
-            <BaseTextHeader :icon="{ name: biCheckCircle }" :title="t('userRoleSelected')" />
+            <BaseTextHeader :icon="{ name: 'lucide:check' }" :title="t('userRoleSelected')" />
             <q-card-section v-if="crudEntity.selectedRoles">
               <BaseScrollArea height="250px">
                 <q-list v-if="crudEntity.selectedRoles.length > 0" dense>
@@ -286,7 +286,7 @@ const onChangePassword = async () => {
       v-if="showChangePasswordForm"
       v-model="showChangePasswordForm"
       :title="t('base.changePassword')"
-      :icon="{biPencil}"
+      :icon="{ name: 'lucide:pencil-line' }"
     >
       <BasePasswordForm
         v-model:current-password="currentPassword"

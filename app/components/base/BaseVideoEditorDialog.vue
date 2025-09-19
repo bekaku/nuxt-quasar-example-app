@@ -21,7 +21,7 @@ const onClose = () => {
 }
 const onSubmit = (f: FileManager) => {
   emit('on-submit', f)
-  onClose();
+  onClose()
 }
 </script>
 <template>
@@ -32,7 +32,11 @@ const onSubmit = (f: FileManager) => {
     :icon="{ name: 'lucide:file-video-camera', iconSet: 'nuxt' }"
     :persistent="true"
     :auto-close="false"
-    full-width
+    :dialog-style="{
+      width: '70vw',
+      minHeight: '80vh',
+      maxWidth: '80vw'
+    }"
     @on-close="onClose"
   >
     <LazyBaseVideoEditor

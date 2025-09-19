@@ -18,7 +18,8 @@ const {
   imageSize = '125px',
   iconSize = '4em',
   linesName = 1,
-  item
+  item,
+  rounded = true
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -38,33 +39,42 @@ const {
   ratio?: number
   linesName?: number
   hoverZoom?: boolean | undefined
+  rounded?: boolean | undefined
 }>()
-const emit = defineEmits(['on-remove', 'on-click'])
-const getImagePath = computed(() =>
-  useThumbnail && item.fileThumbnailPath ? item.fileThumbnailPath : item.filePath
-)
+const emit = defineEmits<{
+  'on-remove': [index: number]
+  'on-click': [index: number, event: any]
+}>()
+const getImagePath = computed(() => {
+  if (item.fileMimeType == 'IMAGE') {
+    return useThumbnail && item.fileThumbnailPath ? item.fileThumbnailPath : item.filePath
+  } else if (item.fileMimeType == 'VIDEO') {
+    return item.fileThumbnailPath
+  }
+})
 const onRemove = (event: any, index: number) => {
   emit('on-remove', index)
   if (event) {
-    event.stopImmediatePropagation()
+    appPreventDefult(event)
   }
 }
 const onClick = (event: any, index: number) => {
-  emit('on-click', index)
+  emit('on-click', index, event)
   if (event) {
-    event.stopImmediatePropagation()
+    appPreventDefult(event)
   }
 }
 </script>
 <template>
-  <template v-if="item?.image">
-    <div class="text-center">
+  <template v-if="item.fileMimeType == 'IMAGE' || (item.fileMimeType == 'VIDEO' && getImagePath)">
+    <div :class="{ rounded: rounded, 'hover-defult': hoverZoom }">
       <!-- :style="{ maxHeight: imageHeight || imageSize, maxWidth: imageSize }" -->
       <base-image
         v-bind="$attrs"
-        :src="getImagePath"
+        :src="getImagePath || ''"
         :fetch="fetch"
         :ratio="ratio"
+        :class="{ rounded: rounded }"
         :hover-zoom="hoverZoom"
         class="cursor-pointer"
         @click="onClick($event, index)"
@@ -93,13 +103,28 @@ const onClick = (event: any, index: number) => {
               {{ Math.round(item.uploadProgress.progress * 100) }}%
             </template>
             <template v-else-if="item.uploadProgress.status == 'COMPLETED'">
-              <BaseIcon :name="biCheck2" color="positive" size="16px" />
+              <BaseIcon :name="biCheck2" color="positive" icon-set="quasar" size="16px" />
             </template>
             <template v-else-if="item.uploadProgress.status == 'FAILED'">
-              <BaseIcon :name="biExclamation" color="negative" size="16px" />
+              <BaseIcon :name="biExclamation" color="negative" icon-set="quasar" size="16px" />
             </template>
           </q-circular-progress>
         </div>
+        <BaseIcon
+          v-if="item?.fileMimeType == 'VIDEO'"
+          name="hugeicons:play-circle-02"
+          icon-set="nuxt"
+          color="white"
+          size="40px"
+          class="absolute-center"
+        />
+        <span
+          v-if="item.duration"
+          class="absolute-bottom-right q-pa-xs q-ma-sm text-white app-border-radius5"
+          style="background-color: rgba(0, 0, 0, .15);"
+          >{{ formatDurationHMS(item?.duration || 0) }}</span
+        >
+
         <q-btn
           v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
           class="absolute all-pointer-events"
@@ -132,28 +157,6 @@ const onClick = (event: any, index: number) => {
   </template>
   <template v-else>
     <div class="text-center">
-      <!-- <q-icon
-        v-bind="$attrs"
-        class="cursor-pointer"
-        :size="iconSize"
-        :name="getFileTypeIcon(item.fileMime)"
-        @click="onClick($event, index)"
-      >
-        <q-btn
-          v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
-          class="absolute all-pointer-events"
-          name="info"
-          style="top: 8px; left: 8px"
-          round
-          flat
-          :icon="biX"
-          color="negative"
-          @click="onRemove($event, index)"
-        />
-        <BaseTooltip v-if="showTooltip && item.fileName">
-          {{ item.fileName }}
-        </BaseTooltip>
-      </q-icon> -->
       <div class="row">
         <div class="col-12 cursor-pointer text-center" @click="onClick($event, index)">
           <BaseIcon
@@ -163,7 +166,7 @@ const onClick = (event: any, index: number) => {
             :size="iconSize"
           />
           <BaseButton
-           v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
+            v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
             class="relative-position"
             :style="{
               top: `-${imageSize}`,
@@ -204,10 +207,10 @@ const onClick = (event: any, index: number) => {
                 {{ Math.round(item.uploadProgress.progress * 100) }}%
               </template>
               <template v-else-if="item.uploadProgress.status == 'COMPLETED'">
-                <BaseIcon :name="biCheck2" color="positive" size="16px" />
+                <BaseIcon :name="biCheck2" color="positive" icon-set="quasar" size="16px" />
               </template>
               <template v-else-if="item.uploadProgress.status == 'FAILED'">
-                <BaseIcon :name="biExclamation" color="negative" size="16px" />
+                <BaseIcon :name="biExclamation" color="negative" icon-set="quasar" size="16px" />
               </template>
             </q-circular-progress>
           </q-item-label>
@@ -232,3 +235,8 @@ const onClick = (event: any, index: number) => {
     </div>
   </template>
 </template>
+<style lang="scss" scoped>
+.hover-defult {
+  overflow: hidden;
+}
+</style>

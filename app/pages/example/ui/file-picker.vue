@@ -1,22 +1,14 @@
 <script setup lang="ts">
-import type { FileManager } from '~/types/models'
-import { FileExtensionAccept, FileExtensionVdoAccept } from '~/libs/constants'
-import {
-  biFileArrowUp,
-  biUpload,
-  biSend,
-  biEmojiSmile,
-  biImage,
-  biPlus,
-  biPerson
-} from '@quasar/extras/bootstrap-icons'
 import { BaseFilePicker } from '#components'
+import { biEmojiSmile, biImage, biSend, biUpload } from '@quasar/extras/bootstrap-icons'
+import { FileExtensionAccept } from '~/libs/constants'
+import type { FileManager } from '~/types/models'
 const authenStore = useAuthenStore()
 const { t } = useLang()
 useHead({
   title: 'File picker'
 })
-const { files: fileChunks, previews, uploading, progress, onStartUploadChunk } = useFileUpload()
+const { files: fileChunks, uploading, progress, onStartUploadChunk } = useFileUpload()
 const files = ref<File[]>([])
 const filesPreview = ref<FileManager[]>([])
 const filesSingle = ref<File[]>([])
@@ -30,8 +22,8 @@ const filePickerCustomUi2Ref = useTemplateRef<any>('filePickerCustomUi2Ref')
 const custom2Files = ref<FileManager[]>([])
 const message = ref()
 
-const onFileVdoAdd = (items: File[]) => {
-  console.log('onFileVdoAdd', items)
+const onFileChunkAdd = (items: File[]) => {
+  console.log('onFileChunkAdd', items)
 }
 const onFileAdd = (items: File[]) => {
   console.log('onFildAdd', items)
@@ -75,20 +67,11 @@ const onCustomRemove2 = (index: number) => {
   <BasePage :full="false">
     <BaseCard title="Chunk upload">
       <q-card-section>
-        <!-- <BaseFilePicker
-          v-model="fileChunks"
-          v-model:file-items="previews"
-          accept="*"
-          label="Select file"
-          gallery
-          @on-file-add="onFileVdoAdd"
-        /> -->
         <BaseFilePicker
           v-model="fileChunks"
-          v-model:file-items="previews"
           accept="*"
           label="Select file"
-          @on-file-add="onFileVdoAdd"
+          @on-file-add="onFileChunkAdd"
         />
         <BaseButton
           class="q-my-md"
@@ -100,41 +83,41 @@ const onCustomRemove2 = (index: number) => {
         </BaseButton>
       </q-card-section>
     </BaseCard>
-    <BaseCard title="Simple Picker">
+    <BaseCard title="Simple Picker" subtitle="List preview">
       <q-card-section>
-        <BaseFilePicker
-          v-model="files"
-          v-model:file-items="filesPreview"
-          label="Select file"
-          @on-file-add="onFileAdd"
-        />
+        <BaseFilePicker v-model="filesPreview" label="Select file" @on-file-add="onFileAdd" />
         <BaseButton class="q-my-md" color="positive" @click="onSubmit"> Submit </BaseButton>
       </q-card-section>
     </BaseCard>
-    <BaseCard title="Simple Picker 2">
+    <BaseCard title="Simple Picker 2" subtitle="Card preview">
       <q-card-section>
         <BaseFilePicker
-          v-model="files"
-          v-model:file-items="filesPreview"
-          :gallery="true"
+          v-model="filesPreview"
+          preview-style="CARD"
+          previewCol="col-2 q-pa-md"
           @on-file-add="onFileAdd"
         >
-          <BaseButton label="Click to upload" />
+          <BaseButton label="Click to select file" />
         </BaseFilePicker>
       </q-card-section>
     </BaseCard>
     <BaseCard title="Single">
       <q-card-section>
         <BaseFilePicker
-          v-model="filesSingle"
-          v-model:file-items="filesSinglePreview"
+          v-model="filesSinglePreview"
           :multiple="false"
           accept=".jpg,.png"
           @on-file-add="onFileAdd"
         >
-          <q-avatar square size="140px" style="border: 1px dashed #ccc">
-            <q-icon :name="biPlus" color="grey-7" />
-          </q-avatar>
+          <div
+            class="text-center app-border-radius q-py-md"
+            style="border: 1px dashed #ccc; width: 200px; height: 120px; overflow: hidden"
+          >
+            <q-avatar square>
+              <BaseIcon name="lucide:image-plus" icon-set="nuxt" />
+            </q-avatar>
+            <p class="text-muted">{{ $t('drive.newFile') }}</p>
+          </div>
         </BaseFilePicker>
       </q-card-section>
     </BaseCard>
@@ -144,7 +127,7 @@ const onCustomRemove2 = (index: number) => {
           <BaseTextHeader :header="false" title="Custom Ui1" />
           <BaseFilePicker
             ref="filePickerCustomUiRef"
-            v-model:file-items="customFiles"
+            v-model="customFiles"
             style="display: none"
             :accept="FileExtensionAccept"
             @on-file-add="onCustomFileAdd"
@@ -167,7 +150,7 @@ const onCustomRemove2 = (index: number) => {
           <BaseTextHeader :header="false" title="Custom Ui2" />
           <BaseFilePicker
             ref="filePickerCustomUi2Ref"
-            v-model:file-items="custom2Files"
+            v-model="custom2Files"
             style="display: none"
             :accept="FileExtensionAccept"
             :max-files="5"

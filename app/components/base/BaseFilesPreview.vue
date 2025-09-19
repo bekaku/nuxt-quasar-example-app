@@ -1,26 +1,38 @@
 <script setup lang="ts">
+import type { FilePreviewStyle } from '~/types/common'
 import type { FileManager } from '~/types/models'
 
 const {
   showDelete = true,
-  col = 'col-3 q-pa-md',
-  gallery = true
+  col = 'col-2 q-pa-sm',
+  previewStyle = 'LIST',
+  rounded = true
 } = defineProps<{
   showDelete?: boolean
   col?: string
   items: FileManager[]
   formatSize?: boolean
-  gallery?: boolean
+  previewStyle?: FilePreviewStyle
   imageSize?: string
+  rounded?: boolean | undefined
 }>()
-const emit = defineEmits(['on-remove'])
+const emit = defineEmits<{
+  'on-remove': [index: number]
+  'on-click': [index: number]
+}>()
 const onRemove = (index: number) => {
   emit('on-remove', index)
+}
+const onClick = (event: any, index: number) => {
+  emit('on-click', index)
+  if (event) {
+    appPreventDefult(event)
+  }
 }
 </script>
 <template>
   <div v-if="items.length > 0" class="row">
-    <template v-if="gallery">
+    <template v-if="previewStyle == 'CARD'">
       <div
         v-for="(f, index) in items"
         :key="`f-${index}-${f.fileName}`"
@@ -32,6 +44,8 @@ const onRemove = (index: number) => {
           :index="index"
           :show-delete="showDelete"
           :format-size="formatSize"
+          :rounded
+          @on-click="onClick"
           @on-remove="onRemove"
         />
       </div>
@@ -44,9 +58,11 @@ const onRemove = (index: number) => {
           :item="f"
           :index="fileIndex"
           dense
+          :rounded
           :show-delete="showDelete"
           :format-size="formatSize"
           :image-size="imageSize"
+          @on-click="onClick"
           @on-remove="onRemove"
         />
       </div>

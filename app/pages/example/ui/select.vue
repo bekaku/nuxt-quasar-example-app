@@ -26,7 +26,7 @@ const simpleItems: LabelValue<number>[] = [
     label: 'Google',
     value: 1,
     description: 'Fox',
-    icon: { name: biGoogle }
+    icon: { name: 'bi:google' }
   },
   {
     label: 'Facebook',
@@ -46,7 +46,7 @@ const simpleItems: LabelValue<number>[] = [
   {
     label: 'Microsoft',
     value: 5,
-    icon: { name: biMicrosoft }
+    icon: { name: 'bi:microsoft' }
   }
 ]
 const simpleItems2: LabelValue<number>[] = [
@@ -127,7 +127,7 @@ const districtItems = ref<LabelValue<number>[]>([])
 const districtSeleted = ref<number>()
 const subdistrictItems = ref<LabelValue<number>[]>([])
 const subdistrictSeleted = ref<number>()
-const baseSelectProvinceModel = ref<number| string>(570103)
+const baseSelectProvinceModel = ref<number | string>(570103)
 
 onMounted(() => {
   onLoadProviceItems()
@@ -364,7 +364,10 @@ watch(districtSeleted, () => {
       v-model="showCommandPaletteDialog"
       :padding="false"
       :show-toolbar="false"
-      dialog-style="width: 756px; max-width: 80vw;"
+      :dialog-style="{
+        width: '756px',
+        maxWidth: '80vw'
+      }"
     >
       <BaseCommandPalette
         v-model="commandPaletteModel"

@@ -2,6 +2,7 @@
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 import 'plyr/dist/plyr.css'
 import type { FileManager } from '~/types/models'
+import type { VideoSrc, VideoTrack } from '~/types/common'
 
 interface PlyrOptions {
   autoSetSource?: boolean
@@ -11,6 +12,7 @@ interface PlyrOptions {
   poster?: string
   settings?: string[]
 }
+
 const defaultOptions = {
   autoplay: false,
   controls: [
@@ -39,7 +41,7 @@ const Plyr = $plyr
 const videoRef = useTemplateRef<HTMLVideoElement | null>('videoRef')
 const plyrInstance = ref<Plyr | null>(null)
 const sourceRef = useTemplateRef<HTMLSourceElement | null>('sourceRef')
-
+let observer: IntersectionObserver | null = null
 // const { downloadFile } = useFileDownload()
 
 // Plyr options
@@ -82,11 +84,35 @@ const initialEvent = () => {
   }
 
   // Attach JWT token to all video requests
-  if (videoRef.value) {
-    videoRef.value.addEventListener('loadstart', () => {
-      console.log('loadstart')
-    })
-  }
+  // if (videoRef.value) {
+  //   videoRef.value.addEventListener('loadstart', () => {
+  //     console.log('loadstart')
+  //   })
+  // }
+
+  observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        const video = videoRef.value
+        if (!video) return
+
+        if (entry.isIntersecting) {
+          // Video is in view
+          // video.play().catch(() => {})
+          console.log('Video is in view')
+        } else {
+          // Video is out of view
+          // video.pause()
+          console.log('out of view')
+        }
+      })
+    },
+    {
+      threshold: 0.25 // video must be at least 25% visible
+    }
+  )
+
+  observer.observe(videoRef.value as any)
 }
 
 const play = () => {
@@ -124,7 +150,7 @@ const onSetSource = (): Promise<void> => {
       // Set source manually
       plyrInstance.value.source = {
         type: 'video',
-        title: file?.videoDetail?.title || 'My Video',
+        title: file?.title || 'My Video',
         sources: [
           {
             src: file.filePath,
@@ -147,7 +173,6 @@ const onPlay = async () => {
   // if (response && response.src && response.type) {
   //   onSetSource({ src: response.src, type: response.type })
   // }
-  // initialEvent()
   if (!file) {
     return
   }
@@ -176,6 +201,7 @@ const onRestart = () => {
 onMounted(async () => {
   await nextTick()
   await initPlyr()
+  initialEvent()
   // if (options) {
   //   if (options.autoplay) {
   //     onPlay()
@@ -193,6 +219,10 @@ onBeforeUnmount(() => {
     plyrInstance.value.destroy()
     plyrInstance.value = null
   }
+  if (observer && videoRef.value) {
+    observer.unobserve(videoRef.value)
+    observer.disconnect()
+  }
 })
 </script>
 
@@ -201,14 +231,12 @@ onBeforeUnmount(() => {
     <div class="video-container">
       <video
         ref="videoRef"
-        class="plyr"
-        style="--plyr-color-main: var(--video-player-color)"
-        :data-poster="
-          file.fileThumbnailPath ||
-          '/images/no_picture.jpg'
-        "
         playsinline
         controls
+        crossorigin=""
+        class="plyr"
+        style="--plyr-color-main: var(--video-player-color)"
+        :data-poster="file.fileThumbnailPath || '/images/no_picture.jpg'"
         @play="onPlay"
         @seeking="onSeeking"
         @pause="onPause"
@@ -216,7 +244,29 @@ onBeforeUnmount(() => {
         @restart="onRestart"
       >
         <template v-if="options?.autoSetSource">
-          <source :src="file.filePath" :type="file.fileMime" />
+          <!-- Video files -->
+          <template v-if="file.videoSources && file.videoSources.length > 0">
+            <source
+              v-for="(s, sourceIndex) in file.videoSources"
+              :key="`${sourceIndex}-${s.src}`"
+              :src="s.src"
+              :type="s.type"
+              :size="s.size"
+            />
+          </template>
+          <source v-else-if="file.filePath" :src="file.filePath" :type="file.fileMime" />
+        </template>
+        <!-- Caption files -->
+        <template v-if="file.videoTracks && file.videoTracks.length > 0">
+          <track
+            v-for="(t, tracIndex) in file.videoTracks"
+            :key="`${tracIndex}-${t.src}`"
+            :src="t.src"
+            :kind="t.kind"
+            :label="t.label"
+            :srclang="t.srclang"
+            :default="t.default"
+          />
         </template>
       </video>
     </div>

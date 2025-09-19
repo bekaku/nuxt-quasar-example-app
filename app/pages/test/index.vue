@@ -17,8 +17,7 @@ const {
   cancleDownload,
   formatBytes
 } = useFileDownload()
-const files = ref<File[]>([])
-const filesPreview = ref<FileManager[]>([])
+const files = ref<FileManager[]>([])
 const showEditor = ref(false)
 const videoOptions = {
   autoplay: false,
@@ -121,9 +120,10 @@ const onFileAdd = (items: File[]) => {
       <BaseCardSection>
         <BaseFilePicker
           v-model="files"
-          v-model:file-items="filesPreview"
           video-editor
           label="Select vdo"
+          preview-style="CARD"
+          preview-col='col-2'
           @on-file-add="onFileAdd"
         />
       </BaseCardSection>

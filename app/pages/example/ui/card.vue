@@ -25,7 +25,7 @@ const lorem =
         </BaseCard>
       </div>
       <div class="col-12 col-md-4 q-pa-sm">
-        <BaseCard title="Hover" subtitle="This is subtitle" :icon="{ name: biMusicNote }" hover>
+        <BaseCard title="Hover" subtitle="This is subtitle" :icon="{ name: 'lucide:music' }" hover>
           <q-card-section>
             {{ lorem }}
           </q-card-section>

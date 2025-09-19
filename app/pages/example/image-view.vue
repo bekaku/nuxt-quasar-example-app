@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { biInfoCircle } from '@quasar/extras/bootstrap-icons'
-import type { FileManager } from '~/types/models'
-import FileManagerService from '~/api/FileManagerService'
 import { rgb } from 'pdf-lib'
-import { ca } from 'date-fns/locale'
+import FileManagerService from '~/api/FileManagerService'
+import type { FileManager } from '~/types/models'
 useHead({
   title: 'Image/Pdf View'
 })
@@ -12,6 +10,50 @@ const { isDark } = useTheme()
 const imageFromServer = ref<string>()
 
 const pdfFromServer = ref<string>()
+
+const videoItem = ref<FileManager>({
+  id: 1,
+  fileMime: 'video/mp4',
+  fileName: 'View_From_A_Blue_Moon_Trailer-HD.mp4',
+  filePath: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
+  fileThumbnailPath: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg',
+  fileSize: '99 MB',
+  fileMimeType: 'VIDEO',
+  duration: 185,
+  videoSources: [
+    {
+      src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
+      type: 'video/mp4',
+      size: 576
+    },
+    {
+      src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
+      type: 'video/mp4',
+      size: 720
+    },
+    {
+      src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
+      type: 'video/mp4',
+      size: 1080
+    }
+  ],
+  videoTracks: [
+    {
+      kind: 'captions',
+      label: 'English',
+      srclang: 'en',
+      src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt',
+      default: true
+    },
+    {
+      kind: 'captions',
+      label: 'Français',
+      srclang: 'fr',
+      src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt',
+      default: false
+    }
+  ]
+})
 
 const imageSelectIndex = ref<number>(0)
 const showImageView = ref(false)
@@ -24,7 +66,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.unsplash.com/photo-1741540420894-46bc55554fc3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 2,
@@ -34,7 +76,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.unsplash.com/photo-1734983234384-5a3edcec48ce?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 3,
@@ -44,7 +86,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.unsplash.com/photo-1741531472824-b3fc55e2ff9c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 4,
@@ -54,7 +96,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.unsplash.com/photo-1741509541812-5d8f3e96df23?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 5,
@@ -64,7 +106,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.unsplash.com/photo-1734630378523-c6735d798820?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 6,
@@ -74,7 +116,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/21294005/pexels-photo-21294005/free-photo-of-portrait-of-woman-blowing-dandelion-flower.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 7,
@@ -84,7 +126,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/27869817/pexels-photo-27869817/free-photo-of-two-women-sitting-on-a-couch-together.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 8,
@@ -94,7 +136,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/28924817/pexels-photo-28924817/free-photo-of-hong-kong-island-dazzling-night-skyline.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 9,
@@ -104,7 +146,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/29008754/pexels-photo-29008754/free-photo-of-scenic-desert-highway-at-sunrise-in-utah.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 10,
@@ -114,7 +156,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/25244460/pexels-photo-25244460/free-photo-of-a-fashionable-young-woman-standing-on-a-meadow.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 11,
@@ -124,7 +166,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/27467770/pexels-photo-27467770/free-photo-of-laptop-and-camera-on-desk.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   },
   {
     id: 12,
@@ -134,7 +176,7 @@ const imageItems = ref<FileManager[]>([
       'https://images.pexels.com/photos/28271613/pexels-photo-28271613/free-photo-of-a-car-mirror-is-shown-in-the-side-view-of-a-road.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: true
+    fileMimeType: 'IMAGE'
   }
 ])
 const showPdfView = ref(false)
@@ -152,7 +194,7 @@ const pdfItems = ref<FileManager[]>([
     filePath: 'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf',
     fileThumbnailPath: '',
     fileSize: '2 MB',
-    image: false
+    fileMimeType: 'FILE'
   }
 ])
 
@@ -161,6 +203,10 @@ const fileMixImageSelectIndex = ref<number>(0)
 const fileImageItemsForView = ref<FileManager[]>([])
 const fileMixForView = ref<FileManager>()
 const mixItems = ref<FileManager[]>(imageItems.value.concat(pdfItems.value))
+
+const onVideoClick = (index: number) => {
+  console.log('onVideoClick', index)
+}
 const onImgPreviewClick = async (index: number) => {
   imageSelectIndex.value = index
   showImageView.value = true
@@ -192,14 +238,14 @@ const onMixPreviewClick = async (index: number) => {
   fileImageItemsForView.value = []
   const file = mixItems.value[index]
   if (file) {
-    if (file.image) {
+    if (file.fileMimeType == 'IMAGE') {
       await setImagesFileView(file)
     }
     fileMixForView.value = file
     showMixFiles.value = true
   }
 }
-const getImageItems = computed(() => mixItems.value.filter(f => f.image))
+const getImageItems = computed(() => mixItems.value.filter(f => f.fileMimeType == 'IMAGE'))
 const setImagesFileView = (file: FileManager) => {
   return new Promise(resolve => {
     const index = getImageItems.value.findIndex(t => t.id == file.id)
@@ -256,7 +302,34 @@ const fetchPdfFromServer = async () => {
 </script>
 <template>
   <BasePage class="content-limit">
-    <BaseCard title="Image/Pdf View" subtitle="This is subtitle" :icon="{ name: biInfoCircle }">
+    <BaseCard title="Video" :icon="{ name: 'lucide:video' }">
+      <BaseCardSection>
+        <div class="row">
+          <div class="col col-md-4 q-pa-sm">
+            <q-item-label header>Dialog player</q-item-label>
+            <BaseFilesPreview
+              :items="[videoItem]"
+              preview-style="CARD"
+              col="col-6"
+              :show-delete="false"
+              @on-click="onVideoClick"
+            />
+          </div>
+          <div class="col col-md-5 q-pa-sm">
+            <q-item-label header>Inline player</q-item-label>
+            <ClientOnly>
+              <BaseVideoPlayer
+                :options="{
+                  autoSetSource: true
+                }"
+                :file="videoItem"
+              />
+            </ClientOnly>
+          </div>
+        </div>
+      </BaseCardSection>
+    </BaseCard>
+    <BaseCard title="Image" subtitle="This is subtitle" :icon="{ name: 'lucide:info' }">
       <q-card-section class="q-gutter-md">
         <BaseButton label="Fetch Image from server" @click="fetchImageFromServer" />
         <BaseButton label="Download Image from server" @click="downloadImageFromServer" />
@@ -274,28 +347,26 @@ const fetchPdfFromServer = async () => {
                 :key="`img-${i}-${item.fileName}`"
                 class="col-4 col-md-3 q-pa-xs"
               >
-                <div style="overflow: hidden" class="rounded">
-                  <base-files-preview-item
-                    :item="item"
-                    :index="i"
-                    :show-delete="false"
-                    hover-zoom
-                    show-tooltip
-                    :use-thumbnail="false"
-                    class="rounded"
-                    image-size="100%"
-                    :show-name="false"
-                    :show-size="false"
-                    @on-click="onImgPreviewClick"
-                  />
-                </div>
+                <BaseFilesPreviewItem
+                  :item="item"
+                  :index="i"
+                  :show-delete="false"
+                  hover-zoom
+                  show-tooltip
+                  :use-thumbnail="false"
+                  rounded
+                  image-size="100%"
+                  :show-name="false"
+                  :show-size="false"
+                  @on-click="onImgPreviewClick"
+                />
               </div>
             </div>
           </div>
           <div class="col-12 col-md-6 q-px-md">
             <q-item-label header>List</q-item-label>
-            <base-scroll-area height="310px">
-              <base-files-preview-item-alt
+            <BaseScrollArea height="310px">
+              <BaseFilesPreviewItemAlt
                 v-for="(itemAlt, iAlt) in imageItems"
                 :key="`img-${iAlt}-${itemAlt.fileName}`"
                 :item="itemAlt"
@@ -307,7 +378,7 @@ const fetchPdfFromServer = async () => {
                 show-size
                 @on-click="onImgPreviewClick"
               />
-            </base-scroll-area>
+            </BaseScrollArea>
           </div>
         </div>
       </q-card-section>
@@ -398,7 +469,7 @@ const fetchPdfFromServer = async () => {
             :key="`impdfg-${mIndex}-${m.fileName}`"
             class="col-4 col-md-2 q-pa-xs"
           >
-            <base-files-preview-item
+            <BaseFilesPreviewItem
               style="border-radius: 10px"
               :item="m"
               :index="mIndex"

@@ -1,8 +1,8 @@
-import type { ChatMessageType, ChatType, EmojiType, ILanguge, LoginLogType, UploadStatus } from "./common";
+import type { ChatMessageType, ChatType, EmojiType, FileMimeType, ILanguge, LoginLogType, UploadStatus, VideoSrc, VideoTrack } from "./common";
 export type IPermissionOperationType = 1 | 2 | 3; // 1=crud, 2=report, 3=other
 export type PermissionType = "CRUD" | "REPORT" | "OTHER" | "FEATURE";
 export interface Id {
-  id: number | string | null;
+  id?: number | string | null;
 }
 export interface AccessToken extends Id {
   ipAddredd: string;
@@ -13,7 +13,16 @@ export interface AccessToken extends Id {
   createdDate: string;
   lastestActive: string;
 }
-export interface FileManager extends Id {
+export interface FileManagerMetaData extends Id {
+  duration?: number | null;
+  title?: string | null;
+  description?: string | null;
+  thumbnailFileId?: number | null;
+  thumbnailFile?: any
+  width?: number
+  height?: number
+}
+export interface FileManager extends FileManagerMetaData {
   fileMime: string;
   fileName: string;
   filePath: string;
@@ -22,20 +31,12 @@ export interface FileManager extends Id {
   fileSizeNo?: number;
   fileCount?: number;
   functionId?: number;
-  image?: boolean;
-  directoryFolder?: boolean;
   createdDate?: string;
   updatedDate?: string;
   file?: any;
-  video?: boolean;
-  videoDetail?: {
-    thumbnailFile?: any
-    duration?: number
-    title?: string
-    description?: string
-    width?: number
-    height?: number
-  },
+  fileMimeType?: FileMimeType
+  videoSources?: VideoSrc[]
+  videoTracks?: VideoTrack[]
   uploadProgress?: {
     uploading: boolean;
     progress: number;
@@ -49,7 +50,8 @@ export interface FileUploadChunkResponse {
   status?: boolean;
   lastChunk?: boolean;
 }
-export interface FileUploadChunkMergeRequest {
+
+export interface FileUploadChunkMergeRequest extends FileManagerMetaData {
   totalChunks: number;
   fileMime: string | null;
   originalFilename?: string;

@@ -13,9 +13,9 @@ const {
   dense = false,
   clickable = false,
   imageSize = '75px',
-  textColor = 'q-text-black',
   iconSize = '4em',
-  fourceShowImage = true
+  fourceShowImage = true,
+  rounded = true
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -30,29 +30,55 @@ const {
   textColor?: string
   showSize?: boolean
   fourceShowImage?: boolean
+  rounded?: boolean | undefined
 }>()
 const { t } = useLang()
-const emit = defineEmits(['on-remove', 'on-click'])
+const emit = defineEmits<{
+  'on-remove': [index: number]
+  'on-click': [index: number, event: any]
+}>()
 const onRemove = (event: any, index: number) => {
   emit('on-remove', index)
   if (event) {
-    event.stopImmediatePropagation()
+    appPreventDefult(event)
   }
 }
 const onClick = (event: any, index: number) => {
   emit('on-click', index, event)
   if (event) {
-    event.stopImmediatePropagation()
+    appPreventDefult(event)
   }
 }
 </script>
 <template>
   <q-item v-bind="$attrs" :dense="dense" :clickable @click="onClick($event, index)">
     <q-item-section side>
-      <template v-if="fourceShowImage && item.image">
-        <q-avatar square :size="imageSize" class="cursor-pointer" @click="onClick($event, index)">
+      <template
+        v-if="
+          fourceShowImage &&
+          (item?.fileMimeType == 'IMAGE' ||
+            (item?.fileMimeType == 'VIDEO' && item?.fileThumbnailPath))
+        "
+      >
+        <base-image
+          @click="onClick($event, index)"
+          :style="{ width: imageSize }"
+          :class="{ rounded: rounded }"
+          :fetch="fetch"
+          :src="item?.fileMimeType == 'IMAGE' ? item.filePath : item?.fileThumbnailPath"
+        >
+          <BaseIcon
+            v-if="item?.fileMimeType == 'VIDEO'"
+            name="hugeicons:play-circle-02"
+            icon-set="nuxt"
+            color="white"
+            size="40px"
+            class="absolute-center"
+          />
+        </base-image>
+        <!-- <q-avatar square :size="imageSize" class="cursor-pointer" @click="onClick($event, index)">
           <base-image :fetch="fetch" :src="item.filePath" />
-        </q-avatar>
+        </q-avatar> -->
       </template>
       <template v-else>
         <div
@@ -105,10 +131,10 @@ const onClick = (event: any, index: number) => {
                 {{ Math.round(item.uploadProgress.progress * 100) }}%
               </template>
               <template v-else-if="item.uploadProgress.status == 'COMPLETED'">
-                <BaseIcon :name="biCheck2" color="positive" size="16px" />
+                <BaseIcon :name="biCheck2" color="positive" icon-set="quasar" size="16px" />
               </template>
               <template v-else-if="item.uploadProgress.status == 'FAILED'">
-                <BaseIcon :name="biExclamation" color="negative" size="16px" />
+                <BaseIcon :name="biExclamation" color="negative" icon-set="quasar" size="16px" />
               </template>
             </q-circular-progress>
           </template>

@@ -52,7 +52,12 @@ const onConfirmToClose = async () => {
       <q-card-section class="q-gutter-md">
         <BaseTextHeader title="Popover confirm" />
         <button v-rbac="{ permissions: ['user_managsse'] }">Test RBAC</button>
-        <BaseButton v-rbac="{ permissions: ['user_manage'] }" label="Delete item" color="negative" :icon="biTrash">
+        <BaseButton
+          v-rbac="{ permissions: ['user_manage'] }"
+          label="Delete item"
+          color="negative"
+          :icon="biTrash"
+        >
           <BasePopConfirm
             :title="t('base.deleteConfirm')"
             confirm-color="negative"
@@ -102,7 +107,12 @@ const onConfirmToClose = async () => {
       </q-card-section>
     </BaseCard>
 
-    <base-dialog v-if="dialog" v-model="dialog" title="Dialog title" :icon="{name :'lucide:pencil', iconSet: 'nuxt'}">
+    <base-dialog
+      v-if="dialog"
+      v-model="dialog"
+      title="Dialog title"
+      :icon="{ name: 'lucide:pencil', iconSet: 'nuxt' }"
+    >
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate
       voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam
       exercitationem aut, natus minima, porro labore.
@@ -122,7 +132,9 @@ const onConfirmToClose = async () => {
       v-if="dialogSmall"
       v-model="dialogSmall"
       title="Dialog Small"
-      dialog-style="width: 300px;"
+      :dialog-style="{
+        width: '300px'
+      }"
     >
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate
       voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam
@@ -132,7 +144,10 @@ const onConfirmToClose = async () => {
       v-if="dialogMedium"
       v-model="dialogMedium"
       title="Dialog Medium"
-      dialog-style="width: 700px; max-width: 80vw;"
+      :dialog-style="{
+        width: '700px',
+        maxWidth: '80vw'
+      }"
     >
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate
       voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam
@@ -185,7 +200,7 @@ const onConfirmToClose = async () => {
       v-if="dialogConfirmToClose"
       v-model="dialogConfirmToClose"
       title="Confirm to close title"
-      :icon="{name :biPencil}"
+      :icon="{ name: 'lucide:pencil-line' }"
       :auto-close="false"
       persistent
       @on-close="onConfirmToClose"

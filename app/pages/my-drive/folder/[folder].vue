@@ -59,7 +59,8 @@ const {
   onNextPage,
   sort,
   onSortColumn,
-  onSortMode
+  onSortMode,
+  loading
 } = usePagefecth<FileManager>({
   apiEndpoint: '/api/fileManager',
   additionalUri: `directoryId=${folderId.value}`,
@@ -226,15 +227,24 @@ onMounted(async () => {
         </BaseCardSection>
       </BaseTransitionWrapper>
 
-      <LazyDriveList
-        v-if="viewMode === 'list'"
-        v-model:selected="selected"
-        :items="dataList"
-        @on-check-all="updateSelectedAll"
-        @on-item-click="onItemCLick"
-        class="q-pt-md"
-      />
-      <LazyDriveGrid v-else :items="dataList" />
+      <template v-if="!firstLoaded">
+        <LazySkeletonItem v-if="viewMode === 'list'" />
+        <LazySkeletonCard v-else col="col-12 col-md-2 q-pa-xs" :no="6" />
+      </template>
+      <template v-else-if="dataList.length > 0">
+        <LazyDriveList
+          v-if="viewMode === 'list'"
+          v-model:selected="selected"
+          :items="dataList"
+          @on-check-all="updateSelectedAll"
+          @on-item-click="onItemCLick"
+          class="q-pt-md"
+        />
+        <LazyDriveGrid v-else :items="dataList" />
+      </template>
+      <template v-else>
+        <LazyBaseResult status="empty" :description="t('base.items', 0)" />
+      </template>
     </BaseCard>
     <LazyDriveFolderForm
       v-if="showFolderForm"

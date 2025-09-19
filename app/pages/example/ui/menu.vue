@@ -30,19 +30,19 @@ const menus = ref<LabelValue<string>[]>([
   {
     label: 'Edit',
     description: 'edit this item',
-    icon: { name: biPencil },
+    icon: { name: 'lucide:pencil-line' },
     value: 'edit'
   },
   {
     label: 'Delete',
-    icon: { name: biTrash },
+    icon: { name: 'lucide:trash-2' },
     color: 'negative',
     value: 'delete'
   },
   {
     label: 'Copy',
     description: 'Copy this item',
-    icon: { name: biCopy },
+    icon: { name: 'lucide:copy' },
     value: 'copy'
   }
 ])
@@ -50,7 +50,7 @@ const functionHandler = ref<LabelValue<string>[]>([
   {
     label: 'Edit',
     description: 'edit this item',
-    icon: { name: biPencil },
+    icon: { name: 'lucide:pencil' },
     value: 'edit',
     onHandle() {
       console.log('onEdit')
@@ -58,7 +58,7 @@ const functionHandler = ref<LabelValue<string>[]>([
   },
   {
     label: 'Delete',
-    icon: { name: biTrash },
+    icon: { name: 'lucide:trash-2' },
     color: 'negative',
     value: 'delete',
     onHandle() {
@@ -68,7 +68,7 @@ const functionHandler = ref<LabelValue<string>[]>([
   {
     label: 'Copy',
     description: 'Copy this item',
-    icon: { name: biCopy },
+    icon: { name: 'lucide:copy' },
     value: 'copy',
     onHandle() {
       console.log('onCopy')
@@ -116,51 +116,51 @@ const submenus: LabelValue<string>[] = [
   {
     label: 'Profile',
     value: 'Profile',
-    icon: { name: biPerson }
+    icon: { name: 'lucide:user' }
   },
   {
     label: 'Billing',
     value: 'Billing',
-    icon: { name: biCreditCard }
+    icon: { name: 'lucide:credit-card' }
   },
   {
     label: 'Keyboard shortcuts',
     value: 'Keyboard',
-    icon: { name: biDisplay },
+    icon: { name: 'lucide:keyboard' },
     border: true
   },
   {
     label: 'Team',
     value: 'Team',
-    icon: { name: biPeople }
+    icon: { name: 'lucide:users' }
   },
   {
     label: 'Invite users',
-    icon: { name: biPersonPlus },
+    icon: { name: 'lucide:user-plus' },
     children: [
       {
         label: 'Email',
         value: 'Email',
-        icon: { name: biEnvelope }
+        icon: { name: 'lucide:mail' }
       },
       {
         label: 'Message',
         value: 'Message',
-        icon: { name: biChat }
+        icon: { name: 'lucide:message-circle' }
       },
       {
         label: 'More',
-        icon: { name: biPlusCircle },
+        icon: { name: 'lucide:circle-fading-plus' },
         children: [
           {
             label: 'Message',
             value: 'Message',
-            icon: { name: biChat }
+            icon: { name: 'lucide:message-circle' }
           },
           {
             label: 'Email',
             value: 'Email',
-            icon: { name: biEnvelope }
+            icon: { name: 'lucide:mail' }
           }
         ]
       }

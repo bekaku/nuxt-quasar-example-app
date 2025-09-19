@@ -12,7 +12,7 @@ const overlay = ref(false)
 const miniToOverlay = ref(true)
 const menus: LabelValue<any>[] = [
   {
-    icon: { name: biHouseDoor },
+    icon: { name: 'lucide:home' },
     label: 'nav.dashboard',
     to: '/',
     rbac: {

@@ -6,7 +6,7 @@ const navs: LabelValue<any>[] = [
     label: '',
     children: [
       {
-        icon: { name: biPerson },
+        icon: { name: 'lucide:user' },
         translateLabel: true,
         label: 'page.settingsPublicProfile',
         to: '/settings',
@@ -20,14 +20,14 @@ const navs: LabelValue<any>[] = [
     border: true,
     children: [
       {
-        icon: { name: biShieldLock },
+        icon: { name: 'lucide:shield' },
         translateLabel: true,
         label: 'page.settingsSecurity',
         to: '/settings/security',
         noActiveLink: true
       },
       {
-        icon: { name: biEnvelope },
+        icon: { name: 'lucide:mail' },
         translateLabel: true,
         label: 'contactInfo',
         to: '/settings/emails',

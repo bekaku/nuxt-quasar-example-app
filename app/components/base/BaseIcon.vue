@@ -5,7 +5,7 @@ https://iconify.design/, https://icones.js.org/ , https://quasar.dev/vue-compone
 <BaseIcon name="lucide:cookie" icon-set="nuxt" />
 <BaseIcon :name="mdiAbTesting" icon-set="quasar" />
 */
-const { iconSet = 'quasar', size = '24px' } = defineProps<IconProps>()
+const { iconSet = 'nuxt', size = '24px' } = defineProps<IconProps>()
 </script>
 <template>
   <Icon

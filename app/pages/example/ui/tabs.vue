@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { biChatDots, biMic, biMusicNote, biPlay } from '@quasar/extras/bootstrap-icons'
+import { biChat, biChatDots, biMic, biMusicNote, biPlay } from '@quasar/extras/bootstrap-icons'
 import { TabTest } from '~/libs/tabs'
 import type { LabelValue } from '~/types/common'
 
@@ -19,7 +19,7 @@ const groupTabs = ref<LabelValue<string>[]>([
   {
     label: 'Review',
     value: 'review',
-    icon: { name: biChatDots }
+    icon: { name: biChat }
   },
   {
     label: 'Photos',

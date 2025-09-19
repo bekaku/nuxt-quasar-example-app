@@ -126,6 +126,8 @@ export type IAlign = 'center' | 'left' | 'right';
 export type LoginLogType = 'WEB' | 'IOS' | 'ANDROID';
 export type ChatHistoryTab = 'ALL' | 'GROUP' | 'FAVORITE';
 export type UploadStatus = 'UPLOADING' | 'COMPLETED' | 'FAILED';
+export type FileMimeType = 'IMAGE' | 'VIDEO' | 'FILE' | 'DIRECTORY';
+export type FilePreviewStyle = 'CARD' | 'LIST';
 
 export interface AppNuxtError {
     statusCode: number
@@ -574,23 +576,34 @@ export interface VueMoneyConFig {
 }
 
 export interface PdfWatermarkOptions {
-  text?: string | undefined
-  columns?: number
-  rows?: number
-  rotation?: number
-  fontSize?: number
-  color?: any
-  opacity?: number
-  image?: string
-  items?: PdfWatermarkItems[]
+    text?: string | undefined
+    columns?: number
+    rows?: number
+    rotation?: number
+    fontSize?: number
+    color?: any
+    opacity?: number
+    image?: string
+    items?: PdfWatermarkItems[]
 }
 export interface PdfWatermarkItems {
-  x?: number
-  y?: number
-  text?: string
-  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    x?: number
+    y?: number
+    text?: string
+    position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 }
-
+export interface VideoSrc {
+  src?: string
+  type?: string
+  size?: number
+}
+export interface VideoTrack {
+  kind?: string
+  label?: string
+  srclang?: string
+  src?: string
+  default?: boolean
+}
 export type CountryCode =
     | 'AC'
     | 'AD'

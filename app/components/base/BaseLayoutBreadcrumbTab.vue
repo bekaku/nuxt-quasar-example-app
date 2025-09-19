@@ -19,7 +19,7 @@ const tabs = computed<LabelValue<any>[] | undefined>(
         <LazyBaseBreadcrumbs
           v-if="breadcrumbs.length > 0"
           :items="breadcrumbs"
-          :separator-icon="{ name: biChevronRight }"
+          :separator-icon="{ name: 'lucide:chevron-right' }"
         />
       </lazy-q-toolbar>
       <q-separator v-if="tabs && tabs.length > 0 && breadcrumbs && breadcrumbs.length > 0" />

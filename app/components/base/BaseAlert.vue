@@ -36,7 +36,6 @@ const show = ref(true)
       <slot>
         <strong>
           <BaseIcon v-if="icon" style="margin-right: 5px" v-bind="{ ...icon }" />
-          <!-- <q-icon v-if="icon" :name="icon" style="margin-right: 5px" size="md" /> -->
         </strong>
         <span v-if="title" class="q-mx-sm text-weight-bold">{{ title }}</span>
         {{ message ? message : '' }}

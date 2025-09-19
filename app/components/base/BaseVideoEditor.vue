@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { FileManager } from '~/types/models'
-import { fetchFile, toBlobURL } from '@ffmpeg/util'
+import { fetchFile } from '@ffmpeg/util';
+import type { FileManager } from '~/types/models';
 const {
   file,
   thumbnailCount = 6,
@@ -83,8 +83,8 @@ const handleFileChange = (): Promise<void> => {
 */
 
 const validateDuration = computed<boolean>(() => {
-  if (!entity.value || !entity.value.videoDetail?.duration) return false
-  if (entity.value.videoDetail.duration <= limitDuration) return true
+  if (!entity.value || !entity.value?.duration) return false
+  if (entity.value.duration <= limitDuration) return true
   return false
 })
 const validateTrimDuration = computed<boolean>(() => {
@@ -136,16 +136,14 @@ const initialFile = async () => {
           // fileThumbnailPath: thumbnailBase64Items.value[0] || '',
           fileThumbnailPath: '',
           fileSize: file.size + '',
-          video: true,
           file: null,
-          videoDetail: {
-            thumbnailFile: null,
-            duration: duration.value,
-            title: '',
-            description: '',
-            width: video.videoWidth,
-            height: video.videoHeight
-          }
+          fileMimeType: 'VIDEO',
+          thumbnailFile: null,
+          duration: duration.value,
+          title: '',
+          description: '',
+          width: video.videoWidth,
+          height: video.videoHeight
         }
 
         // ✅ cleanup video
@@ -167,24 +165,23 @@ const initialFile = async () => {
 }
 
 const onThumbnailAdd = (files: File[]) => {
-  console.log('onThumbnailAdd', files)
-  if (files[0] && entity.value && entity.value.videoDetail) {
+  if (files[0] && entity.value) {
     const tnUrl = URL.createObjectURL(files[0])
     if (tnUrl) {
       entity.value.fileThumbnailPath = tnUrl
-      entity.value.videoDetail.thumbnailFile = files[0]
+      entity.value.thumbnailFile = files[0]
       onReloadPreview()
     }
   }
 }
 const onSelectThumbnail = async (index: number) => {
-  if (index >= 0 && entity.value && entity.value.videoDetail) {
+  if (index >= 0 && entity.value) {
     const tnbase64 = thumbnailBase64Items.value[index]
     if (tnbase64) {
       entity.value.fileThumbnailPath = tnbase64
       const tnFile = await base64ToFile(tnbase64, `thumb_${index}.jpg`)
       if (tnFile) {
-        entity.value.videoDetail.thumbnailFile = tnFile
+        entity.value.thumbnailFile = tnFile
       }
 
       onReloadPreview()
@@ -226,15 +223,13 @@ const trimVideo = async () => {
   ])
   // Read output
   const data = await ffmpeg.readFile('output.mp4') // returns FileData
-  console.log('data', data)
   if (data) {
     trimBlob.value = new Blob([(data as any).buffer], { type: 'video/mp4' }) // use .data
-    console.log('blob', trimBlob.value)
     if (trimBlob.value) {
       const trimmedUrl = URL.createObjectURL(trimBlob.value)
-      if (trimmedUrl && entity.value && entity.value.videoDetail) {
+      if (trimmedUrl && entity.value) {
         // const trimFile = await blobToFile(blob, entity.value.fileName)
-        entity.value.videoDetail.duration = trimDuration
+        entity.value.duration = trimDuration
         entity.value.filePath = trimmedUrl
         onReloadPreview()
       }
@@ -244,7 +239,7 @@ const trimVideo = async () => {
   appLoading(false)
 }
 const onSubmit = async () => {
-  if (!canSubmit.value || !entity.value || !entity.value.videoDetail) {
+  if (!canSubmit.value || !entity.value) {
     return
   }
 
@@ -293,23 +288,21 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div>
+  <div :style="{minHeight: '350px'}">
     <q-form @submit="onSubmit">
       <div class="row">
         <div class="col-12 col-md-7 q-pa-md">
           <template v-if="entity">
             <BaseTextHeader :title="$t('base.detail')" />
             <BaseInput
-              v-if="entity.videoDetail"
-              v-model="entity.videoDetail.title"
+              v-model="entity.title"
               required
               :label="$t('base.title')"
               :rules="[required]"
               class="q-mb-md"
             />
             <BaseInput
-              v-if="entity.videoDetail"
-              v-model="entity.videoDetail.description"
+              v-model="entity.description"
               type="textarea"
               :label="$t('base.description')"
             />
@@ -329,9 +322,7 @@ onUnmounted(() => {
                 </q-item-section>
                 <q-item-section>
                   <q-item-label caption>{{ $t('drive.duration') }}</q-item-label>
-                  <q-item-label>{{
-                    formatDurationHMS(entity.videoDetail?.duration || 0)
-                  }}</q-item-label>
+                  <q-item-label>{{ formatDurationHMS(entity?.duration || 0) }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -376,7 +367,7 @@ onUnmounted(() => {
               </BaseCard>
             </template>
             <div class="row">
-              <div class="col-12 col-md-4 text-center q-pa-sm">
+              <div class="col-12 col-md-4 text-center q-pa-md">
                 <BaseImage
                   v-if="entity.fileThumbnailPath"
                   :src="entity.fileThumbnailPath"
@@ -398,7 +389,6 @@ onUnmounted(() => {
               <div class="col-12 col-md-4 text-center q-pa-sm">
                 <div class="row justify-end">
                   <BaseFilePicker
-                    v-model="thumbnailFiles"
                     :multiple="false"
                     :show-preview="false"
                     accept=".jpg,.png"
@@ -434,16 +424,16 @@ onUnmounted(() => {
         <div class="col-12 col-md-5 q-pa-md">
           <template v-if="entity">
             <div class="row q-pb-md justify-center">
-              <BaseVideoPlayer
+              <LazyBaseVideoPlayer
                 v-if="showPreview && entity.filePath"
                 :options="{
                   autoSetSource: true
                 }"
                 :file="entity"
-                style="width: 70%"
+                style="width: 90%"
               >
-              </BaseVideoPlayer>
-              <SkeletonCard v-else height="170px" />
+              </LazyBaseVideoPlayer>
+              <LazyBaseSpinner v-else/>
             </div>
 
             <BaseCard :title="$t('drive.trimVideo')">

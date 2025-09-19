@@ -43,7 +43,7 @@ export default defineNuxtConfig({
     '~/assets/css/app.scss',
     '~/assets/css/typography.scss',
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   devServer: {
     port: 3003
   },
@@ -164,7 +164,7 @@ export default defineNuxtConfig({
   ssr: true,
   vite: {
     optimizeDeps: {
-      exclude: ['@ffmpeg/ffmpeg']
+      exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
     },
     css: {
       preprocessorOptions: {

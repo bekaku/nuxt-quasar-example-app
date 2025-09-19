@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T">
-import { matKeyboardArrowRight } from '@quasar/extras/material-icons'
 import { biThreeDots } from '@quasar/extras/bootstrap-icons'
 import type { AppColor, LabelValue } from '~/types/common'
 
@@ -118,7 +117,7 @@ const onHide = () => {
             <template v-if="item.children && item.children.length > 0">
               <!-- Level 2 -->
               <q-item-section side>
-                <q-icon :name="matKeyboardArrowRight" />
+                <BaseIcon name="lucide:chevron-right" icon-set="nuxt" />
               </q-item-section>
 
               <q-menu anchor="top end" self="top start" class="q-py-xs q-px-xs">
@@ -137,7 +136,7 @@ const onHide = () => {
                     <template v-if="itemLevel2.children && itemLevel2.children.length > 0">
                       <!-- Level 3 -->
                       <q-item-section side>
-                        <q-icon :name="matKeyboardArrowRight" />
+                        <BaseIcon name="lucide:chevron-right" icon-set="nuxt" />
                       </q-item-section>
                       <q-menu anchor="top end" self="top start" class="q-py-xs q-px-xs">
                         <q-list :dense>

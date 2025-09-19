@@ -11,7 +11,7 @@ import {
     biFilm
 } from '@quasar/extras/bootstrap-icons';
 // import JSZip from 'jszip';
-import type { FileType } from '~/types/common';
+import type { FileMimeType, FileType } from '~/types/common';
 import type { FileManager } from '~/types/models';
 
 export const fileToBlob = (file: File): Promise<any> => {
@@ -38,30 +38,30 @@ export const fileToBlob = (file: File): Promise<any> => {
 //     return new File([u8arr], filename, { type: mime })
 // }
 export const base64ToFile = (base64: string, filename: string): Promise<File> => {
-  return new Promise((resolve, reject) => {
-    try {
-      const arr: string[] = base64.split(",");
-      if (!arr || arr.length < 2) {
-        return reject(new Error("Invalid base64 input"));
-      }
+    return new Promise((resolve, reject) => {
+        try {
+            const arr: string[] = base64.split(",");
+            if (!arr || arr.length < 2) {
+                return reject(new Error("Invalid base64 input"));
+            }
 
-      const mimeMatch = arr[0]?.match(/:(.*?);/);
-      const mime = mimeMatch && mimeMatch[1] ? mimeMatch[1] : "image/jpeg";
+            const mimeMatch = arr[0]?.match(/:(.*?);/);
+            const mime = mimeMatch && mimeMatch[1] ? mimeMatch[1] : "image/jpeg";
 
-      const bstr = atob(arr[1] ?? ""); // safe fallback
-      let n = bstr.length;
-      const u8arr = new Uint8Array(n);
+            const bstr = atob(arr[1] ?? ""); // safe fallback
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
 
-      for (let i = 0; i < n; i++) {
-        u8arr[i] = bstr.charCodeAt(i);
-      }
+            for (let i = 0; i < n; i++) {
+                u8arr[i] = bstr.charCodeAt(i);
+            }
 
-      const file = new File([u8arr], filename, { type: mime });
-      resolve(file);
-    } catch (err) {
-      reject(err);
-    }
-  });
+            const file = new File([u8arr], filename, { type: mime });
+            resolve(file);
+        } catch (err) {
+            reject(err);
+        }
+    });
 };
 export const fileUrlToBlob = async (url: string): Promise<any> => {
     const response = await fetch(url);
@@ -223,10 +223,13 @@ export const getFileNameFromResponse = (axiosResponse: any) => {
     return fileName;
 };
 
-export const getExtensionFromFileName = (filename: string) => {
+export const getExtensionFromFileName = (filename: string): string | undefined => {
+    if (!filename) {
+        return;
+    }
     const dotIndex = filename.lastIndexOf('.');
     if (dotIndex === -1) {
-        return '';
+        return;
     }
     return filename.substring(dotIndex); // includes the dot
 }
@@ -560,7 +563,7 @@ export const getFileTypeIconNuxt = (t: string) => {
         case 'image/jpeg':
         case 'image/gif':
         case 'image/webp':
-            icon = 'vscode-icons:file-type-image';
+            icon = 'bi:file-image';
             break;
         case 'zip':
         case '.zip':
@@ -622,6 +625,23 @@ export const isImageFile = (f: File) => {
         return false;
     }
     return /^image\/\w+/.test(f.type);
+};
+export const isVideoFile = (f: File) => {
+    if (!f) {
+        return false;
+    }
+    return /^video\/\w+/.test(f.type);
+};
+export const getFileMimeType = (f: File): FileMimeType | undefined => {
+    if (!f) {
+        return;
+    }
+    if (isImageFile(f)) {
+        return 'IMAGE'
+    }
+    if (isVideoFile(f)) {
+        return 'VIDEO'
+    }
 };
 export const captureFrameFromVideo = (video: HTMLVideoElement, time: number): Promise<string> => {
     return new Promise((resolve, reject) => {

@@ -1,13 +1,12 @@
 import FileManagerService from "~/api/FileManagerService";
 import type { UploadStatus } from "~/types/common";
-import type { FileManager, FileUploadChunkResponse } from "~/types/models";
+import type { FileManager, FileManagerMetaData, FileUploadChunkResponse } from "~/types/models";
 export const useFileUpload = (options?: {
     chunkSize?: number;
     maxRetries?: number;
 }) => {
     const { uploadChunkApi, mergeChunkApi } = FileManagerService();
-    const files = ref<File[]>([])
-    const previews = ref<FileManager[]>([])
+    const files = ref<FileManager[]>([])
     const uploading = ref(false)
     const progress = ref(0)
     const status = ref<UploadStatus>();
@@ -44,12 +43,13 @@ export const useFileUpload = (options?: {
         }
     }
 
-    const onUploadChunk = async (selectedFile: File): Promise<FileManager | null> => {
+    const onUploadChunk = async (selectedFile: File, setProgress: boolean = true, fileMetaData: FileManagerMetaData | undefined = undefined): Promise<FileManager | null> => {
         if (!selectedFile) {
             return new Promise(resolve => resolve(null))
         }
         onChunkUploadClear()
         await setDownloadStatus();
+
         const totalChunks = Math.ceil(selectedFile.size / chunkSize)
         const filename = selectedFile.name
         for (let chunkIndex = 1; chunkIndex <= totalChunks; chunkIndex++) {
@@ -62,12 +62,16 @@ export const useFileUpload = (options?: {
             const response = await onUploadChunkProcess(chunk, chunkIndex, totalChunks, filename)
             if (!response || response.status == false) {
                 console.warn(`Upload failed at chunk ${chunkIndex}`)
-                await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
+                if (setProgress) {
+                    await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
+                }
                 return new Promise(resolve => resolve(null))
             }
             // progress.value = chunkIndex / totalChunks
-            const progressPercent = chunkIndex / totalChunks
-            await setDownloadProgress(currentFileIndex.value, 'UPLOADING', true, progressPercent);
+            if (setProgress) {
+                const progressPercent = chunkIndex / totalChunks
+                await setDownloadProgress(currentFileIndex.value, 'UPLOADING', true, progressPercent);
+            }
         }
         // Merge request
         try {
@@ -80,26 +84,30 @@ export const useFileUpload = (options?: {
             })
             if (response && response.id) {
                 console.info('Merge complete')
-                await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
+                if (setProgress) {
+                    await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
+                }
                 return new Promise(resolve => resolve(response))
             }
         } catch (e) {
             console.warn('Merge failed', e)
-            await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
+            if (setProgress) {
+                await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
+            }
             return new Promise(resolve => resolve(null))
         }
         return new Promise(resolve => resolve(null))
     }
 
     const setDownloadProgress = (index: number, statusParam: UploadStatus, uploading: boolean, progressParam?: number | undefined): Promise<void> => {
-        const item = previews.value[index]
+        const item = files.value[index]
         if (item && item.uploadProgress) {
             item.uploadProgress = {
                 progress: progressParam || item.uploadProgress.progress,
                 uploading: uploading,
                 status: statusParam
             }
-            previews.value[index] = item
+            files.value[index] = item
         }
         if (progressParam != undefined) {
             progress.value = progressParam;
@@ -108,7 +116,7 @@ export const useFileUpload = (options?: {
         return Promise.resolve();
     }
     const setDownloadStatus = (): Promise<void> => {
-        const item = previews.value[currentFileIndex.value]
+        const item = files.value[currentFileIndex.value]
         if (item) {
             item.uploadProgress = {
                 progress: 0,
@@ -116,12 +124,12 @@ export const useFileUpload = (options?: {
                 status: 'UPLOADING',
                 uploadData: null
             }
-            previews.value[currentFileIndex.value] = item
+            files.value[currentFileIndex.value] = item
         }
         return Promise.resolve();
     }
     const checkAlreadyUpload = (index: number): Promise<boolean> => {
-        const item = previews.value[index]
+        const item = files.value[index]
         if (item) {
             return Promise.resolve(item.uploadProgress != undefined)
         }
@@ -131,18 +139,20 @@ export const useFileUpload = (options?: {
     const onStartUploadChunk = async () => {
         if (files.value && files.value.length > 0) {
             uploading.value = true
-            const items = files.value;
-            for (let index = 0; index < items.length; index++) {
+            const fileItems = files.value;
+            for (let index = 0; index < fileItems.length; index++) {
                 const isAlreadyUpload = await checkAlreadyUpload(index);
                 console.log('isAlreadyUpload : index > ', index, isAlreadyUpload);
                 if (isAlreadyUpload) {
                     continue;
                 }
-                console.log('Uploading file', index, 'of', items.length);
-                const f = items[index];
-                if (f) {
+                console.log('Uploading file', index, 'of', fileItems.length);
+                const f = fileItems[index];
+                if (f && f.file) {
                     currentFileIndex.value = index;
-                    const response = await onUploadChunk(f);
+
+                    
+                    const response = await onUploadChunk(f.file);
                     if (response) {
                         console.log('Upload chunk and merged complete');
                     }
@@ -156,7 +166,6 @@ export const useFileUpload = (options?: {
         onStartUploadChunk,
         onUploadChunk,
         files,
-        previews,
         uploading,
         status,
         progress

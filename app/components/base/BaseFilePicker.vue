@@ -15,6 +15,7 @@ import {
 import type { FileManager } from '~/types/models'
 import { getImgUrlFromFile, isImageFile, zipFile } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
+import type { FileMimeType, FilePreviewStyle } from '~/types/common'
 
 const {
   multiple = true,
@@ -22,15 +23,14 @@ const {
   maxFiles = MaxSelectFiles,
   icon = biPlus,
   accept = FileExtensionAccept,
-  gallery = false,
   previewHieight = '250px',
   limitFileSize = LimitFileSize,
   limitFileSizeMB = LimitFileSizeMB,
-  videoEditor = false
+  videoEditor = false,
+  previewCol='col-2 q-pa-sm'
 } = defineProps<{
   multiple?: boolean
   showPreview?: boolean
-  gallery?: boolean
   icon?: string
   label?: string
   accept?: string //* = wildcard all extension
@@ -40,13 +40,14 @@ const {
   limitFileSize?: number
   limitFileSizeMB?: number
   videoEditor?: boolean
+  previewStyle?: FilePreviewStyle
+  previewCol?: string
 }>()
 const { appToast } = useBase()
 const { t } = useLang()
-const modelValue = defineModel<any[]>({ default: () => [] })
-const fileItems = defineModel<FileManager[]>('fileItems', { default: () => [] })
-const modelFiles = ref<any[]>([])
 
+const modelValue = defineModel<FileManager[]>({ default: () => [] })
+const modelFiles = ref<File[]>([])
 const videoEditorTimeout = ref<any>()
 const emit = defineEmits<{
   'on-file-add': [files: File[]]
@@ -80,7 +81,6 @@ const onClear = (event: any) => {
 const onClearProcess = () => {
   modelValue.value = []
   modelFiles.value = []
-  fileItems.value = []
 }
 const onRejected = (rejectedEntries: any) => {
   appToast(t('error.filesValidationFmt', { total: rejectedEntries.length }), {
@@ -118,7 +118,7 @@ const onFileAdded = async (files: File[] | File) => {
   const fileList = Array.isArray(files) ? files : [files]
   if (!videoEditor) {
     const finalFiles = await validateAndZipFile(fileList)
-    onEmitFileAdd(finalFiles);
+    onEmitFileAdd(finalFiles)
     if (multiple) {
       if (finalFiles && finalFiles.length > 0) {
         for (const f of finalFiles) {
@@ -127,7 +127,6 @@ const onFileAdded = async (files: File[] | File) => {
       }
     } else if (finalFiles) {
       modelValue.value = []
-      fileItems.value = []
       await onAddFile(finalFiles[0])
     }
     modelFiles.value = []
@@ -139,28 +138,31 @@ const onFileAdded = async (files: File[] | File) => {
         vdoFile.value = f
         videoEditorTimeout.value = setTimeout(() => {
           showVdoEditor.value = true
-        }, 500)
+        }, 350)
       } else {
         // showVdoEditor.value = true
-        onEmitFileAdd(fileList);
+        onEmitFileAdd(fileList)
       }
     }
   }
 }
 const onAddFile = async (f: any): Promise<void> => {
   if (f) {
-    const isImg = isImageFile(f)
+    const fileMimeType = getFileMimeType(f)
     let url: string | undefined = undefined
-    if (isImg) {
+    if (fileMimeType && fileMimeType == 'IMAGE') {
       url = await getImgUrlFromFile(f)
     }
-    onAddFilePreview(f, isImg, url)
+    onAddFilePreview(f, fileMimeType, url)
   }
 }
-const onAddFilePreview = (f: File, image: boolean, pathUrl: string | undefined = undefined) => {
+const onAddFilePreview = (
+  f: File,
+  fileMimeType: FileMimeType | undefined,
+  pathUrl: string | undefined = undefined
+) => {
   if (modelValue.value && f) {
-    modelValue.value.push(f)
-    fileItems.value.push({
+    modelValue.value.push({
       id: 0,
       fileMime: f.type,
       fileName: f.name,
@@ -168,13 +170,13 @@ const onAddFilePreview = (f: File, image: boolean, pathUrl: string | undefined =
       fileThumbnailPath: '',
       fileSize: f.size + '',
       functionId: 0,
-      image: image,
+      fileMimeType: fileMimeType,
       file: f
     })
   }
 }
 const onEmitFileAdd = (items: File[]) => {
- emit('on-file-add', items)
+  emit('on-file-add', items)
 }
 const onVideoEditorClose = () => {
   showVdoEditor.value = false
@@ -184,9 +186,8 @@ const onVideoEditorClose = () => {
 const onVideoAdd = (f: FileManager) => {
   console.log('onVideoAdd', f)
   if (f && f.file) {
-    onEmitFileAdd([f.file]);
-    modelValue.value.push(f.file)
-    fileItems.value.push(f)
+    onEmitFileAdd([f.file])
+    modelValue.value.push(f)
   }
 }
 const onRemoveNewImage = (index: number) => {
@@ -201,7 +202,6 @@ const onRemoveNewImage = (index: number) => {
 }
 const onRemoveProcess = (index: number) => {
   modelValue.value = modelValue.value.filter((v: any, i: number) => i != index)
-  fileItems.value = fileItems.value.filter((v: any, i: number) => i != index)
   modelFiles.value = modelFiles.value.filter((v: any, i: number) => i != index)
 }
 const clearAppTimeout = () => {
@@ -228,11 +228,12 @@ defineExpose({
       <div v-if="showPreview" class="row">
         <div class="col-12 div-preview q-py-xs">
           <!-- <BaseScrollArea :height="previewHieight"> -->
-          <template v-if="fileItems.length > 0 && modelValue && modelValue.length > 0">
+          <template v-if="modelValue.length > 0 && modelValue && modelValue.length > 0">
             <LazyBaseFilesPreview
-              :gallery
-              :items="fileItems"
+              :items="modelValue"
+              :preview-style="previewStyle"
               format-size
+              :col="previewCol"
               @on-remove="onRemoveNewImage"
             />
           </template>

@@ -45,7 +45,7 @@ onMounted(() => {
       :bordered="false"
       flat
       subtitle="Top picks for you. Updated daily."
-      :icon="{ name: biMusicNote }"
+      :icon="{ name: 'lucide:music-2' }"
     >
       <q-card-section>
         <div class="row">
@@ -116,7 +116,7 @@ onMounted(() => {
                 </q-item-label>
               </q-item-section>
               <q-item-section side top>
-                <q-icon :name="item.icon?.name" size="18px" />
+                <BaseIcon v-if="item.icon" v-bind="item.icon" size="18px" />
               </q-item-section>
             </q-item>
           </BaseCard>

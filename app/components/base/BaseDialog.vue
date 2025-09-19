@@ -8,7 +8,10 @@
     :persistent="false"
     transition-show="fade"
     transition-hide="fade"
-    dialog-style="width: 756px; max-width: 80vw;"
+    :dialog-style="{
+      width: '756px',
+      maxWidth: '80vw'
+    }"
   >
   </base-dialog>
 */
@@ -42,7 +45,7 @@ const {
   transitionHide?: string
   width?: string
   maxWidth?: string
-  dialogStyle?: string
+  dialogStyle?: Object
   autoClose?: boolean
   showToolbar?: boolean
   padding?: boolean

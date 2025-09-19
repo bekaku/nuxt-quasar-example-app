@@ -48,11 +48,11 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'nav.systemData',
-                icon: { name: 'hugeicons:database-setting', iconSet: 'nuxt' },
+                icon: { name: 'lucide:settings', iconSet: 'nuxt' },
                 children: [
                     {
                         label: 'model_permission',
-                         icon: { name: 'lucide:file-lock-2', iconSet: 'nuxt' },
+                        icon: { name: 'lucide:lock-keyhole', iconSet: 'nuxt' },
                         to: '/permission',
                         rbac: {
                             permissions: [PermissionPermission.list]
@@ -94,7 +94,7 @@ export const appNavs: LabelValue<any>[] = [
         children: [
             {
                 label: 'drive.title',
-                icon: { name: biFolder },
+                icon: { name: 'bi:folder', iconSet: 'nuxt' },
                 to: '/my-drive/folder/0',
                 rbac: {
                     permissions: ['file_manager_manage']
@@ -116,18 +116,18 @@ export const additionalMenu: LabelValue<any>[] = [
         label: 'Example',
         children: [
             {
-                icon: { name: 'hugeicons:function', iconSet : 'nuxt' },
+                icon: { name: 'lucide:square-function', iconSet: 'nuxt' },
                 label: 'Composables',
                 translateLabel: false,
                 children: [
                     {
-                        icon: { name: biFile },
+                        icon: { name: 'lucide:file', iconSet: 'nuxt' },
                         label: 'useBase',
                         translateLabel: false,
                         to: '/example/composables/use-base'
                     },
                     {
-                        icon: { name: 'hugeicons:database-import', iconSet: 'nuxt' },
+                        icon: { name: 'lucide:import', iconSet: 'nuxt' },
                         label: 'usePageFetch',
                         translateLabel: false,
                         to: '/example/composables/use-pagefecth'
@@ -135,7 +135,7 @@ export const additionalMenu: LabelValue<any>[] = [
                 ]
             },
             {
-                icon: { name: biBrush },
+                icon: { name: 'lucide:paintbrush-vertical', iconSet: 'nuxt' },
                 label: 'Components',
                 translateLabel: false,
                 children: [
@@ -149,13 +149,13 @@ export const additionalMenu: LabelValue<any>[] = [
                         to: '/example/ui/avatar'
                     },
                     {
-                        icon: { name: biApp },
+                        icon: { name: 'lucide:square', iconSet: 'nuxt' },
                         label: 'Button',
                         translateLabel: false,
                         to: '/example/ui/button'
                     },
                     {
-                        icon: { name: biCreditCard2Front },
+                        icon: { name: 'lucide:credit-card', iconSet: 'nuxt' },
                         label: 'Card',
                         translateLabel: false,
                         to: '/example/ui/card'
@@ -170,27 +170,27 @@ export const additionalMenu: LabelValue<any>[] = [
                         to: '/example/ui/date-picker'
                     },
                     {
-                        icon: { name: biBack },
+                        icon: { name: 'lucide:copy', iconSet: 'nuxt' },
                         label: 'Dialog',
                         description: 'dialog, popconfirm, menu',
                         translateLabel: false,
                         to: '/example/ui/dialog'
                     },
                     {
-                        icon: { name: biUpload },
+                        icon: { name: 'lucide:upload', iconSet: 'nuxt' },
                         label: 'File picker',
                         translateLabel: false,
                         to: '/example/ui/file-picker'
                     },
                     {
-                        icon: { name: biInputCursorText },
+                        icon: { name: 'lucide:text-cursor-input', iconSet: 'nuxt' },
                         label: 'Form Input',
                         description: 'Form, Input, Textarea',
                         translateLabel: false,
                         to: '/example/ui/input-text'
                     },
                     {
-                        icon: { name: biLayoutSidebar },
+                        icon: { name: 'lucide:menu', iconSet: 'nuxt' },
                         label: 'Menu',
                         description: 'Dropdown, Menu, Breadcrumb',
                         translateLabel: false,
@@ -207,26 +207,26 @@ export const additionalMenu: LabelValue<any>[] = [
                         to: '/example/ui/select'
                     },
                     {
-                        icon: { name: biSegmentedNav },
+                        icon: { name: 'bi:segmented-nav', iconSet: 'nuxt' },
                         label: 'Tabs',
                         translateLabel: false,
                         to: '/example/ui/tabs'
                     },
                     {
-                        icon: { name: biToggleOff },
+                        icon: { name: 'lucide:toggle-left', iconSet: 'nuxt' },
                         description: 'Toggle,Options,Radios',
                         label: 'Options group',
                         translateLabel: false,
                         to: '/example/ui/toggle'
                     },
                     {
-                        icon: { name: biLayers },
+                        icon: { name: 'bi:layers', iconSet: 'nuxt' },
                         label: 'Transitions',
                         translateLabel: false,
                         to: '/example/ui/transitions'
                     },
                     {
-                        icon: { name: biPerson },
+                        icon: { name: 'lucide:square-user', iconSet: 'nuxt' },
                         label: 'User',
                         translateLabel: false,
                         to: '/example/ui/user'
@@ -234,45 +234,45 @@ export const additionalMenu: LabelValue<any>[] = [
                 ],
             },
             {
-                icon: { name: 'hugeicons:presentation-bar-chart-02', iconSet: 'nuxt' },
+                icon: { name: 'lucide:chart-line', iconSet: 'nuxt' },
                 label: 'Charts',
                 translateLabel: false,
                 to: '/example/charts'
             },
             {
-                icon: { name: 'hugeicons:bubble-chat', iconSet: 'nuxt' },
+                icon: { name: 'lucide:message-circle-more', iconSet: 'nuxt' },
                 label: 'Chat',
                 translateLabel: false,
                 to: '/chats'
             },
             {
-                icon: { name: 'hugeicons:edit-table', iconSet: 'nuxt' },
+                icon: { name: 'lucide:table-properties', iconSet: 'nuxt' },
                 label: 'Crud table',
                 translateLabel: false,
                 to: '/example/crud-table'
             },
             {
-                icon: { name: biCursorText },
+                icon: { name: 'lucide:receipt-text', iconSet: 'nuxt' },
                 label: 'Content text',
                 description: 'Display user input',
                 translateLabel: false,
                 to: '/example/content-text'
             },
             {
-                icon: { name: biArrowsMove },
+                icon: { name: 'lucide:move', iconSet: 'nuxt' },
                 label: 'Darg and Drop',
                 translateLabel: false,
                 to: '/example/drag-drop'
             },
             {
-                icon: { name: biEmojiSmile },
+                icon: { name: 'lucide:smile', iconSet: 'nuxt' },
                 label: 'Icon/Emoji picker',
                 description: 'Emoji and Icon',
                 translateLabel: false,
                 to: '/example/emoji-picker'
             },
             {
-                icon: { name: biDatabase },
+                icon: { name: 'lucide:file-down', iconSet: 'nuxt' },
                 label: 'Fetch data',
                 translateLabel: false,
                 to: '/example/fetch-data'
@@ -284,80 +284,81 @@ export const additionalMenu: LabelValue<any>[] = [
                 to: '/example/image-cropper'
             },
             {
-                icon: { name: 'hugeicons:image-03', iconSet: 'nuxt' },
-                label: 'Image/Pdf View',
+                icon: { name: 'lucide:image-play', iconSet: 'nuxt' },
+                label: 'Media viewer',
+                description:'Image, Pdf, Video viewer',
                 translateLabel: false,
                 to: '/example/image-view'
             },
             {
-                icon: { name: biArrowDownCircle },
+                icon: { name: 'lucide:circle-arrow-down', iconSet: 'nuxt' },
                 label: 'Infinite scroll',
                 translateLabel: false,
                 to: '/example/infinite-scroll'
             },
             {
-                icon: { name: biWindowFullscreen },
+                icon: { name: 'lucide:log-in', iconSet: 'nuxt' },
                 label: 'Login 2',
                 translateLabel: false,
                 to: '/auth/login-v1'
             },
             {
-                icon: { name: biWindowFullscreen },
+                icon: { name: 'lucide:log-in', iconSet: 'nuxt' },
                 label: 'Login 3',
                 translateLabel: false,
                 to: '/auth/login-v2'
             },
             {
-                icon: { name: biMarkdown },
+                icon: { name: 'bi:markdown', iconSet: 'nuxt' },
                 label: 'Markdown editor',
                 translateLabel: false,
                 to: '/example/markdown-editor'
             },
             {
-                icon: { name: biFile },
-                label: 'Result',
+                icon: { name: 'lucide:circle-alert', iconSet: 'nuxt' },
+                label: 'Alert',
                 description: 'Error, Success, 404, Alert',
                 translateLabel: false,
                 to: '/example/result'
             },
             {
-                icon: { name: biArrowLeftRight },
+                icon: { name: 'lucide:chevrons-left-right-ellipsis', iconSet: 'nuxt' },
                 label: 'Swiper',
                 translateLabel: false,
                 to: '/example/swiper'
             },
             {
-                icon: { name: biWindowSidebar },
+                icon: { name: 'lucide:newspaper', iconSet: 'nuxt' },
                 label: 'Social feed',
                 translateLabel: false,
                 to: '/feed'
             },
             {
-                icon: { name: biArrowDownUp },
+                icon: { name: 'lucide:circle-arrow-down', iconSet: 'nuxt' },
                 label: 'Virtual scroller',
                 translateLabel: false,
                 to: '/example/virtual-scroller'
             },
             {
-                icon: { name: biBug },
+                icon: { name: 'lucide:bug', iconSet: 'nuxt' },
                 label: 'Test page',
                 translateLabel: false,
                 to: '/test'
             },
             {
-                icon: { name: mdiRobotConfused },
+                icon: { name: 'lucide:triangle-alert', iconSet: 'nuxt' },
                 label: 'Error page',
                 translateLabel: false,
                 to: '/permission/duplicate/0'
             },
             {
-                icon: { name: biFile },
+                icon: { name: 'lucide:file', iconSet: 'nuxt' },
                 label: 'Starter page',
                 translateLabel: false,
                 to: '/blank'
             },
             {
-                icon: { name: mdiRobotConfused },
+                icon: { name: 'lucide:triangle-alert', iconSet: 'nuxt' },
                 label: '404 page',
                 translateLabel: false,
                 to: '/notfound'

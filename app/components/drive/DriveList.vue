@@ -2,9 +2,10 @@
 import type { FileManager } from '~/types/models'
 const { t, locale } = useLang()
 const { formatDateTime } = useDateFns()
-const { items, iconSize = '3em' } = defineProps<{
+const { items, iconSize = '3em', imageSize = '45px' } = defineProps<{
   items: FileManager[]
   iconSize?: string
+  imageSize?: string
 }>()
 const emit = defineEmits<{
   'on-check-all': [val: boolean]
@@ -16,7 +17,7 @@ const selectedAll = ref(false)
 const onCheckedAll = (event: any) => {
   emit('on-check-all', selectedAll.value)
 }
-const onItemClick = (event: any, id: string | number | null) => {
+const onItemClick = (event: any, id: string | number | null | undefined) => {
   if (!id) {
     return
   }
@@ -25,7 +26,7 @@ const onItemClick = (event: any, id: string | number | null) => {
   selected.value = [id]
   emit('on-item-click', id)
 }
-const onRowClick = (id: string | number | null) => {
+const onRowClick = (id: string | number | null | undefined) => {
   if (!id) {
     return
   }
@@ -60,17 +61,27 @@ const onRowClick = (id: string | number | null) => {
             <td>
               <q-item>
                 <q-item-section side>
-                  <BaseIcon
-                    v-if="!item.directoryFolder"
-                    :name="getFileTypeIconFromFileManager(item)"
-                    icon-set="nuxt"
-                    :size="iconSize"
-                  />
+                  <template v-if="item.fileMimeType != 'DIRECTORY'">
+                    <template v-if="item.fileMimeType == 'IMAGE' && item.fileThumbnailPath">
+                      <BaseImage
+                        :src="item.fileThumbnailPath"
+                        :style="{ width: imageSize }"
+                        :alt="item.fileName"
+                      />
+                    </template>
+                    <BaseIcon
+                      v-else
+                      :name="getFileTypeIconFromFileManager(item)"
+                      icon-set="nuxt"
+                      :size="imageSize"
+                    />
+                  </template>
+
                   <BaseIcon
                     v-else
                     name="flat-color-icons:folder"
                     icon-set="nuxt"
-                    :size="iconSize"
+                    :size="imageSize"
                     color="yellow"
                   />
                 </q-item-section>
@@ -90,7 +101,9 @@ const onRowClick = (id: string | number | null) => {
             </td>
             <td>
               <span class="text-muted">{{
-                !item.directoryFolder ? item.fileSize : t('base.items', item.fileCount as any)
+                item.fileMimeType != 'DIRECTORY'
+                  ? item.fileSize
+                  : t('base.items', item.fileCount as any)
               }}</span>
             </td>
           </tr>

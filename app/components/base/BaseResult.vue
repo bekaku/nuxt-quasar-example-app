@@ -1,29 +1,11 @@
 <script setup lang="ts">
 /*
-          <base-result
-            text-color="text-muted"
-            :description="t('commentNotFoundThisPost')"
-            :show-icon="false"
-          >
-            <template #extra>
-              <q-icon :icon="mdiAlert" :size="45" color="grey"></q-icon>
-            </template>
-          </app-result>
-const AppResult = defineAsyncComponent(
-  () => import('@/components/base/AppResult.vue')
-);
+          BaseResult
+          description="Info"
+          :icon="{ name: 'lucide:backpack', iconSet: 'nuxt' }"
+          status="info"
+        />
 */
-import { biInbox } from '@quasar/extras/bootstrap-icons';
-import {
-  mdiAlert,
-  mdiAlertBoxOutline,
-  mdiAllergy,
-  mdiCheckBold,
-  mdiInformationVariant,
-  mdiPackageVariant,
-  mdiPaperclip,
-  mdiRobotConfused
-} from '@quasar/extras/mdi-v7';
 import type { IResult } from '~/types/common';
 import type { IconProps } from '~/types/props';
 
@@ -50,32 +32,32 @@ const getIcon = (): string => {
   //404, 403, 500, 418, info, success, error, warning
   switch (status) {
     case '404':
-      ic = biInbox
+      ic = 'biInbox'
       break
     case '403':
-      ic = mdiAllergy
+      ic = 'lucide:hand'
       break
     case '500':
     case '400':
-      ic = mdiRobotConfused
+      ic = 'lucide:bot'
       break
     case '418':
-      ic = mdiPaperclip
+      ic = 'lucide:spotlight'
       break
     case 'success':
-      ic = mdiCheckBold
+      ic = 'lucide:check'
       break
     case 'warning':
-      ic = mdiAlertBoxOutline
+      ic = 'lucide:octagon-alert'
       break
     case 'error':
-      ic = mdiAlert
+      ic = 'lucide:triangle-alert'
       break
     case 'empty':
-      ic = mdiPackageVariant
+     ic = 'lucide:inbox'
       break
     default:
-      ic = mdiInformationVariant
+      ic = 'lucide:info'
       break
   }
 
@@ -143,13 +125,6 @@ const getBgColor = () => {
     <div class="col">
       <div class="column items-center">
         <div class="col text-center">
-          <!-- <img v-if="status == 'empty'" src="/icons/empty-box.png" :style="`width: ${iconSize} ; height: auto`" /> -->
-          <!-- <img v-else-if="status == 'error'" :style="`width: ${iconSize} ; height: auto`" src="/icons/sad-man.png" /> -->
-          <!-- <img
-              v-else-if="status == 'warning'"
-              src="/icons/warning.png"
-              :style="`width: ${iconSize} ; height: auto`"
-            /> -->
           <q-avatar v-if="status == '404'" square :style="{ width: size, height: 'auto' }">
             <img src="/icons/sad-man.png" />
           </q-avatar>
@@ -158,16 +133,9 @@ const getBgColor = () => {
               :name="icon?.name || getIcon()"
               :size="icon?.size || iconSize"
               :color="icon?.color || getIconColor()"
-              :icon-set="icon?.iconSet || 'quasar'"
+              :icon-set="icon?.iconSet || 'nuxt'"
             />
           </q-avatar>
-          <!-- <q-avatar
-            v-else-if="showIcon"
-            :size="iconSize"
-            :color="!hideBg ? getBgColor() : undefined"
-            :icon="icon ? icon : getIcon()"
-            :class="getIconColor()"
-          /> -->
         </div>
         <div class="col q-mt-md text-center">
           <slot name="text">

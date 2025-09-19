@@ -49,9 +49,9 @@ const {
 const { required } = useValidation()
 const { t } = useLang()
 const radios: LabelValue<PermissionType>[] = [
-  { label: 'Crud', value: 'CRUD', icon: { name: biUiChecks } },
-  { label: 'Report', value: 'REPORT', icon: { name: biFileBarGraph } },
-  { label: 'Other', value: 'OTHER', icon: { name: biFileEarmark } }
+  { label: 'Crud', value: 'CRUD', icon: { name: 'lucide:list-checks' } },
+  { label: 'Report', value: 'REPORT', icon: { name: 'lucide:chart-bar-decreasing' } },
+  { label: 'Other', value: 'OTHER', icon: { name: 'lucide:file' } }
 ]
 </script>
 <template>
@@ -74,7 +74,7 @@ const radios: LabelValue<PermissionType>[] = [
             <BaseInput
               v-model="crudEntity.code"
               :edit-mode="isEditMode"
-              :icon="{ name: biShieldCheck }"
+              :icon="{ name: 'lucide:shield-check' }"
               :label="t('model_permission_name')"
               :rules="[required]"
               :maxlength="125"
@@ -84,7 +84,7 @@ const radios: LabelValue<PermissionType>[] = [
             <BaseInput
               v-model="crudEntity.description"
               :edit-mode="isEditMode"
-              :icon="{ name: biPencil }"
+              :icon="{ name: 'lucide:pencil-line' }"
               :label="t('model_permission_description')"
               :maxlength="255"
             />

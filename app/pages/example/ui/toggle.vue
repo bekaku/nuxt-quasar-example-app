@@ -9,7 +9,7 @@ const toggle = ref<boolean>(false)
 const optionsSelected = ref<number[]>([])
 const radioSelectd = ref<number>()
 const options: LabelValue<number>[] = [
-  { label: 'Crud', value: 1, color: 'negative', icon: { name: biAndroid } },
+  { label: 'Crud', value: 1, color: 'negative', icon: { name: 'lucide:panda' } },
   {
     label: 'Report',
     value: 2,
