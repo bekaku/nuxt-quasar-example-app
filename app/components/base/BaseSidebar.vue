@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { biCommand, biGear, biQuestionCircle, biSearch } from '@quasar/extras/bootstrap-icons'
-import { additionalMenu } from '~/libs/navs'
+import { additionalMenu } from '~/libs/navs';
 const {
   overlay = false,
   bordered = false,
@@ -19,7 +18,6 @@ const { isMobileOrTablet } = useAppDevice()
 const { version: quasarVersion } = useQuasar()
 const { t } = useLang()
 const { appNavigateTo } = useBase()
-const { isDark } = useTheme()
 const appStore = useAppStore()
 const modelValue = defineModel<boolean>({ default: true })
 const miniState = ref(!isMobileOrTablet)
@@ -71,7 +69,7 @@ onBeforeUnmount(() => {
     <template #headerBottom>
       <q-item clickable dense class="search-item" @click="onOpenSearch">
         <q-item-section side>
-          <q-icon :name="biSearch" size="xs" class="text-muted" />
+          <BaseIcon name="lucide:search" size="18px" class="text-muted" />
         </q-item-section>
         <q-item-section>
           <q-item-label class="text-muted">
@@ -79,7 +77,7 @@ onBeforeUnmount(() => {
           </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-icon :name="biCommand" size="xs" class="text-muted" />
+          <BaseIcon name="lucide:command" size="18px" class="text-muted" />
         </q-item-section>
       </q-item>
     </template>
@@ -88,19 +86,19 @@ onBeforeUnmount(() => {
       <BaseMenuItems :items="getFavoriteMenuItems" :padding="true" favorite-section can-favorite>
       </BaseMenuItems>
     </template>
-    <BaseMenuItems :items="appStore.drawers" can-favorite />
+    <BaseMenuItems :items="appStore.drawers" :show-header="!miniState || appStore.expandDrawer" can-favorite />
     <BaseMenuItems :items="additionalMenu">
       <template #after>
         <q-separator />
         <q-item dense clickable>
           <q-item-section side>
-            <q-icon class="q-text-black" :name="biQuestionCircle" size="20px" />
+             <BaseIcon name="lucide:circle-help" />
           </q-item-section>
           <q-item-section>{{ t('base.help') }}</q-item-section>
         </q-item>
         <q-item dense clickable to="/settings">
           <q-item-section side>
-            <q-icon class="q-text-black" :name="biGear" size="20px" />
+            <BaseIcon name="lucide:settings" />
           </q-item-section>
           <q-item-section>{{ t('base.setting') }}</q-item-section>
         </q-item>

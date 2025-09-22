@@ -10,7 +10,8 @@ const {
   dense = true,
   canFavorite = false,
   padding = true,
-  favoriteSection = false
+  favoriteSection = false,
+  showHeader = true,
 } = defineProps<{
   items: LabelValue<T>[]
   darkText?: string
@@ -21,6 +22,7 @@ const {
   canFavorite?: boolean
   padding?: boolean
   favoriteSection?: boolean
+  showHeader?: boolean
 }>()
 const { t } = useLang()
 const { getCurrentPath } = useBase()
@@ -33,7 +35,7 @@ const currentUrlPath = computed(() => getCurrentPath(false))
       <template v-for="(item, index) in items" :key="`parent-${index}`">
         <q-separator v-if="item.border" />
         <template v-if="item.children && item.children.length > 0">
-          <template v-if="item.label">
+          <template v-if="showHeader && item.label">
             <q-item>
               <q-item-section v-if="item.icon" side>
                 <BaseIcon v-bind="item.icon" />
@@ -44,9 +46,6 @@ const currentUrlPath = computed(() => getCurrentPath(false))
                 </q-item-label>
               </q-item-section>
             </q-item>
-            <!-- <q-item-label header class="q-pa-none text-subtitle2 q-pl-md q-mt-md q-pb-xs">
-             <BaseIcon v-if="item.icon" v-bind="item.icon" /> {{ item?.translateLabel !== false ? t(`${item.label}`) : item.label }}
-            </q-item-label> -->
           </template>
           <template
             v-for="(page, pageIndex) in item.children"

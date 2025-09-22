@@ -592,6 +592,14 @@ export interface PdfWatermarkItems {
     text?: string
     position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 }
+export interface PlyrOptions {
+  autoSetSource?: boolean
+  autoplay?: boolean
+  controls?: string[]
+  ratio?: string
+  poster?: string
+  settings?: string[]
+}
 export interface VideoSrc {
   src?: string
   type?: string

@@ -14,41 +14,40 @@
  */
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { escapeHtml, isEmpty, openUrlInNewTab, roundDecimal } from '@/utils/appUtil'
-const props = withDefaults(
-  defineProps<{
-    contentId?: string
-    content?: string
-    wrapText?: boolean
-    to?: string
-    openPage?: boolean
-    showCopyText?: boolean
-    showMore?: boolean
-    showBackground?: boolean
-    canUrlify?: boolean
-    hashtagUrlify?: boolean
-    limit?: number
-    fitContent?: boolean
-    linkStyle?: string
-    textStyle?: string
-    isEscapeHtml?: boolean
-    highLightText?: string
-  }>(),
-  {
-    contentId: 'content-id',
-    wrapText: true,
-    openPage: true,
-    showCopyText: true,
-    showMore: true,
-    showBackground: false,
-    canUrlify: true,
-    limit: 4,
-    fitContent: false,
-    linkStyle: 'app-text-link',
-    textStyle: 'q-text-black',
-    isEscapeHtml: false,
-    hashtagUrlify: false
-  }
-)
+const {
+  contentId = 'content-id',
+  wrapText = true,
+  openPage = true,
+  showCopyText = true,
+  showMore = true,
+  showBackground = false,
+  canUrlify = true,
+  limit = 4,
+  fitContent = false,
+  linkStyle = 'app-text-link',
+  textStyle = 'q-text-black',
+  to,
+  isEscapeHtml = false,
+  hashtagUrlify = false
+} = defineProps<{
+  contentId?: string
+  content?: string
+  wrapText?: boolean
+  to?: string
+  openPage?: boolean
+  showCopyText?: boolean
+  showMore?: boolean
+  showBackground?: boolean
+  canUrlify?: boolean
+  hashtagUrlify?: boolean
+  limit?: number
+  fitContent?: boolean
+  linkStyle?: string
+  textStyle?: string
+  isEscapeHtml?: boolean
+  highLightText?: string
+}>()
+
 const { appNavigateTo } = useBase()
 const { t } = useLang()
 const lineHeight = ref(0)
@@ -62,7 +61,7 @@ onMounted(() => {
 const setLimitText = () => {
   contentTimeOut.value = setTimeout(() => {
     setDescHeight()
-    if (props.canUrlify) {
+    if (canUrlify) {
       setEvenListener()
     }
     // const el = document.getElementById(contentId.value);
@@ -73,23 +72,23 @@ const setLimitText = () => {
   }, 50)
 }
 const setEvenListener = () => {
-  const links = document.querySelectorAll(`.content-href-${props.contentId}`)
+  const links = document.querySelectorAll(`.content-href-${contentId}`)
   links.forEach(l => {
     l.addEventListener('click', onHtmlClick)
   })
-  if (props.hashtagUrlify) {
-    const hashtags = document.querySelectorAll(`.hashtag-href-${props.contentId}`)
+  if (hashtagUrlify) {
+    const hashtags = document.querySelectorAll(`.hashtag-href-${contentId}`)
     hashtags.forEach(h => {
       h.addEventListener('click', onHashtagClick)
     })
   }
 }
 const removeEvenListener = () => {
-  const links = document.querySelectorAll(`.content-href-${props.contentId}`)
+  const links = document.querySelectorAll(`.content-href-${contentId}`)
   links.forEach(l => {
     l.removeEventListener('click', onHtmlClick)
   })
-  const tagsLinks = document.querySelectorAll(`.hashtag-href-${props.contentId}`)
+  const tagsLinks = document.querySelectorAll(`.hashtag-href-${contentId}`)
   tagsLinks.forEach(l => {
     l.removeEventListener('click', onHashtagClick)
   })
@@ -103,7 +102,7 @@ onBeforeUnmount(() => {
   showMoreText.value = false
 })
 const onHtmlClick = (event: any) => {
-  if (!event.target.classList.contains(`content-href-${props.contentId}`)) return
+  if (!event.target.classList.contains(`content-href-${contentId}`)) return
   if (event.srcElement && event.srcElement.href) {
     const link = event.srcElement.href
     openUrlInNewTab(link, event)
@@ -112,7 +111,7 @@ const onHtmlClick = (event: any) => {
   event.preventDefault()
 }
 const onHashtagClick = (event: any) => {
-  if (!event.target.classList.contains(`hashtag-href-${props.contentId}`)) return
+  if (!event.target.classList.contains(`hashtag-href-${contentId}`)) return
   if (event.srcElement && event.srcElement.innerText) {
     const hashtag = event.srcElement.innerText
     if (hashtag) {
@@ -124,24 +123,24 @@ const onHashtagClick = (event: any) => {
   event.preventDefault()
 }
 const setDescHeight = () => {
-  if (props.wrapText) {
-    const el = document.getElementById(props.contentId)
+  if (wrapText) {
+    const el = document.getElementById(contentId)
     if (el) {
       const divHeight = el.offsetHeight
       const lh = divHeight / 20
       lineHeight.value = roundDecimal(lh, 0)
-      if (lineHeight.value > props.limit) {
+      if (lineHeight.value > limit) {
         showMoreBtn.value = true
       }
     }
   }
 }
 const urlify = (rawText: string, linkColor: string | undefined = undefined) => {
-  const inputText = props.isEscapeHtml ? escapeHtml(rawText) : rawText
-  if (props.canUrlify) {
+  const inputText = isEscapeHtml ? escapeHtml(rawText) : rawText
+  if (canUrlify) {
     const urlRegex = /(https?:\/\/[^\s]+)/g
     const textLink = inputText.replace(urlRegex, url => {
-      return `<a class="content-href-${props.contentId} ${props.linkStyle} ${
+      return `<a class="content-href-${contentId} ${linkStyle} ${
         linkColor ? linkColor : ''
       }" href="${url}">${url}</a>`
     })
@@ -149,32 +148,30 @@ const urlify = (rawText: string, linkColor: string | undefined = undefined) => {
     en only /#(\w+)/g
     /#([\p{L}\p{N}]+)/gu
      */
-    if (!props.hashtagUrlify) {
+    if (!hashtagUrlify) {
       return textLink
     }
 
     return textLink.replace(
       /#([a-zA-Z\p{L}\p{N}_\u0E00-\u0E7F]+)/gu,
-      `<a class="hashtag-href-${props.contentId} ${props.linkStyle} ${
-        linkColor ? linkColor : ''
-      }">#$1</a>`
+      `<a class="hashtag-href-${contentId} ${linkStyle} ${linkColor ? linkColor : ''}">#$1</a>`
     )
   }
   return inputText
 }
 const onOpenPage = (event: any) => {
-  if (props.to) {
-    appNavigateTo(props.to)
+  if (to) {
+    appNavigateTo(to)
   }
 
   event.stopImmediatePropagation()
 }
 const onShowMoreText = async () => {
   showMoreText.value = true
-  // if (!props.postId) {
+  // if (!postId) {
   //   return;
   // }
-  // await updateReadCount(props.postId);
+  // await updateReadCount(postId);
 }
 </script>
 <template>
@@ -201,12 +198,15 @@ const onShowMoreText = async () => {
         @on-press="onOpenPage($event)"
       />
     </div>
-    <base-link
+    <template v-if="showMore && showMoreBtn && !showMoreText"> 
+      <BaseButton dense flat :label="t('base.seeMore')" @click="onShowMoreText"/>  
+    </template>
+    <!-- <BaseLink
       v-if="showMoreBtn && !showMoreText"
       :label="t('base.seeMore')"
       color="primary"
       @click="onShowMoreText"
-    />
+    /> -->
     <slot name="bottom" />
   </div>
 </template>

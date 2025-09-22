@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { biMusicNote } from '@quasar/extras/bootstrap-icons'
 import {
   dashBaordRecentSalseItems,
   dashBaordStatisticItems,

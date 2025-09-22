@@ -19,7 +19,9 @@ const {
   iconSize = '4em',
   linesName = 1,
   item,
-  rounded = true
+  rounded = true,
+  playIcon = true,
+  showVideoDetail=false
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -40,11 +42,15 @@ const {
   linesName?: number
   hoverZoom?: boolean | undefined
   rounded?: boolean | undefined
+  playIcon?: boolean | undefined
+  showVideoDetail?: boolean | undefined
 }>()
 const emit = defineEmits<{
   'on-remove': [index: number]
   'on-click': [index: number, event: any]
 }>()
+const { formatDistanceFromNow } = useDateFns()
+const { locale } = useLang()
 const getImagePath = computed(() => {
   if (item.fileMimeType == 'IMAGE') {
     return useThumbnail && item.fileThumbnailPath ? item.fileThumbnailPath : item.filePath
@@ -73,7 +79,7 @@ const onClick = (event: any, index: number) => {
         v-bind="$attrs"
         :src="getImagePath || ''"
         :fetch="fetch"
-        :ratio="ratio"
+        :ratio="item.fileMimeType == 'VIDEO' ? 16 / 9 : ratio"
         :class="{ rounded: rounded }"
         :hover-zoom="hoverZoom"
         class="cursor-pointer"
@@ -111,7 +117,7 @@ const onClick = (event: any, index: number) => {
           </q-circular-progress>
         </div>
         <BaseIcon
-          v-if="item?.fileMimeType == 'VIDEO'"
+          v-if="playIcon && item?.fileMimeType == 'VIDEO'"
           name="hugeicons:play-circle-02"
           icon-set="nuxt"
           color="white"
@@ -121,9 +127,10 @@ const onClick = (event: any, index: number) => {
         <span
           v-if="item.duration"
           class="absolute-bottom-right q-pa-xs q-ma-sm text-white app-border-radius5"
-          style="background-color: rgba(0, 0, 0, .15);"
-          >{{ formatDurationHMS(item?.duration || 0) }}</span
+          style="background-color: rgba(0, 0, 0, 0.35)"
         >
+          {{ formatDurationHMS(item?.duration || 0) }}
+        </span>
 
         <q-btn
           v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
@@ -138,12 +145,29 @@ const onClick = (event: any, index: number) => {
         />
       </base-image>
       <q-item v-if="showName || showSize" :dense="dense" v-bind="$attrs" class="q-pa-none">
-        <q-item-section>
-          <q-item-label v-if="showName" :lines="linesName" :class="textColor">
-            <slot name="fileName">
-              {{ item.fileName }}
-            </slot>
-          </q-item-label>
+        <q-item-section class="q-pt-xs">
+          <template v-if="showName">
+            <q-item-label :lines="linesName" :class="textColor">
+              <slot name="fileName">
+                <template v-if="item.fileMimeType == 'VIDEO'">
+                  {{ item.title || item.fileName }}
+                </template>
+                <template v-else>
+                  {{ item.fileName }}
+                </template>
+              </slot>
+            </q-item-label>
+            <q-item-label v-if="showVideoDetail &&item.fileMimeType == 'VIDEO'" caption :lines="linesName">
+              <span>
+                {{
+                  `${readableNumber(item.view || 0)} ${item.view && item.view > 1 ? $t('drive.views') : $t('drive.view')}`
+                }} </span
+              ><BaseSeparatorDot />
+              <span v-if="item.createdDate">
+                {{ formatDistanceFromNow(item.createdDate, locale, true) }}
+              </span>
+            </q-item-label>
+          </template>
         </q-item-section>
         <q-item-section side>
           <q-item-label v-if="showSize" caption>

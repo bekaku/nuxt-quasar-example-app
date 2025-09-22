@@ -26,7 +26,7 @@ const { data, refresh, clear, status, error } = await useAsyncData<Permission>(
   'permission-test',
   async () => {
     const response = await callAxios<any>({
-      API: '/api/permission/1',
+      API: '/api/permission/350897401642356736',
       method: 'GET'
     })
     return response
@@ -75,7 +75,7 @@ const fetchResponseList = async () => {
 const fetchResponseObject = async () => {
   reponseObjectLoading.value = true
   reponseObject.value = await callAxios<Permission>({
-    API: '/api/permission/1',
+    API: '/api/permission/350897401642356736',
     method: 'GET'
   })
   reponseObjectLoading.value = false

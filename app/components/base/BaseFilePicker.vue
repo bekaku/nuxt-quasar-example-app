@@ -16,22 +16,23 @@ import type { FileManager } from '~/types/models'
 import { getImgUrlFromFile, isImageFile, zipFile } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
 import type { FileMimeType, FilePreviewStyle } from '~/types/common'
+import type { IconProps } from '~/types/props'
 
 const {
   multiple = true,
   showPreview = true,
   maxFiles = MaxSelectFiles,
-  icon = biPlus,
+  icon,
   accept = FileExtensionAccept,
   previewHieight = '250px',
   limitFileSize = LimitFileSize,
   limitFileSizeMB = LimitFileSizeMB,
   videoEditor = false,
-  previewCol='col-2 q-pa-sm'
+  previewCol = 'col-2 q-pa-sm'
 } = defineProps<{
   multiple?: boolean
   showPreview?: boolean
-  icon?: string
+  icon?: IconProps
   label?: string
   accept?: string //* = wildcard all extension
   wildcard?: boolean
@@ -45,7 +46,7 @@ const {
 }>()
 const { appToast } = useBase()
 const { t } = useLang()
-
+const { isDark } = useTheme()
 const modelValue = defineModel<FileManager[]>({ default: () => [] })
 const modelFiles = ref<File[]>([])
 const videoEditorTimeout = ref<any>()
@@ -221,7 +222,15 @@ defineExpose({
   <div v-bind="$attrs">
     <div class="cursor-pointer div" @click="openFilePicker">
       <slot>
-        <BaseButton :icon="icon" outline :label="label ? label : t('base.chooseFile')" />
+        <BaseButton outline>
+          <div class="row items-center" :class="isDark ? 'text-white' : 'text-black'">
+            <BaseIcon v-if="icon != undefined" v-bind="{ ...icon }" />
+            <BaseIcon v-else name="lucide:plus"  />
+            <span class="q-ml-xs">
+              {{ label ? label : t('base.chooseFile') }}
+            </span>
+          </div>
+        </BaseButton>
       </slot>
     </div>
     <ClientOnly>
@@ -233,6 +242,7 @@ defineExpose({
               :items="modelValue"
               :preview-style="previewStyle"
               format-size
+              show-size
               :col="previewCol"
               @on-remove="onRemoveNewImage"
             />

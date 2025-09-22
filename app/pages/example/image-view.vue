@@ -10,8 +10,8 @@ const { isDark } = useTheme()
 const imageFromServer = ref<string>()
 
 const pdfFromServer = ref<string>()
-
-const videoItem = ref<FileManager>({
+const videoPlayerDialog = ref(false)
+const videoItem: FileManager = {
   id: 1,
   fileMime: 'video/mp4',
   fileName: 'View_From_A_Blue_Moon_Trailer-HD.mp4',
@@ -19,7 +19,16 @@ const videoItem = ref<FileManager>({
   fileThumbnailPath: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg',
   fileSize: '99 MB',
   fileMimeType: 'VIDEO',
+  createdDate: '2025-05-31 18:31:00',
   duration: 185,
+  view: 78945,
+  title: 'This 525sqft House Has an Amazing Floor Plan! Full Tour!',
+  description: `Today I talk/walk you through 24 hours of off-grid living in a cozy cabin, alone in the woods with my dog. I talk about my off-grid systems for heating, running water, electricity, cooking and more. I also find the time for some skiing, firewood chores, banjo pickin', and a wood fired sauna. Hope you enjoy! CHECK OUT MY WEBSITE for access to my channels original music or my Norman and cabin merchandise: 
+
+https://alaskacabinadventures.com
+
+Here's is the link to the EcoFlow fridge and power stations I use,
+Check out the Delta 2 MAX and the Glacier Fridge: EcoFlow Website: https://bit.ly/3si1QDK`,
   videoSources: [
     {
       src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
@@ -53,7 +62,7 @@ const videoItem = ref<FileManager>({
       default: false
     }
   ]
-})
+}
 
 const imageSelectIndex = ref<number>(0)
 const showImageView = ref(false)
@@ -203,9 +212,11 @@ const fileMixImageSelectIndex = ref<number>(0)
 const fileImageItemsForView = ref<FileManager[]>([])
 const fileMixForView = ref<FileManager>()
 const mixItems = ref<FileManager[]>(imageItems.value.concat(pdfItems.value))
+mixItems.value.push(videoItem)
 
 const onVideoClick = (index: number) => {
   console.log('onVideoClick', index)
+  videoPlayerDialog.value = true
 }
 const onImgPreviewClick = async (index: number) => {
   imageSelectIndex.value = index
@@ -307,11 +318,32 @@ const fetchPdfFromServer = async () => {
         <div class="row">
           <div class="col col-md-4 q-pa-sm">
             <q-item-label header>Dialog player</q-item-label>
-            <BaseFilesPreview
+            <!-- <BaseFilesPreview
               :items="[videoItem]"
               preview-style="CARD"
-              col="col-6"
+              col="col-8"
               :show-delete="false"
+              :show-size="false"
+              @on-click="onVideoClick"
+            /> -->
+            <BaseFilesPreviewItem
+              :item="videoItem"
+              :index="0"
+              :show-delete="false"
+              :show-size="false"
+              show-video-detail
+              style="width: 200px;"
+              @on-click="onVideoClick"
+            />
+            <BaseFilesPreviewItemAlt
+              :item="videoItem"
+              :index="0"
+              :show-delete="false"
+              image-size="125px"
+              clickable
+              show-video-detail
+               :lines-name="2"
+              :show-size="false"
               @on-click="onVideoClick"
             />
           </div>
@@ -449,7 +481,6 @@ const fetchPdfFromServer = async () => {
 
       <q-card-section>
         <BaseButton label="Fetch pdf from server" @click="fetchPdfFromServer" />
-        <p />
 
         <LazyBasePdfView
           v-if="pdfFromServer"
@@ -485,6 +516,14 @@ const fetchPdfFromServer = async () => {
         </div>
       </q-card-section>
     </BaseCard>
+
+    <LazyBaseVideoPlayerDialog
+      v-if="videoPlayerDialog"
+      v-model:show="videoPlayerDialog"
+      :file="videoItem"
+      :options="{ autoSetSource: true, autoplay: false }"
+    />
+
     <LazyBaseImageViewDialog
       v-if="showImageView"
       v-model="showImageView"

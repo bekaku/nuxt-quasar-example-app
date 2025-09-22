@@ -21,6 +21,7 @@ export interface FileManagerMetaData extends Id {
   thumbnailFile?: any
   width?: number
   height?: number
+  view?: number
 }
 export interface FileManager extends FileManagerMetaData {
   fileMime: string;

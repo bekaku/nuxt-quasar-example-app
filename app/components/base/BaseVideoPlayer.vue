@@ -1,18 +1,29 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue'
 import 'plyr/dist/plyr.css'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import type { PlyrOptions } from '~/types/common'
 import type { FileManager } from '~/types/models'
-import type { VideoSrc, VideoTrack } from '~/types/common'
-
-interface PlyrOptions {
-  autoSetSource?: boolean
-  autoplay?: boolean
-  controls?: string[]
-  ratio?: string
-  poster?: string
-  settings?: string[]
-}
-
+/*
+ <ClientOnly>
+              <BaseVideoPlayer
+                v-if="showVideo"
+                :options="{
+                  autoSetSource: false,
+                }"
+                :file="{
+                  id: 1,
+                  fileMime: 'video/mp4',
+                  fileName: 'Car dash cam.',
+                  filePath:
+                    'http://127.0.0.1:8080/api/fileManager/video/stream?path=files/2022_1204_140014.MP4',
+                  fileThumbnailPath: 'http://127.0.0.1:8080/cdn/files/202509/dummy.jpg',
+                  fileSize: '2 MB',
+                  fileMimeType: 'VIDEO'
+                }"
+              >
+              </BaseVideoPlayer>
+            </ClientOnly>
+*/
 const defaultOptions = {
   autoplay: false,
   controls: [
@@ -32,9 +43,14 @@ const defaultOptions = {
   // poster: 'http://127.0.0.1:8080/cdn/files/202509/dummy.jpg',
   settings: ['captions', 'quality', 'speed', 'loop']
 }
-const { file, options } = defineProps<{
+const {
+  file,
+  options,
+  square = false
+} = defineProps<{
   file: FileManager
   options?: PlyrOptions
+  square?: boolean
 }>()
 const { $plyr } = useNuxtApp()
 const Plyr = $plyr
@@ -75,7 +91,7 @@ const initPlyr = (): Promise<void> => {
   })
 }
 
-const initialEvent = () => {
+const initialEvent = (): Promise<void> => {
   if (plyrInstance.value) {
     // plyrInstance.value.on('seeking', event => {
     //   console.log('seeking', event)
@@ -89,30 +105,32 @@ const initialEvent = () => {
   //     console.log('loadstart')
   //   })
   // }
+  return new Promise(resolve => {
+    observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const video = videoRef.value
+          if (!video) return
 
-  observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        const video = videoRef.value
-        if (!video) return
+          if (entry.isIntersecting) {
+            // Video is in view
+            // video.play().catch(() => {})
+            console.log('Video is in view')
+          } else {
+            // Video is out of view
+            // video.pause()
+            console.log('out of view')
+          }
+        })
+      },
+      {
+        threshold: 0.25 // video must be at least 25% visible
+      }
+    )
 
-        if (entry.isIntersecting) {
-          // Video is in view
-          // video.play().catch(() => {})
-          console.log('Video is in view')
-        } else {
-          // Video is out of view
-          // video.pause()
-          console.log('out of view')
-        }
-      })
-    },
-    {
-      threshold: 0.25 // video must be at least 25% visible
-    }
-  )
-
-  observer.observe(videoRef.value as any)
+    observer.observe(videoRef.value as any)
+    resolve(undefined)
+  })
 }
 
 const play = () => {
@@ -173,13 +191,14 @@ const onPlay = async () => {
   // if (response && response.src && response.type) {
   //   onSetSource({ src: response.src, type: response.type })
   // }
-  if (!file) {
+  if (!file || !plyrInstance.value) {
     return
   }
   if (!options?.autoSetSource) {
     await onSetSource()
   }
 
+  // plyrInstance.value.volume = 0.5
   play()
   // onSetSource({
   //   src: 'http://127.0.0.1:8080/api/fileManager/video/stream?path=files/2022_1204_140014.MP4',
@@ -202,6 +221,12 @@ onMounted(async () => {
   await nextTick()
   await initPlyr()
   initialEvent()
+  if (options) {
+    if (options.autoplay) {
+      onPlay()
+    }
+  }
+
   // if (options) {
   //   if (options.autoplay) {
   //     onPlay()
@@ -228,12 +253,11 @@ onBeforeUnmount(() => {
 
 <template>
   <ClientOnly>
-    <div class="video-container">
+    <BaseCard v-bind="$attrs" flat :square :bordered="false" class="video-container">
       <video
         ref="videoRef"
         playsinline
         controls
-        crossorigin=""
         class="plyr"
         style="--plyr-color-main: var(--video-player-color)"
         :data-poster="file.fileThumbnailPath || '/images/no_picture.jpg'"
@@ -269,14 +293,16 @@ onBeforeUnmount(() => {
           />
         </template>
       </video>
-    </div>
+    </BaseCard>
   </ClientOnly>
 </template>
 
 <style lang="scss" scoped>
 .video-container {
   width: 100%;
-  max-width: 800px;
+  // max-width: 800px;
   margin: auto;
+  // border-radius: 14px;
+  // overflow: hidden;
 }
 </style>

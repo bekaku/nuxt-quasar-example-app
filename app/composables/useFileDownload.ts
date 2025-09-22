@@ -16,6 +16,7 @@ export interface DownloadProgress {
     total: number
     percentage: number
     speed: string
+    filename: string | null
     startTime: number | null
 }
 
@@ -40,6 +41,7 @@ export const useFileDownload = (options?: {
 }) => {
     const { $axios } = useNuxtApp()
     const { cdnBase } = useConfiguration();
+    const { t } = useLang();
     const chunkSize = options?.chunkSize || 8192; // 8192 KB
     const isDownloading = ref(false)
     const error: Ref<string | null> = ref(null)
@@ -51,12 +53,14 @@ export const useFileDownload = (options?: {
         total: 0,
         percentage: 0,
         speed: '0 B/s',
-        startTime: null
+        startTime: null,
+        filename: null
     })
+
     const formatSpeed = (bytesPerSecond: number): string => {
         return formatBytes(bytesPerSecond) + '/s'
     }
-    const startDownload = (): void => {
+    const startDownload = (config: DownloadConfig): void => {
         isDownloading.value = true
         downloadProgress.visible = true
         downloadProgress.loaded = 0
@@ -64,6 +68,7 @@ export const useFileDownload = (options?: {
         downloadProgress.percentage = 0
         downloadProgress.speed = '0 B/s'
         downloadProgress.startTime = Date.now()
+        downloadProgress.filename = config.filename || config.url
         error.value = null
     }
     const updateProgress = (progressEvent: AxiosProgressEvent): void => {
@@ -106,7 +111,7 @@ export const useFileDownload = (options?: {
         }
 
         // Add to history
-        const duration = downloadProgress.startTime
+        const useDuration = downloadProgress.startTime
             ? Date.now() - downloadProgress.startTime
             : 0
 
@@ -117,7 +122,7 @@ export const useFileDownload = (options?: {
             filename,
             size: blob.size,
             status: 'completed',
-            duration,
+            duration: useDuration,
             timestamp: new Date().toISOString()
         }
 
@@ -131,7 +136,7 @@ export const useFileDownload = (options?: {
         return new Promise(resolve => resolve(historyItem));
     }
     const addFailedDownload = (filename: string, errorMessage: string): void => {
-        const duration = downloadProgress.startTime
+        const useDuration = downloadProgress.startTime
             ? Date.now() - downloadProgress.startTime
             : 0
 
@@ -140,7 +145,7 @@ export const useFileDownload = (options?: {
             filename,
             size: 0,
             status: 'failed',
-            duration,
+            duration: useDuration,
             timestamp: new Date().toISOString(),
             error: errorMessage
         }
@@ -152,7 +157,7 @@ export const useFileDownload = (options?: {
             throw new Error('Please enter a filename')
         }
 
-        startDownload()
+        startDownload(config)
         cancelTokenSource.value = new AbortController();
         // $axios.defaults.baseURL = cdnBase;
         $axios.defaults.baseURL = '';
@@ -174,16 +179,23 @@ export const useFileDownload = (options?: {
             return new Promise((resolve) => resolve(downloadedItem))
 
         } catch (err: any) {
+            const cancelErrorText = t('drive.downloadCancelled');
             if (axios.isCancel && axios.isCancel(err)) {
-                error.value = "Download cancelled";
-                addFailedDownload(config.filename, "Download cancelled");
+                error.value = cancelErrorText;
+                if (config.historyable !== false) {
+                    addFailedDownload(config.filename, cancelErrorText);
+                }
             } else if (err.name === "CanceledError") {
-                error.value = "Download cancelled";
-                addFailedDownload(config.filename, "Download cancelled");
+                error.value = cancelErrorText;
+                if (config.historyable !== false) {
+                    addFailedDownload(config.filename, cancelErrorText);
+                }
             } else {
                 const errorMsg = err.response?.data?.message || err.message;
                 error.value = `Download failed: ${errorMsg}`;
-                addFailedDownload(config.filename, errorMsg);
+                if (config.historyable !== false) {
+                    addFailedDownload(config.filename, errorMsg);
+                }
             }
             return new Promise((resolve) => resolve(null))
             // throw err

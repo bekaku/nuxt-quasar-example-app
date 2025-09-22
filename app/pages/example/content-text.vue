@@ -83,7 +83,7 @@ const testExtractHashTag = () => {
 
             <BaseTextHeader title="Preview with sanitize html" />
             <template v-if="showContent">
-              <base-content-item
+              <BaseContentItem
                 wrap-text
                 :content="content"
                 :content-id="contentUniqeId"
@@ -97,7 +97,7 @@ const testExtractHashTag = () => {
 
             <BaseTextHeader title="Preview with escape html" />
             <template v-if="showContent">
-              <base-content-item
+              <BaseContentItem
                 wrap-text
                 :content="content"
                 :content-id="contentUniqeId2"

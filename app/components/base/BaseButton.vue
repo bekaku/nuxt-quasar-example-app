@@ -57,11 +57,12 @@ const { isDark } = useTheme()
     :target
     :type
     :class="{
-      'defult-outline': label && !outlineColor && outline,
+      'defult-outline': !outlineColor && outline,
       'full-width': full,
       'text-capitalize': textCapitalize,
       'btn-dark': dark,
-      'btn-light': light
+      'btn-light': light,
+      'q-px-sm': dense
     }"
   >
     <slot>

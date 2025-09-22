@@ -291,6 +291,13 @@ export const additionalMenu: LabelValue<any>[] = [
                 to: '/example/image-view'
             },
             {
+                icon: { name: 'lucide:download'},
+                label: 'Download files',
+                description:'Download large files xample',
+                translateLabel: false,
+                to: '/example/download-files'
+            },
+            {
                 icon: { name: 'lucide:circle-arrow-down', iconSet: 'nuxt' },
                 label: 'Infinite scroll',
                 translateLabel: false,

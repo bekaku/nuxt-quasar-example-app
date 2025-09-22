@@ -14,6 +14,7 @@ const {
   formatSize?: boolean
   previewStyle?: FilePreviewStyle
   imageSize?: string
+  showSize?: boolean
   rounded?: boolean | undefined
 }>()
 const emit = defineEmits<{
@@ -45,6 +46,7 @@ const onClick = (event: any, index: number) => {
           :show-delete="showDelete"
           :format-size="formatSize"
           :rounded
+          :show-size="showSize"
           @on-click="onClick"
           @on-remove="onRemove"
         />
@@ -59,6 +61,7 @@ const onClick = (event: any, index: number) => {
           :index="fileIndex"
           dense
           :rounded
+          :show-size="showSize"
           :show-delete="showDelete"
           :format-size="formatSize"
           :image-size="imageSize"

@@ -49,6 +49,7 @@ const {
   autoClose?: boolean
   showToolbar?: boolean
   padding?: boolean
+  dark?: boolean
 }>()
 
 const modelValue = defineModel<boolean>({ default: false })
@@ -82,13 +83,23 @@ const onCloseModel = () => {
     @hide="onHide"
     @before-hide="$emit('on-before-hide')"
   >
-    <q-card v-bind="$attrs" :style="dialogStyle">
+    <q-card v-bind="$attrs" :dark="dark || isDark" :style="dialogStyle">
       <slot name="toolBar">
         <q-bar
           v-if="showToolbar"
           class="q-py-lg"
-          :style="{ background: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-800)' }"
+          :class="{'text-white': dark || isDark}"
+          :style="{
+            background: dark || isDark ? 'var(--color-zinc-800)' : 'var(--color-zinc-100)'
+          }"
         >
+          <!-- <q-bar
+          v-if="showToolbar"
+          class="q-py-lg bg-red"
+          :style="{
+            background: dark || isDark ? 'var(--color-zinc-800)' : 'var(--color-zinc-100)'
+          }"
+        > -->
           <slot name="icon">
             <BaseIcon v-if="icon" v-bind="{ ...icon }" />
           </slot>

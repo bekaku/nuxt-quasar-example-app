@@ -62,6 +62,9 @@ onMounted(async () => {
       imageItems.value.push(item)
     }
     showView.value = true
+  } else if (fileType.value == 'video') {
+    //show video
+    showView.value = true
   } else {
     //download file
     await onDownloadFile()
@@ -126,7 +129,7 @@ const onClose = () => {
 </script>
 <template>
   <div v-if="item && fileType">
-    <lazy-base-pdf-view-dialog
+    <LazyBasePdfViewDialog
       v-if="showView && fileType == 'pdf' && pdfSrc"
       v-model="showView"
       :src="pdfSrc"
@@ -135,7 +138,7 @@ const onClose = () => {
       @on-close="onClose"
     />
 
-    <lazy-base-image-view-dialog
+    <LazyBaseImageViewDialog
       v-else-if="fileType == 'image' && showView"
       v-model="showView"
       :files="imageItems"
@@ -144,6 +147,14 @@ const onClose = () => {
       :maximized="false"
       :fetch="fetch"
       :show-arrow="showArrow"
+      @on-close="onClose"
+    />
+    <LazyBaseVideoPlayerDialog
+      v-else-if="fileType == 'video' && showView"
+      v-model:show="showView"
+      :file="item"
+      :replace-url="false"
+      :options="{ autoSetSource: true, autoplay: false }"
       @on-close="onClose"
     />
   </div>

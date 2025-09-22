@@ -54,7 +54,7 @@ useHead({
         <div class="q-pa-md q-gutter-sm">
           <BaseButton label="Light" light />
           <BaseButton>
-            <BaseIcon name="lucide:accessibility" icon-set="nuxt" /> Custom nuxt icon
+            <BaseIcon name="lucide:ambulance" icon-set="nuxt" class="q-mr-sm" /> Custom nuxt icon
           </BaseButton>
           <BaseButton label="Dark" dark />
           <BaseButton round flat :icon="biWrench" />

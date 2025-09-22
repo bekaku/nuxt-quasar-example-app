@@ -85,50 +85,36 @@ const onFileAdd = (items: File[]) => {
         <BaseButton :icon="biArrowLeft" flat to="/" />
       </template>
     </BaseCard>
-    <!-- <BaseCard title="Streaming download large files">
+    <BaseCard title="Streaming download large files">
       <BaseCardSection class="q-gutter-lg">
-        <BaseButton label="Download" @click="onDownload" />
-        <BaseButton color="negative" label="Cancle download" @click="cancleDownload" />
-
-        isDownloading, {{ isDownloading }}
-        <p>downloadProgress , {{ downloadProgress }}</p>
-        <p>downloadHistory , {{ downloadHistory }}</p>
-        <p>error , {{ error }}</p>
-
-        <div class="progress-info">
-          <span>
-            {{ formatBytes(downloadProgress.loaded) }} /
-            {{ formatBytes(downloadProgress.total) }}
-          </span>
-          <span class="q-ml-md">{{ downloadProgress.percentage.toFixed(1) }}%</span>
-          <span class="q-ml-md">Speed: {{ downloadProgress.speed }}</span>
-        </div>
-        <div v-if="downloadHistory.length > 0" class="download-history">
-          <h4>Download History</h4>
-          <div v-for="item in downloadHistory" :key="item.id" class="history-item">
-            <span class="filename">{{ item.filename }}</span>
-            <span class="size">{{ formatBytes(item.size) }}</span>
-            <span class="status" :class="item.status">{{ item.status }}</span>
-            <span class="duration">{{ formatDurationFromMillis(item.duration) }}</span>
-            <span v-if="item.error" class="error-text">{{ item.error }}</span>
-          </div>
-        </div>
+        <BaseButton :label="$t('drive.download')" :disable="isDownloading" @click="onDownload" />
+        <BaseButton
+          color="negative"
+          :disable="!isDownloading"
+          :label="$t('drive.cancelDownload')"
+          @click="cancleDownload"
+        />
+        <BaseDownloadProgress
+          :error="error"
+          :is-downloading="isDownloading"
+          :progress="downloadProgress"
+        />
       </BaseCardSection>
-    </BaseCard> -->
+    </BaseCard>
 
-    <BaseCard title="Video Editor">
+    <!-- <BaseCard title="Video Editor">
       <BaseCardSection>
         <BaseFilePicker
           v-model="files"
           video-editor
           label="Select vdo"
           preview-style="CARD"
-          preview-col='col-2'
+          preview-col="col-2"
           @on-file-add="onFileAdd"
         />
       </BaseCardSection>
-    </BaseCard>
-    <!-- <BaseCard title="Video Player">
+    </BaseCard> -->
+    <BaseCard title="Video Player">
       <BaseCardSection>
         <div class="row">
           <div class="col-12">
@@ -147,7 +133,7 @@ const onFileAdd = (items: File[]) => {
                     'http://127.0.0.1:8080/api/fileManager/video/stream?path=files/2022_1204_140014.MP4',
                   fileThumbnailPath: 'http://127.0.0.1:8080/cdn/files/202509/dummy.jpg',
                   fileSize: '2 MB',
-                  video: true
+                  fileMimeType: 'VIDEO'
                 }"
               >
               </BaseVideoPlayer>
@@ -155,6 +141,6 @@ const onFileAdd = (items: File[]) => {
           </div>
         </div>
       </BaseCardSection>
-    </BaseCard> -->
+    </BaseCard> 
   </BasePage>
 </template>

@@ -254,7 +254,6 @@ const onSubmit = async () => {
   }
 
   entity.value.fileSize = entity.value.file.size + ''
-  console.log('BaseVideoEditor.vue > onSubmit > trimBlob', entity.value)
   emit('on-submit', entity.value)
 }
 const onClearProcess = () => {
@@ -274,9 +273,7 @@ const onClearProcess = () => {
 }
 onMounted(async () => {
   await nextTick()
-  console.log('BaseVideoEditor', file)
   await initialFile()
-
   if (entity.value && !entity.value.fileThumbnailPath && thumbnailBase64Items.value.length > 0) {
     onSelectThumbnail(0)
   } else {

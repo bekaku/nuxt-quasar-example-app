@@ -11,9 +11,8 @@ useHead({
 const { files: fileChunks, uploading, progress, onStartUploadChunk } = useFileUpload()
 const files = ref<File[]>([])
 const filesPreview = ref<FileManager[]>([])
-const filesSingle = ref<File[]>([])
 const filesSinglePreview = ref<FileManager[]>([])
-
+const vdoFiles = ref<FileManager[]>([])
 const filePickerCustomUiRef =
   useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef')
 const customFiles = ref<FileManager[]>([])
@@ -27,6 +26,9 @@ const onFileChunkAdd = (items: File[]) => {
 }
 const onFileAdd = (items: File[]) => {
   console.log('onFildAdd', items)
+}
+const onVdoFileAdd = (items: File[]) => {
+  console.log('onVdoFileAdd', items)
 }
 const onSubmit = () => {
   console.log('onSubmit', files.value, 'filesPreview', filesPreview.value)
@@ -65,6 +67,20 @@ const onCustomRemove2 = (index: number) => {
 </script>
 <template>
   <BasePage :full="false">
+     <BaseCard title="Video picker">
+      <BaseCardSection>
+        <BaseFilePicker
+          v-model="vdoFiles"
+          video-editor
+          label="Select vdo"
+          preview-style="CARD"
+          preview-col='col-2'
+          @on-file-add="onVdoFileAdd"
+        />
+
+        <BaseButton label="Upload Video"/>
+      </BaseCardSection>
+    </BaseCard>
     <BaseCard title="Chunk upload">
       <q-card-section>
         <BaseFilePicker

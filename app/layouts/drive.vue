@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { biHouseDoor } from '@quasar/extras/bootstrap-icons'
 import { login } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
 const {
@@ -78,12 +77,12 @@ const onOpenDrawer = () => {
   <q-layout view="lHh Lpr lff">
     <BaseHeader :show-togle-drawer="true" :show-logo="true" bordered>
       <template #toggleBtn>
-        <q-btn dense flat round @click="onOpenDrawer">
+        <BaseButton dense flat round @click="onOpenDrawer">
           <BaseIcon
             :name="expandDrawer ? 'lucide:panel-left-close' : 'lucide:panel-left-open'"
             icon-set="nuxt"
           />
-        </q-btn>
+        </BaseButton>
       </template>
     </BaseHeader>
     <BaseDrawer

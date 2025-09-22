@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { biBell, biChatDots, biGithub, biSearch } from '@quasar/extras/bootstrap-icons'
-import { useQuasar } from 'quasar'
-import type { IconSet } from '~/types/common'
+import type { IconSet } from '~/types/common';
 const {
   bordered = false,
   reveal = false,
@@ -102,31 +100,40 @@ onBeforeUnmount(() => {
           <img :src="!isDark ? '/logo/logo-black.png' : '/logo/logo-white.png'" />
         </q-avatar>
       </q-btn>
-      <q-btn v-if="!isScreenMobileOrTablet" flat rounded class="text-capitalize" @click="onOpenSearch">
+      <BaseButton
+        v-if="!isScreenMobileOrTablet"
+        flat
+        rounded
+        class="text-capitalize"
+        @click="onOpenSearch"
+      >
         <span class="q-mr-sm text-muted">{{ t('base.search') }}</span>
-        <q-icon :name="biSearch" />
-      </q-btn>
+        <BaseIcon name="lucide:search" />
+      </BaseButton>
       <q-space />
 
       <div class="q-gutter-sm row items-center no-wrap">
-        <q-btn  round dense flat :icon="biChatDots" to="/chats">
+        <BaseButton round dense flat to="/chats">
+          <BaseIcon name="lucide:message-circle" />
           <BaseTooltip>Messages</BaseTooltip>
-        </q-btn>
-        <q-btn
-          :icon="biGithub"
+        </BaseButton>
+        <BaseButton
           flat
           round
           dense
           href="https://github.com/bekaku/nuxt-quasar-example-app"
           target="_blank"
-        />
-        <q-btn v-if="isScreenMobileOrTablet" round dense flat @click="onOpenSearch">
-          <q-icon :name="biSearch" />
-        </q-btn>
-        <q-btn round dense flat :icon="biBell">
+        >
+          <BaseIcon name="bi:github" />
+        </BaseButton>
+        <BaseButton v-if="isScreenMobileOrTablet" round dense flat @click="onOpenSearch">
+          <BaseIcon name="lucide:search" />
+        </BaseButton>
+        <BaseButton round dense flat>
+          <BaseIcon name="lucide:bell" />
           <q-badge color="negative" rounded text-color="white" floating> 99+ </q-badge>
           <BaseTooltip>{{ t('base.notifications') }}</BaseTooltip>
-        </q-btn>
+        </BaseButton>
         <LazyBaseLangugeSwitcherButton v-if="!isScreenMobileOrTablet" />
         <LazyBaseThemeSwitcher v-if="!isScreenMobileOrTablet" toggle />
         <LazyBaseHeaderMenu v-if="showUserSetting" style="max-width: 225px" />
