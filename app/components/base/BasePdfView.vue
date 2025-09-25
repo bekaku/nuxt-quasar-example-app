@@ -1,18 +1,8 @@
 <script setup lang="ts">
-import {
-  biArrowLeft,
-  biArrowRight,
-  biDownload,
-  biPrinter,
-  biX,
-  biZoomIn,
-  biZoomOut
-} from '@quasar/extras/bootstrap-icons'
+import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib'
 import FileManagerService from '~/api/FileManagerService'
 import { useConfiguration } from '~/composables/useConfiguration'
 import type { PdfWatermarkOptions } from '~/types/common'
-import { downloadFileFromUrl, downloadFromBlobUrl, isBlobUrl } from '~/utils/fileUtil'
-import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib'
 const {
   src,
   title,
@@ -192,7 +182,6 @@ const addWatermarkFrombUrl = async (fileUrl: string): Promise<Blob> => {
   return blob
 }
 const onLoad = async () => {
-  loading.value = true
   let url: string = ''
   if (fetchToServer || isLinkFromCdn(src)) {
     const response = await fethCdnData(src, 'axiosresponse')
@@ -206,7 +195,6 @@ const onLoad = async () => {
   }
 
   return new Promise(resolve => {
-    loading.value = false
     resolve(url)
   })
 }
@@ -262,6 +250,7 @@ const onClose = () => {
   show.value = false
 }
 onMounted(async () => {
+  loading.value = true
   const fileUrl: any = await onLoad()
   if (fileUrl) {
     if (
@@ -277,6 +266,7 @@ onMounted(async () => {
       pdfSrc.value = fileUrl
     }
   }
+  loading.value = false
 })
 </script>
 <template>
@@ -338,7 +328,7 @@ onMounted(async () => {
           style="height: 5px"
         />
         <template v-if="loading">
-          <skeleton-item v-if="loading" :height="100" :text-number="3" flat show />
+          <SkeletonItem v-if="loading" :height="100" :show-avatar="false" :text-number="3" flat show  />
         </template>
         <template v-else-if="pdfSrc">
           <q-scroll-area :style="{ height: scrollHeight }">

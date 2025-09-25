@@ -15,7 +15,7 @@ useHead({
         <div class="fullscreen text-center q-pa-md flex flex-center">
             <base-result status="404" :description="t('error.pageNotFound')">
                 <template #extra>
-                    <BaseButton rounded flat :icon="biArrowLeft" :label="t('base.back')" @click="onPageBack" />
+                    <BaseButton rounded flat :icon="{name:'lucide:chevron-left'}" :label="t('base.back')" @click="onPageBack" />
                 </template>
             </base-result>
         </div>

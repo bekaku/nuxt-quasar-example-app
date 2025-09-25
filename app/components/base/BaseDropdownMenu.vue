@@ -1,21 +1,23 @@
 <script setup lang="ts" generic="T">
-import { biThreeDots } from '@quasar/extras/bootstrap-icons'
-import type { AppColor, LabelValue } from '~/types/common'
+import type { AppColor, LabelValue } from '~/types/common';
+import type { IconProps } from '~/types/props';
 
 const {
   width = '100px',
   cover = false,
   anchor = 'bottom left',
   dense = true,
-  icon = biThreeDots,
+  icon = {
+    name: 'lucide:more-horizontal'
+  },
   emptyBody = false,
   flat = true,
-  round = false,
+  round = true,
   color = 'light',
   light = false
 } = defineProps<{
   items: LabelValue<T>[]
-  icon?: string
+  icon?: IconProps
   label?: string
   width?: string
   cover?: boolean
@@ -89,7 +91,9 @@ const onHide = () => {
 <template>
   <div v-bind="$attrs" class="cursor-pointer holder inline-block">
     <slot>
-      <BaseButton v-if="!emptyBody" :icon="icon" :flat :round :label :color :light>
+      <BaseButton v-if="!emptyBody" :flat :round="label ? false : round" :color :light>
+        <BaseIcon v-if="icon" v-bind="{ ...icon }" />
+        <span v-if="label" class="q-ml-xs">{{ label }}</span>
         <BaseTooltip v-if="tooltip">
           {{ tooltip }}
         </BaseTooltip>

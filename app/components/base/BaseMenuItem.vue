@@ -102,44 +102,37 @@ const onUnFav = async (ev: any, to: string) => {
         <template v-if="favoriteSection">
           <BaseButton
             v-if="isFaveroteExist(item.to)"
-            :icon="biX"
+            :icon="{ name: 'lucide:x', size: '14px' }"
             flat
             round
             size="xs"
             :text-color="!showFavorite ? undefined : 'negative'"
+            :tooltip="t('base.unFaveoriteMenu')"
             @click="onUnFav($event, item.to)"
-          >
-            <BaseTooltip>
-              {{ t('base.unFaveoriteMenu') }}
-            </BaseTooltip>
-          </BaseButton>
+          />
         </template>
         <template v-else>
           <BaseButton
             v-if="showFavorite && !isFaveroteExist(item.to)"
-            :icon="biStar"
             flat
             round
             size="xs"
             text-color="grey"
+            :icon="{ name: 'lucide:star', size: '16px' }"
+            :tooltip="t('base.faveoriteMenu')"
             @click="onFav($event, item.to)"
           >
-            <BaseTooltip>
-              {{ t('base.faveoriteMenu') }}
-            </BaseTooltip>
           </BaseButton>
           <BaseButton
             v-else-if="isFaveroteExist(item.to)"
-            :icon="!showFavorite ? biStarFill : biX"
             flat
             round
             size="xs"
             :text-color="!showFavorite ? 'yellow' : 'negative'"
+            :icon="{ name: !showFavorite ? 'lucide:star' : 'lucide:x', size: '16px' }"
+            :tooltip="t('base.unFaveoriteMenu')"
             @click="onUnFav($event, item.to)"
           >
-            <BaseTooltip>
-              {{ t('base.unFaveoriteMenu') }}
-            </BaseTooltip>
           </BaseButton>
         </template>
       </q-item-section>

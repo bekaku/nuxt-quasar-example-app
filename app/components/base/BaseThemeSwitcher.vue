@@ -22,7 +22,7 @@ const { t } = useLang()
   <BaseButton
     v-if="toggle"
     flat
-    :icon="dark.isActive ? biSun : biMoon"
+    :icon="{ name: dark.isActive ? 'lucide:sun' : 'lucide:moon' }"
     round
     dense
     @click="!dark.isActive ? onSetTheme('dark') : onSetTheme('light')"
@@ -37,7 +37,7 @@ const { t } = useLang()
         v-for="theme in availableThemes"
         :key="theme.key"
         clickable
-          class="rounded"
+        class="rounded"
         @click="onSetTheme(theme.key)"
       >
         <q-item-section avatar>

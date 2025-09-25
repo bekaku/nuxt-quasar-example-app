@@ -21,7 +21,7 @@ const {
   item,
   rounded = true,
   playIcon = true,
-  showVideoDetail=false
+  showVideoDetail = false
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -47,7 +47,7 @@ const {
 }>()
 const emit = defineEmits<{
   'on-remove': [index: number]
-  'on-click': [index: number, event: any]
+  'on-click': [event: any, index: number]
 }>()
 const { formatDistanceFromNow } = useDateFns()
 const { locale } = useLang()
@@ -65,7 +65,7 @@ const onRemove = (event: any, index: number) => {
   }
 }
 const onClick = (event: any, index: number) => {
-  emit('on-click', index, event)
+  emit('on-click', event, index)
   if (event) {
     appPreventDefult(event)
   }
@@ -157,7 +157,11 @@ const onClick = (event: any, index: number) => {
                 </template>
               </slot>
             </q-item-label>
-            <q-item-label v-if="showVideoDetail &&item.fileMimeType == 'VIDEO'" caption :lines="linesName">
+            <q-item-label
+              v-if="showVideoDetail && item.fileMimeType == 'VIDEO'"
+              caption
+              :lines="linesName"
+            >
               <span>
                 {{
                   `${readableNumber(item.view || 0)} ${item.view && item.view > 1 ? $t('drive.views') : $t('drive.view')}`
@@ -196,7 +200,7 @@ const onClick = (event: any, index: number) => {
               top: `-${imageSize}`,
               left: `-${imageSize}`
             }"
-            :icon="biX"
+            :icon="{ name: 'lucide:x' }"
             text-color="negative"
             flat
             round

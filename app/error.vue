@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
-import { biArrowLeft, biHouse } from '@quasar/extras/bootstrap-icons'
 import BaseButton from './components/base/BaseButton.vue'
 
 const props = defineProps({
@@ -96,8 +95,8 @@ function handleError() {
           </q-card-section>
         </BaseCard>
         <div class="text-center q-my-lg">
-          <BaseButton outline :icon="biArrowLeft" :label="t('base.back')" @click="handleError" />
-          <BaseButton outline :icon="biHouse" :label="t('base.home')" to="/" class="q-ml-md" />
+          <BaseButton outline :icon="{name:'lucide:arrow-right'}" :label="t('base.back')" @click="handleError" />
+          <BaseButton outline :icon="{name:'lucide:house'}" :label="t('base.home')" to="/" class="q-ml-md" />
         </div>
         <!-- <div v-if="error" class="text-h5">{{ error.statusCode }}</div> -->
       </template>

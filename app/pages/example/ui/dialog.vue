@@ -51,12 +51,12 @@ const onConfirmToClose = async () => {
 
       <q-card-section class="q-gutter-md">
         <BaseTextHeader title="Popover confirm" />
-        <button v-rbac="{ permissions: ['user_managsse'] }">Test RBAC</button>
+        <BaseButton v-rbac="{ permissions: ['user_managsse'] }">Test RBAC</BaseButton>
         <BaseButton
           v-rbac="{ permissions: ['user_manage'] }"
           label="Delete item"
           color="negative"
-          :icon="biTrash"
+          :icon="{ name: 'lucide:trash-2' }"
         >
           <BasePopConfirm
             :title="t('base.deleteConfirm')"
@@ -65,7 +65,8 @@ const onConfirmToClose = async () => {
           />
         </BaseButton>
 
-        <BaseButton label="Custom label">
+        <BaseButton>
+          Custom label
           <base-pop-confirm
             title="Custom label"
             confirm-color="teal"
@@ -75,7 +76,8 @@ const onConfirmToClose = async () => {
             @on-change="onPopConfirmChange"
           />
         </BaseButton>
-        <BaseButton label="More custom">
+        <BaseButton>
+          More custom
           <base-pop-confirm title="Addon label" width="350px" @on-change="onPopConfirmChange">
             <q-input v-model="text" outlined label="This input overide title prop" />
             <template #bottom> bottom slot </template>
@@ -84,7 +86,8 @@ const onConfirmToClose = async () => {
       </q-card-section>
       <q-card-section class="q-gutter-md">
         <BaseTextHeader title="Popover" />
-        <BaseButton label="Show popover">
+        <BaseButton>
+          Show popover
           <BasePopover width="250px">
             <q-banner>
               <template #avatar>
@@ -94,7 +97,8 @@ const onConfirmToClose = async () => {
             </q-banner>
           </BasePopover>
         </BaseButton>
-        <BaseButton label="Handles right-click" color="red-4">
+        <BaseButton color="red-4">
+          Handles right-click
           <BasePopover width="450px" context-menu>
             <q-banner>
               <template #avatar>

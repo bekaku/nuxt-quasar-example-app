@@ -25,6 +25,7 @@ const onRemove = (index: number) => {
   emit('on-remove', index)
 }
 const onClick = (event: any, index: number) => {
+  console.log('1onClick', {index, event});
   emit('on-click', index)
   if (event) {
     appPreventDefult(event)

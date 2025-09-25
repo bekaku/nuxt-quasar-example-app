@@ -82,7 +82,7 @@ const onFileAdd = (items: File[]) => {
   <BasePage>
     <BaseCard title="Test Page" subtitle="This is a test page">
       <template #start>
-        <BaseButton :icon="biArrowLeft" flat to="/" />
+        <BaseButton :icon="{name:'lucide:chevron-left'}" flat to="/" />
       </template>
     </BaseCard>
     <BaseCard title="Streaming download large files">

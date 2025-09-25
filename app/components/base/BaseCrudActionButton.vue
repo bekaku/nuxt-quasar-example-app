@@ -79,68 +79,60 @@ const onDelete = (event: any) => {
       <BaseButton
         v-if="autoLink && getViewLink"
         :loading
-        :icon="biEye"
+        :icon="{ name: 'lucide:eye' }"
         flat
         dense
         round
         :size="size"
         :to="getViewLink"
+        :tooltip="!button ? t('base.view') : undefined"
       >
-        <BaseTooltip v-if="!button">
-          {{ t('base.view') }}
-        </BaseTooltip>
       </BaseButton>
       <BaseButton
         v-else
         :loading
-        :icon="biEye"
+        :icon="{ name: 'lucide:eye' }"
         flat
         dense
         round
         :size="size"
+        :tooltip="!button ? t('base.view') : undefined"
         @click="onEditBtnBaseClick($event, 'view')"
       >
-        <BaseTooltip v-if="!button">
-          {{ t('base.view') }}
-        </BaseTooltip>
       </BaseButton>
     </template>
     <template v-if="editButton && isHaveManagePermission">
       <template v-if="!button">
         <BaseButton
           v-if="autoLink && getEditLink"
-          :icon="biPencil"
+          :icon="{ name: 'lucide:pencil' }"
           flat
           dense
           round
           :size="size"
           type="button"
           :to="getEditLink"
+           :tooltip="t('base.edit')"
         >
-          <BaseTooltip>
-            {{ t('base.edit') }}
-          </BaseTooltip>
         </BaseButton>
         <BaseButton
           v-else
-          :icon="biPencil"
+          :icon="{ name: 'lucide:pencil' }"
           flat
           dense
           round
           :size="size"
           type="button"
+           :tooltip="t('base.edit')"
           @click="onEditBtnClick($event, 'edit')"
         >
-          <BaseTooltip>
-            {{ t('base.edit') }}
-          </BaseTooltip>
         </BaseButton>
       </template>
       <template v-else>
         <BaseButton
           v-if="crudAction === 'view'"
           :loading
-          :icon="biPencil"
+          :icon="{ name: 'lucide:pencil' }"
           :unelevated="button"
           color="primary"
           :outline="false"
@@ -152,7 +144,7 @@ const onDelete = (event: any) => {
         <BaseButton
           v-else
           :loading
-          :icon="biFloppy"
+          :icon="{ name: 'lucide:save' }"
           unelevated
           color="positive"
           :size="size"
@@ -161,11 +153,9 @@ const onDelete = (event: any) => {
               ? t('base.save')
               : undefined
           "
+          :tooltip="!button ? t('base.edit') : undefined"
           type="submit"
         >
-          <BaseTooltip v-if="!button">
-            {{ t('base.edit') }}
-          </BaseTooltip>
         </BaseButton>
       </template>
     </template>
@@ -174,39 +164,35 @@ const onDelete = (event: any) => {
       <BaseButton
         v-if="autoLink && getCopyLink"
         :loading
-        :icon="biCopy"
+        :icon="{ name: 'lucide:copy' }"
         :flat="!button"
         :dense="!button"
         :size="size"
         :outline="button"
         :label="!button || crudAction == undefined ? undefined : t('base.copy')"
         :to="getCopyLink"
+        :tooltip="!button ? t('base.copy') : undefined"
       >
-        <BaseTooltip v-if="!button">
-          {{ t('base.copy') }}
-        </BaseTooltip>
       </BaseButton>
       <BaseButton
         v-else
         :loading
-        :icon="biCopy"
+        :icon="{ name: 'lucide:copy' }"
         :flat="!button"
         :dense="!button"
         :size="size"
         :outline="button"
         :label="!button || crudAction == undefined ? undefined : t('base.copy')"
+        :tooltip="!button ? t('base.copy') : undefined"
         @click="onCopy"
       >
-        <BaseTooltip v-if="!button">
-          {{ t('base.copy') }}
-        </BaseTooltip>
       </BaseButton>
     </template>
     <BaseButton
       v-if="deleteButton && isHaveManagePermission && crudAction !== 'copy' && crudAction !== 'new'"
       color="negative"
       :loading
-      :icon="biTrash"
+      :icon="{ name: 'lucide:trash-2' }"
       :flat="!button"
       :outline="false"
       :outline-color="!button ? undefined : 'negative'"
@@ -214,11 +200,10 @@ const onDelete = (event: any) => {
       :round="!button"
       :size="size"
       :label="!button || crudAction == undefined ? undefined : t('base.delete')"
+      :tooltip="!button ? t('base.delete') : undefined"
+      tooltip-color="negative"
       @click="onDelete"
     >
-      <BaseTooltip v-if="!button" color="negative">
-        {{ t('base.delete') }}
-      </BaseTooltip>
     </BaseButton>
     <slot name="additionalBtn" />
   </div>

@@ -25,7 +25,6 @@ const { isDark } = useTheme()
   <q-btn
     v-bind="$attrs"
     :outline
-    :label="!outline ? label : undefined"
     :color="
       light && dark
         ? undefined
@@ -41,8 +40,6 @@ const { isDark } = useTheme()
     :glossy
     :flat
     :href
-    :icon="!outline ? icon : undefined"
-    :icon-right="!outline ? iconRight : undefined"
     :stack
     :round
     :square
@@ -66,15 +63,22 @@ const { isDark } = useTheme()
     }"
   >
     <slot>
-      <template v-if="outline">
-        <div
-          :class="`text-${textColor ? textColor : outlineColor ? outlineColor : !isDark ? 'black' : 'white'}`"
-        >
-          <q-icon v-if="icon" :name="icon" class="q-mr-sm" />{{ label }}
-          <q-icon v-if="iconRight" :name="iconRight" class="q-ml-sm" />
-        </div>
-      </template>
+      <div
+        class="row items-center"
+        :class="
+          outline
+            ? `text-${textColor ? textColor : outlineColor ? outlineColor : !isDark ? 'black' : 'white'}`
+            : ''
+        "
+      >
+        <BaseIcon v-if="icon" v-bind="{ ...icon }" />
+        <span v-if="label" class="q-mx-sm">{{ label }}</span>
+        <BaseIcon v-if="iconRight" v-bind="{ ...iconRight }" />
+      </div>
     </slot>
+    <LazyBaseTooltip v-if="tooltip" :color="tooltipColor">
+      {{ tooltip }}
+    </LazyBaseTooltip>
   </q-btn>
 </template>
 <style scoped lang="scss">

@@ -66,7 +66,7 @@ const onCopyText = async () => {
                 <BaseButton label="Navigate to" outline @click="appNavigateTo('/example/image-view')" />
                 <BaseInput v-model="textModel" style="width: 250px">
                     <template #append>
-                        <BaseButton flat round :icon="biCopy" @click="onCopyText" />
+                        <BaseButton flat round :icon="{name:'lucide:copy'}" @click="onCopyText" />
                     </template>
                 </BaseInput>
             </q-card-section>

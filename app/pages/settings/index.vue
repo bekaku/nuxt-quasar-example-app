@@ -111,7 +111,7 @@ const onUpdatePrivateData = () => {
                   round
                   unelevated
                   color="pink"
-                  :icon="biPencilFill"
+                  :icon="{name:'lucide:pencil-line'}"
                   @click="onOpenCropperCover"
                 >
                   <BaseTooltip>{{ t('base.changeCover') }}</BaseTooltip>
@@ -119,7 +119,7 @@ const onUpdatePrivateData = () => {
               </div>
               <div class="text-white absolute-center">
                 <div class="absolute-bottom" style="top: 55px">
-                  <BaseButton round :icon="biPencilFill" color="pink" @click="onOpenCropper">
+                  <BaseButton round  :icon="{name:'lucide:pencil-line'}" color="pink" @click="onOpenCropper">
                     <BaseTooltip>{{ t('base.changeAvatar') }}</BaseTooltip>
                   </BaseButton>
                 </div>
@@ -155,7 +155,7 @@ const onUpdatePrivateData = () => {
                 :disable="!canSubmitUdatePrivateData"
                 unelevated
                 color="primary"
-                :icon="biPencil"
+                :icon="{name:'lucide:pencil-line'}"
                 :label="t('base.okay')"
                 type="submit"
               />

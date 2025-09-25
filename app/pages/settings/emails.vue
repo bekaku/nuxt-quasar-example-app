@@ -54,7 +54,7 @@ const onSubmit = async () => {
                             </div>
                         </div>
                         <q-card-actions align="right">
-                            <BaseButton :disable="!canSubmit" unelevated color="primary" :icon="biPencil"
+                            <BaseButton :disable="!canSubmit" unelevated color="primary" :icon="{name:'lucide:pencil-line'}"
                                 :label="t('base.edit')" type="submit" />
                         </q-card-actions>
                     </q-form>

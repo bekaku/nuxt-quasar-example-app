@@ -15,8 +15,8 @@ const lorem =
         <BaseCard title="Simple">
           <template #end>
             <div class="row q-gutter-sm">
-              <BaseButton :icon="biSearch" round flat />
-              <BaseButton :icon="biPlusCircle" round flat />
+              <BaseButton :icon="{name:'lucide:search'}" round flat />
+              <BaseButton :icon="{name:'lucide:circle-fading-plus'}" round flat />
             </div>
           </template>
           <q-card-section>

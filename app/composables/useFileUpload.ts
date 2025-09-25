@@ -43,13 +43,12 @@ export const useFileUpload = (options?: {
         }
     }
 
-    const onUploadChunk = async (selectedFile: File, setProgress: boolean = true, fileMetaData: FileManagerMetaData | undefined = undefined): Promise<FileManager | null> => {
+    const onUploadChunk = async (selectedFile: File, setProgress: boolean = true,
+        fileMetaData: FileManagerMetaData | undefined = undefined): Promise<FileManager | null> => {
         if (!selectedFile) {
             return new Promise(resolve => resolve(null))
         }
         onChunkUploadClear()
-        await setDownloadStatus();
-
         const totalChunks = Math.ceil(selectedFile.size / chunkSize)
         const filename = selectedFile.name
         for (let chunkIndex = 1; chunkIndex <= totalChunks; chunkIndex++) {
@@ -80,7 +79,13 @@ export const useFileUpload = (options?: {
                 fileMime: null,
                 totalChunks: totalChunks,
                 originalFilename: filename,
-                resizeImage: true
+                resizeImage: true,
+                thumbnailFileId: fileMetaData?.thumbnailFileId || null,
+                duration: fileMetaData?.duration || 0,
+                title: fileMetaData?.title || null,
+                description: fileMetaData?.description || null,
+                width: fileMetaData?.width || 0,
+                height: fileMetaData?.height || 0
             })
             if (response && response.id) {
                 console.info('Merge complete')
@@ -140,6 +145,7 @@ export const useFileUpload = (options?: {
         if (files.value && files.value.length > 0) {
             uploading.value = true
             const fileItems = files.value;
+            let fileMetaData: FileManagerMetaData | undefined = undefined;
             for (let index = 0; index < fileItems.length; index++) {
                 const isAlreadyUpload = await checkAlreadyUpload(index);
                 console.log('isAlreadyUpload : index > ', index, isAlreadyUpload);
@@ -149,10 +155,26 @@ export const useFileUpload = (options?: {
                 console.log('Uploading file', index, 'of', fileItems.length);
                 const f = fileItems[index];
                 if (f && f.file) {
+                    fileMetaData = undefined;
                     currentFileIndex.value = index;
-
-                    
-                    const response = await onUploadChunk(f.file);
+                    await setDownloadStatus();
+                    // if upload video file
+                    if (f.fileMimeType == 'VIDEO' && f.thumbnailFile) {
+                        const videoResponse = await onUploadChunk(f.thumbnailFile, false);
+                        console.log('videoResponse', videoResponse);
+                        if (videoResponse && videoResponse.id) {
+                            fileMetaData = {
+                                thumbnailFileId: videoResponse.id,
+                                duration: f.duration || 0,
+                                title: f.title || null,
+                                description: f.description || null,
+                                width: f.width || 0,
+                                height: f.height || 0
+                            }
+                            console.log('Upload video thumbnail chunk and merged complete');
+                        }
+                    }
+                    const response = await onUploadChunk(f.file, true, fileMetaData);
                     if (response) {
                         console.log('Upload chunk and merged complete');
                     }

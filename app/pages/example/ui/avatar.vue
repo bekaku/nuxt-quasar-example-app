@@ -96,7 +96,7 @@ const getTooltipBy = (index: number) => {
             }"
           >
             <template #end>
-              <BaseButton flat :icon="biArrowUpRight" label="Slot end" light />
+              <BaseButton flat :icon="{name:'lucide:bath'}" label="Slot end" light />
             </template>
           </UserItem>
         </BaseCard>

@@ -37,11 +37,9 @@ const { isDark } = useTheme()
                 auto-redirect
               />
               <div class="row justify-center items-center q-pt-sm q-gutter-md">
-                <!-- <BaseButton flat :label="t('base.home')" to="/" /> -->
                 <BaseLink to="/" color="primary">
                   {{ t('base.home') }}
                 </BaseLink>
-                <!-- <BaseButton flat :label="t('authen.forgetPassword')" /> -->
                 <BaseLink to="/auth/forgot-password" color="primary">
                   {{ t('authen.forgetPassword') }}
                 </BaseLink>

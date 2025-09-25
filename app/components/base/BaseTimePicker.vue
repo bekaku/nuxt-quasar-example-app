@@ -32,7 +32,8 @@
     <base-input v-if="editMode" v-model="modelValue" :required :label :disable="disable" outlined dense mask="time"
       :rules="['time']">
       <template #append>
-        <BaseButton :icon="biClock" flat dense class="cursor-pointer">
+        <BaseButton flat dense class="cursor-pointer">
+          <BaseIcon name="lucide:clock"/>
           <q-popup-proxy v-if="editMode" ref="timeProxy" transition-show="scale" transition-hide="scale"
             @hide="onClosePicker">
             <q-time v-model="modelValue" @update:model-value="(value) => onSelectd(value)">
@@ -55,7 +56,7 @@
     <q-field v-else :outlined="editMode" :borderless="!editMode" bottom-slots :label="label" stack-label :dense
       :disable="disable">
       <template #prepend>
-        <q-icon :name="biClock" :color />
+        <BaseIcon name="lucide:clock"/>
       </template>
       <template #control>
         <div class="self-center full-width no-outline" tabindex="0">

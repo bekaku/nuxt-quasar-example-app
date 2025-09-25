@@ -151,7 +151,7 @@ const onCustomRemove2 = (index: number) => {
           <BaseButton
             class="q-my-md"
             outline
-            :icon="biUpload"
+            :icon="{name:'lucide:cloud-upload'}"
             label="Open Picker"
             @click="openPicker"
           />
@@ -186,11 +186,11 @@ const onCustomRemove2 = (index: number) => {
               <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
             </template>
             <template #before>
-              <BaseButton round flat :icon="biImage" color="grey-7" @click="openPicker2" />
-              <BaseButton round flat :icon="biEmojiSmile" color="grey-7" />
+              <BaseButton round flat :icon="{name:'lucide:file-image'}" color="grey-7" @click="openPicker2" />
+              <BaseButton round flat :icon="{name:'lucide:smile-plus'}" color="grey-7" />
             </template>
             <template #after>
-              <BaseButton flat round :icon="biSend" color="primary">
+              <BaseButton flat round :icon="{name:'lucide:send'}" color="primary">
                 <BaseTooltip> Send </BaseTooltip>
               </BaseButton>
             </template>

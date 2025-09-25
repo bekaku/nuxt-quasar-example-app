@@ -43,8 +43,8 @@ export interface ButtonProps {
     full?: boolean;
     glossy?: boolean;
     href?: string;
-    icon?: string;
-    iconRight?: string;
+    icon?: IconProps;
+    iconRight?: IconProps;
     label?: string | undefined;
     light?: boolean;
     loading?: boolean;
@@ -65,6 +65,8 @@ export interface ButtonProps {
     textCapitalize?: boolean;
     dark?: boolean;
     rbac?: RBACProps;
+    tooltip?: string;
+    tooltipColor?: AppColor;
 }
 export interface RBACProps {
   permissions?: string[];

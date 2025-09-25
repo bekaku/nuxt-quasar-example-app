@@ -30,7 +30,7 @@ useHead({
               }"
             >
               <template #end>
-                <BaseButton :icon="biWrench" label="Slot end" icon-size="18px" outline />
+                <BaseButton :icon="{name:'lucide:copy'}" label="Slot end" icon-size="18px" outline />
               </template>
             </UserItem>
             <UserItem

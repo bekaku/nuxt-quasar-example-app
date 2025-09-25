@@ -43,7 +43,7 @@ const { formatDistanceFromNow } = useDateFns()
 const { t, locale } = useLang()
 const emit = defineEmits<{
   'on-remove': [index: number]
-  'on-click': [index: number, event: any]
+  'on-click': [event: any,index: number]
 }>()
 const onRemove = (event: any, index: number) => {
   emit('on-remove', index)
@@ -52,7 +52,7 @@ const onRemove = (event: any, index: number) => {
   }
 }
 const onClick = (event: any, index: number) => {
-  emit('on-click', index, event)
+  emit('on-click',event, index )
   if (event) {
     appPreventDefult(event)
   }
@@ -167,7 +167,7 @@ const onClick = (event: any, index: number) => {
 
           <BaseButton
             v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
-            :icon="biX"
+            :icon="{name:'lucide:x'}"
             flat
             round
             @click="onRemove($event, index)"

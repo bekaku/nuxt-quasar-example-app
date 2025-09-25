@@ -178,7 +178,7 @@ export const additionalMenu: LabelValue<any>[] = [
                     },
                     {
                         icon: { name: 'lucide:upload', iconSet: 'nuxt' },
-                        label: 'File picker',
+                        label: 'File upload',
                         translateLabel: false,
                         to: '/example/ui/file-picker'
                     },

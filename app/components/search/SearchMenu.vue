@@ -107,7 +107,7 @@ const onClickItem = (val: string | undefined) => {
       @on-click="onClickItem"
     >
       <template #inputAppend>
-        <BaseButton round flat :icon="biX" @click="modelValue = false" />
+        <BaseButton round flat :icon="{name:'lucide:x'}" @click="modelValue = false" />
       </template>
     </BaseCommandPalette>
   </BaseDialog>

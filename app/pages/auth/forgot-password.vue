@@ -100,7 +100,7 @@ const setNewPassword = async () => {
             <div class="col-12">
                 <BaseCard style="max-width: 580px;">
                     <q-toolbar>
-                        <BaseButton to="/auth/login" :icon="biArrowLeft" round flat/>
+                        <BaseButton to="/auth/login" :icon="{name:'lucide:chevron-left'}" round flat/>
                         <q-toolbar-title>
                             {{ t('authen.forgetPassword') }}
                         </q-toolbar-title>

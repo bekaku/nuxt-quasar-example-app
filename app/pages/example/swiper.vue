@@ -223,14 +223,14 @@ const items = [
                     flat
                     light
                     label="Prev"
-                    :icon="biArrowLeft"
+                    :icon="{ name: 'lucide:arrow-left' }"
                     @click="testSwiperRef.onPrev()"
                   />
                   <BaseButton
                     flat
                     light
                     label="Next"
-                    :icon="biArrowRight"
+                    :icon="{ name: 'lucide:arrow-right' }"
                     @click="testSwiperRef.onNext()"
                   />
                 </div>

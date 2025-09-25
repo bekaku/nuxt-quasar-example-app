@@ -84,12 +84,10 @@ const onSubmit = () => {
                 v-if="isHaveListPermission && showBack"
                 flat
                 round
-                :icon="biArrowLeft"
+                :icon="{ name: 'lucide:chevron-left' }"
+                :tooltip="t('base.back')"
                 @click="$emit('on-back')"
               >
-                <BaseTooltip>
-                  {{ t('base.back') }}
-                </BaseTooltip>
               </BaseButton>
               <q-toolbar-title>
                 <template v-if="crudAction && showActionText">

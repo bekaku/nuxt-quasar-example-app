@@ -214,11 +214,11 @@ const fileMixForView = ref<FileManager>()
 const mixItems = ref<FileManager[]>(imageItems.value.concat(pdfItems.value))
 mixItems.value.push(videoItem)
 
-const onVideoClick = (index: number) => {
+const onVideoClick = (event: any, index: number) => {
   console.log('onVideoClick', index)
   videoPlayerDialog.value = true
 }
-const onImgPreviewClick = async (index: number) => {
+const onImgPreviewClick = async (event: any, index: number) => {
   imageSelectIndex.value = index
   showImageView.value = true
 }
@@ -229,7 +229,7 @@ const onImgPreviewClose = () => {
 const onDeleteImage = (index: number) => {
   console.log('onDeleteImage', index)
 }
-const onPdfPreviewClick = async (index: number) => {
+const onPdfPreviewClick = async (event: any, index: number) => {
   const item = pdfItems.value[index]
   if (item) {
     pdfSrc.value = item.filePath
@@ -244,6 +244,7 @@ const onClosePefView = () => {
 }
 
 const onMixPreviewClick = async (index: number) => {
+  console.log('onMixPreviewClick', index)
   showMixFiles.value = false
   fileMixImageSelectIndex.value = 0
   fileImageItemsForView.value = []
@@ -332,7 +333,7 @@ const fetchPdfFromServer = async () => {
               :show-delete="false"
               :show-size="false"
               show-video-detail
-              style="width: 200px;"
+              style="width: 200px"
               @on-click="onVideoClick"
             />
             <BaseFilesPreviewItemAlt
@@ -342,7 +343,7 @@ const fetchPdfFromServer = async () => {
               image-size="125px"
               clickable
               show-video-detail
-               :lines-name="2"
+              :lines-name="2"
               :show-size="false"
               @on-click="onVideoClick"
             />
@@ -510,7 +511,7 @@ const fetchPdfFromServer = async () => {
               show-size
               image-size="100%"
               :lines-name="2"
-              @on-click="onMixPreviewClick"
+              @on-click="(emitEvent, emitIndex) => onMixPreviewClick(emitIndex)"
             />
           </div>
         </div>

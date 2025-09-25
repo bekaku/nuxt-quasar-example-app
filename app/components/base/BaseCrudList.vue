@@ -330,22 +330,22 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 :label="t('base.addNew')"
                 color="primary"
                 unelevated
-                :icon="biPlusCircle"
+                :icon="{name:'lucide:circle-plus'}"
+                :tooltip="t('base.addNew')"
                 @click="$emit('on-new-form')"
               >
-                <BaseTooltip>{{ t('base.addNew') }}</BaseTooltip>
               </BaseButton>
               <BaseButton
                 v-if="showSearchBtn"
                 class="q-ml-xs"
                 flat
                 round
-                :icon="biSearch"
+                :icon="{name:'lucide:search'}"
+                 :tooltip="t('base.search')"
                 @click="showSearch = !showSearch"
               >
-                <BaseTooltip>{{ t('base.search') }}</BaseTooltip>
               </BaseButton>
-              <base-sort
+              <BaseSort
                 v-if="showSort"
                 :sort="sort"
                 flat
@@ -532,16 +532,16 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 <slot name="belowSearchExtra" />
                 <q-separator />
                 <q-card-actions align="center">
-                  <BaseButton type="submit" :icon="biSearch" :label="t('base.okay')" />
+                  <BaseButton type="submit" :icon="{name:'lucide:search'}" :label="t('base.okay')" />
                   <BaseButton
                     flat
-                    :icon="biX"
+                    :icon="{name:'lucide:x'}"
                     :label="t('base.close')"
                     @click="showSearch = false"
                   />
                   <BaseButton
                     flat
-                    :icon="biEraser"
+                    :icon="{name:'lucide:eraser'}"
                     :label="t('base.clear')"
                     @click="onClearSearch"
                   />

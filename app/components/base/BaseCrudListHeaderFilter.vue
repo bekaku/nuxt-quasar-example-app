@@ -27,7 +27,7 @@ const fillableHeaders = computed(() => {
 <template>
   <q-btn v-bind="$attrs" flat :round="btnRound" :icon="icon" :label="label">
     <q-menu>
-      <q-list :style="`min-width: ${width}px`" :dense="listDense">
+      <q-list :style="`min-width: ${width}px`" dense>
         <q-item-label header>{{ t('base.filterField') }}</q-item-label>
         <q-separator />
         <q-item
@@ -35,7 +35,7 @@ const fillableHeaders = computed(() => {
           :key="'fill-fields-' + fi"
           clickable
           tag="label"
-          :dense="listDense"
+          dense
         >
           <q-item-section side top>
             <q-checkbox v-model="f.options.fillable" size="sm" />

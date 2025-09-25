@@ -75,7 +75,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                   />
                 </template>
                 <template #after>
-                  <BaseButton flat round :icon="biSend" />
+                  <BaseButton flat round :icon="{name:'lucide:send'}" />
                 </template>
               </BaseInput>
               <BaseInput
@@ -197,7 +197,7 @@ const onInputUpdate = (val: string | number | undefined | null) => {
                 />
               </template>
               <template #after>
-                <BaseButton flat round :icon="biSend" />
+                <BaseButton flat round :icon="{name:'lucide:send'}" />
               </template>
             </BaseInput>
             <BaseInput

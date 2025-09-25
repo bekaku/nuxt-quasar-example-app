@@ -1,7 +1,16 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <!-- eslint-disable no-unused-vars -->
 <script setup lang="ts">
-import { biFileImage, biCheck, biArrowClockwise, biArrowCounterclockwise, biArrowLeftRight, biArrowsCollapse, biZoomIn, biZoomOut } from '@quasar/extras/bootstrap-icons';
+import {
+  biFileImage,
+  biCheck,
+  biArrowClockwise,
+  biArrowCounterclockwise,
+  biArrowLeftRight,
+  biArrowsCollapse,
+  biZoomIn,
+  biZoomOut
+} from '@quasar/extras/bootstrap-icons'
 const {
   ratio = 1,
   disabled = false,
@@ -11,7 +20,7 @@ const {
   clearOnSubmit = false,
   cropWidth = 960
 } = defineProps<{
-  ratio?: number,//1,4/3,16/9
+  ratio?: number //1,4/3,16/9
   disabled?: boolean
   initialSrc?: string
   width?: string
@@ -25,12 +34,12 @@ const emit = defineEmits<{
   'on-submit': [File]
   'on-cropend': [string]
 }>()
-const { t } = useLang();
-const { appToast } = useBase();
-const originalimagFile = ref<any>(null);
-const maximizedToggle = ref(false);
-const loading = ref(false);
-const priviewImage = ref<string | undefined>();
+const { t } = useLang()
+const { appToast } = useBase()
+const originalimagFile = ref<any>(null)
+const maximizedToggle = ref(false)
+const loading = ref(false)
+const priviewImage = ref<string | undefined>()
 const canvasRef = useTemplateRef<any>('canvasRef')
 const canvasImg = useTemplateRef<any>('canvasImg')
 const selectionRef = useTemplateRef<any>('selectionRef')
@@ -39,38 +48,37 @@ const cropTimeout = ref<any>(null)
 const src = ref<string | undefined>(initialSrc)
 watchEffect(() => {
   if (initialSrc && canvasImg.value) {
-    console.log('watchEffetch initialSrc :', initialSrc);
+    console.log('watchEffetch initialSrc :', initialSrc)
     // canvasImg.value.src = src;
     src.value = initialSrc
-    onCropend();
+    onCropend()
   }
 })
 
 const onClose = () => {
-  clearCropper();
-  originalimagFile.value = null;
-  emit('on-close');
-  maximizedToggle.value = false;
-};
+  clearCropper()
+  originalimagFile.value = null
+  emit('on-close')
+  maximizedToggle.value = false
+}
 
 const onFileAdded = (files: File[]) => {
   if (files && files.length > 0) {
-    originalimagFile.value = files[0];
+    originalimagFile.value = files[0]
     if (/^image\/\w+/.test(originalimagFile.value.type)) {
       // canvasImg.value.src = URL.createObjectURL(originalimagFile.value);
-      src.value = URL.createObjectURL(originalimagFile.value);
-      onCropend();
+      src.value = URL.createObjectURL(originalimagFile.value)
+      onCropend()
     } else {
-      appToast('Please choose an image file.', { type: 'negative' });
+      appToast('Please choose an image file.', { type: 'negative' })
     }
   }
 }
 const onRejected = (rejectedEntries: any) => {
   appToast(t('error.filesValidationFmt', { total: rejectedEntries.length }), {
-    type: 'negative',
-  });
-};
-
+    type: 'negative'
+  })
+}
 
 const onSelectionChange = (event: any) => {
   // console.log('onSelectionChange', event);
@@ -85,28 +93,27 @@ const onCanvaActionmove = (event: any) => {
   // console.log('onCanvaActionmove', event);
 }
 const onCanvaActionend = (event: any) => {
-  onCropend();
-
+  onCropend()
 }
 const getSelectionCanvas = async (): Promise<any> => {
   if (!selectionRef.value) {
-    return new Promise((resolve) => {
-      resolve(null);
+    return new Promise(resolve => {
+      resolve(null)
     })
   }
   const selectionCanvas = await selectionRef.value.$toCanvas({
     beforeDraw: (context: any, canvas: any) => {
-      context.imageSmoothingQuality = 'high';
+      context.imageSmoothingQuality = 'high'
     },
-    width: cropWidth,
-  });
-  return new Promise((resolve) => {
-    resolve(selectionCanvas);
+    width: cropWidth
+  })
+  return new Promise(resolve => {
+    resolve(selectionCanvas)
   })
 }
 const onCropend = async () => {
   cropTimeout.value = setTimeout(async () => {
-    const selectionCanvas = await getSelectionCanvas();
+    const selectionCanvas = await getSelectionCanvas()
     if (selectionCanvas) {
       priviewImage.value = selectionCanvas.toDataURL('image/jpeg')
       if (priviewImage.value) {
@@ -118,46 +125,69 @@ const onCropend = async () => {
   }, 500)
 }
 const onSubmit = async () => {
-  const selectionCanvas = await getSelectionCanvas();
+  const selectionCanvas = await getSelectionCanvas()
   if (selectionCanvas) {
-    loading.value = true;
+    loading.value = true
     selectionCanvas.toBlob(async (blob: any) => {
-      const f = await blobToFile(blob, originalimagFile.value.name);
-      loading.value = false;
-      emit('on-submit', f);
+      const f = await blobToFile(blob, originalimagFile.value.name)
+      loading.value = false
+      emit('on-submit', f)
       if (clearOnSubmit) {
-        onClose();
+        onClose()
       }
-    }, 'image/jpeg');
+    }, 'image/jpeg')
   }
-};
+}
 const clearCropper = () => {
   if (selectionRef.value) {
-    selectionRef.value.$clear();
+    selectionRef.value.$clear()
   }
   if (cropTimeout.value) {
     clearTimeout(cropTimeout.value)
-    cropTimeout.value = null;
+    cropTimeout.value = null
   }
-};
+}
 
 // Clean up on unmount
 onUnmounted(() => {
-  clearCropper();
-});
+  clearCropper()
+})
 </script>
 <template>
   <div class="row">
     <div class="col-12 col-md-8 q-pt-md q-pl-sm">
-      <cropper-canvas id="cropperSelection" ref="canvasRef"
-        :style="{ display: 'block', maxWidth: width, height: height }" :disabled background @action="onCanvaAction"
-        @actionstart="onCanvaActionstart" @actionmove="onCanvaActionmove" @actionend="onCanvaActionend">
+      <cropper-canvas
+        id="cropperSelection"
+        ref="canvasRef"
+        :style="{ display: 'block', maxWidth: width, height: height }"
+        :disabled
+        background
+        @action="onCanvaAction"
+        @actionstart="onCanvaActionstart"
+        @actionmove="onCanvaActionmove"
+        @actionend="onCanvaActionend"
+      >
         <template v-if="src">
-          <cropper-image ref="canvasImg" :src="src" alt="Picture" rotatable scalable skewable translatable />
+          <cropper-image
+            ref="canvasImg"
+            :src="src"
+            alt="Picture"
+            rotatable
+            scalable
+            skewable
+            translatable
+          />
           <cropper-shade hidden />
           <cropper-handle action="select" plain />
-          <cropper-selection ref="selectionRef" initial-coverage="0.5" initial-aspect-ratio="1.5" movable resizable
-            :aspect-ratio="ratio" @change="onSelectionChange">
+          <cropper-selection
+            ref="selectionRef"
+            initial-coverage="0.5"
+            initial-aspect-ratio="1.5"
+            movable
+            resizable
+            :aspect-ratio="ratio"
+            @change="onSelectionChange"
+          >
             <cropper-grid role="grid" theme-color="#2e86de" covered />
             <cropper-crosshair centered />
             <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)" />
@@ -174,12 +204,37 @@ onUnmounted(() => {
       </cropper-canvas>
       <div class="q-pa-sm row justify-around">
         <template v-if="canvasImg">
-          <BaseButton round flat :icon="biZoomIn" @click="canvasImg.$zoom(0.1)" />
-          <BaseButton round flat :icon="biZoomOut" @click="canvasImg.$zoom(-0.1)" />
-          <BaseButton round flat :icon="biArrowCounterclockwise" @click="canvasImg.$rotate('-45deg')" />
-          <BaseButton round flat :icon="biArrowClockwise" @click="canvasImg.$rotate('45deg')" />
-          <BaseButton round flat :icon="biArrowLeftRight" @click="canvasImg.$scale(-1, 1)" />
-          <BaseButton round flat :icon="biArrowsCollapse" @click="canvasImg.$scale(1, -1)" />
+          <BaseButton round flat :icon="{ name: 'lucide:zoom-in' }" @click="canvasImg.$zoom(0.1)" />
+          <BaseButton
+            round
+            flat
+            :icon="{ name: 'lucide:zoom-out' }"
+            @click="canvasImg.$zoom(-0.1)"
+          />
+          <BaseButton
+            round
+            flat
+            :icon="{ name: 'lucide:undo' }"
+            @click="canvasImg.$rotate('-45deg')"
+          />
+          <BaseButton
+            round
+            flat
+            :icon="{ name: 'lucide:redo' }"
+            @click="canvasImg.$rotate('45deg')"
+          />
+          <BaseButton
+            round
+            flat
+            :icon="{ name: 'lucide:arrow-left-right' }"
+            @click="canvasImg.$scale(-1, 1)"
+          />
+          <BaseButton
+            round
+            flat
+            :icon="{ name: 'lucide:arrow-up-down' }"
+            @click="canvasImg.$scale(1, -1)"
+          />
         </template>
       </div>
     </div>
@@ -201,18 +256,22 @@ onUnmounted(() => {
             }}
           </template>
         </q-file> -->
-        <BaseFilePicker accept=".jpg,.png" :multiple="false" :label="t('base.chooseFile')" :show-preview="false"
-          @on-file-add="onFileAdded" />
+        <BaseFilePicker
+          accept=".jpg,.png"
+          :multiple="false"
+          :label="t('base.chooseFile')"
+          :show-preview="false"
+          @on-file-add="onFileAdded"
+        />
         <div class="q-mt-md">
           <slot name="preview">
             <BaseScrollArea height="470px">
               <div v-if="priviewImage" class="cropper-viewers row q-gutter-sm">
-
-                <q-img :src="priviewImage" style="width: 100%; max-height: 320px;" :ratio="ratio" />
-                <q-img :src="priviewImage" style="width: 160px;max-height: 160px;" :ratio="ratio" />
-                <q-img :src="priviewImage" style="width: 80px;max-height: 80px;" :ratio="ratio" />
-                <q-img :src="priviewImage" style="width: 40px;max-height: 40px;" :ratio="ratio" />
-                <q-img :src="priviewImage" style="width: 20px;max-height: 20px;" :ratio="ratio" />
+                <q-img :src="priviewImage" style="width: 100%; max-height: 320px" :ratio="ratio" />
+                <q-img :src="priviewImage" style="width: 160px; max-height: 160px" :ratio="ratio" />
+                <q-img :src="priviewImage" style="width: 80px; max-height: 80px" :ratio="ratio" />
+                <q-img :src="priviewImage" style="width: 40px; max-height: 40px" :ratio="ratio" />
+                <q-img :src="priviewImage" style="width: 20px; max-height: 20px" :ratio="ratio" />
                 <!-- <cropper-viewer selection="#cropperSelection" style="width: 320px;" />
                                 <cropper-viewer selection="#cropperSelection" style="width: 160px;" />
                                 <cropper-viewer selection="#cropperSelection" style="width: 80px;" />
@@ -222,7 +281,13 @@ onUnmounted(() => {
           </slot>
         </div>
         <div class="q-pa-md">
-          <BaseButton full :icon="biCheck" :label="t('base.okay')" :loading="loading" @click="onSubmit" />
+          <BaseButton
+            full
+            :icon="{ name: 'lucide:check' }"
+            :label="t('base.okay')"
+            :loading="loading"
+            @click="onSubmit"
+          />
         </div>
       </div>
     </div>

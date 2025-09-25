@@ -17,7 +17,7 @@ export interface FileManagerMetaData extends Id {
   duration?: number | null;
   title?: string | null;
   description?: string | null;
-  thumbnailFileId?: number | null;
+  thumbnailFileId?: number | string | null;
   thumbnailFile?: any
   width?: number
   height?: number

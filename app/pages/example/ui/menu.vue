@@ -208,7 +208,7 @@ const onItemClick = () => {
         <BaseDropdownMenu :items="menus" label="Simple menu" @on-click="onMenuClick" />
         <BaseDropdownMenu
           :items="submenus"
-          :icon="biDiagram2"
+          :icon="{ name: 'lucide:menu' }"
           label="Submenus"
           @on-click="onMenuClick"
         />
@@ -221,11 +221,10 @@ const onItemClick = () => {
           <q-item-section> Q-item open state </q-item-section>
           <q-item-section side>
             <BaseButton
-              :icon="biThreeDotsVertical"
-              outline
-              label="Click here"
+            flat
               @click="openMenu($event)"
             >
+             <BaseIcon name="lucide:more-vertical"/> Click here
               <BaseDropdownMenu
                 v-model:open="showMenu"
                 empty-body

@@ -207,7 +207,7 @@ const updateSelectedAll = (val: boolean) => {
                       <template v-if="isEditMode" #end>
                         <BaseButton
                           flat
-                          :icon="biTrash"
+                          :icon="{name:'lucide:trash-2'}"
                           round
                           text-color="negative"
                           @click="removePermission(index)"

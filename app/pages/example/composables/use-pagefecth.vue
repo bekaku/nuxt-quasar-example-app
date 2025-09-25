@@ -38,7 +38,7 @@ onMounted(async () => {
       <q-card-section class="q-gutter-md">
         <BaseCard flat bordered title="Paging">
           <template #end>
-            <BaseButton flat round :icon="biArrowClockwise" @click="onReload">
+            <BaseButton flat round :icon="{name:'lucide:refresh-ccw'}" @click="onReload">
               <BaseTooltip> Reload data </BaseTooltip>
             </BaseButton>
           </template>
@@ -77,7 +77,7 @@ onMounted(async () => {
 
         <BaseCard flat bordered title="Loadmore">
           <template #end>
-            <BaseButton flat round :icon="biArrowClockwise" @click="onReload2">
+            <BaseButton flat round :icon="{name:'lucide:refresh-ccw'}" @click="onReload2">
               <BaseTooltip> Reload data </BaseTooltip>
             </BaseButton>
           </template>

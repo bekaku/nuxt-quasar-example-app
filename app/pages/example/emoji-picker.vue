@@ -32,7 +32,7 @@ const onEmojiClick = (emoji: string) => {
             <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
           </template>
           <template #before>
-            <BaseButton round flat :icon="biImage" color="grey-7" />
+            <BaseButton round flat :icon="{ name: 'lucide:image' }" color="grey-7" />
             <ClientOnly>
               <q-btn round flat :icon="biEmojiSmile" color="grey-7">
                 <q-menu>
@@ -46,7 +46,7 @@ const onEmojiClick = (emoji: string) => {
             </ClientOnly>
           </template>
           <template #after>
-            <BaseButton flat round :icon="biSend" color="primary">
+            <BaseButton flat round :icon="{ name: 'lucide:send' }" color="primary">
               <BaseTooltip> Send </BaseTooltip>
             </BaseButton>
           </template>
@@ -61,10 +61,18 @@ const onEmojiClick = (emoji: string) => {
           <BaseLink href="https://icon-sets.iconify.design/" color="primary" external>
             <BaseIcon name="lucide:move-up-right" icon-set="nuxt" color="light" /> Iconify
           </BaseLink>
-          <BaseLink href="https://icon-sets.iconify.design/hugeicons/?keyword=huge" color="primary" external>
+          <BaseLink
+            href="https://icon-sets.iconify.design/hugeicons/?keyword=huge"
+            color="primary"
+            external
+          >
             <BaseIcon name="lucide:move-up-right" icon-set="nuxt" /> Huge Icon
           </BaseLink>
-          <BaseLink href="https://icon-sets.iconify.design/lucide/?keyword=lucide" color="primary" external>
+          <BaseLink
+            href="https://icon-sets.iconify.design/lucide/?keyword=lucide"
+            color="primary"
+            external
+          >
             <BaseIcon name="lucide:move-up-right" icon-set="nuxt" /> lucide Icon
           </BaseLink>
         </p>
@@ -93,10 +101,7 @@ const onEmojiClick = (emoji: string) => {
         <BaseButton color="primary">
           <BaseIcon name="uil:trophy" class="q-mr-sm" icon-set="nuxt" /> With button
         </BaseButton>
-        <BaseButton outline>
-          <BaseIcon name="uil:utensils-alt" color="pink" class="q-mr-sm" icon-set="nuxt" /> With
-          button
-        </BaseButton>
+        <BaseButton outline :icon="{ name: 'uil:utensils-alt' }" label="With icon" />
 
         <div class="text-h6">Quasar Icon</div>
         <BaseIcon :name="biAppIndicator" icon-set="quasar" />

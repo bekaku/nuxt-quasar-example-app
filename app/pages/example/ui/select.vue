@@ -377,7 +377,7 @@ watch(districtSeleted, () => {
         :items="items3"
       >
         <template #inputAppend>
-          <BaseButton flat round :icon="biX" @click="showCommandPaletteDialog = false" />
+          <BaseButton flat round :icon="{name:'lucide:x'}" @click="showCommandPaletteDialog = false" />
         </template>
       </BaseCommandPalette>
     </BaseDialog>
