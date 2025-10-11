@@ -1,3 +1,4 @@
+import type { NamedTupleMember } from "typescript";
 import type { ChatMessageType, ChatType, EmojiType, FileMimeType, ILanguge, LoginLogType, UploadStatus, VideoSrc, VideoTrack } from "./common";
 export type IPermissionOperationType = 1 | 2 | 3; // 1=crud, 2=report, 3=other
 export type PermissionType = "CRUD" | "REPORT" | "OTHER" | "FEATURE";
@@ -22,6 +23,7 @@ export interface FileManagerMetaData extends Id {
   width?: number
   height?: number
   view?: number
+  hidden?: boolean
 }
 export interface FileManager extends FileManagerMetaData {
   fileMime: string;
@@ -50,6 +52,18 @@ export interface FileUploadChunkResponse {
   fileMime?: string | null;
   status?: boolean;
   lastChunk?: boolean;
+}
+export interface DirectoryPath extends Id {
+  current?: boolean;
+  root?: boolean;
+  name: string;
+  fileSize?: number;
+}
+export interface FilesDirectory extends Id {
+  active?: boolean;
+  filesDirectoryParentId?: number;
+  name: string;
+  paths?: DirectoryPath[];
 }
 
 export interface FileUploadChunkMergeRequest extends FileManagerMetaData {

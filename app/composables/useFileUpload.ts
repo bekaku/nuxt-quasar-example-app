@@ -10,8 +10,8 @@ export const useFileUpload = (options?: {
     const uploading = ref(false)
     const progress = ref(0)
     const status = ref<UploadStatus>();
-    const chunkSize = options?.chunkSize || (1 * 1024 * 1024); // 1 MB
-    const maxRetries = options?.maxRetries || 3;
+    const chunkSize = ref<number>(options?.chunkSize || (1 * 1024 * 1024)); // 1 MB
+    const maxRetries = ref<number>(options?.maxRetries || 3);
 
     // Track uploaded chunks for resume support
     const uploadedChunks = new Set<number>()
@@ -25,7 +25,7 @@ export const useFileUpload = (options?: {
         uploadedChunks.clear()
     }
     const onUploadChunkProcess = async (chunk: Blob, index: number, total: number, filename: string): Promise<FileUploadChunkResponse | null> => {
-        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        for (let attempt = 1; attempt <= maxRetries.value; attempt++) {
             try {
                 const response = await uploadChunkApi(chunk, index, total, filename, chunkFileName.value)
                 uploadedChunks.add(index)
@@ -49,13 +49,13 @@ export const useFileUpload = (options?: {
             return new Promise(resolve => resolve(null))
         }
         onChunkUploadClear()
-        const totalChunks = Math.ceil(selectedFile.size / chunkSize)
+        const totalChunks = Math.ceil(selectedFile.size / chunkSize.value)
         const filename = selectedFile.name
         for (let chunkIndex = 1; chunkIndex <= totalChunks; chunkIndex++) {
             if (uploadedChunks.has(chunkIndex)) continue // skip if already uploaded
 
-            const start = (chunkIndex - 1) * chunkSize
-            const end = Math.min(start + chunkSize, selectedFile.size)
+            const start = (chunkIndex - 1) * chunkSize.value
+            const end = Math.min(start + chunkSize.value, selectedFile.size)
             const chunk = selectedFile.slice(start, end)
             console.log('Uploading chunk', chunkIndex, 'of', totalChunks)
             const response = await onUploadChunkProcess(chunk, chunkIndex, totalChunks, filename)
@@ -85,7 +85,8 @@ export const useFileUpload = (options?: {
                 title: fileMetaData?.title || null,
                 description: fileMetaData?.description || null,
                 width: fileMetaData?.width || 0,
-                height: fileMetaData?.height || 0
+                height: fileMetaData?.height || 0,
+                hidden: fileMetaData?.hidden || false
             })
             if (response && response.id) {
                 console.info('Merge complete')
@@ -159,8 +160,9 @@ export const useFileUpload = (options?: {
                     currentFileIndex.value = index;
                     await setDownloadStatus();
                     // if upload video file
-                    if (f.fileMimeType == 'VIDEO' && f.thumbnailFile) {
-                        const videoResponse = await onUploadChunk(f.thumbnailFile, false);
+                    if (f.thumbnailFile) {
+                        console.log('start upload thumbnail');
+                        const videoResponse = await onUploadChunk(f.thumbnailFile, false, { hidden: true });
                         console.log('videoResponse', videoResponse);
                         if (videoResponse && videoResponse.id) {
                             fileMetaData = {
@@ -169,11 +171,12 @@ export const useFileUpload = (options?: {
                                 title: f.title || null,
                                 description: f.description || null,
                                 width: f.width || 0,
-                                height: f.height || 0
+                                height: f.height || 0,
                             }
                             console.log('Upload video thumbnail chunk and merged complete');
                         }
                     }
+                    console.log('start upload chunk:', fileMetaData);
                     const response = await onUploadChunk(f.file, true, fileMetaData);
                     if (response) {
                         console.log('Upload chunk and merged complete');
@@ -190,6 +193,7 @@ export const useFileUpload = (options?: {
         files,
         uploading,
         status,
-        progress
+        progress,
+        chunkSize
     }
 }

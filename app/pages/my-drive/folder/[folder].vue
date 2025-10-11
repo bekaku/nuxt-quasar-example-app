@@ -45,7 +45,7 @@ const folderId = computed<string>(() => getParam('folder') || '0')
 // )
 const showFolderForm = ref(false)
 const searchText = ref<string>('')
-const viewMode = ref<string>('list')
+const viewMode = ref<string>('grid')
 const viewModeOptions: LabelValue<string>[] = [
   { label: t('base.listView'), value: 'list', icon: biListTask as any },
   { label: t('base.gridView'), value: 'grid', icon: biGrid as any }
@@ -60,7 +60,8 @@ const {
   sort,
   onSortColumn,
   onSortMode,
-  loading
+  loading,
+  isInfiniteDisabled
 } = usePagefecth<FileManager>({
   apiEndpoint: '/api/fileManager',
   additionalUri: `directoryId=${folderId.value}`,
@@ -94,7 +95,7 @@ const uploadMenus = ref<LabelValue<string>[]>([
       name: 'lucide:file-audio-2',
       iconSet: 'nuxt'
     },
-    value: 'video'
+    value: 'audio'
   }
 ])
 const onFolderClick = async (folderId: string) => {
@@ -130,6 +131,13 @@ const onFolderUpdate = async (folder?: FileManager) => {
   console.log('onFolderUpdate', folder)
   showFolderForm.value = false
 }
+const nextPage = async (index: number, done: any) => {
+  console.log('nextPage', index)
+  await onNextPage()
+  if (done != undefined) {
+    done()
+  }
+}
 onMounted(async () => {
   await loadData()
 })
@@ -158,6 +166,7 @@ onMounted(async () => {
         </BaseDropdownMenu>
       </template>
       <q-separator />
+
       <q-toolbar class="app-border-radius">
         <BaseButtonToggle v-model="viewMode" :options="viewModeOptions" />
         <BaseInput
@@ -200,47 +209,61 @@ onMounted(async () => {
           @on-sort-mode="onSortMode"
         />
       </q-toolbar>
-
-      <BaseTransitionWrapper name="slide-up">
-        <BaseCardSection v-if="selected.length > 0" :padding="false">
-          <BaseCard>
-            <q-toolbar>
-              <BaseButton flat>
-                <BaseIcon name="lucide:trash-2" icon-set="nuxt" />
-                <span class="q-ml-sm">{{ t('base.delete') }}</span>
-              </BaseButton>
-              <BaseButton flat>
-                <BaseIcon name="lucide:folder-input" icon-set="nuxt" />
-                <span class="q-ml-sm">{{ t('drive.moveTo') }}</span>
-              </BaseButton>
-              <BaseButton v-if="selected.length === 1" flat>
-                <BaseIcon name="lucide:text-cursor-input" icon-set="nuxt" />
-                <span class="q-ml-sm">{{ t('drive.changName') }}</span>
-              </BaseButton>
-              <q-space />
-              <BaseButton flat @click="onClearSelected">
-                <BaseIcon name="lucide:x" icon-set="nuxt" />
-                <span class="q-ml-sm">{{ t('base.selectdItems', selected.length as any) }}</span>
-              </BaseButton>
-            </q-toolbar>
-          </BaseCard>
-        </BaseCardSection>
-      </BaseTransitionWrapper>
-
+      <div class="fixed-bottom-right my-fixed-div">
+        <BaseTransitionWrapper name="slide-up">
+          <BaseCardSection v-if="selected.length > 0" :padding="false">
+            <BaseCard>
+              <q-toolbar class="bg-primary text-white">
+                <BaseButton dense flat>
+                  <BaseIcon name="lucide:trash-2" icon-set="nuxt" />
+                  <BaseEllipsis :lines="1">
+                    <span class="q-ml-sm">{{ t('base.delete') }}</span>
+                  </BaseEllipsis>
+                </BaseButton>
+                <BaseButton dense flat>
+                  <BaseIcon name="lucide:folder-input" icon-set="nuxt" />
+                  <BaseEllipsis :lines="1">
+                    <span class="q-ml-sm">{{ t('drive.moveTo') }}</span>
+                  </BaseEllipsis>
+                </BaseButton>
+                <BaseButton dense v-if="selected.length === 1" flat>
+                  <BaseIcon name="lucide:text-cursor-input" icon-set="nuxt" />
+                  <BaseEllipsis :lines="1">
+                    <span class="q-ml-sm">{{ t('drive.changName') }}</span>
+                  </BaseEllipsis>
+                </BaseButton>
+                <q-space />
+                <BaseButton dense flat @click="onClearSelected">
+                  <BaseIcon name="lucide:x" icon-set="nuxt" />
+                  <span class="q-ml-sm">{{ t('base.selectdItems', selected.length as any) }}</span>
+                </BaseButton>
+              </q-toolbar>
+            </BaseCard>
+          </BaseCardSection>
+        </BaseTransitionWrapper>
+      </div>
       <template v-if="!firstLoaded">
         <LazySkeletonItem v-if="viewMode === 'list'" />
         <LazySkeletonCard v-else col="col-12 col-md-2 q-pa-xs" :no="6" />
       </template>
       <template v-else-if="dataList.length > 0">
-        <LazyDriveList
-          v-if="viewMode === 'list'"
-          v-model:selected="selected"
-          :items="dataList"
-          @on-check-all="updateSelectedAll"
-          @on-item-click="onItemCLick"
-          class="q-pt-md"
-        />
-        <LazyDriveGrid v-else :items="dataList" />
+        <!-- <BaseScrollArea height="65vh"> -->
+        <BaseInfiniteScroll :disable="isInfiniteDisabled" @on-infinite="nextPage">
+          <LazyDriveList
+            v-if="viewMode === 'list'"
+            v-model:selected="selected"
+            :items="dataList"
+            @on-check-all="updateSelectedAll"
+            @on-item-click="onItemCLick"
+          />
+          <LazyDriveGrid
+            v-else
+            :items="dataList"
+            v-model:selected="selected"
+            @on-item-click="onItemCLick"
+          />
+        </BaseInfiniteScroll>
+        <!-- </BaseScrollArea> -->
       </template>
       <template v-else>
         <LazyBaseResult status="empty" :description="t('base.items', 0)" />
@@ -254,3 +277,8 @@ onMounted(async () => {
     />
   </BasePage>
 </template>
+<style lang="scss" scoped>
+.my-fixed-div {
+  z-index: 555;
+}
+</style>

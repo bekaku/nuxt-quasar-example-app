@@ -9,10 +9,17 @@ useHead({
   title: 'File picker'
 })
 const { files: fileChunks, uploading, progress, onStartUploadChunk } = useFileUpload()
+const {
+  files: vdoFiles,
+  uploading: vdoUploading,
+  progress: vdoProgress,
+  onStartUploadChunk: onStartUploadVdo
+} = useFileUpload({
+  chunkSize: 5 * 1024 * 1024
+})
 const files = ref<File[]>([])
 const filesPreview = ref<FileManager[]>([])
 const filesSinglePreview = ref<FileManager[]>([])
-const vdoFiles = ref<FileManager[]>([])
 const filePickerCustomUiRef =
   useTemplateRef<InstanceType<typeof BaseFilePicker>>('filePickerCustomUiRef')
 const customFiles = ref<FileManager[]>([])
@@ -67,18 +74,21 @@ const onCustomRemove2 = (index: number) => {
 </script>
 <template>
   <BasePage :full="false">
-     <BaseCard title="Video picker">
+    <BaseCard title="Video picker">
       <BaseCardSection>
         <BaseFilePicker
           v-model="vdoFiles"
           video-editor
           label="Select vdo"
-          preview-style="CARD"
-          preview-col='col-2'
+          preview-col="col-2"
           @on-file-add="onVdoFileAdd"
         />
 
-        <BaseButton label="Upload Video"/>
+        <BaseButton
+          :disable="!vdoFiles || vdoFiles.length == 0 || vdoUploading"
+          label="Upload Video"
+          @click="onStartUploadVdo"
+        />
       </BaseCardSection>
     </BaseCard>
     <BaseCard title="Chunk upload">
@@ -151,7 +161,7 @@ const onCustomRemove2 = (index: number) => {
           <BaseButton
             class="q-my-md"
             outline
-            :icon="{name:'lucide:cloud-upload'}"
+            :icon="{ name: 'lucide:cloud-upload' }"
             label="Open Picker"
             @click="openPicker"
           />
@@ -186,11 +196,17 @@ const onCustomRemove2 = (index: number) => {
               <base-avatar :src="authenStore?.auth?.avatar?.thumbnail" />
             </template>
             <template #before>
-              <BaseButton round flat :icon="{name:'lucide:file-image'}" color="grey-7" @click="openPicker2" />
-              <BaseButton round flat :icon="{name:'lucide:smile-plus'}" color="grey-7" />
+              <BaseButton
+                round
+                flat
+                :icon="{ name: 'lucide:file-image' }"
+                color="grey-7"
+                @click="openPicker2"
+              />
+              <BaseButton round flat :icon="{ name: 'lucide:smile-plus' }" color="grey-7" />
             </template>
             <template #after>
-              <BaseButton flat round :icon="{name:'lucide:send'}" color="primary">
+              <BaseButton flat round :icon="{ name: 'lucide:send' }" color="primary">
                 <BaseTooltip> Send </BaseTooltip>
               </BaseButton>
             </template>

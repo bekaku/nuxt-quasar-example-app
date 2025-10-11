@@ -2,7 +2,11 @@
 import type { FileManager } from '~/types/models'
 const { t, locale } = useLang()
 const { formatDateTime } = useDateFns()
-const { items, iconSize = '3em', imageSize = '45px' } = defineProps<{
+const {
+  items,
+  iconSize = '3em',
+  imageSize = '45px'
+} = defineProps<{
   items: FileManager[]
   iconSize?: string
   imageSize?: string
@@ -36,81 +40,92 @@ const onRowClick = (id: string | number | null | undefined) => {
 }
 </script>
 <template>
-  <q-markup-table v-bind="$attrs" separator="horizontal" dense flat class="crud-table">
-    <thead>
-      <tr>
-        <th class="text-center">
-          <BaseCheckbox v-model="selectedAll" :show-label="false" @click="onCheckedAll">
-            <BaseTooltip>
-              {{ !selectedAll ? t('base.selectAll') : t('base.deselectAll') }}
-            </BaseTooltip>
-          </BaseCheckbox>
-        </th>
-        <th class="text-left">{{ t('drive.fileName') }}</th>
-        <th class="text-left">{{ t('drive.updatedDate') }}</th>
-        <th class="text-left">{{ t('drive.fileSize') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <template v-if="items.length > 0">
-        <template v-for="(item, index) in items" :key="`drive-list-${index}-${item.id}`">
-          <tr @click="onRowClick(item.id)">
-            <td class="text-center">
-              <BaseCheckbox v-model="selected" :val="item.id" :show-label="false"> </BaseCheckbox>
-            </td>
-            <td>
-              <q-item>
-                <q-item-section side>
-                  <template v-if="item.fileMimeType != 'DIRECTORY'">
-                    <template v-if="item.fileMimeType == 'IMAGE' && item.fileThumbnailPath">
-                      <BaseImage
-                        :src="item.fileThumbnailPath"
-                        :style="{ width: imageSize }"
-                        :alt="item.fileName"
+  <div>
+    <q-markup-table v-bind="$attrs" separator="horizontal" dense flat class="crud-table">
+      <thead>
+        <tr>
+          <th class="text-center">
+            <BaseCheckbox v-model="selectedAll" :show-label="false" @click="onCheckedAll">
+              <BaseTooltip>
+                {{ !selectedAll ? t('base.selectAll') : t('base.deselectAll') }}
+              </BaseTooltip>
+            </BaseCheckbox>
+          </th>
+          <th class="text-left">{{ t('drive.fileName') }}</th>
+          <th class="text-left">{{ t('drive.updatedDate') }}</th>
+          <th class="text-left">{{ t('drive.fileSize') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-if="items.length > 0">
+          <template v-for="(item, index) in items" :key="`drive-list-${index}-${item.id}`">
+            <tr @click="onRowClick(item.id)">
+              <td class="text-center">
+                <BaseCheckbox v-model="selected" :val="item.id" :show-label="false"> </BaseCheckbox>
+              </td>
+              <td>
+                <q-item dense>
+                  <q-item-section side>
+                    <template v-if="item.fileMimeType != 'DIRECTORY'">
+                      <template v-if="item.fileThumbnailPath">
+                        <BaseImage
+                          :src="item.fileThumbnailPath"
+                          :style="{ width: imageSize }"
+                          :alt="item.fileName"
+                        >
+                          <BaseIcon
+                            v-if="item?.fileMimeType == 'VIDEO'"
+                            name="hugeicons:play-circle-02"
+                            icon-set="nuxt"
+                            color="white"
+                            size="24px"
+                            class="absolute-center"
+                          />
+                        </BaseImage>
+                      </template>
+                      <BaseIcon
+                        v-else
+                        :name="getFileTypeIconFromFileManager(item)"
+                        icon-set="nuxt"
+                        :size="imageSize"
                       />
                     </template>
+
                     <BaseIcon
                       v-else
-                      :name="getFileTypeIconFromFileManager(item)"
+                      name="flat-color-icons:folder"
                       icon-set="nuxt"
                       :size="imageSize"
+                      color="yellow"
                     />
-                  </template>
-
-                  <BaseIcon
-                    v-else
-                    name="flat-color-icons:folder"
-                    icon-set="nuxt"
-                    :size="imageSize"
-                    color="yellow"
-                  />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label lines="1">
-                    <div class="underline" @click="onItemClick($event, item.id)">
-                      {{ item.fileName }}
-                    </div>
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </td>
-            <td>
-              <span class="text-muted">{{
-                formatDateTime(item.updatedDate, FORMAT_DATE1, locale)
-              }}</span>
-            </td>
-            <td>
-              <span class="text-muted">{{
-                item.fileMimeType != 'DIRECTORY'
-                  ? item.fileSize
-                  : t('base.items', item.fileCount as any)
-              }}</span>
-            </td>
-          </tr>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label lines="1">
+                      <div class="underline" @click="onItemClick($event, item.id)">
+                        {{ item.fileName }}
+                      </div>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </td>
+              <td>
+                <span class="text-muted">{{
+                  formatDateTime(item.updatedDate, FORMAT_DATE1, locale)
+                }}</span>
+              </td>
+              <td>
+                <span class="text-muted">{{
+                  item.fileMimeType != 'DIRECTORY'
+                    ? item.fileSize
+                    : t('base.items', item.fileCount as any)
+                }}</span>
+              </td>
+            </tr>
+          </template>
         </template>
-      </template>
-    </tbody>
-  </q-markup-table>
+      </tbody>
+    </q-markup-table>
+  </div>
 </template>
 <style lang="css" scoped>
 .underline {

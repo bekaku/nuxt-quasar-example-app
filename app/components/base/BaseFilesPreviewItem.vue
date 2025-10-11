@@ -82,40 +82,9 @@ const onClick = (event: any, index: number) => {
         :ratio="item.fileMimeType == 'VIDEO' ? 16 / 9 : ratio"
         :class="{ rounded: rounded }"
         :hover-zoom="hoverZoom"
-        class="cursor-pointer"
+        class="cursor-pointer q-mb-xs"
         @click="onClick($event, index)"
       >
-        <div v-if="item.uploadProgress" class="absolute-center all-pointer-events">
-          <q-circular-progress
-            v-if="
-              item.uploadProgress.status == 'UPLOADING' || item.uploadProgress.status == 'COMPLETED'
-            "
-            :indeterminate="false"
-            show-value
-            font-size="10px"
-            :value="Math.round(item.uploadProgress.progress * 100)"
-            size="35px"
-            :thickness="0.22"
-            :color="
-              item.uploadProgress.status == 'UPLOADING'
-                ? 'primary'
-                : item.uploadProgress.status == 'COMPLETED'
-                  ? 'positive'
-                  : 'negative'
-            "
-            track-color="grey-3"
-          >
-            <template v-if="item.uploadProgress.status == 'UPLOADING'">
-              {{ Math.round(item.uploadProgress.progress * 100) }}%
-            </template>
-            <template v-else-if="item.uploadProgress.status == 'COMPLETED'">
-              <BaseIcon :name="biCheck2" color="positive" icon-set="quasar" size="16px" />
-            </template>
-            <template v-else-if="item.uploadProgress.status == 'FAILED'">
-              <BaseIcon :name="biExclamation" color="negative" icon-set="quasar" size="16px" />
-            </template>
-          </q-circular-progress>
-        </div>
         <BaseIcon
           v-if="playIcon && item?.fileMimeType == 'VIDEO'"
           name="hugeicons:play-circle-02"
@@ -131,7 +100,6 @@ const onClick = (event: any, index: number) => {
         >
           {{ formatDurationHMS(item?.duration || 0) }}
         </span>
-
         <q-btn
           v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
           class="absolute all-pointer-events"
@@ -174,10 +142,44 @@ const onClick = (event: any, index: number) => {
           </template>
         </q-item-section>
         <q-item-section side>
-          <q-item-label v-if="showSize" caption>
+          <q-item-label caption>
             <slot name="size">
-              {{ formatSize ? formatBytes(item.fileSize) : item.fileSize }}
+              <template v-if="showSize && !item.uploadProgress">
+                {{ formatSize ? formatBytes(item.fileSize) : item.fileSize }}
+              </template>
             </slot>
+            <template v-if="item.uploadProgress">
+              <q-circular-progress
+                v-if="
+                  item.uploadProgress.status == 'UPLOADING' ||
+                  item.uploadProgress.status == 'COMPLETED'
+                "
+                :indeterminate="false"
+                show-value
+                font-size="10px"
+                :value="Math.round(item.uploadProgress.progress * 100)"
+                size="35px"
+                :thickness="0.22"
+                :color="
+                  item.uploadProgress.status == 'UPLOADING'
+                    ? 'primary'
+                    : item.uploadProgress.status == 'COMPLETED'
+                      ? 'positive'
+                      : 'negative'
+                "
+                track-color="grey-3"
+              >
+                <template v-if="item.uploadProgress.status == 'UPLOADING'">
+                  {{ Math.round(item.uploadProgress.progress * 100) }}%
+                </template>
+                <template v-else-if="item.uploadProgress.status == 'COMPLETED'">
+                  <BaseIcon :name="biCheck2" color="positive" icon-set="quasar" size="16px" />
+                </template>
+                <template v-else-if="item.uploadProgress.status == 'FAILED'">
+                  <BaseIcon :name="biExclamation" color="negative" icon-set="quasar" size="16px" />
+                </template>
+              </q-circular-progress>
+            </template>
           </q-item-label>
         </q-item-section>
       </q-item>

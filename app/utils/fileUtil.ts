@@ -325,6 +325,9 @@ export const getFileExtension = (t: string): string | undefined => {
         case 'x-rar':
             extension = '.rar';
             break;
+        case 'text/plain':
+            extension = '.txt'
+            break
         case 'video/mp4':
         case 'video/mpeg4':
             extension = '.mp4';

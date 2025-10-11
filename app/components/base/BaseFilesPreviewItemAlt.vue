@@ -167,14 +167,13 @@ const onClick = (event: any, index: number) => {
 
           <BaseButton
             v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
-            :icon="{name:'lucide:x'}"
+            :icon="{name:'lucide:x', size: '16px'}"
             flat
             round
+            :tooltip="t('base.delete')"
+            tooltip-color="negative"
             @click="onRemove($event, index)"
           >
-            <BaseTooltip color="negative">
-              {{ t('base.delete') }}
-            </BaseTooltip>
           </BaseButton>
         </div>
       </slot>

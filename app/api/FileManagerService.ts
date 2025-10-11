@@ -1,5 +1,5 @@
 import { useAxios } from '~/composables/useAxios';
-import type { FileManager, FileUploadChunkMergeRequest, FileUploadChunkResponse } from '~/types/models';
+import type { FileManager, FilesDirectory, FileUploadChunkMergeRequest, FileUploadChunkResponse } from '~/types/models';
 import type { ResponseDataType, ResponseMessage } from '~/types/common';
 import { FileDirectoryKey, FileUploadKey } from '~/libs/constants';
 import {
@@ -107,7 +107,7 @@ export default () => {
       clearBaseUrl: true
 
     });
-    console.log('response',path, response)
+    console.log('response', path, response)
     if (response.data) {
       if (responseDataType == 'blob') {
         const imageUrlObject = await getBlobFromAxiosResponse(response);
@@ -149,6 +149,32 @@ export default () => {
       return new Promise((resolve) => resolve(null));
     }
   }
+
+
+  const createFolder = async (request: FilesDirectory): Promise<FileManager | null> => {
+    return await callAxios<FileManager>({
+      API: '/api/filesDirectory',
+      method: 'POST',
+      baseURL: config.cdnBase,
+      body: {
+        filesDirectory: request,
+      },
+    });
+  };
+  const findOneFolder = async (id: number): Promise<FilesDirectory | null> => {
+    return await callAxios<FilesDirectory>({
+      API: `/api/filesDirectory/${id}`,
+      baseURL: config.cdnBase,
+      method: 'GET',
+    });
+  };
+  const deleteFolder = async (id: number): Promise<FilesDirectory | null> => {
+    return await callAxios<FilesDirectory>({
+      API: `/api/filesDirectory/${id}`,
+      baseURL: config.cdnBase,
+      method: 'DELETE',
+    });
+  };
   return {
     uploadApi,
     uploadChunkApi,
@@ -158,6 +184,9 @@ export default () => {
     deleteFileApi,
     fethCdnData,
     downloadCdnData,
-    findAllFolderAndFiles
+    findAllFolderAndFiles,
+    createFolder,
+    findOneFolder,
+    deleteFolder
   };
 };
