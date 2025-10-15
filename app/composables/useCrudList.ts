@@ -1,5 +1,5 @@
 import { CrudAction, KeywordParamiter, SearchOperation, SearchParamiter } from "~/libs/constants";
-import type { CrudListApiOptions, IApiListResponse, ICrudAction, ICrudListHeader, ISortModeType, ResponseMessage } from "~/types/common";
+import type { CrudListApiOptions, ApiResponse, ICrudAction, ICrudListHeader, ISortModeType, ResponseMessage } from "~/types/common";
 
 export const useCrudList = <T>(options: CrudListApiOptions) => {
 
@@ -146,7 +146,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         }
         loading.value = true;
         try {
-            const response = await callAxios<IApiListResponse<T>>({
+            const response = await callAxios<ApiResponse<T>>({
                 API: pageParam.value,
                 method: 'GET'
             });

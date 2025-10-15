@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IApiListResponse, OgMeta } from '~/types/common'
+import type { ApiResponse, OgMeta } from '~/types/common'
 import type { Permission } from '~/types/models'
 
 const { $axios } = useNuxtApp()
@@ -10,7 +10,7 @@ useSeoMeta({
 const ogLoading = ref(false)
 const ogItem = ref<OgMeta>()
 
-const reponseApiItem = ref<IApiListResponse<Permission> | null>(null)
+const reponseApiItem = ref<ApiResponse<Permission> | null>(null)
 const reaponseApiLoading = ref<boolean>(false)
 
 const reponseListItems = ref<Permission[] | null>(null)
@@ -58,7 +58,7 @@ const fetchDataViaComposible = async () => {
 
 const fetchResponseApi = async () => {
   reaponseApiLoading.value = true
-  reponseApiItem.value = await callAxios<IApiListResponse<Permission>>({
+  reponseApiItem.value = await callAxios<ApiResponse<Permission>>({
     API: '/api/permission?page=0&size=10&sort=code,asc',
     method: 'GET'
   })

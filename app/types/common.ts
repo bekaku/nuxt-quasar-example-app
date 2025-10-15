@@ -139,16 +139,14 @@ export interface AppException {
     errors?: string[];
     timestamp?: string;
 }
-export interface ApiResponse {
-    response?: any;
-    error?: any;
-}
 export interface ApiListResponse {
     totalPages: number;
     totalElements: number;
     last: boolean;
 }
-
+export interface ApiResponse<Type> extends ApiListResponse {
+    dataList: Type[];
+}
 export interface CacheDateAndKey {
     key: string;
     date: string | number;
@@ -270,9 +268,7 @@ export interface IPagination {
     last?: boolean;
     perPageList: ITextValue[];
 }
-export interface IApiListResponse<Type> extends ApiListResponse {
-    dataList: Type[];
-}
+
 export interface ICrudListHeaderOption {
     searchable?: boolean;
     fillable?: boolean;

@@ -4,12 +4,12 @@ import type {
   UserPersonalEditRequest,
   UserChangePasswordRequest
 } from '@/types/models';
-import type { AppLocale, IApiListResponse, LoginedProfileItem, RefreshTokenRequest, RefreshTokenResponse, ResponseMessage } from '~/types/common';
+import type { AppLocale, ApiResponse, LoginedProfileItem, RefreshTokenRequest, RefreshTokenResponse, ResponseMessage } from '~/types/common';
 export default () => {
   const { callAxios } = useAxios();
 
-  const findAll = async (q: string): Promise<IApiListResponse<AppUser> | null> => {
-    return await callAxios<IApiListResponse<AppUser>>({
+  const findAll = async (q: string): Promise<ApiResponse<AppUser> | null> => {
+    return await callAxios<ApiResponse<AppUser>>({
       API: `/api/appUser${q}`,
       method: 'GET',
     });

@@ -1,10 +1,10 @@
 // move this file to /app/api 
 import type { AppRole } from '~/types/models';
-import type { ResponseMessage, IApiListResponse } from '~/types/common';
+import type { ResponseMessage, ApiResponse } from '~/types/common';
 export default () => {
   const { callAxios } = useAxios();
-  const findAll = async (q: string): Promise<IApiListResponse<AppRole> | null> => {
-    return await callAxios<IApiListResponse<AppRole>>({
+  const findAll = async (q: string): Promise<ApiResponse<AppRole> | null> => {
+    return await callAxios<ApiResponse<AppRole>>({
       API: `/api/appRole${q}`,
       method: 'GET',
     });

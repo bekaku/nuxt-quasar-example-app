@@ -1,4 +1,4 @@
-import type { AppException, IApiListResponse, IHrefTarget, IMenuPageItem, ISortModeType, LabelValue, ResponseMessage, ServerException } from "~/types/common";
+import type { AppException, ApiResponse, IHrefTarget, IMenuPageItem, ISortModeType, LabelValue, ResponseMessage, ServerException } from "~/types/common";
 
 export const isAppException = (obj: any): obj is AppException => {
     return (
@@ -19,7 +19,7 @@ export const isServerException = (obj: any): obj is ServerException => {
 export const isServerResponseMessage = (obj: any): obj is ResponseMessage => {
     return obj.status !== undefined && obj.message !== undefined;
 };
-export const isListResponse = (obj: any): obj is IApiListResponse<any> => {
+export const isListResponse = (obj: any): obj is ApiResponse<any> => {
     return (
         obj.dataList !== undefined &&
         obj.last !== undefined &&
@@ -140,7 +140,7 @@ export const urlify = (
     inputText: string,
     linkColor: string | undefined = undefined
 ) => {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urlRegex = /(https?:\/\/[^\s<]+)/g;
     return inputText.replace(urlRegex, (url) => {
         return `<a class="app-text-link ${linkColor ? linkColor : ''
             }" href="${url}" target="_blank">${url}</a>`;

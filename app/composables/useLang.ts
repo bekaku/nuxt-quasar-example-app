@@ -40,9 +40,9 @@ export const useLang = () => {
     }
     const onSwitchLocale = (l: ILanguge) => {
         onSetLocale(l);
-        timeout.value = setTimeout(() => {
-            window.location.reload()
-        }, 500);
+        // timeout.value = setTimeout(() => {
+        //     window.location.reload()
+        // }, 500);
     }
     onBeforeUnmount(() => {
         if (timeout.value) {

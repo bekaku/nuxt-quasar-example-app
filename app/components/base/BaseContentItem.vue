@@ -138,7 +138,7 @@ const setDescHeight = () => {
 const urlify = (rawText: string, linkColor: string | undefined = undefined) => {
   const inputText = isEscapeHtml ? escapeHtml(rawText) : rawText
   if (canUrlify) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const urlRegex = /(https?:\/\/[^\s<]+)/g;
     const textLink = inputText.replace(urlRegex, url => {
       return `<a class="content-href-${contentId} ${linkStyle} ${
         linkColor ? linkColor : ''

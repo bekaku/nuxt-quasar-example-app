@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { IApiListResponse, CrudListApiOptions, ISortModeType } from "~/types/common";
+import type { ApiResponse, CrudListApiOptions, ISortModeType } from "~/types/common";
 
 export const usePagefecth = <T>(options: CrudListApiOptions) => {
   const { callAxios } = useAxios();
@@ -41,7 +41,7 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
   );
   const loadData = async () => {
     loading.value = true;
-    const response = await callAxios<IApiListResponse<T>>({
+    const response = await callAxios<ApiResponse<T>>({
       API: apiEndpoint.value,
       method: 'GET'
     });
