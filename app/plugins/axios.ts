@@ -12,7 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     // const event = useRequestEvent()
     const authenStore = useAuthenStore();
     const { setRefreshAuthenToken, currentUserId, getCurrentUserToken, removeAuthToken } = useAppCookie();
-
+    const BIGINT_PATTERN = /\d{16,}/
     const axiosInstance: AxiosInstance = axios.create({
         baseURL: runtimeConfig.public.apiBase as string,
         withCredentials: true,
@@ -23,15 +23,26 @@ export default defineNuxtPlugin((nuxtApp) => {
         },
         validateStatus: (status) => status < 400, // Resolve only if the status code is less than 400
         transformResponse: [(data) => {
-            if (data) {
-                try {
-                    const parsed = JSONbigString.parse(data);
-                    return parsed;
-                } catch (e) {
-                    return data;
-                }
+            if (!data) {
+                return data
             }
-            return data;
+            // try {
+            //   return JSON.parse(JSON.stringify(JSONbigString.parse(data)));
+            // } catch {
+            //   try {
+            //     return JSON.parse(data)
+            //   } catch {
+            //     return data
+            //   }
+            // }
+            try {
+                if (BIGINT_PATTERN.test(data)) {
+                    return JSON.parse(JSON.stringify(JSONbigString.parse(data)))
+                }
+                return JSON.parse(data)
+            } catch {
+                return data
+            }
         }]
         // transformResponse: [data => data]
     })
