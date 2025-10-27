@@ -56,7 +56,7 @@ export default () => {
       API: '/api/fileManager/mergeChunkApi',
       method: 'POST',
       body: {
-        fileUploadChunkMergeRequest: req
+        data: req
       },
       baseURL: config.cdnBase,
     });
@@ -157,7 +157,7 @@ export default () => {
       method: 'POST',
       baseURL: config.cdnBase,
       body: {
-        filesDirectory: request,
+        data: request,
       },
     });
   };

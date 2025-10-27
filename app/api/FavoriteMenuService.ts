@@ -14,7 +14,7 @@ export default () => {
             API: '/api/favoriteMenu',
             method: 'POST',
             body: {
-                favoriteMenu: request,
+                data: request,
             },
         });
     };
@@ -23,7 +23,7 @@ export default () => {
             API: '/api/favoriteMenu',
             method: 'DELETE',
             body: {
-                favoriteMenu: request,
+                data: request,
             },
         });
     };

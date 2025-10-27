@@ -20,7 +20,7 @@ export default () => {
       API: '/api/appRole',
       method: 'POST',
       body: {
-        appUser: request,
+        data: request,
       },
     });
   };
@@ -29,7 +29,7 @@ export default () => {
       API: `/api/appRole/${id}`,
       method: 'PUT',
       body: {
-        appUser: request,
+        data: request,
       },
     });
   };

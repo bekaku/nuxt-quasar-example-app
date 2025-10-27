@@ -158,8 +158,10 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         }
         // const requestItem: { [k: string]: T } = {};
         const requestItem: RequestDto = {};
-        requestItem[requestEntityName.value
-            ? requestEntityName.value : `${pascalToCamelCase(options.crudName)}`] = crudEntity.value;
+        // requestItem[requestEntityName.value
+        //     ? requestEntityName.value : `${pascalToCamelCase(options.crudName)}`] = crudEntity.value;
+
+            requestItem.data = crudEntity.value;
 
         if (!apiEnpoint.value) {
             return new Promise((resolve) => resolve(false))

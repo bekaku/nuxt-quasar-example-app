@@ -49,7 +49,7 @@ export default () => {
       API: '/api/appUser/selfUpdatePassword',
       method: 'PUT',
       body: {
-        userChangePasswordRequest: req
+        data: req
       },
     });
   };
@@ -61,7 +61,7 @@ export default () => {
       API: `/api/appUser/updateUserPassword/${userId}`,
       method: 'PUT',
       body: {
-        userChangePasswordRequest: req
+        data: req
       },
     });
   };
@@ -80,7 +80,7 @@ export default () => {
     //   API: '/api/appUser/updatePersonalData',
     //   method: 'PUT',
     //   body: {
-    //     appUser: req,
+    //     data: req,
     //   },
     // });
     console.log('updatePersonalData', req);
@@ -97,7 +97,7 @@ export default () => {
   //     API: '/api/appUser/updatePersonalData',
   //     method: 'PUT',
   //     body: {
-  //       appUser: req,
+  //       data: req,
   //     },
   //   });
   // };
@@ -108,7 +108,7 @@ export default () => {
       API: '/api/appUser/updateEmail',
       method: 'PUT',
       body: {
-        appUser: req,
+        data: req,
       },
     });
   };
@@ -120,7 +120,7 @@ export default () => {
       API: '/api/appUser/findLoginedProfile',
       method: 'POST',
       body: {
-        refreshToken
+        data: refreshToken
       },
     });
   };
@@ -131,7 +131,7 @@ export default () => {
       API: '/api/appUser/verifyUserByEmailOrUsername',
       method: 'POST',
       body: {
-        emailOrUsername: {
+        data: {
           emailOrUsername: userNameOrEmail
         }
       },

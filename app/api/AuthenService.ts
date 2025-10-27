@@ -15,7 +15,7 @@ export default () => {
       API: '/api/auth/login',
       method: 'POST',
       body: {
-        user: loginRequest
+        data: loginRequest
       },
     });
   };
@@ -26,7 +26,7 @@ export default () => {
       API: '/api/auth/logout',
       method: 'POST',
       body: {
-        refreshToken: req
+        data: req
       },
     });
   };
@@ -37,7 +37,7 @@ export default () => {
       API: '/api/auth/refreshToken',
       method: 'POST',
       body: {
-        refreshToken: req
+        data: req
       },
     });
   };
@@ -57,7 +57,7 @@ export default () => {
       API: '/api/auth/requestVerifyCodeToResetPwd',
       method: 'POST',
       body: {
-        forgotPasswordRequest: req
+        data: req
       },
     });
   };
@@ -68,7 +68,7 @@ export default () => {
       API: '/api/auth/sendVerifyCodeToResetPwd',
       method: 'POST',
       body: {
-        forgotPasswordRequest: req
+        data: req
       },
     });
   };
@@ -79,7 +79,7 @@ export default () => {
       API: '/api/auth/resetPassword',
       method: 'POST',
       body: {
-        forgotPasswordRequest: req
+        data: req
       },
     });
   };
