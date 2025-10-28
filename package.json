@@ -24,7 +24,7 @@
     "@quasar/extras": "^1.17.0",
     "@tato30/vue-pdf": "^1.11.4",
     "apexcharts": "^5.3.5",
-    "axios": "^1.11.0",
+    "axios": "^1.13.0",
     "cropperjs": "^2.0.1",
     "date-fns": "^4.1.0",
     "dompurify": "^3.2.6",
