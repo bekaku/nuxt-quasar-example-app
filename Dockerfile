@@ -1,5 +1,5 @@
 # Build stage
-FROM node:22 AS build
+FROM node:24 AS build
 
 # Install necessary tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -24,7 +24,7 @@ RUN pnpm build
 # RUN quasar build -m ssr
 
 # Production stage
-FROM node:22-alpine
+FROM node:24-alpine
 
 # Set timezone
 ENV TZ=Asia/Bangkok

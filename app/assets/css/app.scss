@@ -27,7 +27,8 @@
   --main-bg-color: var(--app-main-bg-color);
   --second-bg-color: #fff;
 
-  --app-main-border-color: #dcdcdc;
+  // --app-main-border-color: #dcdcdc;
+  --app-main-border-color: var(--color-zinc-200);
   --app-main-border-color-theme-dark: #687782;
 
 
@@ -52,11 +53,14 @@
   --v-main-text-body: #000;
   --v-main-text-body-theme-dark: #fff;
 
+  --dark-shadow-color:#bac4d0;
+
   --v-text-black: #000;
   --emoji-icon-bg: #f7f7f7;
   --emoji-icon-bg-black: #000;
   //--wee-default-font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Prompt', sans-serif;
   --wee-default-font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+
 
   //scroll bar
   ::-webkit-scrollbar {
@@ -70,6 +74,11 @@
     background: rgba(0, 0, 0, .2);
   }
 }
+
+$dark-shadow-color : var(--dark-shadow-color) !default;
+$elevation-dark-umbra : rgba($dark-shadow-color, 0.12) !default;
+$elevation-dark-penumbra : rgba($dark-shadow-color, 0.14) !default;
+$elevation-dark-ambient : rgba($dark-shadow-color, 0.12) !default;
 
 .font-open-sans {
   font-family: 'Open Sans', sans-serif !important;
@@ -320,7 +329,7 @@ body.body--dark .emoji-mart-anchor {
   background-color: #fff !important;
   color: var(--color-black) !important;
   border-radius: 10px !important;
-  box-shadow: $elevation-ambient 0px 1px 4px !important;
+  // box-shadow: $elevation-ambient 0px 1px 4px !important;
   font-weight: 600 !important;
 }
 
@@ -381,7 +390,7 @@ body.body--light {
 }
 
 .q-field--outlined .q-field__control::before {
-  border: 1px solid $separator-color !important;
+  border: 1px solid var(--app-main-border-color) !important;
   box-shadow:
     0 0 #0000,
     0 0 #0000,

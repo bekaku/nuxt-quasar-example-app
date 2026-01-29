@@ -72,6 +72,10 @@ const onHover = (state: boolean) => {
   </q-card>
 </template>
 <style scoped lang="scss">
+$dark-shadow-color : var(--dark-shadow-color) !default;
+$elevation-dark-umbra : rgba($dark-shadow-color, 0.12) !default;
+$elevation-dark-penumbra : rgba($dark-shadow-color, 0.14) !default;
+$elevation-dark-ambient : rgba($dark-shadow-color, 0.12) !default;
 .default-card {
   border-radius: 1rem !important;
 }
