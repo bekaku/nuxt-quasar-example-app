@@ -80,67 +80,7 @@ const onFileAdd = (items: File[]) => {
 </script>
 <template>
   <BasePage>
-    <BaseCard title="Test Page" subtitle="This is a test page">
-      <template #start>
-        <BaseButton :icon="{name:'lucide:chevron-left'}" flat to="/" />
-      </template>
-    </BaseCard>
-    <BaseCard title="Streaming download large files">
-      <BaseCardSection class="q-gutter-lg">
-        <BaseButton :label="$t('drive.download')" :disable="isDownloading" @click="onDownload" />
-        <BaseButton
-          color="negative"
-          :disable="!isDownloading"
-          :label="$t('drive.cancelDownload')"
-          @click="cancleDownload"
-        />
-        <BaseDownloadProgress
-          :error="error"
-          :is-downloading="isDownloading"
-          :progress="downloadProgress"
-        />
-      </BaseCardSection>
-    </BaseCard>
 
-    <!-- <BaseCard title="Video Editor">
-      <BaseCardSection>
-        <BaseFilePicker
-          v-model="files"
-          video-editor
-          label="Select vdo"
-          preview-style="CARD"
-          preview-col="col-2"
-          @on-file-add="onFileAdd"
-        />
-      </BaseCardSection>
-    </BaseCard> -->
-    <BaseCard title="Video Player">
-      <BaseCardSection>
-        <div class="row">
-          <div class="col-12">
-            <BaseButton color="green" label="Reload Vdo" @click="showVido" />
-            <ClientOnly>
-              <BaseVideoPlayer
-                v-if="showVideo"
-                :options="{
-                  autoSetSource: false,
-                }"
-                :file="{
-                  id: 1,
-                  fileMime: 'video/mp4',
-                  fileName: 'Car dash cam.',
-                  filePath:
-                    'http://127.0.0.1:8080/api/fileManager/video/stream?path=files/2022_1204_140014.MP4',
-                  fileThumbnailPath: 'http://127.0.0.1:8080/cdn/files/202509/dummy.jpg',
-                  fileSize: '2 MB',
-                  fileMimeType: 'VIDEO'
-                }"
-              >
-              </BaseVideoPlayer>
-            </ClientOnly>
-          </div>
-        </div>
-      </BaseCardSection>
-    </BaseCard> 
+    <LayerOneCard/>
   </BasePage>
 </template>
