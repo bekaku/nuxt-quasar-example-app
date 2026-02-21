@@ -67,6 +67,38 @@ Carousel
 Settings
 ![setting](https://bekaku.github.io/images/screenshot-quasar-starter/setting.png)
 
+
+## WSL Ubuntu Quick Start
+
+1. Install Node.js 20+ and enable Corepack in WSL:
+
+```bash
+node -v
+corepack enable
+corepack prepare pnpm@latest --activate
+```
+
+2. Install dependencies and run environment checks:
+
+```bash
+pnpm install
+pnpm wsl:doctor
+```
+
+3. Start dev server (WSL file-watch safe mode):
+
+```bash
+pnpm dev:wsl
+```
+
+> `dev:wsl` enables polling watchers (`CHOKIDAR_USEPOLLING`, `WATCHPACK_POLLING`) to avoid missing file changes when your project is on a mounted Windows drive.
+
+4. If Docker Desktop + WSL integration is enabled:
+
+```bash
+./build-app.sh
+```
+
 ## Setup
 
 API endpoint at `my-app/.env` or `my-app/.env.dev`

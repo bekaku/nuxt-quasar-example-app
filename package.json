@@ -4,14 +4,16 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --dotenv .env.dev",
-    "_dev": "cross-env NODE_OPTIONS=--max-old-space-size=4096 nuxt dev --dotenv .env.dev",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3003 --dotenv .env.dev",
+    "_dev": "cross-env NODE_OPTIONS=--max-old-space-size=4096 nuxt dev --host 0.0.0.0 --port 3003 --dotenv .env.dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:prettier": "prettier . --check",
-    "lint:fix": "eslint . --fix && prettier --write --list-different ."
+    "lint:fix": "eslint . --fix && prettier --write --list-different .",
+    "dev:wsl": "cross-env CHOKIDAR_USEPOLLING=1 WATCHPACK_POLLING=true nuxt dev --host 0.0.0.0 --port 3003 --dotenv .env.dev",
+    "wsl:doctor": "bash ./scripts/wsl-doctor.sh"
   },
   "dependencies": {
     "@capacitor/clipboard": "^8.0.0",
