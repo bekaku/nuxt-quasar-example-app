@@ -21,6 +21,9 @@ export default withNuxt(
       'vue/require-explicit-emits': 'warn',
       'unused-imports/no-unused-vars': 'warn',
       'ts/no-unused-vars': 'warn',
+      'e18e/prefer-static-regex': 'off',
+      'e18e/prefer-array-to-reversed': 'off',
+      'e18e/prefer-spread-syntax': 'off'
     }
   }
   // {

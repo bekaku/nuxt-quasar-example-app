@@ -40,6 +40,7 @@ export interface FileManager extends FileManagerMetaData {
   fileMimeType?: FileMimeType
   videoSources?: VideoSrc[]
   videoTracks?: VideoTrack[]
+  deleteFlag?: boolean | undefined
   uploadProgress?: {
     uploading: boolean;
     progress: number;

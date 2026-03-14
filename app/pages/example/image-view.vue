@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { rgb } from 'pdf-lib'
 import FileManagerService from '~/api/FileManagerService'
+import BaseFilesPreview from '~/components/base/BaseFilesPreview.vue'
 import type { FileManager } from '~/types/models'
 useHead({
   title: 'Image/Pdf View'
@@ -311,6 +312,19 @@ const fetchPdfFromServer = async () => {
     console.warn(e)
   }
 }
+
+
+const onSoftDelete = (index: number) => {
+
+  console.log('onSoftDelete ', index)
+  if (mixItems.value.length==0) {
+    return
+  }
+  const item = mixItems.value[index]
+  if (item) {
+    item.deleteFlag = !item.deleteFlag
+  }
+}
 </script>
 <template>
   <BasePage class="content-limit">
@@ -412,6 +426,20 @@ const fetchPdfFromServer = async () => {
                 @on-click="onImgPreviewClick"
               />
             </BaseScrollArea>
+          </div>
+          <div class="col-12 col-md-12">
+            <q-item-label header>Inline and Build in Gallery</q-item-label>
+            <BaseFilesPreview
+              :items="mixItems"
+              :preview-style="'INLINE'"
+              show-view-dialog
+              show-tooltip
+              :show-name="false"
+              :show-size="false"
+              :soft-delete="false"
+              :show-delete="false"
+              @on-soft-delete="onSoftDelete"
+            />
           </div>
         </div>
       </q-card-section>

@@ -304,6 +304,7 @@ export default {
         cut: 'ตัด',
         share: 'แชร์',
         openWatch: 'เปิดหน้าวิดีโอ',
+        restore: 'เรียกคืน',
     },
     drive: {
         title: 'ไฟล์ของฉัน',

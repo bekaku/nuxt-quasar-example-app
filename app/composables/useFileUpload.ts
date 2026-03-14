@@ -73,34 +73,42 @@ export const useFileUpload = (options?: {
             }
         }
         // Merge request
-        try {
-            const response = await mergeChunkApi({
-                chunkFilename: chunkFileName.value,
-                fileMime: null,
-                totalChunks: totalChunks,
-                originalFilename: filename,
-                resizeImage: true,
-                thumbnailFileId: fileMetaData?.thumbnailFileId || null,
-                duration: fileMetaData?.duration || 0,
-                title: fileMetaData?.title || null,
-                description: fileMetaData?.description || null,
-                width: fileMetaData?.width || 0,
-                height: fileMetaData?.height || 0,
-                hidden: fileMetaData?.hidden || false
-            })
-            if (response && response.id) {
-                console.info('Merge complete')
-                if (setProgress) {
-                    await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
+        if (totalChunks > 0 && chunkFileName.value) {
+            try {
+                const response = await mergeChunkApi({
+                    chunkFilename: chunkFileName.value,
+                    fileMime: null,
+                    totalChunks: totalChunks,
+                    originalFilename: filename,
+                    resizeImage: true,
+                    thumbnailFileId: fileMetaData?.thumbnailFileId || null,
+                    duration: fileMetaData?.duration || 0,
+                    title: fileMetaData?.title || null,
+                    description: fileMetaData?.description || null,
+                    width: fileMetaData?.width || 0,
+                    height: fileMetaData?.height || 0,
+                    hidden: fileMetaData?.hidden || false
+                })
+                if (response && response.id) {
+                    console.info('Merge complete')
+                    if (setProgress) {
+                        await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
+                    }
+                    return new Promise(resolve => resolve(response))
                 }
-                return new Promise(resolve => resolve(response))
+            } catch (e) {
+                console.warn('Merge failed', e)
+                if (setProgress) {
+                    await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
+                }
+                return new Promise(resolve => resolve(null))
             }
-        } catch (e) {
-            console.warn('Merge failed', e)
-            if (setProgress) {
-                await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
-            }
-            return new Promise(resolve => resolve(null))
+        } else {
+            console.warn('Merge failed', {
+                totalChunks,
+                chunkFileName: chunkFileName.value
+            })
+            await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
         }
         return new Promise(resolve => resolve(null))
     }

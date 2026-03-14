@@ -11,13 +11,17 @@ const onDownload = () => {
 <template>
   <q-card>
     <q-card-section>
-      <div class="text-h6">Layer OneTheme Card</div>
-      {{ t('app.name') }}
+      <div class="text-h6 text-primary">Layer OneTheme Card</div>
+
+      <div class="bg-primary text-white q-ma-sm">
+        {{ t('app.name') }}
+      </div>
 
       <div class="q-gutter-md">
         <BaseButton label="Base Button" />
-        <LayerOneButton label="Click Me This is Default Color" @click="onDownload" />
-        <LayerOneButton label="Go to Layer One page" color="red" to="/layer-01" />
+        <BaseButton label="Click Me This is Default Color" @click="onDownload" />
+        <BaseButton label="Go to Layer One page" color="red" to="/layer-01" />
+        <BaseButton label="Go to test" color="blue" to="/test" />
       </div>
     </q-card-section>
   </q-card>

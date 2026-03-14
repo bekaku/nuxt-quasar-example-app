@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import type { FileManager } from '@/types/models'
 import { formatBytes } from '@/utils/appUtil'
-import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
+import {
+  biArrowClockwise,
+  biCheck2,
+  biExclamation,
+  biExclamationCircle,
+  biX
+} from '@quasar/extras/bootstrap-icons'
 import { computed } from 'vue'
 
 const {
@@ -21,7 +27,8 @@ const {
   item,
   rounded = true,
   playIcon = true,
-  showVideoDetail = false
+  showVideoDetail = false,
+  softDelete = false
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -44,13 +51,15 @@ const {
   rounded?: boolean | undefined
   playIcon?: boolean | undefined
   showVideoDetail?: boolean | undefined
+  softDelete?: boolean | undefined
 }>()
 const emit = defineEmits<{
   'on-remove': [index: number]
   'on-click': [event: any, index: number]
+  'on-soft-delete': [index: number]
 }>()
 const { formatDistanceFromNow } = useDateFns()
-const { locale } = useLang()
+const { locale, t } = useLang()
 const getImagePath = computed(() => {
   if (item.fileMimeType == 'IMAGE') {
     return useThumbnail && item.fileThumbnailPath ? item.fileThumbnailPath : item.filePath
@@ -70,13 +79,18 @@ const onClick = (event: any, index: number) => {
     appPreventDefult(event)
   }
 }
+const onSoftDelete = (event: any, index: number) => {
+  emit('on-soft-delete', index)
+
+  if (event) {
+    event.stopImmediatePropagation()
+  }
+}
 </script>
 <template>
   <template v-if="item.fileMimeType == 'IMAGE' || (item.fileMimeType == 'VIDEO' && getImagePath)">
-    <div :class="{ rounded: rounded, 'hover-defult': hoverZoom }">
-      <!-- :style="{ maxHeight: imageHeight || imageSize, maxWidth: imageSize }" -->
+    <div :class="{ rounded: rounded, 'hover-defult': hoverZoom }" :style="{ minWidth: imageSize }">
       <base-image
-        v-bind="$attrs"
         :src="getImagePath || ''"
         :fetch="fetch"
         :ratio="item.fileMimeType == 'VIDEO' ? 16 / 9 : ratio"
@@ -100,19 +114,45 @@ const onClick = (event: any, index: number) => {
         >
           {{ formatDurationHMS(item?.duration || 0) }}
         </span>
-        <q-btn
+        <template
           v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
-          class="absolute all-pointer-events"
-          name="info"
-          style="top: 8px; left: 8px"
-          round
-          flat
-          :icon="biX"
-          color="negative"
-          @click="onRemove($event, index)"
-        />
+        >
+          <q-btn
+            v-if="!softDelete"
+            class="absolute all-pointer-events"
+            name="info"
+            style="top: 8px; left: 8px"
+            round
+            flat
+            :icon="biX"
+            color="negative"
+            @click="onRemove($event, index)"
+          >
+            <BaseTooltip>
+              {{ t('base.delete') }}
+            </BaseTooltip>
+          </q-btn>
+          <q-btn
+            v-else
+            class="absolute all-pointer-events"
+            name="info"
+            style="top: 8px; left: 8px"
+            round
+            flat
+            :icon="!item.deleteFlag ? biX : biArrowClockwise"
+            color="negative"
+            @click="onSoftDelete($event, index)"
+          >
+            <base-tooltip :color="!item.deleteFlag ? 'negative' : 'primary'">
+              {{ !item.deleteFlag ? t('base.delete') : t('base.restore') }}
+            </base-tooltip>
+          </q-btn>
+        </template>
+        <base-tooltip v-if="showTooltip && item.fileName">
+          {{ item.fileName }}
+        </base-tooltip>
       </base-image>
-      <q-item v-if="showName || showSize" :dense="dense" v-bind="$attrs" class="q-pa-none">
+      <q-item v-if="showName || showSize" :dense="dense" class="q-pa-none">
         <q-item-section class="q-pt-xs">
           <template v-if="showName">
             <q-item-label :lines="linesName" :class="textColor">
@@ -183,6 +223,9 @@ const onClick = (event: any, index: number) => {
           </q-item-label>
         </q-item-section>
       </q-item>
+      <q-item-label v-if="softDelete && item.deleteFlag" class="text-negative text-caption">
+        <q-icon :name="biExclamationCircle" class="q-mr-xs" />{{ t('deletedFlag') }}
+      </q-item-label>
     </div>
   </template>
   <template v-else>
@@ -195,19 +238,36 @@ const onClick = (event: any, index: number) => {
             icon-set="nuxt"
             :size="iconSize"
           />
-          <BaseButton
+          <template
             v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
-            class="relative-position"
-            :style="{
-              top: `-${imageSize}`,
-              left: `-${imageSize}`
-            }"
-            :icon="{ name: 'lucide:x' }"
-            text-color="negative"
-            flat
-            round
-            @click="onRemove($event, index)"
-          />
+          >
+            <BaseButton
+              v-if="!softDelete"
+              class="relative-position"
+              :style="{
+                top: `-${iconSize}`,
+                left: `-${imageSize}`
+              }"
+              :icon="{ name: 'lucide:x' }"
+              text-color="negative"
+              flat
+              round
+              @click="onRemove($event, index)"
+            />
+            <BaseButton
+              v-else
+              class="relative-position"
+              :style="{
+                top: `-${iconSize}`,
+                left: `-${imageSize}`
+              }"
+              :icon="{ name: !item.deleteFlag ? 'lucide:x' : 'lucide:undo' }"
+              text-color="negative"
+              flat
+              round
+              @click="onSoftDelete($event, index)"
+            />
+          </template>
         </div>
       </div>
       <q-item v-if="item.uploadProgress" dense>
@@ -262,6 +322,12 @@ const onClick = (event: any, index: number) => {
           </q-item-label>
         </q-item-section>
       </q-item>
+      <q-item-label v-if="softDelete && item.deleteFlag" class="text-negative text-caption">
+        <q-icon :name="biExclamationCircle" class="q-mr-xs" />{{ t('deletedFlag') }}
+      </q-item-label>
+      <base-tooltip v-if="showTooltip && item.fileName">
+        {{ item.fileName }}
+      </base-tooltip>
     </div>
   </template>
 </template>

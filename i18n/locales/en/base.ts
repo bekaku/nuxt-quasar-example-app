@@ -303,6 +303,7 @@ export default {
         cut: 'Cut',
         share: 'Share',
         openWatch: 'Open watch',
+        restore: 'Restore',
     },
     drive: {
         title: 'My Files',

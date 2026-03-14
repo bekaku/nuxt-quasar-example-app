@@ -161,9 +161,9 @@ export const useAxios = () => {
         notify(
             {
                 message: response.message,
-                icon: response.status == 'OK' || response.status == 'CREATED' ? biCheckCircle : biExclamationTriangle,
-                type: response.status == 'OK' || response.status == 'CREATED' ? 'positive' : 'negative',
-                timeout: response.status == 'OK' || response.status == 'CREATED' ? 3 * 1000 : 10 * 1000,
+                icon: response.status == '200 OK' || response.status == '201 Created' ? biCheckCircle : biExclamationTriangle,
+                type: response.status == '200 OK' || response.status == '201 Created' ? 'positive' : 'negative',
+                timeout: response.status == '200 OK' || response.status == '201 Created' ? 3 * 1000 : 10 * 1000,
                 progress: true,
                 position: 'bottom-left',
                 multiLine: true,

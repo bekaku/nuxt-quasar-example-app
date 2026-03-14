@@ -76,13 +76,13 @@ export interface ChoosePhotoItem {
     file?: File;
 }
 export type IHttpStatus =
-    | 'OK'
-    | 'CREATED'
-    | 'NOT_FOUND'
-    | 'UNAUTHORIZED'
-    | 'BAD_REQUEST'
-    | 'FORBIDDEN'
-    | 'INTERNAL_SERVER_ERROR';
+    | '200 OK'
+    | '201 Created'
+    | '404 Not Found'
+    | '401 Unauthorized'
+    | '400 Bad Request'
+    | '403 Forbidden'
+    | '500 Internal Server Error';
 export type IMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type ITheme = 'dark' | 'light' | 'system' | 'realtime';
 export type ILanguge = 'en' | 'th';
@@ -127,8 +127,16 @@ export type LoginLogType = 'WEB' | 'IOS' | 'ANDROID';
 export type ChatHistoryTab = 'ALL' | 'GROUP' | 'FAVORITE';
 export type UploadStatus = 'UPLOADING' | 'COMPLETED' | 'FAILED';
 export type FileMimeType = 'IMAGE' | 'VIDEO' | 'FILE' | 'DIRECTORY';
-export type FilePreviewStyle = 'CARD' | 'LIST';
-
+export type FilePreviewStyle = 'CARD' | 'LIST' | 'INLINE';
+export interface ImageDimensions {
+  width: number;
+  height: number;
+}
+export interface ImageResizeOptions {
+  maxSizeMB: number;
+  maxWidthOrHeight: number;
+  useWebWorker: boolean
+}
 export interface AppNuxtError {
     statusCode: number
     statusMessage: string
@@ -589,24 +597,24 @@ export interface PdfWatermarkItems {
     position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 }
 export interface PlyrOptions {
-  autoSetSource?: boolean
-  autoplay?: boolean
-  controls?: string[]
-  ratio?: string
-  poster?: string
-  settings?: string[]
+    autoSetSource?: boolean
+    autoplay?: boolean
+    controls?: string[]
+    ratio?: string
+    poster?: string
+    settings?: string[]
 }
 export interface VideoSrc {
-  src?: string
-  type?: string
-  size?: number
+    src?: string
+    type?: string
+    size?: number
 }
 export interface VideoTrack {
-  kind?: string
-  label?: string
-  srclang?: string
-  src?: string
-  default?: boolean
+    kind?: string
+    label?: string
+    srclang?: string
+    src?: string
+    default?: boolean
 }
 export type CountryCode =
     | 'AC'

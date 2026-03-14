@@ -2,7 +2,7 @@
 import draggable from 'vuedraggable'
 import BaseCard from '~/components/base/BaseCard.vue'
 //https://github.com/SortableJS/vue.draggable.next
-import { biBug, biCheck2, biClock, biFileEarmark } from '@quasar/extras/bootstrap-icons'
+import { biBug, biCheck2, biClock, biFileEarmark, biGripHorizontal } from '@quasar/extras/bootstrap-icons'
 useHead({
   title: 'Darg drop'
 })
@@ -152,10 +152,14 @@ const isDragging = computed(
 
 const dragOptions = computed(() => {
   return {
-    animation: 0,
+    animation: 200,
     group: 'description',
     disabled: false,
-    ghostClass: 'ghost'
+    ghostClass: 'ghost',
+    forceFallback: true,
+    fallbackOnBody: true,
+    fallbackClass: 'drag-fallback',
+    // handle: '.drag-handle'
   }
 })
 
@@ -200,6 +204,9 @@ const onEndDrag = () => {
                     >
                       <template #item="{ element, index }">
                         <BaseCard class="holder-card todo" :margin="false">
+                          <div class="drag-handle q-mr-sm" style="cursor: pointer; padding-top: 2px">
+                            <q-icon :name="biGripHorizontal" size="20px" color="grey-5" />
+                          </div>
                           <q-card-section>
                             <div class="text-subtitle1 text-weight-bold">{{ element.task }}</div>
                             <div class="text-body2">{{ element.description }}</div>
@@ -362,8 +369,8 @@ const onEndDrag = () => {
                       v-bind="dragOptions"
                       :component-data="{ name: 'flip-list', type: 'transition' }"
                       @change="log"
-                      @start="dragingTesting = true"
-                      @end="dragingTesting = false"
+                      @start="dragingDone = true"
+                      @end="dragingDone = false"
                     >
                       <template #item="{ element, index }">
                         <BaseCard class="holder-card done" :margin="false">
@@ -406,18 +413,6 @@ const onEndDrag = () => {
   </BasePage>
 </template>
 <style lang="scss" scoped>
-// .drag-area {
-//   height: 325px;
-//   overflow: auto;
-//   border: 1px dashed #ccc;
-// }
-
-// .drag-area-2 {
-//   height: 425px;
-//   overflow: auto;
-//   border: 1px dashed #ccc;
-// }
-
 .flip-list-move {
   transition: transform 0.5s;
 }
@@ -443,6 +438,7 @@ const onEndDrag = () => {
 }
 .drag-area {
   min-height: 70vh;
+  user-select: none;
 }
 .holder-draging {
   border: 1.5px dashed var(--color-primary-500) !important;
@@ -455,26 +451,37 @@ const onEndDrag = () => {
 }
 
 .holder-card {
-  cursor: grab;
+  cursor: pointer;
   margin-bottom: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  // &:active {
+  //   cursor: grabbing;
+  // }
 }
 .holder-card .chip {
   background-color: var(--color-zinc-200);
 }
 
-// .holder-card.todo {
-//   border-left: 2px solid var(--color-warning-400);
-// }
-// .holder-card.inprogress {
-//   border-left: 2px solid var(--color-primary-400);
-// }
-// .holder-card.testing {
-//   border-left: 2px solid var(--color-danger-400);
-// }
-// .holder-card.done {
-//   border-left: 2px solid var(--color-success-400);
-// }
-
+.drag-fallback {
+  opacity: 0.8;
+  pointer-events: none !important; 
+}
+.sortable-fallback,
+.sortable-drag {
+  cursor: grabbing !important;
+}
+.drag-fallback {
+  opacity: 0.8;
+  cursor: grabbing !important;
+  pointer-events: none !important;
+}
+body.sortable-dragging,
+body.sortable-dragging * {
+  cursor: grabbing !important;
+}
 body.body--dark {
   .holder {
     border: 1px solid var(--color-zinc-600);

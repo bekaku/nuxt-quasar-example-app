@@ -2,21 +2,27 @@
 import { ClientOnly } from '#components'
 import { useBase } from '@/composables/useBase'
 import { useLang } from '@/composables/useLang'
-import { biPlus } from '@quasar/extras/bootstrap-icons'
 import { onBeforeUnmount, ref } from 'vue'
 import {
   FileExtensionAccept,
+  FileExtensionVdoAccept,
   FileTypeAcceptList,
   LimitFileSize,
   LimitFileSizeMB,
-  MaxSelectFiles,
-  FileExtensionVdoAccept
+  MaxImageResize,
+  MaxImageResizeMB,
+  MaxSelectFiles
 } from '~/libs/constants'
+import type { FileMimeType, FilePreviewStyle, ImageDimensions } from '~/types/common'
 import type { FileManager } from '~/types/models'
-import { getImgUrlFromFile, isImageFile, zipFile } from '~/utils/fileUtil'
-import BaseButton from './BaseButton.vue'
-import type { FileMimeType, FilePreviewStyle } from '~/types/common'
 import type { IconProps } from '~/types/props'
+import {
+  getImageDimensions,
+  getImgUrlFromFile,
+  resizeImage,
+  zipFile
+} from '~/utils/fileUtil'
+import BaseButton from './BaseButton.vue'
 
 const {
   multiple = true,
@@ -151,15 +157,30 @@ const onAddFile = async (f: any): Promise<void> => {
   if (f) {
     const fileMimeType = getFileMimeType(f)
     let url: string | undefined = undefined
+    let dimensions: ImageDimensions | undefined
+    let file: File = f
     if (fileMimeType && fileMimeType == 'IMAGE') {
-      url = await getImgUrlFromFile(f)
+      dimensions = await getImageDimensions(f)
+      if (dimensions && (dimensions.height > MaxImageResize || dimensions.width > MaxImageResize)) {
+        const coompressFile = await resizeImage(f, {
+          maxSizeMB: MaxImageResizeMB,
+          maxWidthOrHeight: MaxImageResize,
+          useWebWorker: true
+        })
+        if (coompressFile) {
+          file = coompressFile
+        }
+        console.log('resize', coompressFile)
+      }
+      url = await getImgUrlFromFile(file)
     }
-    onAddFilePreview(f, fileMimeType, url)
+    onAddFilePreview(file, fileMimeType, dimensions, url)
   }
 }
 const onAddFilePreview = (
   f: File,
   fileMimeType: FileMimeType | undefined,
+  dimensions?: ImageDimensions,
   pathUrl: string | undefined = undefined
 ) => {
   if (modelValue.value && f) {
@@ -172,7 +193,9 @@ const onAddFilePreview = (
       fileSize: f.size + '',
       functionId: 0,
       fileMimeType: fileMimeType,
-      file: f
+      file: f,
+      width: dimensions?.width || 0,
+      height: dimensions?.height || 0
     })
   }
 }
@@ -225,7 +248,7 @@ defineExpose({
         <BaseButton outline>
           <div class="row items-center" :class="isDark ? 'text-white' : 'text-black'">
             <BaseIcon v-if="icon != undefined" v-bind="{ ...icon }" />
-            <BaseIcon v-else name="lucide:plus"  />
+            <BaseIcon v-else name="lucide:plus" />
             <span class="q-ml-xs">
               {{ label ? label : t('base.chooseFile') }}
             </span>

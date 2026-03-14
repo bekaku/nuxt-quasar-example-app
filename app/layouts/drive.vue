@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { login } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
-const {
-  isMobileOrTablet,
-} = useAppDevice()
+useHead({
+  link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+})
+const { isMobileOrTablet } = useAppDevice()
 const modelValue = ref(!isMobileOrTablet)
 const expandDrawer = ref(!isMobileOrTablet)
 const miniState = ref(!isMobileOrTablet)
