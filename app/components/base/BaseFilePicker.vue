@@ -16,12 +16,7 @@ import {
 import type { FileMimeType, FilePreviewStyle, ImageDimensions } from '~/types/common'
 import type { FileManager } from '~/types/models'
 import type { IconProps } from '~/types/props'
-import {
-  getImageDimensions,
-  getImgUrlFromFile,
-  resizeImage,
-  zipFile
-} from '~/utils/fileUtil'
+import { getImageDimensions, getImgUrlFromFile, resizeImage, zipFile } from '~/utils/fileUtil'
 import BaseButton from './BaseButton.vue'
 
 const {
@@ -34,7 +29,7 @@ const {
   limitFileSize = LimitFileSize,
   limitFileSizeMB = LimitFileSizeMB,
   videoEditor = false,
-  previewCol = 'col-2 q-pa-sm'
+  previewStyle = 'LIST'
 } = defineProps<{
   multiple?: boolean
   showPreview?: boolean
