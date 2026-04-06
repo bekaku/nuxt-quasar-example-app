@@ -1,6 +1,5 @@
-// server/api/meta.ts
 import axios from 'axios';
-import { JSDOM } from 'jsdom';
+import * as cheerio from 'cheerio';
 import { defineEventHandler, getQuery, createError } from 'h3';
 import type { OgMeta } from '~/types/common';
 
@@ -19,25 +18,26 @@ export default defineEventHandler(async (event): Promise<OgMeta> => {
 
     try {
         const { data: html } = await axios.get<string>(url);
-        const dom = new JSDOM(html);
-        const metaTags = Array.from(dom.window.document.querySelectorAll('meta'));
 
-        const metaData: MetaData = metaTags.reduce<MetaData>((acc: any, tag: any) => {
-            const property = tag.getAttribute('property') || tag.getAttribute('name');
+        const $ = cheerio.load(html);
+        const metaData: MetaData = {};
+
+        $('meta').each((_, element) => {
+            const property = $(element).attr('property') || $(element).attr('name');
             if (property && property.startsWith('og:')) {
-                acc[property] = tag.getAttribute('content') || '';
+                metaData[property] = $(element).attr('content') || '';
             }
-            return acc;
-        }, {});
+        });
 
         return {
-            domain:metaData['og:site_name'],
-            url:metaData['og:url'],
-            title:metaData['og:title'],
-            desc:metaData['og:description'],
-            image:metaData['og:image'],
+            domain: metaData['og:site_name'] || '',
+            url: metaData['og:url'] || '',
+            title: metaData['og:title'] || '',
+            desc: metaData['og:description'] || '',
+            image: metaData['og:image'] || '',
         };
     } catch (error) {
+        console.error('Error fetching meta:', error);
         throw createError({
             statusCode: 500,
             statusMessage: 'Failed to fetch metadata',

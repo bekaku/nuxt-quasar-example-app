@@ -48,4 +48,12 @@ const registerLinks = () => {
 .md-editor {
     --md-bk-color: transparent !important;
 }
+:deep(.md-editor-preview img) {
+  max-width: 720px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
 </style>

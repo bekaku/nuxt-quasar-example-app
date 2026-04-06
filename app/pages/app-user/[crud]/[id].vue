@@ -214,7 +214,7 @@ const onChangePassword = async () => {
           <div v-if="crudAction == 'view' || crudAction == 'edit'" class="col-12 col-md-6 q-pa-md">
             <BaseButton
               :label="t('base.changePassword')"
-              :icon="{name:'lucide:lock-keyhole'}"
+              :icon="{ name: 'lucide:lock-keyhole' }"
               @click="showChangePasswordForm = true"
             />
           </div>
@@ -264,7 +264,7 @@ const onChangePassword = async () => {
                       <template v-if="isEditMode" #end>
                         <BaseButton
                           flat
-                          :icon="{name:'lucide:trash-2'}"
+                          :icon="{ name: 'lucide:trash-2' }"
                           round
                           text-color="negative"
                           @click="removeRole(index)"

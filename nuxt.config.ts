@@ -53,7 +53,7 @@ export default defineNuxtConfig({
   // Nuxt 4 directory structure and features
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
   future: {
-    compatibilityVersion: 4,
+    // compatibilityVersion: 4,
   },
   i18n: {
     strategy: 'no_prefix',

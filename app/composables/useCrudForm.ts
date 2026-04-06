@@ -5,7 +5,7 @@ import {
     BackendRootPath,
     CrudAction
 } from '~/libs/constants';
-import type { CrudFormApiOptions, ICrudAction, RequestDto, ResponseMessage } from '~/types/common';
+import type { CrudFormApiOptions, ICrudAction, IMethod, RequestDto, ResponseMessage } from '~/types/common';
 
 export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) => {
     const { isDevMode } = useConfiguration();
@@ -33,7 +33,7 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
     });
     const preValidate = () => {
         let isValid = true;
-        if (crudId.value===undefined || !crudAction.value || crudAction.value == undefined) {
+        if (crudId.value === undefined || !crudAction.value || crudAction.value == undefined) {
             isValid = false;
         }
         if (crudAction.value == undefined || !requireActions.includes(crudAction.value)) {
@@ -76,8 +76,8 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
             }
         } catch (error: any) {
             console.error('useCrudForm>fetchDataById', error);
-            if(error.message){
-                appToast(error.message,{type:'negative',});
+            if (error.message) {
+                appToast(error.message, { type: 'negative', });
             }
         } finally {
             if (!firstLoaded.value) {
@@ -152,16 +152,34 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
             ? options.actionPost
             : options.apiEndpoint + '/' + pascalToCamelCase(options.crudName);
     });
+
     const onSubmit = async () => {
-        if (!options.apiEndpoint || !options.crudName) {
-            return;
+        if (!options.apiEndpoint || !options.crudName || !apiEnpoint.value) {
+            return new Promise((resolve) => resolve(false))
+        }
+        await onSubmitProcess<T>(
+            crudEntity.value,
+            crudAction.value === CrudAction.VIEW ? 'PUT' : 'POST',
+            apiEnpoint.value
+        )
+    }
+    const onSubmitProcess = async <E>(
+        data: E,
+        methodType: IMethod,
+        api: string,
+        jsonRootName: string | undefined = undefined,
+    ) => {
+
+        if (!api) {
+            return new Promise((resolve) => resolve(false))
         }
         // const requestItem: { [k: string]: T } = {};
         const requestItem: RequestDto = {};
         // requestItem[requestEntityName.value
         //     ? requestEntityName.value : `${pascalToCamelCase(options.crudName)}`] = crudEntity.value;
 
-            requestItem.data = crudEntity.value;
+        // requestItem.data = crudEntity.value;
+        requestItem[jsonRootName || 'data'] = data
 
         if (!apiEnpoint.value) {
             return new Promise((resolve) => resolve(false))
@@ -169,7 +187,7 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         if (isDevMode()) {
             console.log(
                 'useCrudFrom > onSubmit',
-                crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
+                methodType,
                 requestItem
             );
         }
@@ -177,8 +195,8 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         loading.value = true;
         try {
             const response = await callAxios<any>({
-                API: apiEnpoint.value,
-                method: crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
+                API: api,
+                method: methodType,
                 body: requestItem
             });
             if (isDevMode()) {
@@ -203,8 +221,8 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
             }
         } catch (error: any) {
             console.error('useCrudForm>onSubmit', error);
-            if(error.message){
-                appToast(error.message,{type:'negative',});
+            if (error.message) {
+                appToast(error.message, { type: 'negative', });
             }
         } finally {
             loading.value = false;
@@ -213,6 +231,68 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
             resolve(true);
         });
     };
+
+    // const onSubmit = async () => {
+    //     if (!options.apiEndpoint || !options.crudName) {
+    //         return;
+    //     }
+    //     // const requestItem: { [k: string]: T } = {};
+    //     const requestItem: RequestDto = {};
+    //     // requestItem[requestEntityName.value
+    //     //     ? requestEntityName.value : `${pascalToCamelCase(options.crudName)}`] = crudEntity.value;
+
+    //         requestItem.data = crudEntity.value;
+
+    //     if (!apiEnpoint.value) {
+    //         return new Promise((resolve) => resolve(false))
+    //     }
+    //     if (isDevMode()) {
+    //         console.log(
+    //             'useCrudFrom > onSubmit',
+    //             crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
+    //             requestItem
+    //         );
+    //     }
+
+    //     loading.value = true;
+    //     try {
+    //         const response = await callAxios<any>({
+    //             API: apiEnpoint.value,
+    //             method: crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
+    //             body: requestItem
+    //         });
+    //         if (isDevMode()) {
+    //             console.log('useCrudFrom > onSubmit > response', response);
+    //         }
+    //         if (isAppException(response)) {
+    //             return new Promise((resolve) => resolve(false))
+    //         }
+    //         if (response && response.id) {
+    //             if (
+    //                 crudAction.value === CrudAction.NEW ||
+    //                 crudAction.value === CrudAction.COPY
+    //             ) {
+    //                 showToast(t('success.insertSuccesfull'));
+    //             } else if (crudAction.value === CrudAction.EDIT) {
+    //                 showToast(t('success.updateSuccesfull'));
+    //             }
+    //         }
+
+    //         if (!options.preventRedirectToList) {
+    //             onBack();
+    //         }
+    //     } catch (error: any) {
+    //         console.error('useCrudForm>onSubmit', error);
+    //         if(error.message){
+    //             appToast(error.message,{type:'negative',});
+    //         }
+    //     } finally {
+    //         loading.value = false;
+    //     }
+    //     return new Promise((resolve) => {
+    //         resolve(true);
+    //     });
+    // };
     const showToast = (message: string) => {
         appToast(message, {
             multiLine: false,
@@ -232,9 +312,9 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
                 : '';
     });
     const onDelete = async () => {
-        console.log('onDelete', crudAction.value != CrudAction.EDIT ||  crudAction.value != CrudAction.VIEW)
+        console.log('onDelete', crudAction.value != CrudAction.EDIT || crudAction.value != CrudAction.VIEW)
         if (
-            (crudAction.value != CrudAction.EDIT ||  crudAction.value != CrudAction.VIEW)&&
+            (crudAction.value != CrudAction.EDIT || crudAction.value != CrudAction.VIEW) &&
             !crudEntity.value &&
             crudId.value == 0 &&
             !deleteApiEndpoint.value
@@ -255,22 +335,22 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
                 onBack();
             } catch (error: any) {
                 console.error('useCrudForm>onDelete', error);
-                if(error.message){
-                    appToast(error.message,{type:'negative',});
+                if (error.message) {
+                    appToast(error.message, { type: 'negative', });
                 }
             } finally {
                 loading.value = false;
             }
         }
     };
-    const isEditMode = computed<boolean>(()=>crudAction.value !== 'view');
+    const isEditMode = computed<boolean>(() => crudAction.value !== 'view');
     const onEnableEditForm = () => {
         crudAction.value = 'edit';
     }
     onBeforeUnmount(() => {
         resetEntity();
     });
-    const methods = { onBack, onSubmit, onDelete, fetchDataById, preFectData, onEnableEditForm };
+    const methods = { onBack, onSubmit, onSubmitProcess, onDelete, fetchDataById, preFectData, onEnableEditForm };
     return {
         loading,
         ...methods,

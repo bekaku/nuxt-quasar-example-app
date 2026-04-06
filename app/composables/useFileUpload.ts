@@ -1,6 +1,7 @@
 import FileManagerService from "~/api/FileManagerService";
 import type { UploadStatus } from "~/types/common";
 import type { FileManager, FileManagerMetaData, FileUploadChunkResponse } from "~/types/models";
+import { generateUniqueFilename } from "~/utils/appUtil";
 export const useFileUpload = (options?: {
     chunkSize?: number;
     maxRetries?: number;
@@ -50,7 +51,8 @@ export const useFileUpload = (options?: {
         }
         onChunkUploadClear()
         const totalChunks = Math.ceil(selectedFile.size / chunkSize.value)
-        const filename = selectedFile.name
+        const originalFilename = selectedFile.name
+        const filename = generateUniqueFilename(selectedFile.name)
         for (let chunkIndex = 1; chunkIndex <= totalChunks; chunkIndex++) {
             if (uploadedChunks.has(chunkIndex)) continue // skip if already uploaded
 
@@ -79,7 +81,7 @@ export const useFileUpload = (options?: {
                     chunkFilename: chunkFileName.value,
                     fileMime: null,
                     totalChunks: totalChunks,
-                    originalFilename: filename,
+                    originalFilename: originalFilename,
                     resizeImage: true,
                     thumbnailFileId: fileMetaData?.thumbnailFileId || null,
                     duration: fileMetaData?.duration || 0,

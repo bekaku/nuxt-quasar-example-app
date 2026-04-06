@@ -11,6 +11,7 @@ const {
   deleteButton = true,
   button = false,
   autoLink = true,
+  canSubmit = true,
   crudName,
   crudId,
   isHaveViewPermission,
@@ -24,6 +25,7 @@ const {
   deleteButton?: boolean
   size?: string
   button?: boolean
+  canSubmit?: boolean
   crudAction?: ICrudAction
   loading?: boolean
   autoLink?: boolean
@@ -146,6 +148,7 @@ const onDelete = (event: any) => {
           :loading
           :icon="{ name: 'lucide:save' }"
           unelevated
+          :disabled="!canSubmit"
           color="positive"
           :size="size"
           :label="

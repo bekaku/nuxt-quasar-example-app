@@ -5,7 +5,8 @@ const {
   dateList = [],
   minDate,
   maxDate,
-  range = false
+  range = false,
+  firstDayOfWeek= 0,
 } = defineProps<{
   autoClose?: boolean
   label?: string
@@ -16,6 +17,7 @@ const {
   range?: boolean
   title?: string
   subtitle?: string
+  firstDayOfWeek?: string | number
 }>()
 const modelValue = defineModel<string | undefined | null>({ default: null })
 const start = defineModel<string | undefined | null>('start', { default: null })

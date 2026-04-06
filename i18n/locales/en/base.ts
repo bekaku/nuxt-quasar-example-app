@@ -304,6 +304,9 @@ export default {
         share: 'Share',
         openWatch: 'Open watch',
         restore: 'Restore',
+        addLink: 'Add link',
+        addLinkTitle: 'Message to display (Title)',
+        addLinkLink: 'URL (eg. https://...)',
     },
     drive: {
         title: 'My Files',

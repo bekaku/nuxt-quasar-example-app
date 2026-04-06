@@ -50,7 +50,8 @@ const {
   managePermission,
   byPassPermission = false,
   tableSeperator = 'horizontal',
-  rowClickable = true
+  rowClickable = true,
+  searchFormDivCol='col-md-4'
 } = defineProps<{
   crudName?: string
   viewPermission?: RBACProps
@@ -75,6 +76,7 @@ const {
   fullWidth?: boolean
   tableSeperator?: 'horizontal' | 'vertical' | 'cell' | 'none' | undefined
   rowClickable?: boolean
+  searchFormDivCol?: string
 }>()
 
 const emit = defineEmits<{
@@ -104,6 +106,11 @@ const filterText = ref('')
 const selectedAll = ref(false)
 const showSearch = ref(false)
 const selected = ref<number[]>([])
+watchEffect(() => {
+  if (pages) {
+    crudPages.value = pages
+  }
+})
 const onCheckedAll = () => {
   updateSelectedAll(selectedAll.value)
 }
@@ -419,7 +426,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                     v-for="(searchCol, searchIndex) in searchableHeaders"
                     :key="`advance-search-${searchIndex}`"
                   >
-                    <div v-if="searchCol.options" class="col-12 col-md-4 q-pa-sm">
+                    <div v-if="searchCol.options" class="col-12 q-pa-sm" :class="searchFormDivCol">
                       <div class="q-gutter-md row items-center justify-start">
                         <template
                           v-if="

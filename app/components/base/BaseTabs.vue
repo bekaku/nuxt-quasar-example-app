@@ -33,7 +33,9 @@ const {
 const { screen } = useQuasar()
 const { t } = useLang()
 const modelValue = defineModel<string | undefined>()
-
+defineEmits<{
+  'on-change': [value: any]
+}>()
 const { hasPermission } = useRbac()
 const canShow = (item: LabelValue<any>) => {
   return item.rbac == undefined || hasPermission(item.rbac)
@@ -67,6 +69,7 @@ const getCssClass = computed<string>(() => {
       :content-class="
         !defaultTab ? `${rounded ? 'rounded' : ''} tabs-content-wrapper q-gutter-x-xs` : undefined
       "
+      @update:model-value="(value) => $emit('on-change', value)"
     >
       <slot>
         <template v-for="(item, index) in getItems" :key="`${index}-${item.value}`">
