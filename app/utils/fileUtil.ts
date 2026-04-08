@@ -11,9 +11,9 @@ import {
     biFilm
 } from '@quasar/extras/bootstrap-icons';
 // import JSZip from 'jszip';
-import type { FileMimeType, FileType } from '~/types/common';
+import type { FileMimeType, FileType, ImageDimensions, ImageResizeOptions } from '~/types/common';
 import type { FileManager } from '~/types/models';
-
+import imageCompression from 'browser-image-compression';
 export const fileToBlob = (file: File): Promise<any> => {
     return new Promise((resolve) => {
         const blob = new Blob([file as BlobPart], {
@@ -661,4 +661,43 @@ export const captureFrameFromVideo = (video: HTMLVideoElement, time: number): Pr
         }
         video.onerror = (err) => reject(err)
     })
+}
+
+export const getImageDimensions = (file: File): Promise<ImageDimensions> => {
+  return new Promise((resolve, reject) => {
+    // 1. Create an Image object and a URL for the file
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    // 2. Wait for the image to load
+    img.onload = () => {
+      // Free up browser memory
+      URL.revokeObjectURL(objectUrl);
+
+      // Return the dimensions safely typed
+      resolve({
+        width: img.width,
+        height: img.height,
+      });
+    };
+
+    // 3. Handle errors
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error('Failed to load the image.'));
+    };
+
+    // 4. Trigger the loading process
+    img.src = objectUrl;
+  });
+};
+
+export const resizeImage = async (file: File, options: ImageResizeOptions): Promise<File> => {
+  const compressedBlob = await imageCompression(file, options);
+
+  console.log(`Original size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+  console.log(`New size: ${(compressedBlob.size / 1024 / 1024).toFixed(2)} MB`);
+  return new Promise((resolve) => {
+    resolve(compressedBlob);
+  });
 }

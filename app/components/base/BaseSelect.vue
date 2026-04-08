@@ -17,7 +17,8 @@ const {
   fetchImage = false,
   inputDebounce = 0,
   lazy = false,
-  lazyLoading = false
+  lazyLoading = false,
+  canAddNew = false
 } = defineProps<{
   items: LabelValue<T>[]
   label?: string
@@ -39,6 +40,7 @@ const {
   lazy?: boolean
   noOptionsText?: string
   lazyLoading?: boolean
+  canAddNew?: boolean
 }>()
 const emit = defineEmits<{
   'on-filter': [value: string, update: any]
@@ -96,6 +98,16 @@ const onScroll = ({ to, ref }: any) => {
     emit('on-scroll', to, ref)
   }
 }
+const createValue = (val: any, done: any) => {
+  if (!canAddNew) {
+    return
+  }
+  if (val.length > 2) {
+    if (!options.value.includes(val)) {
+      done(val, 'add-unique')
+    }
+  }
+}
 </script>
 <template>
   <skeleton-item v-if="loading" show :items="1" :show-header="false" />
@@ -124,7 +136,13 @@ const onScroll = ({ to, ref }: any) => {
     behavior="menu"
     @filter="filterFn"
     @virtual-scroll="onScroll"
+    @new-value="createValue"
   >
+      <template #label>
+      <slot name="label">
+        {{ label }} <template v-if="required"><span class="text-negative">*</span></template>
+      </slot>
+    </template>
     <template #prepend>
       <slot name="prepend">
         <template v-if="getSelected !== undefined">
@@ -157,7 +175,7 @@ const onScroll = ({ to, ref }: any) => {
         <q-avatar v-else-if="scope.opt?.icon" color="primary" text-color="white">
           <BaseIcon v-bind="{ ...scope.opt.icon }" />
         </q-avatar>
-        {{ scope.opt.label }}
+          {{ scope.opt.label || scope.opt }}
       </q-chip>
     </template>
     <template #option="{ itemProps, opt, selected }">

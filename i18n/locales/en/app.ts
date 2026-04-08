@@ -105,6 +105,6 @@ export default {
     month1: '1 Month',
     months: '{week} Months',
     manageCompanyUser: 'Manage users',
-    deletedFlag: 'This information has been marked as deleted.',
+    deletedFlag: 'This data will be deleted when saved.',
     contactInfo: 'Contact info',
 }

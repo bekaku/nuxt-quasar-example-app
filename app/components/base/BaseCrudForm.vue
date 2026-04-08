@@ -15,6 +15,7 @@ const {
   fullWidth = true,
   editButton = true,
   deleteButton = true,
+  canSubmit = true,
   copyButton = false,
   buttonSize = 'md',
   crudAction
@@ -35,6 +36,7 @@ const {
   editButton?: true
   deleteButton?: true
   copyButton?: boolean
+  canSubmit?: boolean
   buttonSize?: string
   crudEntity?: T
 }>()

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { additionalMenu } from '~/libs/navs'
+useHead({
+  link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+})
 const { isMobileOrTablet } = useAppDevice()
 const modelValue = ref(!isMobileOrTablet)
 const expandDrawer = ref(!isMobileOrTablet)

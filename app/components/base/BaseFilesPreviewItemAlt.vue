@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { biCheck2, biExclamation, biX } from '@quasar/extras/bootstrap-icons'
+import { biCheck2, biExclamation, biExclamationCircle, biX } from '@quasar/extras/bootstrap-icons'
 import type { FileManager } from '~/types/models'
 import { formatBytes } from '~/utils/appUtil'
 import BaseButton from './BaseButton.vue'
@@ -17,8 +17,9 @@ const {
   fourceShowImage = true,
   rounded = true,
   linesName = 1,
-  playIcon= true,
-  showVideoDetail=false
+  playIcon = true,
+  showVideoDetail = false,
+  softDelete = false
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -37,13 +38,15 @@ const {
   linesName?: number
   ratio?: number
   playIcon?: boolean
-   showVideoDetail?: boolean | undefined
+  showVideoDetail?: boolean | undefined
+  softDelete?: boolean
 }>()
 const { formatDistanceFromNow } = useDateFns()
 const { t, locale } = useLang()
 const emit = defineEmits<{
   'on-remove': [index: number]
-  'on-click': [event: any,index: number]
+  'on-soft-delete': [index: number]
+  'on-click': [event: any, index: number]
 }>()
 const onRemove = (event: any, index: number) => {
   emit('on-remove', index)
@@ -52,9 +55,15 @@ const onRemove = (event: any, index: number) => {
   }
 }
 const onClick = (event: any, index: number) => {
-  emit('on-click',event, index )
+  emit('on-click', event, index)
   if (event) {
     appPreventDefult(event)
+  }
+}
+const onSoftDelete = (event: any, index: number) => {
+  emit('on-soft-delete', index)
+  if (event) {
+    event.stopImmediatePropagation()
   }
 }
 </script>
@@ -84,7 +93,7 @@ const onClick = (event: any, index: number) => {
             {{ formatDurationHMS(item?.duration || 0) }}
           </span>
           <BaseIcon
-            v-if="playIcon &&item?.fileMimeType == 'VIDEO'"
+            v-if="playIcon && item?.fileMimeType == 'VIDEO'"
             name="hugeicons:play-circle-02"
             icon-set="nuxt"
             color="white"
@@ -117,7 +126,11 @@ const onClick = (event: any, index: number) => {
           {{ item.fileName }}
         </slot>
       </q-item-label>
-      <q-item-label v-if="showVideoDetail && item.fileMimeType == 'VIDEO'" caption :lines="linesName">
+      <q-item-label
+        v-if="showVideoDetail && item.fileMimeType == 'VIDEO'"
+        caption
+        :lines="linesName"
+      >
         <span>
           {{
             `${readableNumber(item.view || 0)} ${item.view && item.view > 1 ? $t('drive.views') : $t('drive.view')}`
@@ -131,6 +144,9 @@ const onClick = (event: any, index: number) => {
         <slot name="size">
           {{ formatSize ? formatBytes(item.fileSize) : item.fileSize }}
         </slot>
+      </q-item-label>
+      <q-item-label v-if="softDelete && item.deleteFlag" class="text-negative text-weight-bold">
+        <q-icon :name="biExclamationCircle" class="q-mr-xs" />{{ t('deletedFlag') }}
       </q-item-label>
     </q-item-section>
     <q-item-section side top>
@@ -165,16 +181,30 @@ const onClick = (event: any, index: number) => {
             </q-circular-progress>
           </template>
 
-          <BaseButton
+          <template
             v-if="showDelete && (!item.uploadProgress || item.uploadProgress.status != 'UPLOADING')"
-            :icon="{name:'lucide:x', size: '16px'}"
-            flat
-            round
-            :tooltip="t('base.delete')"
-            tooltip-color="negative"
-            @click="onRemove($event, index)"
           >
-          </BaseButton>
+            <BaseButton
+              v-if="!softDelete"
+              :icon="{ name: 'lucide:x', size: '16px' }"
+              flat
+              round
+              :tooltip="t('base.delete')"
+              tooltip-color="negative"
+              @click="onRemove($event, index)"
+            >
+            </BaseButton>
+            <BaseButton
+              v-else
+              :icon="{ name: !item.deleteFlag ? 'lucide:x' : 'lucide:undo', size: '16px' }"
+              flat
+              round
+              :tooltip="!item.deleteFlag ? t('base.delete') : t('base.restore')"
+              tooltip-color="negative"
+              @click="onSoftDelete($event, index)"
+            >
+            </BaseButton>
+          </template>
         </div>
       </slot>
     </q-item-section>

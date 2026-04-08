@@ -74,7 +74,7 @@ const onCustomRemove2 = (index: number) => {
 </script>
 <template>
   <BasePage :full="false">
-    <BaseCard title="Video picker">
+    <!-- <BaseCard title="Video picker">
       <BaseCardSection>
         <BaseFilePicker
           v-model="vdoFiles"
@@ -108,7 +108,7 @@ const onCustomRemove2 = (index: number) => {
           Upload
         </BaseButton>
       </q-card-section>
-    </BaseCard>
+    </BaseCard> -->
     <BaseCard title="Simple Picker" subtitle="List preview">
       <q-card-section>
         <BaseFilePicker v-model="filesPreview" label="Select file" @on-file-add="onFileAdd" />

@@ -9,7 +9,8 @@ const {
   bgTransparent = false,
   margin = true,
   square = false,
-  hover = false
+  hover = false,
+  preventOverflow = true
 } = defineProps<{
   flat?: boolean
   bordered?: boolean
@@ -23,6 +24,7 @@ const {
   square?: boolean
   hover?: boolean
   titleLines?: number
+  preventOverflow?: boolean
 }>()
 const isHover = ref<boolean>(false)
 const onHover = (state: boolean) => {
@@ -33,7 +35,6 @@ const onHover = (state: boolean) => {
 }
 </script>
 <template>
-
   <q-card
     v-bind="$attrs"
     :flat
@@ -44,7 +45,8 @@ const onHover = (state: boolean) => {
       'default-card-shadow': !flat,
       'bg-transparent': bgTransparent,
       'q-mb-md': margin,
-      'hover-shadow': isHover
+      'hover-shadow': isHover,
+      'prevent-overflow': preventOverflow
     }"
     @mouseover="onHover(true)"
     @mouseleave="onHover(false)"
@@ -72,10 +74,10 @@ const onHover = (state: boolean) => {
   </q-card>
 </template>
 <style scoped lang="scss">
-$dark-shadow-color : var(--dark-shadow-color) !default;
-$elevation-dark-umbra : rgba($dark-shadow-color, 0.12) !default;
-$elevation-dark-penumbra : rgba($dark-shadow-color, 0.14) !default;
-$elevation-dark-ambient : rgba($dark-shadow-color, 0.12) !default;
+$dark-shadow-color: var(--dark-shadow-color) !default;
+$elevation-dark-umbra: rgba($dark-shadow-color, 0.12) !default;
+$elevation-dark-penumbra: rgba($dark-shadow-color, 0.14) !default;
+$elevation-dark-ambient: rgba($dark-shadow-color, 0.12) !default;
 .default-card {
   border-radius: 1rem !important;
 }
@@ -99,5 +101,8 @@ body.body--dark {
   .hover-shadow {
     box-shadow: var(--color-zinc-800) 0px 7px 29px 0px;
   }
+}
+.prevent-overflow {
+  overflow: hidden;
 }
 </style>

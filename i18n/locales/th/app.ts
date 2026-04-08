@@ -104,6 +104,6 @@ export default {
     weeks: '{week} สัปดาห์',
     month1: '1 เดือน',
     months: '{week} เดือน',
-    deletedFlag: 'ข้อมูลนี้ถูกทำเครื่องหมายว่าลบแล้ว',
+    deletedFlag: 'ข้อมูลนี้จะถูกลบเมื่อทำการบันทึก',
     contactInfo: 'ข้อมูลติดต่อ',
 }

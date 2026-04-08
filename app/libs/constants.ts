@@ -5,6 +5,8 @@ export const DefultItemsPerPage = 10;
 export const MaxSelectFiles = 10;
 export const LimitFileSizeMB = 50;
 export const LimitFileSize = LimitFileSizeMB * 1024 * 1024;
+export const MaxImageResize = 1776;
+export const MaxImageResizeMB = 10;
 export const DefaultItemsPerPage = 10;
 export const DefaultMaxItemsPerPage = 50;
 export const SearchMinCharactor = 1;
@@ -85,4 +87,5 @@ export const AuthNoFilterPage: string[] = [
   'test',
   'auth-login-v1',
   'auth-login-v2',
+  'layer-01',
 ];

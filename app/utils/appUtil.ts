@@ -348,3 +348,11 @@ export const appPreventDefult = async (event: any) => {
 export const isNumeric = (str: string): boolean => {
     return /^\d+$/.test(str);
 }
+
+export const generateUniqueFilename = (originalName: string): string => {
+    const ext = originalName.substring(originalName.lastIndexOf('.')) || ''
+    const uuid = crypto.randomUUID()
+    const timestamp = Date.now()
+    return `${timestamp}_${uuid}${ext}`
+
+}

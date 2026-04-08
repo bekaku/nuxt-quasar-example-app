@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { biArrowLeft } from '@quasar/extras/bootstrap-icons'
-import type { FileManager } from '~/types/models'
-import { FileExtensionVdoAccept } from '~/libs/constants'
+import type {FileManager} from '~/types/models'
+
 useSeoMeta({
   title: 'Test Page'
 })

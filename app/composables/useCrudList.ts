@@ -24,7 +24,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     const enpointList = ref(options?.enpointList);
     const enpointDelete = ref(options?.enpointDelete);
     const crudName = ref(options?.crudName)
-
+    const defaltSortItems = ref(options.defaultSorts || [])
 
     const searchableHeaders = computed<ICrudListHeader[]>(() => {
         if (!headers.value || headers.value.length == 0) {
@@ -98,10 +98,16 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
             haveParam = true;
         }
         if (options.sortAble == undefined || options.sortAble) {
-            if (haveParam) {
-                q += '&';
+            if (defaltSortItems.value && defaltSortItems.value.length > 0) {
+                for (const sortAtl of defaltSortItems.value) {
+                    q += `${sortAtl.column && sortAtl.mode ? '&sort=' + sortAtl.column + ',' + sortAtl.mode : ''}`
+                }
+            } else {
+                if (haveParam) {
+                    q += '&'
+                }
+                q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`
             }
-            q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`;
             haveParam = true;
         }
         if (advanceSearchUri.value) {
@@ -275,6 +281,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         if (column == undefined) {
             return;
         }
+        defaltSortItems.value = []
         if (sort.value.column === column) {
             sort.value.mode = sort.value.mode === 'asc' ? 'desc' : 'asc';
         } else {
@@ -304,6 +311,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         onPasteUrlPathParamAndFetchData();
     };
     const onReload = () => {
+        defaltSortItems.value = options.defaultSorts || []
         advanceSearchUri.value = '';
         pages.value.current = (options?.pageStartZero == undefined || options.pageStartZero) ? 0 : 1;
         dataList.value = [];
@@ -361,7 +369,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
                 });
             }
             return new Promise((resolve) => {
-                resolve(!!(response && response.status == 'OK'));
+                resolve(!!(response && response.status == '200 OK'));
             });
         } catch (error: any) {
             if (error.message) {

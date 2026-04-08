@@ -1,6 +1,7 @@
 import FileManagerService from "~/api/FileManagerService";
 import type { UploadStatus } from "~/types/common";
 import type { FileManager, FileManagerMetaData, FileUploadChunkResponse } from "~/types/models";
+import { generateUniqueFilename } from "~/utils/appUtil";
 export const useFileUpload = (options?: {
     chunkSize?: number;
     maxRetries?: number;
@@ -50,7 +51,8 @@ export const useFileUpload = (options?: {
         }
         onChunkUploadClear()
         const totalChunks = Math.ceil(selectedFile.size / chunkSize.value)
-        const filename = selectedFile.name
+        const originalFilename = selectedFile.name
+        const filename = generateUniqueFilename(selectedFile.name)
         for (let chunkIndex = 1; chunkIndex <= totalChunks; chunkIndex++) {
             if (uploadedChunks.has(chunkIndex)) continue // skip if already uploaded
 
@@ -73,34 +75,42 @@ export const useFileUpload = (options?: {
             }
         }
         // Merge request
-        try {
-            const response = await mergeChunkApi({
-                chunkFilename: chunkFileName.value,
-                fileMime: null,
-                totalChunks: totalChunks,
-                originalFilename: filename,
-                resizeImage: true,
-                thumbnailFileId: fileMetaData?.thumbnailFileId || null,
-                duration: fileMetaData?.duration || 0,
-                title: fileMetaData?.title || null,
-                description: fileMetaData?.description || null,
-                width: fileMetaData?.width || 0,
-                height: fileMetaData?.height || 0,
-                hidden: fileMetaData?.hidden || false
-            })
-            if (response && response.id) {
-                console.info('Merge complete')
-                if (setProgress) {
-                    await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
+        if (totalChunks > 0 && chunkFileName.value) {
+            try {
+                const response = await mergeChunkApi({
+                    chunkFilename: chunkFileName.value,
+                    fileMime: null,
+                    totalChunks: totalChunks,
+                    originalFilename: originalFilename,
+                    resizeImage: true,
+                    thumbnailFileId: fileMetaData?.thumbnailFileId || null,
+                    duration: fileMetaData?.duration || 0,
+                    title: fileMetaData?.title || null,
+                    description: fileMetaData?.description || null,
+                    width: fileMetaData?.width || 0,
+                    height: fileMetaData?.height || 0,
+                    hidden: fileMetaData?.hidden || false
+                })
+                if (response && response.id) {
+                    console.info('Merge complete')
+                    if (setProgress) {
+                        await setDownloadProgress(currentFileIndex.value, 'COMPLETED', false);
+                    }
+                    return new Promise(resolve => resolve(response))
                 }
-                return new Promise(resolve => resolve(response))
+            } catch (e) {
+                console.warn('Merge failed', e)
+                if (setProgress) {
+                    await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
+                }
+                return new Promise(resolve => resolve(null))
             }
-        } catch (e) {
-            console.warn('Merge failed', e)
-            if (setProgress) {
-                await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
-            }
-            return new Promise(resolve => resolve(null))
+        } else {
+            console.warn('Merge failed', {
+                totalChunks,
+                chunkFileName: chunkFileName.value
+            })
+            await setDownloadProgress(currentFileIndex.value, 'FAILED', false);
         }
         return new Promise(resolve => resolve(null))
     }

@@ -304,6 +304,10 @@ export default {
         cut: 'ตัด',
         share: 'แชร์',
         openWatch: 'เปิดหน้าวิดีโอ',
+        restore: 'เรียกคืน',
+        addLink: 'เพิ่มลิงก์',
+        addLinkTitle: 'ข้อความที่ต้องการแสดง (Title)',
+        addLinkLink: 'URL (เช่น https://...)',
     },
     drive: {
         title: 'ไฟล์ของฉัน',
