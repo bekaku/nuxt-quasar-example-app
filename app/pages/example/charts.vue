@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import type { ISeriresCategories } from '~/types/chart'
-import {
-  appleStockPrices,
-  chartData,
-  chartData2,
-  simpleCategories,
-  simpleSeries
-} from '~/libs/data'
+
 useHead({
   title: 'Charts'
 })
@@ -20,6 +14,12 @@ const showChart = reactive({
   bar: false,
   pine: false
 })
+
+const { data: appleStockPrices } = await useFetch<ISeriresCategories>('/api/mock/chart/appleStockPrices')
+const { data: chartData } = await useFetch<ISeriresCategories>('/api/mock/chart/chartData')
+const { data: chartData2 } = await useFetch<ISeriresCategories>('/api/mock/chart/chartData2')
+const { data: simpleCategories } = await useFetch<string[]>('/api/mock/chart/simpleCategories')
+const { data: simpleSeries } = await useFetch<number[]>('/api/mock/chart/simpleSeries')
 onMounted(async () => {
   await setShowChart(1)
   await setShowChart(2)
@@ -66,7 +66,7 @@ const setShowChart = (no: number) => {
         <q-card-section>
           <div class="row">
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartRadial
+              <ChartRadial v-if="simpleSeries && simpleCategories"
                 chart-id="radial-1"
                 :series="simpleSeries.slice(0, 3)"
                 :categories="simpleCategories.slice(0, 3)"
@@ -75,7 +75,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartRadial
+              <ChartRadial v-if="simpleSeries && simpleCategories"
                 chart-id="radial-2"
                 height="250"
                 val-unit="%"
@@ -86,7 +86,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartRadial
+              <ChartRadial v-if="simpleSeries && simpleCategories"
                 chart-id="radial-3"
                 semi
                 stoke-line-cap="square"
@@ -100,7 +100,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartRadial
+              <ChartRadial v-if="simpleSeries && simpleCategories"
                 chart-id="radial-4"
                 val-unit="%"
                 :colors="['#8E8CD8']"
@@ -125,7 +125,7 @@ const setShowChart = (no: number) => {
         <q-card-section>
           <div class="row">
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartSparklines
+              <ChartSparklines v-if="appleStockPrices"
                 height="100"
                 chart-id="sparkline-area"
                 :stroke-width="1"
@@ -137,7 +137,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartSparklines
+              <ChartSparklines v-if="appleStockPrices"
                 height="100"
                 chart-id="sparkline-area-2"
                 :stroke-width="1"
@@ -149,7 +149,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartSparklines
+              <ChartSparklines v-if="appleStockPrices"
                 height="100"
                 chart-id="sparkline-line"
                 type="line"
@@ -161,7 +161,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-3 q-pa-sm">
-              <ChartSparklines
+              <ChartSparklines v-if="appleStockPrices"
                 height="100"
                 chart-id="sparkline-bar"
                 type="bar"
@@ -182,7 +182,7 @@ const setShowChart = (no: number) => {
         <q-card-section>
           <div class="row">
             <div class="col-12 col-md-6">
-              <ChartRadar
+              <ChartRadar v-if="chartData2"
                 chart-id="chart-radar"
                 height="350"
                 :markers="3"
@@ -193,7 +193,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-6">
-              <ChartRadar
+              <ChartRadar v-if="chartData2"
                 chart-id="chart-radar-2"
                 height="350"
                 :markers="0"
@@ -214,7 +214,7 @@ const setShowChart = (no: number) => {
       <BaseCard title="Area">
         <div class="row">
           <div class="col-12 col-md-6 q-pa-sm">
-            <ChartArea
+            <ChartArea v-if="chartData"
               class="q-my-sm"
               chart-id="chart-area"
               height="350"
@@ -232,7 +232,7 @@ const setShowChart = (no: number) => {
             />
           </div>
           <div class="col-12 col-md-6 q-pa-sm">
-            <ChartArea
+            <ChartArea v-if="chartData"
               class="q-my-sm"
               chart-id="chart-area-2"
               height="350"
@@ -254,7 +254,7 @@ const setShowChart = (no: number) => {
       <BaseCard class="q-my-md" title="Line">
         <div class="row">
           <div class="col-12 col-md-6 q-pa-sm">
-            <ChartArea
+            <ChartArea v-if="chartData"
               class="q-my-sm"
               chart-id="chart-line"
               height="350"
@@ -269,7 +269,7 @@ const setShowChart = (no: number) => {
             />
           </div>
           <div class="col-12 col-md-6 q-pa-sm">
-            <ChartArea
+            <ChartArea v-if="chartData"
               class="q-my-sm"
               chart-id="chart-line-2"
               height="350"
@@ -290,7 +290,7 @@ const setShowChart = (no: number) => {
     <Transition v-if="showChart.bar">
       <BaseCard class="q-my-md" title="Bar">
         <ClientOnly>
-          <ChartArea
+          <ChartArea v-if="chartData"
             class="q-my-sm"
             chart-id="chart-bar"
             height="350"
@@ -305,7 +305,7 @@ const setShowChart = (no: number) => {
           />
           <div class="row">
             <div class="col-12 col-md-6">
-              <ChartArea
+              <ChartArea v-if="chartData"
                 class="q-my-sm"
                 chart-id="chart-bar-simple"
                 height="350"
@@ -320,7 +320,7 @@ const setShowChart = (no: number) => {
               />
             </div>
             <div class="col-12 col-md-6">
-              <ChartArea
+              <ChartArea v-if="chartData"
                 class="q-my-sm"
                 chart-id="chart-bar-horizontal"
                 height="350"
@@ -342,7 +342,7 @@ const setShowChart = (no: number) => {
       <BaseCard class="q-my-md" title="Pie/Donuts">
         <div class="row">
           <div class="col-12 col-md-6">
-            <ChartPie
+            <ChartPie v-if="simpleSeries && simpleCategories"
               class="q-my-sm"
               chart-id="chart-pine"
               height="350"
@@ -354,7 +354,7 @@ const setShowChart = (no: number) => {
             />
           </div>
           <div class="col-12 col-md-6">
-            <ChartPie
+            <ChartPie v-if="simpleSeries && simpleCategories"
               class="q-my-sm"
               chart-id="chart-donut"
               height="350"

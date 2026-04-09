@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { biPerson } from '@quasar/extras/bootstrap-icons'
-import AppUserService from '~/api/AppUserService'
-import { userListApi } from '~/libs/data'
-import type { ICrudListHeader, ISortModeType } from '~/types/common'
+import type { ApiResponse, ICrudListHeader, ISortModeType } from '~/types/common'
 import { CrudListDataType, ICrudListHeaderOptionSearchType } from '~/types/common'
 import type { AppUser } from '~/types/models'
 import { sortArray } from '~/utils/appUtil'
@@ -82,45 +80,45 @@ const headers = ref<ICrudListHeader[]>([
             value: 6,
             description: 'Fisher',
             avatar: {
-              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg',
-            },
+              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar11.jpg'
+            }
           },
           {
             label: 'Robert Fox',
             value: 7,
             description: 'Fox',
             avatar: {
-              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg',
-            },
+              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar12.jpg'
+            }
           },
           {
             label: 'Esther Howard',
             value: 8,
             description: 'Howard',
             avatar: {
-              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg',
-            },
+              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar13.jpg'
+            }
           },
           {
             label: 'Darlene Robertson',
             value: 9,
             description: 'Robertson',
             avatar: {
-              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg',
-            },
+              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar9.jpg'
+            }
           },
           {
             label: 'Ralph Edwards',
             value: 10,
             description: 'Edwards',
             avatar: {
-              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png',
-            },
-          },
+              src: 'https://www.primefaces.org/cdn/primevue/images/landing/apps/avatar6.png'
+            }
+          }
         ],
-        multiple: false,
-      },
-    },
+        multiple: false
+      }
+    }
   },
   {
     label: 'Tools',
@@ -135,7 +133,6 @@ const headers = ref<ICrudListHeader[]>([
     }
   }
 ])
-const { findAll } = AppUserService()
 const { appConfirm } = useBase()
 const { t } = useLang()
 const { pages, resetPaging } = usePaging(10)
@@ -156,7 +153,7 @@ const pageParam = computed<string>(
 const fetchData = async () => {
   loading.value = true
   // TODO fetch from api server
-  const response = userListApi
+  const response = await $fetch<ApiResponse<AppUser>>('/api/mock/user/findAll')
   console.log('findAll', response)
   if (response) {
     dataList.value = response.dataList.slice(0, pages.value.itemsPerPage)
@@ -236,7 +233,7 @@ const onSortMode = async (mode: ISortModeType) => {
 const onAdvanceSearch = async (event: any) => {
   console.log('onAdvanceSearch', event)
 }
-const onItemDelete = async (indexOrIds: number | (number| string)[], isSingle: boolean) => {
+const onItemDelete = async (indexOrIds: number | (number | string)[], isSingle: boolean) => {
   const conf = await appConfirm(t('app.monogram'), t('base.deleteConfirm'))
   if (!conf) {
     return
