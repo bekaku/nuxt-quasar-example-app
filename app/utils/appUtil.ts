@@ -334,8 +334,12 @@ export const getValFromObjectByPath = (obj: any, path: string) => {
 
     return undefined;
 };
-export const cloneObject = <T>(obj: T) => {
-    return Object.assign({}, obj) as T;
+export const cloneObject = <T>(obj: T | undefined) => {
+    if (!obj) {
+        return undefined;
+    }
+    // return Object.assign({}, obj) as T;
+    return JSON.parse(JSON.stringify(obj)) as T
 };
 
 export const appPreventDefult = async (event: any) => {

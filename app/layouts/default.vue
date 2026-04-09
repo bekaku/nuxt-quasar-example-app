@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { additionalMenu } from '~/libs/navs'
 useHead({
-  link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
 })
 const { isMobileOrTablet } = useAppDevice()
 const modelValue = ref(!isMobileOrTablet)
@@ -132,6 +132,7 @@ const onOpenDrawer = () => {
       <LazySearchMenu v-if="showSearch" v-model="showSearch" @on-click="onSearchMenuClick" />
     </BaseDrawer>
     <q-page-container>
+      <LazyBaseLayoutBreadcrumbTab />
       <slot />
     </q-page-container>
   </q-layout>

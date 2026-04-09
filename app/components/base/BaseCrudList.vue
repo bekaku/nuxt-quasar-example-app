@@ -62,6 +62,7 @@ const {
   list: any[]
   headers: ICrudListHeader[]
   sort?: ISort
+  sorts?: ISort[]
   pages?: IPagination
   firstLoaded?: boolean
   loading?: boolean
@@ -355,6 +356,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
               <BaseSort
                 v-if="showSort"
                 :sort="sort"
+                :sorts="sorts"
                 flat
                 round
                 :fields="sortableHeaders"

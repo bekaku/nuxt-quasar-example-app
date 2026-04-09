@@ -1,13 +1,14 @@
 import { CrudAction, KeywordParamiter, SearchOperation, SearchParamiter } from "~/libs/constants";
-import type { CrudListApiOptions, ApiResponse, ICrudAction, ICrudListHeader, ISortModeType, ResponseMessage } from "~/types/common";
+import type { CrudListApiOptions, ApiResponse, ICrudAction, ICrudListHeader, ISortModeType, ResponseMessage, IPagination, ISort } from "~/types/common";
 
 export const useCrudList = <T>(options: CrudListApiOptions) => {
 
     const { appNavigateTo, getCurrentPath, getQuery, appConfirm, appLoading, inputSanitizeHtml, appToast } =
         useBase();
-    const { pages, sort, resetSort, resetPaging } = useSort(
+    const { pages, pagesInitial, resetPaging } = usePaging();
+    const { sort, sorts, resetSort } = useSort(
         options ? options.defaultSort : undefined,
-        options ? options.itemsPerPage : 10
+        options ? options.defaultSorts : [],
     );
     const { callAxios } = useAxios();
     const { t } = useLang();
@@ -24,8 +25,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     const enpointList = ref(options?.enpointList);
     const enpointDelete = ref(options?.enpointDelete);
     const crudName = ref(options?.crudName)
-    const defaltSortItems = ref(options.defaultSorts || [])
-
+    const sortTimeout = ref<any>()
     const searchableHeaders = computed<ICrudListHeader[]>(() => {
         if (!headers.value || headers.value.length == 0) {
             return [];
@@ -93,22 +93,28 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         let haveParam = false;
         let q = '';
         if (options.pageAble == undefined || options.pageAble) {
-            q += `page=${(options.pageStartZero == undefined || options.pageStartZero) ? (pages.value.current > 0 ? pages.value.current - 1 : 0) : pages.value.current}`;
-            q += `&size=${pages.value.itemsPerPage}`;
-            haveParam = true;
+            if (pages.value) {
+
+                q += `page=${(options.pageStartZero == undefined || options.pageStartZero) ? (pages.value.current > 0 ? pages.value.current - 1 : 0) : pages.value.current}`;
+                q += `&size=${pages.value.itemsPerPage}`;
+                haveParam = true;
+            }
         }
         if (options.sortAble == undefined || options.sortAble) {
-            if (defaltSortItems.value && defaltSortItems.value.length > 0) {
-                for (const sortAtl of defaltSortItems.value) {
+            if (sorts.value && sorts.value.length > 0) {
+                for (const sortAtl of sorts.value) {
                     q += `${sortAtl.column && sortAtl.mode ? '&sort=' + sortAtl.column + ',' + sortAtl.mode : ''}`
                 }
+                haveParam = true;
             } else {
-                if (haveParam) {
-                    q += '&'
+                if (sort.value) {
+                    if (haveParam) {
+                        q += '&'
+                    }
+                    q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`
+                    haveParam = true;
                 }
-                q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`
             }
-            haveParam = true;
         }
         if (advanceSearchUri.value) {
             if (haveParam) {
@@ -165,24 +171,30 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
                         list = response.dataList.reverse();
                     }
                     await setDataList(list);
-                    if (response.totalPages != undefined) {
+                    if (!pages.value) {
+                        pages.value = cloneObject<IPagination>(pagesInitial);
+                    }
+                    if (response.totalPages != undefined && pages.value) {
                         pages.value.totalPages = response.totalPages;
                     }
-                    if (response.totalElements != undefined) {
+                    if (response.totalElements != undefined && pages.value) {
                         pages.value.totalElements = response.totalElements;
                         if (response.totalElements == 0 || response.totalElements < pages.value.itemsPerPage) {
                             isInfiniteDisabled.value = true;
                         }
                     }
-                    if (response.last != undefined) {
+                    if (response.last != undefined && pages.value) {
                         pages.value.last = response.last;
                         isInfiniteDisabled.value = response.last;
                     }
 
                 } else if (response && isArray(response)) {
                     const responseList: T[] = response as unknown as T[];
-                    if (responseList.length == 0 || responseList.length < pages.value.itemsPerPage) {
-                        isInfiniteDisabled.value = true;
+                    if (pages.value) {
+
+                        if (responseList.length == 0 || responseList.length < pages.value.itemsPerPage) {
+                            isInfiniteDisabled.value = true;
+                        }
                     }
                     if (!options.reverseList) {
                         list = responseList;
@@ -212,7 +224,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     };
     const setDataList = (list: T[]) => {
         return new Promise((resolve) => {
-            if (pages.value.current == 1) {
+            if (pages.value && pages.value.current == 1) {
                 dataList.value = list;
             } else {
                 if (!options.concatList) {
@@ -258,7 +270,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     //     return filters;
     // });
     const onPageNoChange = (pageNo: number | undefined) => {
-        if (pageNo == undefined) {
+        if (pageNo == undefined || !pages.value) {
             return;
         }
         pages.value.current = pageNo;
@@ -268,7 +280,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         onPasteUrlPathParamAndFetchData();
     };
     const onItemPerPageChange = async (no: number | undefined) => {
-        if (no == undefined) {
+        if (no == undefined || !pages.value) {
             return;
         }
         pages.value.itemsPerPage = no;
@@ -278,20 +290,44 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         onPasteUrlPathParamAndFetchData();
     };
     const onSort = (column: string | undefined) => {
-        if (column == undefined) {
+        if (column == undefined || !sort.value) {
             return;
         }
-        defaltSortItems.value = []
+        if (sorts.value) {
+            sorts.value.length = 0
+        }
+
         if (sort.value.column === column) {
             sort.value.mode = sort.value.mode === 'asc' ? 'desc' : 'asc';
         } else {
             sort.value.column = column;
         }
-        onPasteUrlPathParamAndFetchData();
+        if (sort.value && sorts.value) {
+            sorts.value.push(sort.value)
+        }
+
+        console.log('onSort', sorts.value);
+
+        sortTimeout.value = setTimeout(() => {
+            onPasteUrlPathParamAndFetchData();
+        }, 150);
+
     };
     const onSortMode = (mode: ISortModeType) => {
+        if (!sort.value) {
+            return
+        }
+        if (sorts.value) {
+            sorts.value.length = 0
+        }
+
         sort.value.mode = mode;
-        onPasteUrlPathParamAndFetchData();
+        if (sort.value && sorts.value) {
+            sorts.value.push(sort.value)
+        }
+        sortTimeout.value = setTimeout(() => {
+            onPasteUrlPathParamAndFetchData();
+        }, 150);
     };
     const onPasteUrlPathParamAndFetchData = async () => {
         if (!pathParam.value) {
@@ -311,9 +347,12 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         onPasteUrlPathParamAndFetchData();
     };
     const onReload = () => {
-        defaltSortItems.value = options.defaultSorts || []
+        sorts.value = options.defaultSorts || []
         advanceSearchUri.value = '';
-        pages.value.current = (options?.pageStartZero == undefined || options.pageStartZero) ? 0 : 1;
+        if (pages.value) {
+            pages.value.current = (options?.pageStartZero == undefined || options.pageStartZero) ? 0 : 1;
+        }
+
         dataList.value = [];
         resetSort();
         resetPaging();
@@ -422,6 +461,10 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
         enpointList.value = undefined;
         enpointDelete.value = undefined;
         crudName.value = undefined;
+        if (sortTimeout.value) {
+            clearTimeout(sortTimeout.value);
+            sortTimeout.value = null
+        }
     });
     const methods = {
         onPageNoChange,
@@ -441,6 +484,7 @@ export const useCrudList = <T>(options: CrudListApiOptions) => {
     return {
         pages,
         sort,
+        sorts,
         resetSort,
         loading,
         firstLoaded,

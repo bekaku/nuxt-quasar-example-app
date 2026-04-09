@@ -5,7 +5,7 @@ import type { ApiResponse, CrudListApiOptions, ISortModeType } from "~/types/com
 export const usePagefecth = <T>(options: CrudListApiOptions) => {
   const { callAxios } = useAxios();
   const { pages, resetPaging } = usePaging(options?.itemsPerPage ? options.itemsPerPage : 10);
-  const { sort } = useSort(options?.defaultSort);
+  const { sort, sorts, resetSort } = useSort(options.defaultSort, options.defaultSorts);
   const dataList = ref<T[]>([]) as Ref<T[]>;
   const isInfiniteDisabled = ref(false);
   const firstLoaded = ref(false);
@@ -17,15 +17,26 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
     let haveParam = false;
     let q = '';
     if (options.pageAble == undefined || options.pageAble) {
-      q += `page=${(options.pageStartZero == undefined || options.pageStartZero) ? (pages.value.current > 0 ? pages.value.current - 1 : 0) : pages.value.current}`;
-      q += `&size=${pages.value.itemsPerPage}`;
-      haveParam = true;
+      if (pages.value) {
+
+        q += `page=${(options.pageStartZero == undefined || options.pageStartZero) ? (pages.value.current > 0 ? pages.value.current - 1 : 0) : pages.value.current}`;
+        q += `&size=${pages.value.itemsPerPage}`;
+        haveParam = true;
+      }
     }
     if (options.sortAble == undefined || options.sortAble) {
-      if (haveParam) {
-        q += '&';
-      }
-      q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`;
+      if (sorts.value && sorts.value.length > 0) {
+        for (const sortAtl of sorts.value) {
+          q += `${sortAtl.column && sortAtl.mode ? '&sort=' + sortAtl.column + ',' + sortAtl.mode : ''}`
+        }
+      } else
+        if (sort.value) {
+          if (haveParam) {
+            q += '&';
+          }
+          q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`;
+        }
+
       haveParam = true;
     }
     if (additionalUri.value) {
@@ -39,7 +50,7 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
   const apiEndpoint = computed(
     () => `${urlEndpoint.value}${queryParam.value ? '?' + queryParam.value : ''}`
   );
-  const loadData = async () => {
+  const loadData = async (): Promise<void> => {
     loading.value = true;
     const response = await callAxios<ApiResponse<T>>({
       API: apiEndpoint.value,
@@ -54,24 +65,27 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
           list = response.dataList.reverse();
         }
         await setDataList(list);
-        if (response.totalPages != undefined) {
+        if (response.totalPages != undefined && pages.value) {
           pages.value.totalPages = response.totalPages;
         }
-        if (response.totalElements != undefined) {
+        if (response.totalElements != undefined && pages.value) {
           pages.value.totalElements = response.totalElements;
           if (response.totalElements == 0 || response.totalElements < pages.value.itemsPerPage) {
             isInfiniteDisabled.value = true;
           }
         }
-        if (response.last != undefined) {
+        if (response.last != undefined && pages.value) {
           pages.value.last = response.last;
           isInfiniteDisabled.value = response.last;
         }
 
       } else if (response && isArray(response)) {
         const responseList: T[] = response as unknown as T[];
-        if (responseList.length == 0 || responseList.length < pages.value.itemsPerPage) {
-          isInfiniteDisabled.value = true;
+        if (pages.value) {
+
+          if (responseList.length == 0 || responseList.length < pages.value.itemsPerPage) {
+            isInfiniteDisabled.value = true;
+          }
         }
         if (!options.reverseList) {
           list = responseList;
@@ -87,12 +101,12 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
 
     loading.value = false;
     return new Promise((resolve) => {
-      resolve(true);
+      resolve();
     });
   };
-  const setDataList = (list: T[]) => {
+  const setDataList = (list: T[]): Promise<void> => {
     return new Promise((resolve) => {
-      if (pages.value.current == 1) {
+      if (pages.value && pages.value.current == 1) {
         dataList.value = list;
       } else {
         if (!options.concatList) {
@@ -105,7 +119,7 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
           }
         }
       }
-      resolve(true)
+      resolve()
     })
   }
   const resetData = (resetPage: boolean = true) => {
@@ -116,59 +130,69 @@ export const usePagefecth = <T>(options: CrudListApiOptions) => {
     firstLoaded.value = false;
     isInfiniteDisabled.value = false;
   };
-  const onReload = async () => {
+  const onReload = async (): Promise<void> => {
     resetPaging();
+    resetSort();
     if (!options.preventResetListReload) {
       firstLoaded.value = false;
       dataList.value = [];
     }
     isInfiniteDisabled.value = false;
     await loadData();
-    return new Promise((resolve) => resolve(true));
+    return new Promise((resolve) => resolve());
   };
 
-  const onNextPage = async () => {
+  const onNextPage = async (): Promise<void> => {
     if (firstLoaded.value) {
-      pages.value.current++;
+      if (pages.value) {
+        pages.value.current++;
+      }
       await loadData();
     }
-    return new Promise((resolve) => resolve(true));
+    return new Promise((resolve) => resolve());
   };
 
-  const loadPageChange = async (resetPage: boolean = false) => {
+  const loadPageChange = async (resetPage: boolean = false): Promise<void> => {
     resetData(resetPage);
     await loadData();
-    return new Promise((resolve) => resolve(true));
+    return new Promise((resolve) => resolve());
   };
 
-  const onPageChange = async (value: number | undefined) => {
+  const onPageChange = async (value: number | undefined): Promise<void> => {
     await loadPageChange(false);
-    return new Promise((resolve) => resolve(true));
+    return new Promise((resolve) => resolve());
   };
 
-  const onPerPageChange = async (value: number | undefined) => {
+  const onPerPageChange = async (value: number | undefined): Promise<void> => {
     await loadPageChange(false);
-    return new Promise((resolve) => resolve(true));
+    return new Promise((resolve) => resolve());
   };
 
-  const onSortColumn = async (column: string) => {
-  console.log('onSortColumn', column)
-  sort.value.column = column
-  await onReload();
-  return new Promise((resolve) => resolve(true));
-}
-const onSortMode = async (mode: ISortModeType) => {
-  console.log('onSortColumn', mode)
-  sort.value.mode = mode
-  await onReload();
-  return new Promise((resolve) => resolve(true));
-}
+  const onSortColumn = async (column: string): Promise<void> => {
+    if (!sort.value) {
+      return new Promise((resolve) => resolve());
+    }
+    console.log('onSortColumn', column)
+    sort.value.column = column
+    await onReload();
+    return new Promise((resolve) => resolve());
+  }
+  const onSortMode = async (mode: ISortModeType): Promise<void> => {
+    if (!sort.value) {
+      return new Promise((resolve) => resolve());
+    }
+    console.log('onSortColumn', mode)
+    sort.value.mode = mode
+    await onReload();
+    return new Promise((resolve) => resolve());
+  }
   return {
     isInfiniteDisabled,
     firstLoaded,
     loading,
     pages,
     sort,
+    sorts,
     dataList,
     urlEndpoint,
     additionalUri,

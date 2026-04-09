@@ -185,13 +185,18 @@ const onLoadDistrictItems = async () => {
     return
   }
   cascadeLoading.value = true
-  const disticts = await $fetch(`/api/district?provinceId=${provinceSeleted.value}`)
-  for (const d of disticts) {
-    districtItems.value.push({
-      label: d.name_th,
-      value: d.id,
-      description: d.name_en
-    })
+  const disticts = await $fetch<{ id: number; name_th: string; name_en: string }[]>(
+    `/api/district?provinceId=${provinceSeleted.value}`
+  )
+  console.log('disticts', disticts)
+  if (disticts) {
+    for (const d of disticts) {
+      districtItems.value.push({
+        label: d.name_th,
+        value: d.id,
+        description: d.name_en
+      })
+    }
   }
   cascadeLoading.value = false
 }
@@ -202,7 +207,9 @@ const onLoadSubdistrictItems = async () => {
     return
   }
   cascadeLoading.value = true
-  const subdisticts = await $fetch(`/api/subdistrict?districtId=${districtSeleted.value}`)
+  const subdisticts = await $fetch<
+    { id: number; name_th: string; name_en: string; zip_code: string }[]
+  >(`/api/subdistrict?districtId=${districtSeleted.value}`)
   for (const d of subdisticts) {
     subdistrictItems.value.push({
       label: d.name_th,
@@ -218,6 +225,7 @@ watch(provinceSeleted, () => {
 watch(districtSeleted, () => {
   onLoadSubdistrictItems()
 })
+
 </script>
 <template>
   <BasePage>
@@ -377,7 +385,12 @@ watch(districtSeleted, () => {
         :items="items3"
       >
         <template #inputAppend>
-          <BaseButton flat round :icon="{name:'lucide:x'}" @click="showCommandPaletteDialog = false" />
+          <BaseButton
+            flat
+            round
+            :icon="{ name: 'lucide:x' }"
+            @click="showCommandPaletteDialog = false"
+          />
         </template>
       </BaseCommandPalette>
     </BaseDialog>

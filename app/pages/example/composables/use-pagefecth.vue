@@ -6,10 +6,13 @@ useHead({
   title: 'usePageFetch'
 })
 
-const { firstLoaded, pages, dataList, loadData, onReload, onPageChange, onPerPageChange } =
+const { firstLoaded, pages, dataList, loadData, onReload, onPageChange, onPerPageChange, sorts } =
   usePagefecth<Permission>({
     apiEndpoint: '/api/permission',
-    defaultSort: { column: 'id', mode: 'desc' },
+    defaultSorts: [
+      { column: 'id', mode: 'desc' },
+      { column: 'code', mode: 'asc' }
+    ],
     itemsPerPage: 4
   })
 
@@ -23,7 +26,7 @@ const {
   onNextPage
 } = usePagefecth<Permission>({
   apiEndpoint: '/api/permission',
-  defaultSort: { column: 'id', mode: 'desc' },
+  defaultSorts: [{ column: 'id', mode: 'desc' }],
   itemsPerPage: 4,
   concatList: true
 })
@@ -38,7 +41,7 @@ onMounted(async () => {
       <q-card-section class="q-gutter-md">
         <BaseCard flat bordered title="Paging">
           <template #end>
-            <BaseButton flat round :icon="{name:'lucide:refresh-ccw'}" @click="onReload">
+            <BaseButton flat round :icon="{ name: 'lucide:refresh-ccw' }" @click="onReload">
               <BaseTooltip> Reload data </BaseTooltip>
             </BaseButton>
           </template>
@@ -77,7 +80,7 @@ onMounted(async () => {
 
         <BaseCard flat bordered title="Loadmore">
           <template #end>
-            <BaseButton flat round :icon="{name:'lucide:refresh-ccw'}" @click="onReload2">
+            <BaseButton flat round :icon="{ name: 'lucide:refresh-ccw' }" @click="onReload2">
               <BaseTooltip> Reload data </BaseTooltip>
             </BaseButton>
           </template>

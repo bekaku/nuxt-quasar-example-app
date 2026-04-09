@@ -95,7 +95,7 @@ function handleError() {
           </q-card-section>
         </BaseCard>
         <div class="text-center q-my-lg">
-          <BaseButton outline :icon="{name:'lucide:arrow-right'}" :label="t('base.back')" @click="handleError" />
+          <BaseButton outline :icon="{name:'lucide:arrow-left'}" :label="t('base.back')" @click="handleError" />
           <BaseButton outline :icon="{name:'lucide:house'}" :label="t('base.home')" to="/" class="q-ml-md" />
         </div>
         <!-- <div v-if="error" class="text-h5">{{ error.statusCode }}</div> -->

@@ -1,10 +1,17 @@
-import { DefaultItemsPerPage, DefaultMaxItemsPerPage } from "~/libs/constants";
+import { DefaultMaxItemsPerPage, DefultItemsPerPage } from "~/libs/constants";
 import type { IPagination } from "~/types/common";
 
 export const usePaging = (perPage?: number) => {
+  const { getQuery } = useBase();
+  const getNumberQuery = (param: string): number => {
+    const pageQuery = getQuery(param);
+    return pageQuery ? +pageQuery : 0;
+  };
+  const p = getNumberQuery('page');
+  const s = getNumberQuery('size');
   const pagesInitial: IPagination = {
-    current: 1,
-    itemsPerPage: perPage ? perPage : DefaultItemsPerPage,
+    current: p != undefined ? p + 1 : 1,
+    itemsPerPage: s && s <= DefaultMaxItemsPerPage && s > 0 ? s : perPage ? perPage : DefultItemsPerPage,
     totalPages: 0,
     totalElements: 0,
     last: false,
@@ -16,12 +23,13 @@ export const usePaging = (perPage?: number) => {
       { text: `${DefaultMaxItemsPerPage}`, value: DefaultMaxItemsPerPage },
     ],
   };
-  const pages = ref<IPagination>(Object.assign({}, pagesInitial));
+  const pages = ref<IPagination | undefined>(cloneObject<IPagination>(pagesInitial));
   const resetPaging = () => {
-    pages.value = Object.assign({}, pagesInitial);
+    pages.value = cloneObject<IPagination>(pagesInitial);
   };
   return {
     pages,
     resetPaging,
+    pagesInitial
   };
 };

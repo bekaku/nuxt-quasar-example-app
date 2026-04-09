@@ -67,6 +67,7 @@ const {
   firstLoaded,
   pages,
   sort,
+  sorts,
   onPageNoChange,
   onItemPerPageChange,
   onSort,
@@ -85,13 +86,22 @@ const {
   apiEndpoint: '/api',
   headers: headerItems,
   itemsPerPage: 15,
-  defaultSort: {
-    column: 'code',
-    mode: 'asc'
-  }
+  // defaultSort: {
+  //   column: 'code',
+  //   mode: 'asc'
+  // },
+  defaultSorts: [
+    {
+      column: 'code',
+      mode: 'asc'
+    },
+    {
+      column: 'id',
+      mode: 'desc'
+    }
+  ]
 })
 const { t } = useLang()
-
 </script>
 <template>
   <BasePage>
@@ -104,8 +114,10 @@ const { t } = useLang()
       :pages="pages"
       :headers="headers"
       :sort="sort"
+      :sorts="sorts"
       :list="dataList"
       show-search-text-box
+      search-form-div-col="col-md-6"
       @on-item-click="onItemClick"
       @on-item-copy="onItemCopy"
       @on-page-no-change="onPageNoChange"

@@ -8,10 +8,12 @@ const {
   width = '200px',
   listDense = true,
   btnRound = false,
-  sort
+  sort,
+  sorts
 } = defineProps<{
   fields?: any[]
   sort?: ISort
+  sorts?: ISort[]
   icon?: string
   label?: string
   width?: string

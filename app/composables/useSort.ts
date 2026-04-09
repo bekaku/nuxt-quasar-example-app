@@ -1,9 +1,8 @@
-import type { ISort, ISortMode, IPagination } from '~/types/common';
-import { DefaultMaxItemsPerPage, DefultItemsPerPage } from '~/libs/constants';
-import { useBase } from './useBase';
-import { ref } from 'vue';
 import { useLang } from '@/composables/useLang';
-export const useSort = (defaultSort?: ISort, perPage?: number) => {
+import { ref } from 'vue';
+import type { ISort, ISortMode } from '~/types/common';
+import { useBase } from './useBase';
+export const useSort = (defaultSort?: ISort, defaultSorts?: ISort[]) => {
   const { getQuery } = useBase();
   const { t } = useLang();
   const sortMode = ref<ISortMode[]>([
@@ -11,13 +10,9 @@ export const useSort = (defaultSort?: ISort, perPage?: number) => {
     { value: 'desc', label: t('sort.desc') },
   ]);
 
-  const getNumberQuery = (param: string): number => {
-    const pageQuery = getQuery(param);
-    return pageQuery ? +pageQuery : 0;
-  };
   const getSortParam = (): ISort | undefined => {
     const sortQuery = getQuery<string>('sort');
-    if (sortQuery) {
+    if (sortQuery && !isArray(sortQuery)) {
       const sortArr = sortQuery.split(',');
       if (sortArr.length == 2) {
         const field = sortArr[0];
@@ -32,10 +27,44 @@ export const useSort = (defaultSort?: ISort, perPage?: number) => {
     }
     return undefined;
   };
+  const getSortParams = (): ISort[] | undefined => {
+    const sortQuery = getQuery('sort') as any;
+    if (sortQuery) {
+      const sItems: ISort[] = [];
+      if (isArray(sortQuery) && sortQuery.length > 0) {
+        sortQuery.forEach((item: string) => {
+          const sortArr = item.split(',');
+          if (sortArr.length == 2) {
+            const field = sortArr[0];
+            const mode = sortArr[1];
+            if (mode == 'asc' || mode == 'desc') {
+              sItems.push({
+                column: field,
+                mode
+              });
+            }
+          }
+        });
+        return sItems;
+      } else {
+        const sortArr = sortQuery.split(',');
+        if (sortArr.length == 2) {
+          const field = sortArr[0];
+          const mode = sortArr[1];
+          if (mode == 'asc' || mode == 'desc') {
+            return [{
+              column: field,
+              mode: mode,
+            }];
+          }
+        }
+      }
+    }
+    return undefined;
+  };
   const sortQuery = getSortParam();
+  const sortQuerys = getSortParams();
 
-  const p = getNumberQuery('page');
-  const s = getNumberQuery('size');
   const sortInitial: ISort = {
     column:
       sortQuery && sortQuery.column
@@ -50,34 +79,17 @@ export const useSort = (defaultSort?: ISort, perPage?: number) => {
           ? defaultSort.mode
           : undefined,
   };
-  const pagesInitial: IPagination = {
-    current: p != undefined ? p + 1 : 1,
-    itemsPerPage:s && s <= DefaultMaxItemsPerPage && s > 0 ? s : perPage ? perPage : DefultItemsPerPage,
-    totalPages: 0,
-    totalElements: 0,
-    last: false,
-    perPageList: [
-      { text: '5', value: 5 },
-      { text: '10', value: 10 },
-      { text: '15', value: 15 },
-      { text: '20', value: 20 },
-      { text: `${DefaultMaxItemsPerPage}`, value: DefaultMaxItemsPerPage },
-    ],
-  };
-  const sort = ref<ISort>(Object.assign({}, sortInitial));
-  const pages = ref<IPagination>(Object.assign({}, pagesInitial));
-  const resetPaging = () => {
-    pages.value = Object.assign({}, pagesInitial);
-  };
+  const sortInitials: ISort[] | undefined = sortQuerys || defaultSorts;
+  const sort = ref<ISort | undefined>(cloneObject<ISort>(sortInitial));
+  const sorts = ref<ISort[] | undefined>(cloneObject<ISort[]>(sortInitials));
   const resetSort = () => {
-    sort.value = Object.assign({}, sortInitial);
-    pages.value = Object.assign({}, pagesInitial);
+    sort.value = cloneObject<ISort>(defaultSort)
+    sorts.value = cloneObject<ISort[]>(defaultSorts)
   };
   return {
     sortMode,
     sort,
-    pages,
+    sorts,
     resetSort,
-    resetPaging
   };
 };
