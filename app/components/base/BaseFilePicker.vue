@@ -272,7 +272,7 @@ defineExpose({
       <template v-if="showVdoEditor">
         <LazyBaseVideoEditorDialog
           v-if="showVdoEditor && vdoFile"
-          v-bind:show="showVdoEditor"
+          v-model:show="showVdoEditor"
           :file="vdoFile"
           @on-close="onVideoEditorClose"
           @on-submit="onVideoAdd"

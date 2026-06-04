@@ -1,5 +1,6 @@
+import { Snowflake } from "~/libs/Snowflake";
 import type { AppException, ApiResponse, IHrefTarget, IMenuPageItem, ISortModeType, LabelValue, ResponseMessage, ServerException } from "~/types/common";
-
+const snowflakeIdGenerator = new Snowflake(1, 1);
 export const isAppException = (obj: any): obj is AppException => {
     return (
         obj.status !== undefined &&
@@ -358,5 +359,7 @@ export const generateUniqueFilename = (originalName: string): string => {
     const uuid = crypto.randomUUID()
     const timestamp = Date.now()
     return `${timestamp}_${uuid}${ext}`
-
 }
+export const generateSnowflakeID = (): string => {
+  return snowflakeIdGenerator.nextId();
+};

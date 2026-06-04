@@ -161,20 +161,20 @@ export default () => {
       },
     });
   };
-  const findOneFolder = async (id: number): Promise<FilesDirectory | null> => {
+  const findOneFolder = async (id: string | number): Promise<FilesDirectory | null> => {
     return await callAxios<FilesDirectory>({
       API: `/api/filesDirectory/${id}`,
       baseURL: config.cdnBase,
       method: 'GET',
     });
   };
-  const deleteFolder = async (id: number): Promise<FilesDirectory | null> => {
+  const deleteFolder = async (id: string | number): Promise<FilesDirectory | null> => {
     return await callAxios<FilesDirectory>({
       API: `/api/filesDirectory/${id}`,
       baseURL: config.cdnBase,
-      method: 'DELETE',
-    });
-  };
+      method: 'DELETE'
+    })
+  }
   return {
     uploadApi,
     uploadChunkApi,

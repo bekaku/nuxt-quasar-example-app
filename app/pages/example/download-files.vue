@@ -12,6 +12,7 @@ const options: DownloadConfig = {
   filename: 'sample.mp4',
   historyable: false
 }
+
 const onDownload = async () => {
   await downloadFile(options)
 }

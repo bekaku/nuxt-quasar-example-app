@@ -1,22 +1,35 @@
 <script setup lang="ts">
 import type { FileManager } from '~/types/models'
+import { getExtensionFromFileName } from '~/utils/fileUtil'
 
-const { folder } = defineProps<{
-  folder?: FileManager
+const { file } = defineProps<{
+  file?: FileManager
 }>()
 const { required } = useValidation()
 const modelValue = defineModel<boolean>({ default: false })
-const name = ref<string>(folder?.fileName || '')
-const isNew = computed(() => !folder)
+const name = ref<string>(file?.fileName || '')
+const extension = ref<string>('')
+const isNew = computed(() => !file)
 const emit = defineEmits<{
-  'on-update': [folder?: FileManager]
+  'on-update': [name?: string]
   'on-create': [name: string]
 }>()
+
+watchEffect(() => {
+  if (file) {
+    const ext = getExtensionFromFileName(file.fileName)
+    if (ext) {
+      extension.value = ext
+      name.value = file.fileName.replace(ext, '')
+    }
+  }
+})
 const onSubmit = () => {
+  console.log('d', `${name.value}${extension.value}`)
   if (isNew.value) {
     emit('on-create', name.value)
   } else {
-    emit('on-update', folder)
+    emit('on-update', `${name.value}${extension.value}`)
   }
 }
 </script>
@@ -30,7 +43,8 @@ const onSubmit = () => {
       iconSet: 'nuxt'
     }"
     :dialog-style="{
-      width: '400px'
+      width: '480px',
+      maxWidth: '80%'
     }"
   >
     <BaseCardSection>
@@ -39,10 +53,16 @@ const onSubmit = () => {
           v-bind="$attrs"
           v-model="name"
           :debounce="500"
-          :placeholder="$t('drive.typeNewFolder')"
+          :label="isNew ? $t('drive.typeNewFolder') : $t('drive.changName')"
+          :placeholder="isNew ? $t('drive.typeNewFolder') : $t('drive.changName')"
           dense
+          required
           :rules="[required]"
-        />
+        >
+          <template #after>
+            <span class="text-body1">{{ extension }}</span>
+          </template>
+        </BaseInput>
 
         <BaseCardActions align-items="right" class="q-mt-md">
           <BaseButton

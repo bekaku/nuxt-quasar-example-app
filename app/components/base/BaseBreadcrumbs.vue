@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRbac } from '~/composables/useRbac';
+import { useRbac } from '~/composables/useRbac'
 import type { LabelValue, AppColor } from '~/types/common'
 import type { IconProps } from '~/types/props'
 
@@ -7,7 +7,11 @@ const {
   items,
   showSeparator = true,
   textColor = 'primary',
-  activeColor = 'grey-8'
+  activeColor = 'grey-8',
+  // separatorIcon = {
+  //   name: 'lucide:chevron-right',
+  //   iconSet: 'nuxt'
+  // }
 } = defineProps<{
   items: LabelValue<any>[]
   showSeparator?: boolean
@@ -19,7 +23,7 @@ const appStore = useAppStore()
 const { t } = useLang()
 const { isDark } = useTheme()
 const { getParam, getQuery } = useBase()
-const { hasPermission } = useRbac();
+const { hasPermission } = useRbac()
 const canShow = (item: LabelValue<any>) => {
   if (item.rbac == undefined) {
     return true
@@ -27,7 +31,7 @@ const canShow = (item: LabelValue<any>) => {
   return hasPermission(item.rbac)
 }
 const getItems = computed<LabelValue<any>[]>(() => {
-  return items.filter(t => canShow(t) === true)
+  return items.filter(t => canShow(t))
 })
 const getLink = (item: LabelValue<any>) => {
   let link = item.to
@@ -59,7 +63,11 @@ const getLink = (item: LabelValue<any>) => {
     <q-breadcrumbs :class="`text-${textColor}`" :active-color="isDark ? 'white' : activeColor">
       <template #separator>
         <template v-if="showSeparator">
-          <BaseIcon v-if="separatorIcon != undefined" class="text-muted" v-bind="{ ...separatorIcon }" />
+          <BaseIcon
+            v-if="separatorIcon != undefined"
+            class="text-muted"
+            v-bind="{ ...separatorIcon }"
+          />
           <template v-else> <span class="text-muted">/</span></template>
         </template>
       </template>

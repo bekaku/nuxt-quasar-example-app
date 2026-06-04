@@ -452,7 +452,6 @@ const onSoftDelete = (index: number) => {
       :title="pdfName"
       @on-close="() => onClosePefView"
     />
-
     <LazyBasePdfViewDialog
       v-if="showPdfViewWatermark1"
       v-model="showPdfViewWatermark1"
@@ -462,7 +461,6 @@ const onSoftDelete = (index: number) => {
         text: 'Defult watermark'
       }"
     />
-
     <LazyBasePdfViewDialog
       v-if="showPdfViewWatermark2"
       v-model="showPdfViewWatermark2"

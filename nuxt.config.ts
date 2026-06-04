@@ -11,7 +11,7 @@ const fileNames = [
 ]
 
 function getFileList(locale: string) {
-  return fileNames.map(name => `${locale}/${name}.ts`)
+  return fileNames.map(name => `${locale}/${name}.json`)
 }
 export default defineNuxtConfig({
   // app: {

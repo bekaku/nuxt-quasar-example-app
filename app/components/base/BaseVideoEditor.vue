@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { fetchFile } from '@ffmpeg/util';
-import type { FileManager } from '~/types/models';
+import { fetchFile } from '@ffmpeg/util'
+import type { FileManager } from '~/types/models'
 const {
   file,
   thumbnailCount = 6,
@@ -13,11 +13,14 @@ const {
 const emit = defineEmits<{
   'on-submit': [f: FileManager]
 }>()
+
+const { isLoading, progress, logMessage, error: ffmpegError, compress, trim, cleanup } = useFFmpeg()
 const { $FFmpeg } = useNuxtApp()
 const FFmpeg = $FFmpeg
 const ffmpeg = new FFmpeg()
 const { required } = useValidation()
 const { appLoading } = useBase()
+const { isDark } = useTheme()
 const videoEditorHiddenRef = ref<HTMLVideoElement | null>(null)
 const posterRef = ref<HTMLCanvasElement | null>(null)
 
@@ -27,7 +30,7 @@ const showThumbnailSelect = ref<boolean>(false)
 const entity = ref<FileManager>()
 const showPreview = ref<boolean>(false)
 const previewTimeout = ref<any>()
-
+const initial = ref(false)
 // trim video
 const duration = ref<number>(0)
 const range = ref<{ min: number; max: number }>({ min: 0, max: 0 })
@@ -127,11 +130,12 @@ const initialFile = async () => {
           //   frames.push(thumbFile)
           thumbnailBase64Items.value.push(base64)
         }
-
+        const newUniqueId = generateSnowflakeID()
         entity.value = {
           id: null,
           fileMime: file.type,
           fileName: file.name,
+          uniqueId: newUniqueId,
           filePath: videoUrl,
           // fileThumbnailPath: thumbnailBase64Items.value[0] || '',
           fileThumbnailPath: '',
@@ -157,6 +161,7 @@ const initialFile = async () => {
         reject(err)
       } finally {
         appLoading(false)
+        initial.value = true
       }
     }
 
@@ -202,41 +207,101 @@ const loadFFmpeg = async () => {
   }
 }
 const trimVideo = async () => {
-  if (!file) return
-  appLoading()
-  await loadFFmpeg()
+  // if (!file) return
+  // appLoading()
+  // await loadFFmpeg()
+  // const start = range.value.min
+  // const trimDuration = range.value.max - range.value.min
+  // // Write input
+  // await ffmpeg.writeFile('input.mp4', await fetchFile(file))
+  // // Run ffmpeg
+  // await ffmpeg.exec([
+  //   '-ss',
+  //   start.toString(),
+  //   '-t',
+  //   trimDuration.toString(),
+  //   '-i',
+  //   'input.mp4',
+  //   '-c',
+  //   'copy',
+  //   'output.mp4'
+  // ])
+  // // Read output
+  // const data = await ffmpeg.readFile('output.mp4') // returns FileData
+  // if (data) {
+  //   trimBlob.value = new Blob([(data as any).buffer], { type: 'video/mp4' }) // use .data
+  //   if (trimBlob.value) {
+  //     const trimmedUrl = URL.createObjectURL(trimBlob.value)
+  //     if (trimmedUrl && entity.value) {
+  //       // const trimFile = await blobToFile(blob, entity.value.fileName)
+  //       entity.value.duration = trimDuration
+  //       entity.value.filePath = trimmedUrl
+  //       onReloadPreview()
+  //     }
+  //   }
+  // }
+
+  // appLoading(false)
+
+  if (!file) {
+    return
+  }
   const start = range.value.min
   const trimDuration = range.value.max - range.value.min
-  // Write input
-  await ffmpeg.writeFile('input.mp4', await fetchFile(file))
-  // Run ffmpeg
-  await ffmpeg.exec([
-    '-ss',
-    start.toString(),
-    '-t',
-    trimDuration.toString(),
-    '-i',
-    'input.mp4',
-    '-c',
-    'copy',
-    'output.mp4'
-  ])
-  // Read output
-  const data = await ffmpeg.readFile('output.mp4') // returns FileData
-  if (data) {
-    trimBlob.value = new Blob([(data as any).buffer], { type: 'video/mp4' }) // use .data
-    if (trimBlob.value) {
-      const trimmedUrl = URL.createObjectURL(trimBlob.value)
-      if (trimmedUrl && entity.value) {
-        // const trimFile = await blobToFile(blob, entity.value.fileName)
-        entity.value.duration = trimDuration
-        entity.value.filePath = trimmedUrl
-        onReloadPreview()
-      }
+  console.log('trimVideo', { start, trimDuration })
+  // const r = await compress(
+  //   file,
+  //   {
+  //     crf: 32,
+  //     preset: 'ultrafast',
+  //     resolution: '720p',
+  //     audioBitrate: '96k',
+  //   },
+  //   {
+  //     enabled: true,
+  //     startTime: start,
+  //     endTime: trimDuration,
+  //   },
+  // )
+  try {
+    const r = await trim(file, {
+      enabled: true,
+      startTime: start,
+      endTime: trimDuration
+    })
+    console.log('trimVideo', r)
+    if (r && entity.value) {
+      entity.value.duration = r.trimmedDuration || 0
+      entity.value.filePath = r.url
+      entity.value.file = r.file
+      console.log('onReloadPreview', entity.value)
+      onReloadPreview()
     }
+  } catch {}
+}
+const compressVideo = async (): Promise<void> => {
+  if (!entity.value) {
+    return new Promise(resolve => resolve())
   }
+  const f = entity.value.file || file
+  if (!f) {
+    return new Promise(resolve => resolve())
+  }
+  try {
+    console.log('Before compressedFile', f)
+    const r = await compress(f, {
+      crf: 32,
+      preset: 'ultrafast',
+      resolution: '720p',
+      audioBitrate: '96k'
+    })
+    console.log('after compressedFile', r)
+    if (r && r.file) {
+      entity.value.file = r.file
+    }
+  } catch {}
 
-  appLoading(false)
+  return new Promise(resolve => resolve())
 }
 const onSubmit = async () => {
   if (!canSubmit.value || !entity.value) {
@@ -285,7 +350,7 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div :style="{minHeight: '350px'}">
+  <div :style="{ minHeight: '350px' }">
     <q-form @submit="onSubmit">
       <div class="row">
         <div class="col-12 col-md-7 q-pa-md">
@@ -430,9 +495,52 @@ onUnmounted(() => {
                 style="width: 90%"
               >
               </LazyBaseVideoPlayer>
-              <LazyBaseSpinner v-else/>
+              <LazyBaseSpinner v-else />
             </div>
 
+            <div v-if="isLoading">
+              <q-item
+                dense
+                :style="{
+                  backgroundColor: !isDark ? 'var(--color-zinc-100)' : 'var(--color-zinc-900)',
+                  marginBottom: '10px',
+                  borderRadius: '5px'
+                }"
+              >
+                <q-item-section side>
+                  <BaseSpinner size="24px" type="clock" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                    {{ $t('base.pleaseWaitWhileLoading') }}
+                  </q-item-label>
+                  <q-item-label caption>
+                    <div
+                      :style="{
+                        height: '45px',
+                        overflow: 'auto',
+                        padding: '2px',
+                        backgroundColor: !isDark ? 'var(--color-zinc-200)' : 'var(--color-zinc-700)'
+                      }"
+                    >
+                      {{ logMessage }}
+                    </div>
+                  </q-item-label>
+                  <q-item-label>
+                    <q-linear-progress
+                      stripe
+                      rounded
+                      :value="progress / 100"
+                      :color="ffmpegError ? 'negative' : 'primary'"
+                      class="q-mt-sm"
+                    />
+                  </q-item-label>
+                  <q-item-label v-if="ffmpegError" class="text-negative">
+                    {{ ffmpegError }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </div>
             <BaseCard :title="$t('drive.trimVideo')">
               <BaseCardSection>
                 <LazyBaseAlert v-if="!canSubmit" type="is-danger" :closeable="false">
@@ -474,10 +582,24 @@ onUnmounted(() => {
                       </q-item-label>
                     </q-item-section>
                   </q-item>
-                  <BaseButton :disable="!canTrimVideo" full color="dark" @click="trimVideo">
+                  <BaseButton
+                    :disable="!canTrimVideo || isLoading"
+                    full
+                    color="dark"
+                    @click="trimVideo"
+                  >
                     <BaseIcon name="lucide:scissors" icon-set="nuxt" />
                     <span>{{ $t('base.cut') }}</span>
                   </BaseButton>
+
+                  <BaseButton
+                  class="q-mt-md"
+                    :disable="isLoading"
+                    full
+                    color="dark"
+                    label="Compress Video"
+                    @click="compressVideo"
+                  />
                 </div>
               </BaseCardSection>
             </BaseCard>
@@ -486,11 +608,12 @@ onUnmounted(() => {
           <video ref="videoEditorHiddenRef" style="display: none"></video>
           <canvas ref="posterRef" style="display: none"></canvas>
 
-          <div class="col-12">
+          <div class="col-12 gutter-lg">
             <BaseButton
+              v-if="initial"
               full
               :label="$t('base.okay')"
-              :disable="!canSubmit"
+              :disable="!canSubmit || isLoading"
               size="lg"
               type="submit"
             />

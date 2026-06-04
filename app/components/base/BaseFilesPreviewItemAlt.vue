@@ -19,7 +19,9 @@ const {
   linesName = 1,
   playIcon = true,
   showVideoDetail = false,
-  softDelete = false
+  softDelete = false,
+  useThumbnail = true,
+  item
 } = defineProps<{
   showDelete?: boolean
   col?: string
@@ -40,6 +42,7 @@ const {
   playIcon?: boolean
   showVideoDetail?: boolean | undefined
   softDelete?: boolean
+  useThumbnail?: boolean
 }>()
 const { formatDistanceFromNow } = useDateFns()
 const { t, locale } = useLang()
@@ -48,6 +51,15 @@ const emit = defineEmits<{
   'on-soft-delete': [index: number]
   'on-click': [event: any, index: number]
 }>()
+
+const getImagePath = computed(() => {
+  if (item.fileMimeType == 'IMAGE') {
+    return useThumbnail && item.fileThumbnailPath ? item.fileThumbnailPath : item.filePath
+  } else if (item.fileMimeType == 'VIDEO') {
+    return item.fileThumbnailPath
+  }
+  return ''
+})
 const onRemove = (event: any, index: number) => {
   emit('on-remove', index)
   if (event) {
@@ -83,7 +95,7 @@ const onSoftDelete = (event: any, index: number) => {
           :class="{ rounded: rounded }"
           :fetch="fetch"
           :ratio="item.fileMimeType == 'VIDEO' ? 16 / 9 : ratio"
-          :src="item?.fileMimeType == 'IMAGE' ? item.filePath : item?.fileThumbnailPath"
+          :src="getImagePath"
         >
           <span
             v-if="item.duration"

@@ -616,6 +616,41 @@ export interface VideoTrack {
     src?: string
     default?: boolean
 }
+
+export interface CompressionSettings {
+    crf: number
+    preset: 'ultrafast' | 'superfast' | 'veryfast' | 'faster' | 'fast' | 'medium' | 'slow' | 'slower' | 'veryslow'
+    resolution: '1080p' | '720p' | '480p' | '360p' | 'original'
+    audioBitrate: '320k' | '192k' | '128k' | '96k' | '64k'
+}
+
+export interface VideoInfo {
+    name: string
+    size: number
+    type: string
+    duration?: number
+    width?: number
+    height?: number
+    url: string
+}
+
+export interface CompressionResult {
+    file: File | Blob
+    originalSize: number
+    compressedSize: number
+    reduction: number
+    url: string
+    name: string
+    trimmedDuration?: number | undefined
+}
+
+export type CompressionStatus = 'idle' | 'loading' | 'compressing' | 'done' | 'error'
+
+export interface TrimOptions {
+  enabled: boolean
+  startTime: number // วินาที
+  endTime: number // วินาที
+}
 export type CountryCode =
     | 'AC'
     | 'AD'

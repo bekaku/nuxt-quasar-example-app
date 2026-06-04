@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 # Copy package.json and pnpm-lock.yaml files to the working directory
 COPY ./package.json /app/
-COPY ./pnpm-lock.yaml /app/
+COPY ./pnpm-lock.yaml* /app/
 
 # Install global Quasar CLI and project dependencies
 RUN npm install -g pnpm@latest 
@@ -20,6 +20,9 @@ RUN pnpm install --shamefully-hoist --ignore-scripts
 # Copy the rest of the application files to the working directory
 COPY . ./
 RUN pnpm postinstall
+
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 RUN pnpm build
 # RUN quasar build -m ssr
 

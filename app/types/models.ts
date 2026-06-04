@@ -34,6 +34,7 @@ export interface FileManager extends FileManagerMetaData {
   fileSizeNo?: number;
   fileCount?: number;
   functionId?: number;
+  uniqueId?: string | null
   createdDate?: string;
   updatedDate?: string;
   file?: any;
@@ -62,7 +63,7 @@ export interface DirectoryPath extends Id {
 }
 export interface FilesDirectory extends Id {
   active?: boolean;
-  filesDirectoryParentId?: number;
+  filesDirectoryParentId?: string | number;
   name: string;
   paths?: DirectoryPath[];
 }

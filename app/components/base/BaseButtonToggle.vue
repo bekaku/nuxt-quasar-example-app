@@ -1,24 +1,30 @@
 <script setup lang="ts" generic="T">
-import { computed } from 'vue';
+import { computed } from 'vue'
 const {
   options,
   disable = false,
-  readonly = false,
+  readonly = false
 } = defineProps<{
-  options: any[];
-  disable?: boolean;
-  readonly?: boolean;
-}>();
-const modelValue = defineModel<T>();
+  options: any[]
+  disable?: boolean
+  readonly?: boolean
+}>()
+const modelValue = defineModel<T>()
+defineEmits<{
+  'on-change': [value: T]
+}>()
 const mapOptions = (model: any) => {
   return (option: any) => {
     return {
       ...option,
-      class: model === option.value ? 'btn-group-toggle btn-toggle-on-class' : 'btn-group-toggle btn-toggle-off-class',
-    };
-  };
-};
-const filterOptions = computed(() => options.map(mapOptions(modelValue.value)));
+      class:
+        model === option.value
+          ? 'btn-group-toggle btn-toggle-on-class'
+          : 'btn-group-toggle btn-toggle-off-class'
+    }
+  }
+}
+const filterOptions = computed(() => options.map(mapOptions(modelValue.value)))
 </script>
 <template>
   <q-btn-toggle
@@ -30,6 +36,7 @@ const filterOptions = computed(() => options.map(mapOptions(modelValue.value)));
     :options="filterOptions"
     :disable
     :readonly
+    @update:model-value="$emit('on-change', $event)"
   />
 </template>
 <style lang="scss" scoped>

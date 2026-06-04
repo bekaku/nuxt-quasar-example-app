@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { FileManagermission } from '~/libs/permissions'
 import FileManagerService from '~/api/FileManagerService'
-import type { FileManager } from '~/types/models'
-import type { ISortModeType, LabelValue } from '~/types/common'
-import { biGrid, biListTask, biMic, biMusicNote, biPlay } from '@quasar/extras/bootstrap-icons'
-import type { IconProps } from '~/types/props'
-import { pl } from 'date-fns/locale'
+import type { FileManager, FilesDirectory } from '~/types/models'
+import type { LabelValue } from '~/types/common'
+import { biGrid, biListTask } from '@quasar/extras/bootstrap-icons'
+import { isNumber } from '~/utils/appUtil'
+
 definePageMeta({
   layout: 'drive',
   pageName: 'drive.title',
@@ -14,63 +14,14 @@ definePageMeta({
 useInitPage()
 const { t } = useLang()
 const { isDark } = useTheme()
-const { getParam } = useBase()
+const { getParam, appLoading } = useBase()
 const { isScreenMobileOrTablet } = useAppDevice()
-const { findAllFolderAndFiles } = FileManagerService()
-const folderId = computed<string>(() => getParam('folder') || '0')
-// const { pages, resetPaging } = usePaging(10)
-// const { sort } = useSort({
-//   column: 'fileName',
-//   mode: 'asc'
-// })
-// const queryParam = computed((): string | undefined => {
-//   let haveParam = false
-//   let q = ''
-//   q += `page=${pages.value.current}`
-//   q += `&size=${pages.value.itemsPerPage}`
-//   haveParam = true
-//   if (haveParam) {
-//     q += '&'
-//   }
-//   q += `${sort.value.column && sort.value.mode ? 'sort=' + sort.value.column + ',' + sort.value.mode : ''}`
-//   return !isEmpty(q) ? q : undefined
-// })
-
-// const { data, refresh, clear, status, error } = await useAsyncData<FileManager[] | null>(
-//   `folder-${folderId.value}`,
-//   async () => {
-//     const response = await findAllFolderAndFiles(folderId.value, queryParam.value)
-//     return response
-//   }
-// )
-const showFolderForm = ref(false)
+const { findOneFolder, createFolder } = FileManagerService()
+const folderId = computed<number | string>(() => getParam('folder') || '0')
 const searchText = ref<string>('')
-const viewMode = ref<string>('grid')
-const viewModeOptions: LabelValue<string>[] = [
-  { label: t('base.listView'), value: 'list', icon: biListTask as any },
-  { label: t('base.gridView'), value: 'grid', icon: biGrid as any }
-]
-const {
-  firstLoaded,
-  pages,
-  dataList,
-  loadData,
-  onReload,
-  onNextPage,
-  sort,
-  onSortColumn,
-  onSortMode,
-  loading,
-  isInfiniteDisabled
-} = usePagefecth<FileManager>({
-  apiEndpoint: '/api/fileManager',
-  additionalUri: `directoryId=${folderId.value}`,
-  defaultSort: { column: 'fileName', mode: 'asc' },
-  itemsPerPage: 20,
-  pageStartZero: false,
-  concatList: true
-})
-
+const viewModeState = useState<string>('mydrive-view-mode', () => 'grid')
+const viewMode = ref<string>(viewModeState.value)
+const folderItem = ref<FilesDirectory>()
 const selected = ref<string[]>([])
 const uploadMenus = ref<LabelValue<string>[]>([
   {
@@ -98,11 +49,36 @@ const uploadMenus = ref<LabelValue<string>[]>([
     value: 'audio'
   }
 ])
-const onFolderClick = async (folderId: string) => {
-  // resetPaging()
-  await navigateTo(`/my-drive/folder/${folderId}`)
-  // await onReload()
-}
+const folderPath = ref<LabelValue<any>[]>([])
+const showFileCurrent = ref(false)
+const fileCurrent = ref<FileManager>()
+const showFolderForm = ref(false)
+const showChangeNameForm = ref(false)
+const viewModeOptions: LabelValue<string>[] = [
+  { label: t('base.listView'), value: 'list', icon: biListTask as any },
+  { label: t('base.gridView'), value: 'grid', icon: biGrid as any }
+]
+const {
+  firstLoaded,
+  pages,
+  dataList,
+  loadData,
+  onReload,
+  onNextPage,
+  sort,
+  onSortColumn,
+  onSortMode,
+  loading,
+  isInfiniteDisabled,
+  getItemById
+} = usePagefecth<FileManager>({
+  apiEndpoint: '/api/fileManager',
+  additionalUri: `directoryId=${folderId.value}`,
+  defaultSort: { column: 'fileName', mode: 'asc' },
+  itemsPerPage: 20,
+  pageStartZero: false,
+  concatList: true
+})
 const updateSelectedAll = (val: boolean) => {
   selected.value = []
   if (val) {
@@ -114,23 +90,77 @@ const updateSelectedAll = (val: boolean) => {
     }
   }
 }
+const onFolderClick = async (folderId: string | number) => {
+  if (!folderId) {
+    return
+  }
+  await navigateTo(`/my-drive/folder/${folderId}`)
+}
 const onItemCLick = (id: string | number | null) => {
-  console.log('onItemCLick', id)
+  if (!id) {
+    return
+  }
+  const item = getItemById(id)
+  if (!item) {
+    return
+  }
+  if (item && item.fileMimeType == 'DIRECTORY') {
+    onFolderClick(id)
+    return
+  }
+  fileCurrent.value = item
+  showFileCurrent.value = true
 }
 const onClearSelected = () => {
   selected.value = []
+}
+const onViewModeChange = (mode: string) => {
+  viewModeState.value = mode
+}
+const onOpenChangeName = () => {
+  console.log('onOpenChangeName', selected.value)
+  if (!selected.value || selected.value.length > 1) {
+    return
+  }
+  const selecetId = selected.value[0]
+  if (!selecetId) {
+    return
+  }
+  const item = getItemById(selecetId)
+  if (!item) {
+    return
+  }
+  console.log('onOpenChangeName', item)
+  fileCurrent.value = item
+  showChangeNameForm.value = true
 }
 const onUploadMenuClick = (value: number | string | undefined) => {
   console.log('onUploadMenuClick', value)
 }
 const onFolderCreate = async (name: string) => {
-  console.log('onFolderCreate', name)
+  if (!name || name.trim().length == 0) {
+    return
+  }
   showFolderForm.value = false
+  appLoading()
+  const createResponse = await createFolder({
+    active: true,
+    name: name,
+    filesDirectoryParentId: validateFolderId() ? folderId.value : 0
+  })
+  if (createResponse) {
+    dataList.value.push(createResponse)
+  }
+  appLoading(false)
 }
-const onFolderUpdate = async (folder?: FileManager) => {
-  console.log('onFolderUpdate', folder)
-  showFolderForm.value = false
+const onChangeNameUpdate = async (name?: string) => {
+  console.log('onChangeNameUpdate', name)
+  showChangeNameForm.value = false
+  // change name to server
+
+  // reset fileCurrent = null
 }
+
 const nextPage = async (index: number, done: any) => {
   console.log('nextPage', index)
   await onNextPage()
@@ -138,7 +168,39 @@ const nextPage = async (index: number, done: any) => {
     done()
   }
 }
+
+const validateFolderId = () => {
+  return !(!folderId.value || !isNumber(folderId.value) || parseInt(folderId.value.toString()) <= 0)
+}
+const loadFolder = async (): Promise<void> => {
+  if (!validateFolderId()) {
+    return
+  }
+  const folderResponse = await findOneFolder(folderId.value)
+  folderPath.value.length = 0
+  if (folderResponse) {
+    const paths = folderResponse.paths || []
+    for (const fd of paths) {
+      if (fd.root) {
+        folderPath.value.push({
+          label: 'model_files_manager',
+          to: '/my-drive/folder/0',
+          translateLabel: true
+        })
+      } else {
+        folderPath.value.push({
+          label: fd.name,
+          to: !fd.current ? `/my-drive/folder/${fd.id}` : undefined,
+          translateLabel: false
+        })
+      }
+    }
+    folderItem.value = folderResponse
+  }
+  return new Promise(resolve => resolve())
+}
 onMounted(async () => {
+  await loadFolder()
   await loadData()
 })
 </script>
@@ -168,7 +230,11 @@ onMounted(async () => {
       <q-separator />
 
       <q-toolbar class="app-border-radius">
-        <BaseButtonToggle v-model="viewMode" :options="viewModeOptions" />
+        <BaseButtonToggle
+          v-model="viewMode"
+          :options="viewModeOptions"
+          @on-change="onViewModeChange"
+        />
         <BaseInput
           v-if="!isScreenMobileOrTablet"
           v-bind="$attrs"
@@ -226,11 +292,9 @@ onMounted(async () => {
                     <span class="q-ml-sm">{{ t('drive.moveTo') }}</span>
                   </BaseEllipsis>
                 </BaseButton>
-                <BaseButton dense v-if="selected.length === 1" flat>
+                <BaseButton v-if="selected.length === 1" dense flat @click="onOpenChangeName">
                   <BaseIcon name="lucide:text-cursor-input" icon-set="nuxt" />
-                  <BaseEllipsis :lines="1">
-                    <span class="q-ml-sm">{{ t('drive.changName') }}</span>
-                  </BaseEllipsis>
+                  <span class="q-ml-sm">{{ t('drive.changName') }}</span>
                 </BaseButton>
                 <q-space />
                 <BaseButton dense flat @click="onClearSelected">
@@ -242,12 +306,12 @@ onMounted(async () => {
           </BaseCardSection>
         </BaseTransitionWrapper>
       </div>
+      <LazyBaseBreadcrumbs :items="folderPath" />
       <template v-if="!firstLoaded">
         <LazySkeletonItem v-if="viewMode === 'list'" />
         <LazySkeletonCard v-else col="col-12 col-md-2 q-pa-xs" :no="6" />
       </template>
       <template v-else-if="dataList.length > 0">
-        <!-- <BaseScrollArea height="65vh"> -->
         <BaseInfiniteScroll :disable="isInfiniteDisabled" @on-infinite="nextPage">
           <LazyDriveList
             v-if="viewMode === 'list'"
@@ -263,17 +327,27 @@ onMounted(async () => {
             @on-item-click="onItemCLick"
           />
         </BaseInfiniteScroll>
-        <!-- </BaseScrollArea> -->
       </template>
       <template v-else>
         <LazyBaseResult status="empty" :description="t('base.items', 0)" />
       </template>
     </BaseCard>
-    <LazyDriveFolderForm
-      v-if="showFolderForm"
-      v-model="showFolderForm"
-      @on-create="onFolderCreate"
-      @on-update="onFolderUpdate"
+
+    <LazyDriveNameForm v-if="showFolderForm" v-model="showFolderForm" @on-create="onFolderCreate" />
+    <LazyDriveNameForm
+      v-if="showChangeNameForm && fileCurrent"
+      :file="fileCurrent"
+      v-model="showChangeNameForm"
+      @on-update="onChangeNameUpdate"
+    />
+
+    <LazyBaseFileViewDialog
+      v-if="showFileCurrent && fileCurrent"
+      v-model:show="showFileCurrent"
+      :item="fileCurrent"
+      :select-index="0"
+      :title="fileCurrent.fileName"
+      :show-arrow="false"
     />
   </BasePage>
 </template>
