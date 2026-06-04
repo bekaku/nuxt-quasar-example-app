@@ -171,7 +171,7 @@ const onSetSource = (): Promise<void> => {
         title: file?.title || 'My Video',
         sources: [
           {
-            src: file.filePath,
+            src: file.streamPath || file.filePath,
             type: file.fileMime //'video/mp4'
           }
         ]
@@ -278,7 +278,8 @@ onBeforeUnmount(() => {
               :size="s.size"
             />
           </template>
-          <source v-else-if="file.filePath" :src="file.filePath" :type="file.fileMime" />
+          <source v-else-if="file.filePath"  :src="file.streamPath || file.filePath"
+            type="video/mp4" />
         </template>
         <!-- Caption files -->
         <template v-if="file.videoTracks && file.videoTracks.length > 0">
