@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { biPencil, biTrash } from '@quasar/extras/bootstrap-icons'
-const { t } = useLang()
+// const { t } = useLang()
 
 useHead({
   title: 'Dialog'
@@ -18,16 +18,17 @@ const dialogFullWidthHeight = ref<boolean>(false)
 const dialogMaximize = ref<boolean>(false)
 const dialogConfirmToClose = ref<boolean>(false)
 const text = ref()
+// Non-urgent (waits for screen reader to finish)
 
 const onPopConfirmChange = (status: boolean) => {
   console.log('onPopConfirmChange', status)
 }
 
 const onConfirmToClose = async () => {
-  const conf = await appConfirm(t('app.monogram'), 'Are you sure to close this dialog?')
-  if (conf) {
-    dialogConfirmToClose.value = false
-  }
+  // const conf = await appConfirm(t('app.monogram'), 'Are you sure to close this dialog?')
+  // if (conf) {
+  //   dialogConfirmToClose.value = false
+  // }
 }
 </script>
 <template>
@@ -59,7 +60,7 @@ const onConfirmToClose = async () => {
           :icon="{ name: 'lucide:trash-2' }"
         >
           <BasePopConfirm
-            :title="t('base.deleteConfirm')"
+            :title="$t('base.deleteConfirm')"
             confirm-color="negative"
             @on-change="onPopConfirmChange"
           />
@@ -110,7 +111,6 @@ const onConfirmToClose = async () => {
         </BaseButton>
       </q-card-section>
     </BaseCard>
-
     <base-dialog
       v-if="dialog"
       v-model="dialog"

@@ -110,7 +110,7 @@ const onRowClick = (id: string | number | null | undefined) => {
               </td>
               <td>
                 <span class="text-muted">{{
-                  formatDateTime(item.updatedDate, FORMAT_DATE1, locale)
+                  formatDateTime(item.updatedDate, FORMAT_DATE_DD_MMM_YYYY, locale)
                 }}</span>
               </td>
               <td>

@@ -282,7 +282,7 @@ const onChangePassword = async () => {
         </div>
       </template>
     </BaseCrudForm>
-    <BaseDialog
+  <BaseDialog
       v-if="showChangePasswordForm"
       v-model="showChangePasswordForm"
       :title="t('base.changePassword')"
@@ -299,6 +299,6 @@ const onChangePassword = async () => {
         action-align="left"
         @on-submit="onChangePassword"
       />
-    </BaseDialog>
+    </BaseDialog> 
   </BasePage>
 </template>

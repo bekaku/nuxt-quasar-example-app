@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { FORMAT_DATE14 } from '~/utils/dateUtil'
+import { FORMAT_DATE_YYYY_MM_DD } from '~/utils/dateUtil'
 import { ref } from 'vue'
 useHead({
   title: 'Date time Picker'
 })
 const { getCurrentDateByFormat } = useDateFns()
-const d = ref(getCurrentDateByFormat(FORMAT_DATE14))
+const d = ref(getCurrentDateByFormat(FORMAT_DATE_YYYY_MM_DD))
 const pickTime = ref<string>('')
 
 const dateRangeStart = ref<string>('2025-01-01')

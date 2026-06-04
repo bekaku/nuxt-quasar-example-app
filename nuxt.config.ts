@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // https://nuxt.com/modules/quasar
 // import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
-import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
+// import quasarIcons from 'quasar/icon-set/svg-material-icons.js'
 const fileNames = [
   'app',
   'base',
@@ -113,9 +113,7 @@ export default defineNuxtConfig({
     // sassVariables: true,
     sassVariables: '~/assets/css/quasar.variables.scss',
     // quietSassWarnings: true,
-    iconSet: {
-      ...bootstrapIcons,
-    },
+    iconSet: 'svg-material-icons',
     components: {
       defaults: {
         QBtn: {
@@ -167,6 +165,9 @@ export default defineNuxtConfig({
   ssr: true,
   vite: {
     optimizeDeps: {
+      include: [
+        'pdf-lib'
+      ],
       exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
     },
     css: {

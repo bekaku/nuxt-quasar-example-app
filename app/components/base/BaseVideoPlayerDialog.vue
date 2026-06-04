@@ -14,13 +14,17 @@ const {
 const emit = defineEmits<{
   'on-close': []
 }>()
+const {isMobileOrTablet} = useAppDevice()
 const show = defineModel<boolean>('show', { default: false })
 const { onReplaceUrl, getCurrentPath, appNavigateTo } = useBase()
 const appTO = ref<any>()
 const onClose = () => {
+  console.log('onClose')
   emit('on-close')
+  show.value = false
 }
 const onManualClose = () => {
+  console.log('onManualClose')
   onClose()
   show.value = false
 }
@@ -53,12 +57,15 @@ onBeforeUnmount(() => {
     auto-close
     :padding="false"
     :dark="false"
+    full-height
+    full-width
     :dialog-style="{
       width: '70vw',
       minHeight: '30vh',
       maxWidth: '80vw'
     }"
     @on-close="onClose"
+    @on-hide="onClose"
   >
     <template #toolbarAction>
       <div class="row q-gutter-sm">
@@ -73,10 +80,17 @@ onBeforeUnmount(() => {
       </div>
     </template>
     <div v-if="file" class="row">
-      <div class="col-12 col-md-7">
-        <BaseVideoPlayer style="width: 100%" :options :file square />
+      <div class="col-12 col-md-8 bg-black" :style="{ height: '90vh' }">
+        <div class="row items-center full-height">
+          <BaseVideoPlayer
+            :style="{ width: isMobileOrTablet ? '100%' : '80%' }"
+            :options
+            :file
+            square
+          />
+        </div>
       </div>
-      <div class="col-12 col-md-5 q-pa-lg">
+      <div class="col-12 col-md-4 q-pa-lg">
         <BaseVideoPlayerDetail :file="file" />
       </div>
     </div>

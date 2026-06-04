@@ -14,7 +14,7 @@ const {
   range = false,
   showFormatDate = false,
   clearable = false,
-  formatDateText = FORMAT_DATE5
+  formatDateText = FORMAT_DATE_E_DD_MMM_YYYY
 } = defineProps<{
   autoClose?: boolean
   label?: string
