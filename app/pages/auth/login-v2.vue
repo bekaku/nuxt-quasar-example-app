@@ -14,7 +14,6 @@ const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
 const { getDeviceId } = useAppDevice();
 const { required } = useValidation();
-const { screen } = useQuasar();
 const cardHeight = ref('700px');
 const email = ref<string | null>('admin@mydomain.com');
 const password = ref<string | null>('P@ssw0rd');
@@ -43,9 +42,9 @@ const onReset = () => {
 <template>
     <q-page :class="{ 'bg-white': !isDark, 'app-second-bg-color-theme-dark': isDark }">
         <div class="row">
-            <div v-if="!screen.sm && !screen.xs"  class="col-12 col-md-6 bg-fansy">
+            <div v-if="!$q?.screen.sm && !$q?.screen.xs"  class="col-12 col-md-6 bg-fansy">
                 <div class="row justify-center items-center" style="height: 100vh;">
-                    <BaseCard v-if="!screen.sm && !screen.xs" square flat :bordered="false"
+                    <BaseCard v-if="!$q?.screen.sm && !$q?.screen.xs" square flat :bordered="false"
                         class="q-pb-lg bg-transparent">
                         <q-card-section>
                             <q-carousel v-model="slide" autoplay infinite transition-prev="scale"

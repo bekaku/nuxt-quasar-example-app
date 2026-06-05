@@ -10,7 +10,6 @@ const miniState = ref(!isMobileOrTablet)
 const overlay = ref(false)
 const miniToOverlay = ref(true)
 const { getFavoriteMenuItems } = useMenu()
-const { version: quasarVersion } = useQuasar()
 const { t } = useLang()
 const { appNavigateTo } = useBase()
 const appStore = useAppStore()
@@ -121,9 +120,6 @@ const onOpenDrawer = () => {
             <q-item-section class="text-center">
               <q-item-label caption>
                 {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
-              </q-item-label>
-              <q-item-label caption>
-                {{ `Quasar ${quasarVersion}` }}
               </q-item-label>
             </q-item-section>
           </q-item>

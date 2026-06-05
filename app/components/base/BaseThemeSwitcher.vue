@@ -13,7 +13,7 @@ const {
   width?: string
   toggle?: boolean
 }>()
-const { dark } = useQuasar()
+const { $q } = useNuxtApp();
 const { onSetTheme, availableThemes, currentTheme } = useTheme()
 const { t } = useLang()
 </script>
@@ -21,11 +21,11 @@ const { t } = useLang()
   <BaseButton
     v-if="toggle"
     flat
-    :icon="{ name: dark.isActive ? 'lucide:sun' : 'lucide:moon' }"
+    :icon="{ name: $q?.dark.isActive ? 'lucide:sun' : 'lucide:moon' }"
     round
     dense
-    :tooltip="dark.isActive ? t('theme.switchThemeLight') : t('theme.switchThemeDark')"
-    @click="!dark.isActive ? onSetTheme('dark') : onSetTheme('light')"
+    :tooltip="$q?.dark.isActive ? t('theme.switchThemeLight') : t('theme.switchThemeDark')"
+    @click="!$q?.dark.isActive ? onSetTheme('dark') : onSetTheme('light')"
   >
   </BaseButton>
   <q-menu v-else :anchor="anchor" :self="self" v-bind="$attrs" :auto-close="closeOnClick">

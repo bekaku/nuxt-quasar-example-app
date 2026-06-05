@@ -4,6 +4,7 @@ import type { Permission } from '~/types/models'
 
 const { $axios } = useNuxtApp()
 const { callAxios } = useAxios()
+const api = useApi()
 useSeoMeta({
   title: 'Fecth data'
 })
@@ -34,6 +35,56 @@ const { data, refresh, clear, status, error } = await useAsyncData<Permission>(
 )
 
 console.log('useAsyncData', data.value, 'error', error.value)
+
+/*
+const { data, status, error } = await useAsyncData('user-profile', () => {
+  return api('/users/profile')
+})
+*/
+const fetchComposable = async () => {
+  try {
+    const data = await api<ApiResponse<Permission>>('/api/permission', {
+      method: 'GET',
+    })
+
+    //Data raw
+    /*
+    const data = await api.raw<ApiResponse<Permission>>('/api/permission', {
+      method: 'GET'
+    })
+    // 1. ดึง Status Code ได้เลย
+    console.log('HTTP Status:', data.status) // เช่น 200, 201
+    console.log('Is OK?:', data.ok) // true หรือ false
+
+    // 2. ดึงข้อมูล (Data) จาก property `_data`
+    // Type <UserDTO> จะมาตกอยู่ที่ _data แทนครับ
+    console.log('User Data:', data._data)
+
+    // 3. ดู Headers ก็ได้
+    console.log('Headers:', data.headers.get('content-type'))
+
+    if (data.status === 201) {
+      // ทำอะไรบางอย่าง
+    }
+      */
+    console.log('fetchComposable', data)
+  } catch (error) {
+    console.error('Failed to fetch profile', error)
+  }
+
+  //post data
+  /*
+const payload: CreateUserPayload = {
+    username: 'chanawee', 
+    email: 'chanawee@example.com',
+    role: 'developer'
+  }
+  const response = await api<UserDTO>('/users', {
+      method: 'POST',
+      body: payload // โยน Object ใส่ body ได้เลย
+    })
+      */
+}
 
 const fetchData = async () => {
   try {
@@ -176,6 +227,9 @@ await callAxios<ResponseMessage>({
         </div>
         <BaseButton outline label="Refresh data" @click="() => refresh()" />
         <BaseButton outline label="clear data" @click="() => clear()" />
+        <q-separator />
+        <BaseTextHeader title="$fetch" />
+        <BaseButton outline label="Fetch data via $fetch composable" @click="fetchComposable" />
         <q-separator />
         <BaseTextHeader title="Axios" />
         <BaseButton outline label="Fetch data via $axios" @click="fetchData" />

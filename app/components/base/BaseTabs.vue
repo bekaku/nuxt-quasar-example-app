@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
 import { useRbac } from '~/composables/useRbac'
 import type { AppColor, LabelValue } from '~/types/common'
 const {
@@ -30,7 +29,7 @@ const {
   keepAlive?: boolean
   fullWidth?: boolean
 }>()
-const { screen } = useQuasar()
+const { $q } = useNuxtApp();
 const { t } = useLang()
 const modelValue = defineModel<string | undefined>()
 defineEmits<{
@@ -52,7 +51,7 @@ const getCssClass = computed<string>(() => {
 })
 </script>
 <template>
-  <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !screen.gt.xs }">
+  <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !$q?.screen.gt.xs }">
     <q-tabs
       v-bind="$attrs"
       v-model="modelValue"

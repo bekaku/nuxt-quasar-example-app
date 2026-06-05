@@ -15,7 +15,6 @@ const {
 }>()
 const { getFavoriteMenuItems } = useMenu()
 const { isMobileOrTablet } = useAppDevice()
-const { version: quasarVersion } = useQuasar()
 const { t } = useLang()
 const { appNavigateTo } = useBase()
 const appStore = useAppStore()
@@ -107,9 +106,6 @@ onBeforeUnmount(() => {
           <q-item-section class="text-center">
             <q-item-label caption>
               {{ `@ ${getYearNow()} ${t('app.monogram')}` }}
-            </q-item-label>
-            <q-item-label caption>
-              {{ `Quasar ${quasarVersion}` }}
             </q-item-label>
           </q-item-section>
         </q-item>

@@ -52,9 +52,9 @@ export default defineNuxtConfig({
   },
   // Nuxt 4 directory structure and features
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: {
-    // compatibilityVersion: 4,
-  },
+  // future: {
+  //   compatibilityVersion: 5,
+  // },
   i18n: {
     strategy: 'no_prefix',
     locales: [
@@ -82,21 +82,11 @@ export default defineNuxtConfig({
     },
   },
   quasar: {
-    // Configurable Component Defaults
     appConfigKey: 'nuxtQuasarCustom',
     config: {
       loadingBar: {
         color: 'primary',
       },
-      // brand: {
-      //   primary: '#2e86de',
-      //   secondary: '#1dd1a1',
-      //   accent: '#1dd1a1',
-      //   positive: '#23d160',
-      //   negative: '#ff3860',
-      //   info: '#00a0dc',
-      //   warning: '#ff9f43',
-      // },
     },
     extras: {
       // font: 'roboto-font',
