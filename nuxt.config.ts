@@ -156,7 +156,22 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        'pdf-lib'
+        '@capacitor/clipboard',
+        '@capacitor/device',
+        '@coders-tm/vue-number-format',
+        '@quasar/extras/bootstrap-icons',
+        '@quasar/extras/mdi-v7',
+        '@tato30/vue-pdf',
+        'axios',
+        'cropperjs',
+        'date-fns',
+        'date-fns/locale',
+        'dompurify',
+        'json-bigint', // CJS
+        'pdf-lib',
+        'plyr',
+        'swiper/element/bundle',
+        'vue3-apexcharts',
       ],
       exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
     },

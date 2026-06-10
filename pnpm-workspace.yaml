@@ -6,3 +6,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@iconify-json/vscode-icons@1.2.54'
   - dompurify@3.4.8
+  - prettier@3.8.4
