@@ -14,6 +14,13 @@ fi
 
 docker image build --no-cache -t "$IMAGE_NAME:$TAG" .
 
+# Save Docker image to a tar file
+docker save -o ".\${BUILD_DIR}\${IMAGE_NAME}.tar" "${IMAGE_NAME}:latest"
+
+# Prune Docker builder cache
+docker builder prune -f
+
+
 if docker compose version >/dev/null 2>&1; then
   docker compose up -d
 else

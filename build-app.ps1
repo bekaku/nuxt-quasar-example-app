@@ -17,6 +17,12 @@ if ($LASTEXITCODE -eq 0) {
 
 docker image build --no-cache -t "$IMAGE_NAME:$TAG" .
 
+# Save Docker image to a tar file
+docker save -o ".\${BUILD_DIR}\${IMAGE_NAME}.tar" "${IMAGE_NAME}:latest"
+
+# Prune Docker builder cache
+docker builder prune -f
+
 docker compose version *> $null
 if ($LASTEXITCODE -eq 0) {
     docker compose up -d
