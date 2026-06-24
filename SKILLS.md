@@ -13,7 +13,6 @@ This document outlines the core technologies, architectural patterns, and coding
 * **Nuxt Extensibility:** Utilizing Nuxt Layers (e.g., `layers/layer-one`) for modular and scalable project structure.
 * **Component Paradigm:** Vue 3 Composition API exclusively.
 * **State Management:** Nuxt `useState` or Pinia (if integrated).
-<!-- * **API Integration:** Nuxt 4 native `$fetch` and `useAsyncData` / `useFetch` for SSR-friendly data fetching. -->
 * **API Integration:** Centralized API fetching using the custom `useApi` composable (`api` instance) with strict TypeScript generic response mapping.
 
 ## 3. 🤖 AI Code Generation Guidelines
