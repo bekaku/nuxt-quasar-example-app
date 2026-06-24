@@ -1,12 +1,19 @@
 # version: '3'
+name: nuxt-web
 services:
   nuxt-quasar-web:
-    #restart: always
-    restart: on-failure:3
+    restart: unless-stopped
     container_name: nuxt-quasar-web
-    build: .
-    # image: "nuxt-quasar-web:latest"
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+    # build: .
+    image: 'nuxt-quasar-web:latest'
+    # extra_hosts:
+    #   - 'host.docker.internal:host-gateway'
     ports:
-      - '3000:3000'
+      - "3000:3000"
+      # - "127.0.0.1:3000:3000"
+      # - "172.17.0.1:3000:3000"
+    networks:
+      - nuxt_web
+networks:
+  nuxt_web:
+    driver: bridge

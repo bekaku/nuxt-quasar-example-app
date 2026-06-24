@@ -1,16 +1,16 @@
-import type { FetchOptions } from 'ofetch'
 import type { RefreshTokenResponse } from '~/types/common'
 
 let refreshPromise: Promise<RefreshTokenResponse> | null = null
 
 export const useApi = () => {
-    const { apiBase, apiClient } = useConfiguration()
+    const { apiBase,cdnBase, apiClient } = useConfiguration()
     const { setRefreshAuthenToken, currentUserId, getCurrentUserToken, removeAuthToken } = useAppCookie();
     const localeCookie = useCookie('locale');
 
     const customFetch = $fetch.create({
         baseURL: apiBase as string,
         async onRequest({ options }) {
+            // options.baseURL = cdnBase
             const currentToken = await getCurrentUserToken();
             options.headers = new Headers(options.headers)
             options.headers.set('X-User-ID', currentUserId.value + '')

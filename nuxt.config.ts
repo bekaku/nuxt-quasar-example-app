@@ -40,7 +40,6 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxtjs/device'
   ],
-  compatibilityDate: '2024-12-14',
   css: [
     '~/assets/css/color.scss',
     '~/assets/css/app.scss',
@@ -50,11 +49,11 @@ export default defineNuxtConfig({
   devServer: {
     port: 3003
   },
-  // Nuxt 4 directory structure and features
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
+  compatibilityDate: '2024-12-14',
   // future: {
   //   compatibilityVersion: 5,
   // },
+  experimental: { nitroAutoImports: true },
   i18n: {
     strategy: 'no_prefix',
     locales: [

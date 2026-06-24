@@ -3,9 +3,11 @@ import FileManagerService from '@/api/FileManagerService'
 import { useBase } from '@/composables/useBase'
 import { useLang } from '@/composables/useLang'
 import type { FileManager } from '@/types/models'
-import { biQuestion, biLink } from '@quasar/extras/bootstrap-icons'
-import { MdEditor, NormalToolbar, type ToolbarNames } from 'md-editor-v3'
+import { biQuestion, biLink, biImage } from '@quasar/extras/bootstrap-icons'
+import { matAddPhotoAlternate } from '@quasar/extras/material-icons'
+import { MdEditor, NormalToolbar, type CustomIcon, type ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
+import { QIcon } from 'quasar'
 import { ref } from 'vue'
 import type { MDCodeTheme, MDPreviewTheme } from '~/types/common'
 
@@ -49,6 +51,11 @@ const isLinkModalOpen = ref(false)
 const linkTitle = ref('')
 const linkUrl = ref('')
 const savedSelection = ref('')
+
+const isImageLinkModalOpen = ref(false)
+const imageLinkTitle = ref('')
+const imageLinkUrl = ref('')
+
 const customToolbars: ToolbarNames[] = [
   'bold',
   'underline',
@@ -157,6 +164,48 @@ const insertCustomLink = () => {
   })
   isLinkModalOpen.value = false
 }
+
+const openImageLinkModal = () => {
+  const text = editorRef.value?.getSelectedText() || ''
+  imageLinkTitle.value = text
+  imageLinkUrl.value = ''
+  isImageLinkModalOpen.value = true
+}
+
+const insertCustomImageLink = () => {
+  if (!imageLinkUrl.value) {
+    return
+  }
+  // ใช้ 'image' เป็นค่าเริ่มต้นหากไม่ได้ใส่คำอธิบายภาพ
+  const finalTitle = imageLinkTitle.value || 'image'
+  // สร้างรูปแบบ Markdown สำหรับรูปภาพ: ![alt text](url)
+  const markdownImageLink = `![${finalTitle}](${imageLinkUrl.value})`
+  editorRef.value?.insert((selectedText: string) => {
+    return {
+      targetValue: markdownImageLink,
+      select: false,
+      deviationStart: 0,
+      deviationEnd: 0
+    }
+  })
+
+  isImageLinkModalOpen.value = false
+}
+
+const customIcons: CustomIcon = {
+  image: {
+    component: QIcon, // ระบุ Vue Component ที่ต้องการใช้
+    props: {
+      name: matAddPhotoAlternate, // ส่งค่า Props ให้ QIcon
+      size: 'sm'
+    }
+  }
+  // ตัวอย่างถ้าต้องการเปลี่ยนไอคอนปุ่ม Save
+  // save: {
+  //   component: QIcon,
+  //   props: { name: 'bi-save', size: 'xs' }
+  // }
+}
 </script>
 <template>
   <q-btn
@@ -192,6 +241,7 @@ const insertCustomLink = () => {
       :toolbars-exclude="excludToolBars"
       show-code-row-number
       :toolbars="customToolbars"
+      :custom-icon="customIcons"
       @on-save="onSave"
       @on-upload-img="onUploadImg"
     >
@@ -201,13 +251,11 @@ const insertCustomLink = () => {
             <q-icon :name="biLink" size="sm" />
           </template>
         </NormalToolbar>
-        <!--
-        <NormalToolbar title="Add Emoji">
+        <NormalToolbar :title="t('base.addImagelink')" @on-click="openImageLinkModal">
           <template #trigger>
-            <q-icon :name="biEmojiLaughing" size="xs" />
+            <q-icon :name="biImage" size="xs" />
           </template>
         </NormalToolbar>
-        -->
       </template>
     </MdEditor>
     <div v-if="showLoading" class="editor-loader-class">
@@ -233,6 +281,35 @@ const insertCustomLink = () => {
         <q-card-actions align="right" class="text-primary">
           <q-btn flat :label="t('base.cancel')" v-close-popup />
           <q-btn flat :label="t('base.okay')" @click="insertCustomLink" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="isImageLinkModalOpen" persistent class="editor-top-dialog">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">{{ t('base.addImagelink') }}</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input
+            dense
+            v-model="imageLinkTitle"
+            :label="t('base.addLinkTitle') + ' (Alt Text)'"
+            autofocus
+          />
+
+          <q-input
+            dense
+            v-model="imageLinkUrl"
+            :label="t('base.addLinkLink') + ' (URL)'"
+            class="q-mt-md"
+            @keyup.enter="insertCustomImageLink"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat :label="t('base.cancel')" v-close-popup />
+          <q-btn flat :label="t('base.okay')" @click="insertCustomImageLink" />
         </q-card-actions>
       </q-card>
     </q-dialog>

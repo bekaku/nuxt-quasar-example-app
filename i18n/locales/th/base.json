@@ -307,7 +307,8 @@
     "restore": "เรียกคืน",
     "addLink": "เพิ่มลิงก์",
     "addLinkTitle": "ข้อความที่ต้องการแสดง (Title)",
-    "addLinkLink": "URL (เช่น https://...)"
+    "addLinkLink": "URL (เช่น https://...)",
+    "addImagelink": "เพิ่มลิงก์รูปภาพ"
   },
   "drive": {
     "title": "ไฟล์ของฉัน",

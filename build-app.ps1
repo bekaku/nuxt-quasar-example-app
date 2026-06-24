@@ -10,18 +10,21 @@ if (Test-Path $BUILD_DIR) {
 
 New-Item -ItemType Directory -Force -Path $BUILD_DIR | Out-Null
 
-docker image inspect "$IMAGE_NAME:$TAG" *> $null
+# Wrap variables in ${} when directly adjacent to a colon
+docker image inspect "${IMAGE_NAME}:${TAG}" *> $null
 if ($LASTEXITCODE -eq 0) {
-    docker rmi "$IMAGE_NAME:$TAG"
+    docker rmi "${IMAGE_NAME}:${TAG}"
 }
 
-docker image build --no-cache -t "$IMAGE_NAME:$TAG" .
+docker image build --no-cache -t "${IMAGE_NAME}:${TAG}" .
 
-# Save Docker image to a tar file
-docker save -o ".\${BUILD_DIR}\${IMAGE_NAME}.tar" "${IMAGE_NAME}:latest"
+# Save Docker image to a tar file (also cleaned up the path separators slightly)
+docker save -o "$BUILD_DIR/${IMAGE_NAME}.tar" "${IMAGE_NAME}:${TAG}"
 
 # Prune Docker builder cache
 docker builder prune -f
+
+docker image inspect "${IMAGE_NAME}:${TAG}" *> $null
 
 docker compose version *> $null
 if ($LASTEXITCODE -eq 0) {

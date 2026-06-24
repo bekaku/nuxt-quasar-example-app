@@ -15,7 +15,7 @@ fi
 docker image build --no-cache -t "$IMAGE_NAME:$TAG" .
 
 # Save Docker image to a tar file
-docker save -o ".\${BUILD_DIR}\${IMAGE_NAME}.tar" "${IMAGE_NAME}:latest"
+docker save -o ".\${BUILD_DIR}\${IMAGE_NAME}.tar" "${IMAGE_NAME}:${TAG}"
 
 # Prune Docker builder cache
 docker builder prune -f

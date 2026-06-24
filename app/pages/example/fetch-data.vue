@@ -45,6 +45,7 @@ const fetchComposable = async () => {
   try {
     const data = await api<ApiResponse<Permission>>('/api/permission', {
       method: 'GET',
+      // baseURL: 'http://localhost:8081'
     })
 
     //Data raw
