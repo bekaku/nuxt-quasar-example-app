@@ -4,31 +4,29 @@ import { useDateFns } from "./useDateFns";
 import { Device } from '@capacitor/device';
 
 export const useAppDevice = () => {
+  const { $q } = useNuxtApp()
   const { isMobile, isTablet, isDesktop, isMobileOrTablet, isCrawler, isAndroid, isIos, isWindows } = useDevice();
   const deviceId = ref();
   const { getDateDiffMinutes } = useDateFns()
   const { latestSyncActiveStatus } = useCache();
 
-  const { screen } = useQuasar();
-  const isScreenMobile = computed(() => screen.lt.sm) // xs only
-  const isScreenTablet = computed(() => screen.sm || screen.md) // sm, md
-  const isScreenDesktop = computed(() => screen.gt.md) // lg, xl
+  const isScreenMobile = computed(() => $q?.screen?.lt?.sm || false) // xs only
+  const isScreenTablet = computed(() => $q?.screen?.sm || $q?.screen?.md || false) // sm, md
+  const isScreenDesktop = computed(() => $q?.screen?.gt?.md || false) // lg, xl
   const isScreenMobileOrTablet = computed(() => isScreenMobile.value || isScreenTablet.value)
   const isSmallScreen = computed(() => {
-    return screen.sm || screen.xs;
+    return $q?.screen?.sm || $q?.screen?.xs || false;
   })
   const getDeviceInfo = async (): Promise<any> => {
-    const info = await Device.getInfo();
-    return new Promise((resolve) => {
-      resolve(info);
-    });
+    if (import.meta.server) return null;
+    return await Device.getInfo();
   };
   const getDeviceId = async (): Promise<string | undefined> => {
+    if (import.meta.server) return undefined;
+
     const ID = await Device.getId();
-    return new Promise((resolve) => {
-      deviceId.value = ID ? ID.identifier : undefined;
-      resolve(ID ? ID.identifier : undefined);
-    });
+    deviceId.value = ID ? ID.identifier : undefined;
+    return deviceId.value;
   };
   const canSyncActiveStatusToServer = (): Promise<boolean> => {
     return new Promise(resolve => {
@@ -42,10 +40,12 @@ export const useAppDevice = () => {
       } else {
         latestSyncActiveStatus.value = currentTimeTamp;
         resolve(true);
+        return;
       }
       if (diffminutes != undefined && diffminutes >= 5) {
         latestSyncActiveStatus.value = currentTimeTamp;
         resolve(true);
+        return;
       }
       resolve(false);
     });

@@ -78,7 +78,7 @@ const onItemClick = (event: any, id: string | number | null | undefined) => {
           {{ item.fileName }}
         </q-item-label>
         <q-item-label caption>
-          {{ formatDateTime(item.updatedDate, FORMAT_DATE1, locale) }}
+          {{ formatDateTime(item.updatedDate, FORMAT_DATE_DD_MMM_YYYY, locale) }}
         </q-item-label>
       </q-item-section>
     </q-item>

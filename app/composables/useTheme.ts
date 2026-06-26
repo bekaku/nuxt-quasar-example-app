@@ -8,8 +8,8 @@ export const useTheme = () => {
         // { key: 'system', text: 'theme.systemTheme', icon: biLaptop },
         // { key: 'realtime', text: 'theme.realtimeTheme', icon: biClock },
     ];
-    const { dark } = useQuasar();
-    const isDark = computed<boolean>(() => dark.isActive);
+    const { $q } = useNuxtApp();
+    const isDark = computed<boolean>(() => $q?.dark.isActive || false);
     const themeCookie = useCookie<ITheme>('color-mode', {
         default: () => ('light'),
         expires: addDateByDays(365),
@@ -19,17 +19,22 @@ export const useTheme = () => {
 
     const currentTheme = computed(() => themeCookie.value)
     const onSetTheme = (theme: ITheme) => {
-        dark.set(theme === 'dark');
+        if (import.meta.server) {
+            return
+        }
+        $q?.dark.set(theme === 'dark');
         themeCookie.value = theme;
         // initialQuasarDark();
     }
     const initialQuasarDark = () => {
-        dark.set(themeCookie.value == 'dark');
+        if (import.meta.server) {
+            return
+        }
+        $q?.dark.set(themeCookie.value == 'dark');
     }
     return {
         onSetTheme,
         initialQuasarDark,
-        dark,
         isDark,
         availableThemes,
         currentTheme

@@ -262,7 +262,7 @@ const isHaveManagePermission = computed(() => {
       : true
 })
 const dateForMat = (d: string, format: string | undefined = undefined) => {
-  return d ? formatDate(d, format || FORMAT_DATE1, locale.value) : undefined
+  return d ? formatDate(d, format || FORMAT_DATE_DD_MMM_YYYY, locale.value) : undefined
 }
 const datetimeForMat = (d: string, format: string | undefined = undefined) => {
   return d ? formatDateTime(d, format || FORMAT_DATETIME, locale.value) : undefined

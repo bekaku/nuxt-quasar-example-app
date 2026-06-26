@@ -47,7 +47,7 @@ const emit = defineEmits<{
 }>()
 const baseImgViewSwiperRef =
   useTemplateRef<InstanceType<typeof BaseSwiperSlides>>('baseImgViewSwiperRef')
-const { screen } = useQuasar()
+const { $q } = useNuxtApp();
 const { t } = useLang()
 const { appConfirm } = useBase()
 const authenStore = useAuthenStore()
@@ -191,7 +191,7 @@ const onClose = () => {
           <base-avatar :src="user.avatar.thumbnail" size="32px" />
         </template>
 
-        <q-toolbar-title v-if="screen.gt.xs">
+        <q-toolbar-title v-if="$q?.screen.gt.xs">
           {{ `${t('base.photo')} ${slide + 1}/${fileZise}` }}
         </q-toolbar-title>
         <span v-else class="q-ml-xs text-caption">

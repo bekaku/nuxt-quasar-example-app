@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
 import { useRbac } from '~/composables/useRbac'
 import type { LabelValue } from '~/types/common'
 const {
@@ -15,7 +14,7 @@ const {
   defaultTab?: boolean
   rounded?: boolean
 }>()
-const { screen } = useQuasar()
+const { $q } = useNuxtApp();
 const { t } = useLang()
 const { getParam } = useBase()
 const { hasPermission } = useRbac()
@@ -40,7 +39,7 @@ const getItems = computed<LabelValue<any>[]>(() => {
 })
 </script>
 <template>
-  <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !screen.gt.xs }">
+  <div v-if="getItems.length > 0" :class="{ 'limit-tabs': !$q?.screen.gt.xs }">
     <BaseTabs
       :items="items"
       :dense="dense"

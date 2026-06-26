@@ -8,7 +8,7 @@ export const useBase = () => {
     // const { $domPurify } = useNuxtApp()
     const route = useRoute();
     const router = useRouter();
-    const { loading, notify, dialog, dark } = useQuasar();
+    const { $q } = useNuxtApp();
     const { isServer } = useConfiguration();
     const { t } = useLang();
     const getCurrentPath = (fullPath = true) => {
@@ -72,14 +72,20 @@ export const useBase = () => {
         router.back();
     }
     const appLoaderClose = () => {
-        if (loading.isActive) {
-            loading.hide();
+        if (import.meta.server) {
+            return
+        }
+        if ($q?.loading.isActive) {
+            $q.loading.hide();
         }
     };
     const appLoading = (open = true, message = undefined, delay = 0): void => {
+        if (import.meta.server) {
+            return
+        }
         if (open) {
             appLoaderClose();
-            loading.show({
+            $q.loading.show({
                 delay: delay, // ms
                 message: message || t('base.pleaseWait'),
             });
@@ -93,7 +99,7 @@ export const useBase = () => {
   appToast('Quasar Framework Template',{caption:'5 Minutes ago', avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'});
    */
     const appToast = (message: string, options: NotifyOptions | undefined = undefined) => {
-        if (!message) {
+        if (import.meta.server || !message) {
             return;
         }
 
@@ -101,8 +107,8 @@ export const useBase = () => {
         let color = undefined;
         let textColor = undefined
         if (options?.color == undefined && options?.type == undefined) {
-            color = !dark.isActive ? 'white' : 'black';
-            textColor = !dark.isActive ? 'black' : 'white';
+            color = !$q.dark.isActive ? 'white' : 'black';
+            textColor = !$q.dark.isActive ? 'black' : 'white';
         }
         let icon: string | undefined = undefined;
         if (options && options.type) {
@@ -125,7 +131,7 @@ export const useBase = () => {
                 color = 'info';
             }
         }
-        notify(
+        $q.notify(
             Object.assign(
                 {
                     message,
@@ -158,7 +164,10 @@ export const useBase = () => {
         cancelBtn = {} //btn component
     ) => {
         return new Promise((resolve) => {
-            dialog({
+            if (import.meta.server) {
+                resolve(false)
+            }
+            $q.dialog({
                 title: title,
                 message: text,
                 ok: Object.assign(

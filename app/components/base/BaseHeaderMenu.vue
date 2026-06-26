@@ -11,7 +11,7 @@ import {
   biSun
 } from '@quasar/extras/bootstrap-icons'
 import { mdiAccountSwitchOutline } from '@quasar/extras/mdi-v7'
-const { screen } = useQuasar()
+const { $q } = useNuxtApp();
 const authenStore = useAuthenStore()
 const { signout } = useAuth()
 const { t, currentLangugeName } = useLang()
@@ -28,7 +28,7 @@ const { isScreenMobileOrTablet } = useAppDevice()
         size="36px"
       />
     </q-item-section>
-    <q-item-section v-if="screen.gt.xs">
+    <q-item-section v-if="$q?.screen.gt.xs">
       <q-item-label lines="1">
         <span class="cursor-pointer text-weight-bold">
           {{ authenStore.loginedDisplay }}
@@ -58,7 +58,7 @@ const { isScreenMobileOrTablet } = useAppDevice()
             <q-icon :name="mdiAccountSwitchOutline" />
           </q-item-section>
           <q-item-section> {{ t('authen.seeAllProfiles') }} </q-item-section>
-          <q-menu :anchor="!screen.gt.xs ? 'bottom left' : 'top end'" self="top start">
+          <q-menu :anchor="!$q?.screen.gt.xs ? 'bottom left' : 'top end'" self="top start">
             <UserLoginedItems style="min-width: 260px" />
           </q-menu>
           <q-item-section side> <q-icon :name="biChevronRight" /> </q-item-section>
@@ -82,7 +82,7 @@ const { isScreenMobileOrTablet } = useAppDevice()
             </q-item-section>
             <BaseThemeSwitcher
               :toggle="false"
-              :anchor="!screen.gt.xs ? 'bottom left' : 'top end'"
+              :anchor="!$q?.screen.gt.xs ? 'bottom left' : 'top end'"
               self="top start"
             />
           </q-item>
@@ -100,7 +100,7 @@ const { isScreenMobileOrTablet } = useAppDevice()
               <q-icon :name="biChevronRight" />
             </q-item-section>
             <BaseLangugeSwitcher
-              :anchor="!screen.gt.xs ? 'bottom left' : 'top end'"
+              :anchor="!$q?.screen.gt.xs ? 'bottom left' : 'top end'"
               self="top start"
             />
           </q-item>

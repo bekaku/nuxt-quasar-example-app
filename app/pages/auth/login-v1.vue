@@ -14,7 +14,7 @@ const { t, currentLangugeName } = useLang();
 const { isDark } = useTheme();
 const { getDeviceId } = useAppDevice();
 const { required } = useValidation();
-const { screen } = useQuasar();
+const { $q } = useNuxtApp();
 const cardHeight = ref('700px');
 const email = ref<string | null>('admin@mydomain.com');
 const password = ref<string | null>('P@ssw0rd');
@@ -43,7 +43,7 @@ const onReset = () => {
 <template>
     <q-page class="window-height row justify-center items-center">
         <div class="row context">
-            <div v-if="!screen.sm && !screen.xs"  class="col-12 col-md-6 bg-fansy">
+            <div v-if="!$q?.screen.sm && !$q?.screen.xs"  class="col-12 col-md-6 bg-fansy">
                 <q-card square flat class="q-pb-lg bg-fansy"
                     :style="`max-width: 480px; height: ${cardHeight}`">
                     <q-card-section>

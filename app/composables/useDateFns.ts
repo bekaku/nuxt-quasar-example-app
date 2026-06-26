@@ -1,6 +1,6 @@
 
 import { th, enUS } from 'date-fns/locale';
-import { FORMAT_DATE16 } from '~/utils/dateUtil';
+import { FORMAT_DATE_DD_MM_YY } from '~/utils/dateUtil';
 export const useDateFns = () => {
     const { $datefns } = useNuxtApp()
     // const { t, locale } = useLang();
@@ -36,11 +36,11 @@ export const useDateFns = () => {
 
         const difDays = getDateDiffNow(dateString);
         if (difDays > 0 && difDays < 365) {
-            return formatDateTime(dateString, FORMAT_DATE19, locale);
+            return formatDateTime(dateString, FORMAT_DATE_DD_MM, locale);
         } else if (difDays > 365) {
-            return formatDateTime(dateString, FORMAT_DATE16, locale);
+            return formatDateTime(dateString, FORMAT_DATE_DD_MM_YY, locale);
         }
-        return formatDateTime(dateString, FORMAT_DATE18, locale);
+        return formatDateTime(dateString, FORMAT_DATE_HH_MM, locale);
     };
     const getDateTimeAutoFormatBy = (dateString: string | undefined, locale: string = 'th') => {
         if (!dateString) {
@@ -48,11 +48,11 @@ export const useDateFns = () => {
         }
         const difDays = getDateDiffNow(dateString);
         if (difDays >= 0 && difDays < 1) {
-            return formatDateTime(dateString, FORMAT_DATE18, locale);
+            return formatDateTime(dateString, FORMAT_DATE_HH_MM, locale);
         } else if (difDays >= 1 && difDays < 365) {
-            return formatDateTime(dateString, FORMAT_DATE20, locale);
+            return formatDateTime(dateString, FORMAT_DATE_DD_MM_HH_MM, locale);
         } else {
-            return formatDateTime(dateString, FORMAT_DATE17, locale);
+            return formatDateTime(dateString, FORMAT_DATE_TIME_ALT, locale);
         }
     };
     const getDateDistanceAutoFormatBy = (dateString: string | undefined, locale: string = 'th') => {
@@ -63,9 +63,9 @@ export const useDateFns = () => {
         if (difDays >= 0 && difDays < 1) {
             return formatDistanceFromNow(dateString, locale);
         } else if (difDays >= 1 && difDays < 365) {
-            return formatDateTime(dateString, FORMAT_DATE20, locale);
+            return formatDateTime(dateString, FORMAT_DATE_DD_MM_HH_MM, locale);
         } else {
-            return formatDateTime(dateString, FORMAT_DATE17, locale);
+            return formatDateTime(dateString, FORMAT_DATE_TIME_ALT, locale);
         }
     };
     /**
@@ -103,7 +103,7 @@ export const useDateFns = () => {
         });
     };
     const getCurrentDateByFormat = (
-        forMatString: string | undefined = FORMAT_DATE14//yyyy-MM-dd
+        forMatString: string | undefined = FORMAT_DATE_YYYY_MM_DD//yyyy-MM-dd
     ) => {
         return formatDateBy(getDateNow(), forMatString);
     };
@@ -137,7 +137,7 @@ export const useDateFns = () => {
         }
         const d = removeTime(dateString);
         return d
-            ? $datefns.format(convertStringToDate(d, FORMAT_DATE14), forMatString, {
+            ? $datefns.format(convertStringToDate(d, FORMAT_DATE_YYYY_MM_DD), forMatString, {
                 locale: locale == 'th' ? th : enUS
             })
             : undefined;
@@ -170,18 +170,18 @@ export const useDateFns = () => {
         // return new Date(dateString);
     };
     const isDateEqua = (dateLeft: string, dateRight: string) => {
-        const d1 = convertStringToDate(dateLeft, FORMAT_DATE14);
-        const d2 = convertStringToDate(dateRight, FORMAT_DATE14);
+        const d1 = convertStringToDate(dateLeft, FORMAT_DATE_YYYY_MM_DD);
+        const d2 = convertStringToDate(dateRight, FORMAT_DATE_YYYY_MM_DD);
         return $datefns.isEqual(d1, d2);
     };
     const isDateAfter = (dateLeft: string, dateRight: string) => {
-        const d1 = convertStringToDate(dateLeft, FORMAT_DATE14);
-        const d2 = convertStringToDate(dateRight, FORMAT_DATE14);
+        const d1 = convertStringToDate(dateLeft, FORMAT_DATE_YYYY_MM_DD);
+        const d2 = convertStringToDate(dateRight, FORMAT_DATE_YYYY_MM_DD);
         return $datefns.isAfter(d1, d2);
     };
     const isDateBefore = (dateLeft: string, dateRight: string) => {
-        const d1 = convertStringToDate(dateLeft, FORMAT_DATE14);
-        const d2 = convertStringToDate(dateRight, FORMAT_DATE14);
+        const d1 = convertStringToDate(dateLeft, FORMAT_DATE_YYYY_MM_DD);
+        const d2 = convertStringToDate(dateRight, FORMAT_DATE_YYYY_MM_DD);
         return $datefns.isBefore(d1, d2);
     };
     return {

@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // https://nuxt.com/modules/quasar
 // import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
-import bootstrapIcons from 'quasar/icon-set/svg-bootstrap-icons'
+// import quasarIcons from 'quasar/icon-set/svg-material-icons.js'
 const fileNames = [
   'app',
   'base',
@@ -40,7 +40,6 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxtjs/device'
   ],
-  compatibilityDate: '2024-12-14',
   css: [
     '~/assets/css/color.scss',
     '~/assets/css/app.scss',
@@ -50,11 +49,11 @@ export default defineNuxtConfig({
   devServer: {
     port: 3003
   },
-  // Nuxt 4 directory structure and features
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: {
-    // compatibilityVersion: 4,
-  },
+  compatibilityDate: '2024-12-14',
+  // future: {
+  //   compatibilityVersion: 5,
+  // },
+  experimental: { nitroAutoImports: true },
   i18n: {
     strategy: 'no_prefix',
     locales: [
@@ -82,21 +81,11 @@ export default defineNuxtConfig({
     },
   },
   quasar: {
-    // Configurable Component Defaults
     appConfigKey: 'nuxtQuasarCustom',
     config: {
       loadingBar: {
         color: 'primary',
       },
-      // brand: {
-      //   primary: '#2e86de',
-      //   secondary: '#1dd1a1',
-      //   accent: '#1dd1a1',
-      //   positive: '#23d160',
-      //   negative: '#ff3860',
-      //   info: '#00a0dc',
-      //   warning: '#ff9f43',
-      // },
     },
     extras: {
       // font: 'roboto-font',
@@ -113,9 +102,7 @@ export default defineNuxtConfig({
     // sassVariables: true,
     sassVariables: '~/assets/css/quasar.variables.scss',
     // quietSassWarnings: true,
-    iconSet: {
-      ...bootstrapIcons,
-    },
+    iconSet: 'svg-material-icons',
     components: {
       defaults: {
         QBtn: {
@@ -167,6 +154,24 @@ export default defineNuxtConfig({
   ssr: true,
   vite: {
     optimizeDeps: {
+      include: [
+        '@capacitor/clipboard',
+        '@capacitor/device',
+        '@coders-tm/vue-number-format',
+        '@quasar/extras/bootstrap-icons',
+        '@quasar/extras/mdi-v7',
+        '@tato30/vue-pdf',
+        'axios',
+        'cropperjs',
+        'date-fns',
+        'date-fns/locale',
+        'dompurify',
+        'json-bigint', // CJS
+        'pdf-lib',
+        'plyr',
+        'swiper/element/bundle',
+        'vue3-apexcharts',
+      ],
       exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
     },
     css: {

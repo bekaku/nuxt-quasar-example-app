@@ -8,7 +8,8 @@ useHead({
 const { isDownloading, downloadProgress, downloadHistory, error, downloadFile, cancleDownload } =
   useFileDownload()
 const options: DownloadConfig = {
-  url: 'http://127.0.0.1:8080/api/fileManager/files/stream?path=files/2022_1204_140014.MP4',
+  // url: 'http://127.0.0.1:8080/api/fileManager/files/stream?path=files/2022_1204_140014.MP4',
+  fileId:'362136776816463872',
   filename: 'sample.mp4',
   historyable: false
 }

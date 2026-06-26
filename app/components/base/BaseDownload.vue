@@ -12,14 +12,14 @@ const { isDownloading, downloadProgress, downloadHistory, error, downloadFile, c
   useFileDownload()
 const showDialog = ref(false)
 const onClick = async (event: any) => {
-  if (!options || !options.url) {
+    if (!options || (!options.url && !options.fileId)) {
     return
   }
   showDialog.value = true
   onDownload()
 }
 const onDownload = async () => {
-  if (!options || !options.url) {
+    if (!options || (!options.url && !options.fileId)) {
     return
   }
   await downloadFile(options)

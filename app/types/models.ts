@@ -29,7 +29,7 @@ export interface FileManager extends FileManagerMetaData {
   fileMime: string;
   fileName: string;
   filePath: string;
-    streamPath?: string
+  streamPath?: string;
   fileThumbnailPath: string;
   fileSize: string;
   fileSizeNo?: number;

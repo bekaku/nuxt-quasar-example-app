@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 # Copy package.json and pnpm-lock.yaml files to the working directory
 COPY ./package.json /app/
+COPY ./pnpm-workspace.yaml* /app/
 COPY ./pnpm-lock.yaml* /app/
 
 # Install global Quasar CLI and project dependencies
@@ -19,12 +20,14 @@ RUN pnpm install --shamefully-hoist --ignore-scripts
 
 # Copy the rest of the application files to the working directory
 COPY . ./
+
+ENV CI=true
+
 RUN pnpm postinstall
 
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 RUN pnpm build
-# RUN quasar build -m ssr
 
 # Production stage
 FROM node:24-alpine
@@ -46,7 +49,7 @@ WORKDIR /app
 
 # Copy built artifacts with correct permissions
 COPY --chown=node:node --from=build /app/.output /app
-COPY --chown=node:node --from=build /app/node_modules /app/node_modules
+# COPY --chown=node:node --from=build /app/node_modules /app/node_modules
 COPY --chown=node:node --from=build /app/ecosystem.config.cjs /app
 
 # Optional health check

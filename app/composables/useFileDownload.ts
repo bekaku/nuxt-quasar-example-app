@@ -1,5 +1,7 @@
 export interface DownloadConfig {
-    url: string
+    url?: string
+    baseUrl?: string
+    fileId?: number | string
     filename: string
     chunkSize?: number
     downloadable?: boolean
@@ -68,7 +70,7 @@ export const useFileDownload = (options?: {
         downloadProgress.percentage = 0
         downloadProgress.speed = '0 B/s'
         downloadProgress.startTime = Date.now()
-        downloadProgress.filename = config.filename || config.url
+        downloadProgress.filename = config.filename || config.url || `File id #${config.fileId}`
         error.value = null
     }
     const updateProgress = (progressEvent: AxiosProgressEvent): void => {
@@ -153,18 +155,22 @@ export const useFileDownload = (options?: {
         downloadHistory.value.unshift(historyItem)
     }
     const downloadFile = async (config: DownloadConfig): Promise<DownloadHistoryItem | null> => {
+        console.log('downloadFile', config)
         if (!config.filename) {
             throw new Error('Please enter a filename')
         }
 
+        const downloadUrl = config.url ? config.url : config.fileId ? `/api/fileManager/files/stream/${config.fileId}` : '';
+        const cdnBaseURL = config?.baseUrl || cdnBase;
+
+             console.log('downloadUrl', {cdnBaseURL, downloadUrl})
         startDownload(config)
         cancelTokenSource.value = new AbortController();
-        // $axios.defaults.baseURL = cdnBase;
-        $axios.defaults.baseURL = '';
+        $axios.defaults.baseURL = cdnBaseURL ||'';
         try {
             const response = await $axios({
                 method: "GET",
-                url: config.url,
+                url: downloadUrl,
                 params: {
                     chunkSize: config.chunkSize || chunkSize,
                 },

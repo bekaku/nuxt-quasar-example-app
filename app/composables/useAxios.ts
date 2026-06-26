@@ -1,17 +1,13 @@
+import { biCheckCircle, biExclamationTriangle, biX } from "@quasar/extras/bootstrap-icons";
 import type { AxiosError, AxiosResponse } from "axios";
 import type { AppException, RequestType, ResponseMessage } from "~/types/common";
-import { biCheckCircle, biExclamationTriangle, biX } from "@quasar/extras/bootstrap-icons";
-import { useQuasar } from "quasar";
-import { useRequestEvent } from '#app';
-import { getRequestHeader } from 'h3';
 
 export const useAxios = () => {
 
-    const { $axios, ssrContext } = useNuxtApp()
+    const { $axios, ssrContext, $q } = useNuxtApp()
     const config = useRuntimeConfig()
     // const jwtToken = useCookie(config.public.jwtKeyName);
     const { canSyncActiveStatusToServer } = useAppDevice();
-    const { notify, loading: quasarLoading } = useQuasar();
     const loading = ref<boolean>(false);
     const callAxiosProcess = async <T>(req: RequestType, devLog: boolean = true): Promise<AxiosResponse<T>> => {
 
@@ -134,31 +130,35 @@ export const useAxios = () => {
         if (import.meta.server || response == null) {
             return;
         }
-        if (quasarLoading.isActive) {
-            quasarLoading.hide();
+
+        if (import.meta.client) {
+            if ($q.loading.isActive) {
+                $q.loading.hide();
+            }
+            $q.notify(
+                {
+                    message: `<strong>${response.message}</strong><br> ${response.errors?.join('<br>')}`,
+                    html: true,
+                    icon: biExclamationTriangle,
+                    type: 'negative',
+                    timeout: 15 * 1000,
+                    progress: true,
+                    position: 'bottom-left',
+                    multiLine: true,
+                    actions: [{ icon: biX, color: 'white' }]
+                },
+            );
         }
-        notify(
-            {
-                message: `<strong>${response.message}</strong><br> ${response.errors?.join('<br>')}`,
-                html: true,
-                icon: biExclamationTriangle,
-                type: 'negative',
-                timeout: 15 * 1000,
-                progress: true,
-                position: 'bottom-left',
-                multiLine: true,
-                actions: [{ icon: biX, color: 'white' }]
-            },
-        );
     };
     const notifyServerMessage = (response: ResponseMessage): void => {
         if (import.meta.server || !response.message) {
             return;
         }
-        if (quasarLoading.isActive) {
-            quasarLoading.hide();
+
+        if ($q.loading.isActive) {
+            $q.loading.hide();
         }
-        notify(
+        $q.notify(
             {
                 message: response.message,
                 icon: response.status == '200 OK' || response.status == '201 Created' ? biCheckCircle : biExclamationTriangle,
@@ -175,10 +175,10 @@ export const useAxios = () => {
         if (import.meta.server || !error?.message) {
             return;
         }
-        if (quasarLoading.isActive) {
-            quasarLoading.hide();
+        if ($q.loading.isActive) {
+            $q.loading.hide();
         }
-        notify(
+        $q.notify(
             {
                 message: error.message,
                 html: true,

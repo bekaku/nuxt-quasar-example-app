@@ -138,7 +138,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                     axiosInstance.defaults.headers['Content-Type'] = 'application/json';
 
                     const { data } = await axiosInstance.post('/api/auth/refreshToken', {
-                        refreshToken: {
+                        data: {
                             refreshToken: tokenTORefresh
                         }
                     });
