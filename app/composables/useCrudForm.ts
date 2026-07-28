@@ -313,13 +313,16 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
     });
     const onDelete = async () => {
         console.log('onDelete', crudAction.value != CrudAction.EDIT || crudAction.value != CrudAction.VIEW)
-        if (
-            (crudAction.value != CrudAction.EDIT || crudAction.value != CrudAction.VIEW) &&
-            !crudEntity.value &&
-            crudId.value == 0 &&
-            !deleteApiEndpoint.value
-        ) {
-            return;
+
+
+          if (crudAction.value !== CrudAction.EDIT && crudAction.value !== CrudAction.VIEW) {
+              return;
+            }
+
+    // 2. เช็คว่ามีข้อมูลจำเป็นครบถ้วนสำหรับการยิง API ลบหรือไม่
+        if (!crudEntity.value || !crudId.value || !deleteApiEndpoint.value) {
+          console.warn("Cannot delete: Missing required data (entity, id, or endpoint)");
+          return;
         }
         const conf = await appConfirm(t('app.monogram'), t('base.deleteConfirm'));
         if (conf) {

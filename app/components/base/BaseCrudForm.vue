@@ -33,8 +33,8 @@ const {
   crudAction?: ICrudAction
   showActionText?: boolean
   fullWidth?: boolean
-  editButton?: true
-  deleteButton?: true
+  editButton?: boolean
+  deleteButton?: boolean
   copyButton?: boolean
   canSubmit?: boolean
   buttonSize?: string
