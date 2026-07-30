@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { biPeople, biShieldCheck, biShieldLock, biTrash } from '@quasar/extras/bootstrap-icons'
+import { biPeople } from '@quasar/extras/bootstrap-icons'
 import PermissionService from '~/api/PermissionService'
 import { RoleFormBreadcrumb } from '~/libs/breadcrumbs'
-import { RolePermission } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
-import type { Permission, AppRole } from '~/types/models'
+import type { AppRole, Permission } from '~/types/models'
 const { t } = useLang()
 const { required } = useValidation()
 definePageMeta({
   pageName: 'model.role.table',
-  requiresPermission: [RolePermission.view],
+  requiresPermission: ['app_role_view'],
   breadcrumbs: RoleFormBreadcrumb
 })
 useInitPage()
@@ -133,10 +132,16 @@ const updateSelectedAll = (val: boolean) => {
       :crud-entity="crudEntity"
       :full-width="true"
       :list-permission="{
-        permissions: [RolePermission.list]
+        permissions: ['app_role_list']
       }"
-      :manage-permission="{
-        permissions: [RolePermission.manage]
+       :add-permission="{
+        permissions: ['app_role_add']
+      }"
+      :edit-permission="{
+        permissions: ['app_role_edit']
+      }"
+      :delete-permission="{
+        permissions: ['app_role_delete']
       }"
       :loading="loading"
       @on-back="onBack"

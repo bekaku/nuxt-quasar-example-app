@@ -157,9 +157,11 @@ export const useCrudForm = <T>(options: CrudFormApiOptions, initialEntity: T) =>
         if (!options.apiEndpoint || !options.crudName || !apiEnpoint.value) {
             return new Promise((resolve) => resolve(false))
         }
+
+        console.log('onSubmit', crudEntity.value, apiEnpoint.value, crudAction.value)
         await onSubmitProcess<T>(
             crudEntity.value,
-            crudAction.value === CrudAction.VIEW ? 'PUT' : 'POST',
+            crudAction.value === CrudAction.VIEW ||crudAction.value === CrudAction.EDIT ? 'PUT' : 'POST',
             apiEnpoint.value
         )
     }

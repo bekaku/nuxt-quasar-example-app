@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { biShieldLock } from '@quasar/extras/bootstrap-icons'
 import { ExampleHomeBreadcrumb } from '~/libs/breadcrumbs'
-import { PermissionPermission } from '~/libs/permissions'
 import {
   CrudListDataType,
   ICrudListHeaderOptionSearchType,
@@ -10,7 +9,7 @@ import {
 import type { Permission } from '~/types/models'
 definePageMeta({
   pageName: 'model_permission',
-  requiresPermission: [PermissionPermission.list],
+  requiresPermission: ['permission_list'],
   breadcrumbs: ExampleHomeBreadcrumb
 })
 useInitPage()
@@ -118,6 +117,18 @@ const { t } = useLang()
       :list="dataList"
       show-search-text-box
       search-form-div-col="col-md-6"
+      :view-permission="{
+        permissions: ['permission_view']
+      }"
+      :add-permission="{
+        permissions: ['permission_add']
+      }"
+      :edit-permission="{
+        permissions: ['permission_edit']
+      }"
+      :delete-permission="{
+        permissions: ['permission_delete']
+      }"
       @on-item-click="onItemClick"
       @on-item-copy="onItemCopy"
       @on-page-no-change="onPageNoChange"

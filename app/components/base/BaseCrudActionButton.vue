@@ -14,11 +14,15 @@ const {
   canSubmit = true,
   crudName,
   crudId,
-  isHaveViewPermission,
-  isHaveManagePermission
+  allowPermission
 } = defineProps<{
-  isHaveManagePermission?: boolean
-  isHaveViewPermission?: boolean
+  allowPermission?: {
+    list?: boolean
+    view?: boolean
+    add?: boolean
+    edit?: boolean
+    delete?: boolean
+  }
   viewButton?: boolean
   editButton?: boolean
   copyButton?: boolean
@@ -39,22 +43,36 @@ const emit = defineEmits<{
 }>()
 const { t } = useLang()
 const getViewLink = computed(() => {
-  if (isHaveViewPermission && viewButton && crudName && crudId) {
+  if (allowPermission && allowPermission.view && viewButton && crudName && crudId) {
     return `/${pascalToKebab(crudName)}/${CrudAction.VIEW}/${crudId}`
   }
   return
 })
 const getEditLink = computed(() => {
-  if (isHaveManagePermission && editButton && crudName && crudId) {
+  if (allowPermission && allowPermission.edit && editButton && crudName && crudId) {
     return `/${pascalToKebab(crudName)}/${CrudAction.EDIT}/${crudId}`
   }
   return
 })
 const getCopyLink = computed(() => {
-  if (isHaveManagePermission && editButton && crudName && crudId) {
+  if (allowPermission && allowPermission.add && editButton && crudName && crudId) {
     return `/${pascalToKebab(crudName)}/${CrudAction.COPY}/${crudId}`
   }
   return
+})
+const canShowAction = computed(() => {
+  if (!allowPermission) {
+    return true
+  }
+  if (
+    allowPermission.add ||
+    allowPermission.edit ||
+    allowPermission.delete ||
+    allowPermission.view
+  ) {
+    return true
+  }
+  return false
 })
 const onEditBtnBaseClick = (event: any, type: ICrudAction) => {
   appPreventDefult(event)
@@ -73,11 +91,8 @@ const onDelete = (event: any) => {
 }
 </script>
 <template>
-  <div
-    v-if="isHaveManagePermission || isHaveViewPermission"
-    :class="{ 'q-gutter-xs': !button, 'q-gutter-md': button }"
-  >
-    <template v-if="viewButton && isHaveViewPermission">
+  <div v-if="canShowAction" :class="{ 'q-gutter-xs': !button, 'q-gutter-md': button }">
+    <template v-if="viewButton && ((allowPermission && allowPermission.view) || !allowPermission)">
       <BaseButton
         v-if="autoLink && getViewLink"
         :loading
@@ -103,7 +118,7 @@ const onDelete = (event: any) => {
       >
       </BaseButton>
     </template>
-    <template v-if="editButton && isHaveManagePermission">
+    <template v-if="editButton && ((allowPermission && allowPermission.edit) || !allowPermission)">
       <template v-if="!button">
         <BaseButton
           v-if="autoLink && getEditLink"
@@ -114,7 +129,7 @@ const onDelete = (event: any) => {
           :size="size"
           type="button"
           :to="getEditLink"
-           :tooltip="t('base.edit')"
+          :tooltip="t('base.edit')"
         >
         </BaseButton>
         <BaseButton
@@ -125,7 +140,7 @@ const onDelete = (event: any) => {
           round
           :size="size"
           type="button"
-           :tooltip="t('base.edit')"
+          :tooltip="t('base.edit')"
           @click="onEditBtnClick($event, 'edit')"
         >
         </BaseButton>
@@ -163,7 +178,7 @@ const onDelete = (event: any) => {
       </template>
     </template>
 
-    <template v-if="copyButton && isHaveManagePermission">
+    <template v-if="copyButton && ((allowPermission && allowPermission.add) || !allowPermission)">
       <BaseButton
         v-if="autoLink && getCopyLink"
         :loading
@@ -192,7 +207,12 @@ const onDelete = (event: any) => {
       </BaseButton>
     </template>
     <BaseButton
-      v-if="deleteButton && isHaveManagePermission && crudAction !== 'copy' && crudAction !== 'new'"
+      v-if="
+        deleteButton &&
+        ((allowPermission && allowPermission.delete) || !allowPermission) &&
+        crudAction !== 'copy' &&
+        crudAction !== 'new'
+      "
       color="negative"
       :loading
       :icon="{ name: 'lucide:trash-2' }"

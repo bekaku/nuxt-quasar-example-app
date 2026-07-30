@@ -6,10 +6,9 @@ import {
   type ICrudListHeader
 } from '~/types/common'
 import type { AppRole } from '~/types/models'
-import { RolePermission } from '~/libs/permissions'
 definePageMeta({
   pageName: 'model.role.table',
-  requiresPermission: [RolePermission.list]
+  requiresPermission: ['app_role_list']
 })
 useInitPage()
 const { t } = useLang()
@@ -118,10 +117,16 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
       :list="dataList"
       show-search-text-box
       :view-permission="{
-        permissions: [RolePermission.view]
+        permissions: ['app_role_view']
       }"
-      :manage-permission="{
-        permissions: [RolePermission.manage]
+      :add-permission="{
+        permissions: ['app_role_add']
+      }"
+      :edit-permission="{
+        permissions: ['app_role_edit']
+      }"
+      :delete-permission="{
+        permissions: ['app_role_delete']
       }"
       @on-item-click="onItemClick"
       @on-item-copy="onItemCopy"

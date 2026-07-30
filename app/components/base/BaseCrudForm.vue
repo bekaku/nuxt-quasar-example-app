@@ -6,6 +6,9 @@ import type { RBACProps } from '~/types/props'
 const {
   crudName,
   managePermission,
+  addPermission,
+  editPermission,
+  deletePermission,
   byPassPermission = false,
   listPermission,
   icon = biFile,
@@ -23,6 +26,9 @@ const {
   crudName?: string
   listPermission?: RBACProps
   managePermission?: RBACProps
+  addPermission?: RBACProps
+  editPermission?: RBACProps
+  deletePermission?: RBACProps
   byPassPermission?: boolean
   title?: string
   icon?: string
@@ -43,16 +49,37 @@ const {
 const emit = defineEmits(['on-back', 'on-submit', 'on-delete', 'on-edit-enable'])
 const { t } = useLang()
 const { hasPermission } = useRbac()
-const isHaveManagePermission = computed(() => {
+
+const isHaveAddPermission = computed(() => {
   if (byPassPermission) {
     return true
   }
-  return managePermission &&
-    managePermission?.permissions &&
-    managePermission?.permissions?.length > 0
-    ? hasPermission(managePermission)
+  return addPermission && addPermission?.permissions && addPermission?.permissions?.length > 0
+    ? hasPermission(addPermission)
     : crudName
-      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_manage`] })
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_add`] })
+      : true
+})
+const isHaveEditPermission = computed(() => {
+  if (byPassPermission) {
+    return true
+  }
+  return editPermission && editPermission?.permissions && editPermission?.permissions?.length > 0
+    ? hasPermission(editPermission)
+    : crudName
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_edit`] })
+      : true
+})
+const isHaveDeletePermission = computed(() => {
+  if (byPassPermission) {
+    return true
+  }
+  return deletePermission &&
+    deletePermission?.permissions &&
+    deletePermission?.permissions?.length > 0
+    ? hasPermission(deletePermission)
+    : crudName
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_delete`] })
       : true
 })
 const isHaveListPermission = computed(() => {
@@ -118,7 +145,11 @@ const onSubmit = () => {
                 <q-card-section align="center" class="q-gutter-sm">
                   <BaseCrudActionButton
                     button
-                    :is-have-manage-permission="isHaveManagePermission"
+                    :allow-permission="{
+                      add: byPassPermission || isHaveAddPermission,
+                      edit: byPassPermission || isHaveEditPermission,
+                      delete: byPassPermission || isHaveDeletePermission
+                    }"
                     :size="buttonSize"
                     :view-button="false"
                     :loading

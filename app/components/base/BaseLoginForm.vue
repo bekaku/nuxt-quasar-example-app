@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import {
-  biExclamationOctagonFill,
   biEye,
   biEyeSlash,
   biLock,
   biPerson
-} from '@quasar/extras/bootstrap-icons'
-import AppUserService from '~/api/AppUserService'
-import type { RefreshTokenResponse } from '~/types/common'
+} from '@quasar/extras/bootstrap-icons';
+import AppUserService from '~/api/AppUserService';
+import type { RefreshTokenResponse } from '~/types/common';
 const {
   recoveryPasswordBtn = true,
   verifyDuplicate = false,
@@ -111,6 +110,28 @@ const onReset = () => {
 </script>
 <template>
   <q-form ref="loginForm" class="q-gutter-md" @submit.prevent="onSubmit" @reset="onReset()">
+
+    <BaseAlert
+      :icon="{
+        name: 'lucide:key'
+      }"
+      radius
+      type="is-info"
+      secondary
+
+      class="q-mb-sm"
+      closeable
+    >
+    <div>
+      <BaseIcon name="lucide:key"/> 
+       <span>User for Testing</span>
+       <p></p>
+       <span>Username: super_user@mydomain.com</span>
+       <p></p>
+       <span>Password: P@ssw0rd</span>
+    </div>
+   
+    </BaseAlert>
     <BaseAlert
       v-if="showError == true && errorMessage"
       :message="errorMessage"

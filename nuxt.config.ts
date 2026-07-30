@@ -162,6 +162,7 @@ export default defineNuxtConfig({
         '@quasar/extras/mdi-v7',
         '@tato30/vue-pdf',
         'axios',
+        'browser-image-compression',
         'cropperjs',
         'date-fns',
         'date-fns/locale',

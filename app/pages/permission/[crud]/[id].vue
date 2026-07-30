@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import {
-  biFileBarGraph,
-  biFileEarmark,
-  biPencil,
-  biShieldCheck,
-  biUiChecks
+  biShieldCheck
 } from '@quasar/extras/bootstrap-icons'
 import { PermissionFormBreadcrumb } from '~/libs/breadcrumbs'
-import { PermissionPermission } from '~/libs/permissions'
 import { TabTest } from '~/libs/tabs'
 import type { LabelValue } from '~/types/common'
 import type { Permission, PermissionType } from '~/types/models'
 definePageMeta({
   pageName: 'model_permission',
-  requiresPermission: [PermissionPermission.view],
+  requiresPermission: ['permission_view'],
   breadcrumbs: PermissionFormBreadcrumb,
   tabs: TabTest
 })

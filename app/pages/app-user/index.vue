@@ -6,10 +6,9 @@ import {
   type ICrudListHeader
 } from '~/types/common'
 import type { AppRole, AppUser } from '~/types/models'
-import { UserPermission } from '~/libs/permissions'
 definePageMeta({
   pageName: 'model_user',
-  requiresPermission: [UserPermission.list]
+  requiresPermission: ['app_user_list']
 })
 useInitPage()
 const { t } = useLang()
@@ -119,10 +118,16 @@ const {
       :list="dataList"
       show-search-text-box
       :view-permission="{
-        permissions: [UserPermission.view]
+        permissions: ['app_user_view']
       }"
-      :manage-permission="{
-        permissions: [UserPermission.manage]
+      :add-permission="{
+        permissions: ['app_user_add']
+      }"
+      :edit-permission="{
+        permissions: ['app_user_edit']
+      }"
+      :delete-permission="{
+        permissions: ['app_user_delete']
       }"
       @on-item-click="onItemClick"
       @on-item-copy="onItemCopy"

@@ -50,6 +50,7 @@ export const FileTypeAcceptList = [
   'image/jpeg',
   'image/png',
   'image/gif',
+  'image/webp',
   'text/plain',
   'text/csv',
   'video/mpeg',

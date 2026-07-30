@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import type {
-   ICrudAction,
-   ICrudListHeader,
-   IPagination,
-   ISort,
-   ISortModeType,
-   LabelValue
+  ICrudAction,
+  ICrudListHeader,
+  IPagination,
+  ISort,
+  ISortModeType,
+  LabelValue
 } from '~/types/common'
-import {
-  CrudListDataType,
-  ICrudListHeaderOptionSearchType
-} from '~/types/common'
+import { CrudListDataType, ICrudListHeaderOptionSearchType } from '~/types/common'
 
 import {
   biArrowClockwise,
@@ -47,15 +44,19 @@ const {
   headers,
   crudName,
   viewPermission,
-  managePermission,
+  addPermission,
+  editPermission,
+  deletePermission,
   byPassPermission = false,
   tableSeperator = 'horizontal',
   rowClickable = true,
-  searchFormDivCol='col-md-4'
+  searchFormDivCol = 'col-md-4'
 } = defineProps<{
   crudName?: string
   viewPermission?: RBACProps
-  managePermission?: RBACProps
+  addPermission?: RBACProps
+  editPermission?: RBACProps
+  deletePermission?: RBACProps
   byPassPermission?: boolean
   title?: string
   icon?: string
@@ -248,18 +249,44 @@ const isHaveViewPermission = computed(() => {
       ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_view`] })
       : true
 })
+const isHaveAddPermission = computed(() => {
+  if (byPassPermission) {
+    return true
+  }
+  return addPermission && addPermission?.permissions && addPermission?.permissions?.length > 0
+    ? hasPermission(addPermission)
+    : crudName
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_add`] })
+      : true
+})
+const isHaveEditPermission = computed(() => {
+  if (byPassPermission) {
+    return true
+  }
+  return editPermission && editPermission?.permissions && editPermission?.permissions?.length > 0
+    ? hasPermission(editPermission)
+    : crudName
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_edit`] })
+      : true
+})
+const isHaveDeletePermission = computed(() => {
+  if (byPassPermission) {
+    return true
+  }
+  return deletePermission &&
+    deletePermission?.permissions &&
+    deletePermission?.permissions?.length > 0
+    ? hasPermission(deletePermission)
+    : crudName
+      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_delete`] })
+      : true
+})
 const isHaveManagePermission = computed(() => {
   if (byPassPermission) {
     return true
   }
 
-  return managePermission &&
-    managePermission?.permissions &&
-    managePermission?.permissions?.length > 0
-    ? hasPermission(managePermission)
-    : crudName
-      ? hasPermission({ permissions: [`${pascalToSnake(crudName)}_manage`] })
-      : true
+  return isHaveDeletePermission.value || isHaveEditPermission.value || isHaveAddPermission.value
 })
 const dateForMat = (d: string, format: string | undefined = undefined) => {
   return d ? formatDate(d, format || FORMAT_DATE_DD_MMM_YYYY, locale.value) : undefined
@@ -333,12 +360,12 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
               </q-form>
               <slot name="extraBeforeInnerToolbar" />
               <BaseButton
-                v-if="isHaveManagePermission && showNewBtn"
+                v-if="isHaveAddPermission && showNewBtn"
                 class="q-ml-xs"
                 :label="t('base.addNew')"
                 color="primary"
                 unelevated
-                :icon="{name:'lucide:circle-plus'}"
+                :icon="{ name: 'lucide:circle-plus' }"
                 :tooltip="t('base.addNew')"
                 @click="$emit('on-new-form')"
               >
@@ -348,8 +375,8 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 class="q-ml-xs"
                 flat
                 round
-                :icon="{name:'lucide:search'}"
-                 :tooltip="t('base.search')"
+                :icon="{ name: 'lucide:search' }"
+                :tooltip="t('base.search')"
                 @click="showSearch = !showSearch"
               >
               </BaseButton>
@@ -370,7 +397,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 <q-menu>
                   <q-list style="min-width: 200px" dense>
                     <q-item
-                      v-if="isHaveManagePermission && showNewBtn"
+                      v-if="isHaveAddPermission && showNewBtn"
                       v-close-popup
                       clickable
                       @click="$emit('on-new-form')"
@@ -381,7 +408,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                       <q-item-section>{{ t('base.addNew') }}</q-item-section>
                     </q-item>
                     <q-item
-                      v-if="isHaveManagePermission && showCheckbox"
+                      v-if="isHaveDeletePermission && showCheckbox"
                       v-close-popup
                       clickable
                       @click="onDeleteItemSelected"
@@ -541,16 +568,20 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                 <slot name="belowSearchExtra" />
                 <q-separator />
                 <q-card-actions align="center">
-                  <BaseButton type="submit" :icon="{name:'lucide:search'}" :label="t('base.okay')" />
+                  <BaseButton
+                    type="submit"
+                    :icon="{ name: 'lucide:search' }"
+                    :label="t('base.okay')"
+                  />
                   <BaseButton
                     flat
-                    :icon="{name:'lucide:x'}"
+                    :icon="{ name: 'lucide:x' }"
                     :label="t('base.close')"
                     @click="showSearch = false"
                   />
                   <BaseButton
                     flat
-                    :icon="{name:'lucide:eraser'}"
+                    :icon="{ name: 'lucide:eraser' }"
                     :label="t('base.clear')"
                     @click="onClearSearch"
                   />
@@ -576,7 +607,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
               <thead>
                 <slot name="theader">
                   <tr>
-                    <th v-if="isHaveManagePermission && showCheckbox">
+                    <th v-if="isHaveDeletePermission && showCheckbox">
                       <!-- <q-checkbox v-model="selectedAll" keep-color color="grey-6" @click="onCheckedAll">
                                                 <BaseTooltip>
                                                     {{
@@ -662,7 +693,7 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                     :class="{ 'cursor-pointer': rowClickable && isHaveViewPermission }"
                     @click="onRowClick($event, index)"
                   >
-                    <td v-if="isHaveManagePermission && showCheckbox" class="text-center">
+                    <td v-if="isHaveDeletePermission && showCheckbox" class="text-center">
                       <q-checkbox v-model="selected" :val="item.id" />
                     </td>
 
@@ -676,8 +707,12 @@ const onColClick = (event: any, index: number, headerOption: ICrudListHeader, co
                             <slot name="baseTool" v-bind="{ item: item, index: index }">
                               <template v-if="isHaveManagePermission || isHaveViewPermission">
                                 <BaseCrudActionButton
-                                  :is-have-manage-permission="isHaveManagePermission"
-                                  :is-have-view-permission="isHaveViewPermission"
+                                  :allow-permission="{
+                                    add: byPassPermission || isHaveAddPermission,
+                                    edit: byPassPermission || isHaveEditPermission,
+                                    view: byPassPermission || isHaveViewPermission,
+                                    delete: byPassPermission || isHaveDeletePermission
+                                  }"
                                   :crud-name="crudName"
                                   :crud-id="getValueByColunm('id', index)"
                                   :edit-button="fillable.options && fillable.options.editButton"

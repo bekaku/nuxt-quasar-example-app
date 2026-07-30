@@ -1,24 +1,18 @@
 <script setup lang="ts">
 import {
-  biCheckCircle,
   biEnvelope,
   biInfoCircle,
-  biKey,
-  biPencil,
-  biPeople,
-  biPerson,
-  biTrash
+  biPerson
 } from '@quasar/extras/bootstrap-icons'
 import AppRoleService from '~/api/AppRoleService'
 import AppUserService from '~/api/AppUserService'
 import { UserFormBreadcrumb } from '~/libs/breadcrumbs'
-import { UserPermission } from '~/libs/permissions'
 import type { LabelValue } from '~/types/common'
 import type { AppRole, AppUser } from '~/types/models'
 
 definePageMeta({
   pageName: 'model_user',
-  requiresPermission: [UserPermission.view],
+  requiresPermission: ['app_user_view'],
   breadcrumbs: UserFormBreadcrumb
 })
 useInitPage()
@@ -138,10 +132,16 @@ const onChangePassword = async () => {
       :crud-action="crudAction"
       :crud-entity="crudEntity"
       :list-permission="{
-        permissions: [UserPermission.list]
+        permissions: ['app_user_list']
       }"
-      :manage-permission="{
-        permissions: [UserPermission.manage]
+      :add-permission="{
+        permissions: ['app_user_add']
+      }"
+      :edit-permission="{
+        permissions: ['app_user_edit']
+      }"
+      :delete-permission="{
+        permissions: ['app_user_delete']
       }"
       :loading="loading"
       @on-back="onBack"
@@ -282,7 +282,7 @@ const onChangePassword = async () => {
         </div>
       </template>
     </BaseCrudForm>
-  <BaseDialog
+    <BaseDialog
       v-if="showChangePasswordForm"
       v-model="showChangePasswordForm"
       :title="t('base.changePassword')"
@@ -299,6 +299,6 @@ const onChangePassword = async () => {
         action-align="left"
         @on-submit="onChangePassword"
       />
-    </BaseDialog> 
+    </BaseDialog>
   </BasePage>
 </template>
