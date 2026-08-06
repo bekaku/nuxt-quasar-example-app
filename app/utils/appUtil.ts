@@ -355,7 +355,8 @@ export const isNumeric = (str: string): boolean => {
 }
 
 export const generateUniqueFilename = (originalName: string): string => {
-    const ext = originalName.substring(originalName.lastIndexOf('.')) || ''
+    const lastDotIndex = originalName.lastIndexOf('.');
+    const ext = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
     const uuid = crypto.randomUUID()
     const timestamp = Date.now()
     return `${timestamp}_${uuid}${ext}`
